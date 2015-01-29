@@ -2,6 +2,8 @@ package com.ssm.peopleTree;
 
 import java.util.ArrayList;
 
+import com.ssm.peopleTree.network.NetworkManager;
+
 import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -21,6 +23,8 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.test);
 
+		NetworkManager.getInstance().initialize(this);
+		
    		//final ProgressDialog pDialog = new ProgressDialog(this);
 		//pDialog.setMessage("Loading...");
 		//pDialog.show();

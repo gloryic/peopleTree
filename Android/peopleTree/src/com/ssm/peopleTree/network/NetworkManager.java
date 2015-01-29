@@ -32,7 +32,7 @@ public class NetworkManager {
 	}
 	
 	
-    public static void initialize(Context _context) {
+    public void initialize(Context _context) {
     	if (context == null) {
     		context = _context;
     		requestQueue = Volley.newRequestQueue(context);
