@@ -1,13 +1,18 @@
 package com.ssm.location;
 
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import android.app.Service;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.location.Location;
 import android.location.LocationListener;
+import android.net.wifi.ScanResult;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.IBinder;
 
@@ -15,6 +20,7 @@ class InsideLocationListener implements LocationMeasurer{
 	private Context mContext;
 	//미완성 더미 클래스
 	
+
 	
 	int x,y;
 	long lastLocGetTime;
@@ -22,22 +28,19 @@ class InsideLocationListener implements LocationMeasurer{
 	boolean isLocationRequested = false;
 	Timer jobScheduler = new Timer();
 	UpdateNotifier updateNotifier = null;
-
-	public InsideLocationListener(Context context){
-		this.mContext = context;
-		updateNotifier = new InsideLocationUpdateNotifier();
-		
-		//test
-		x = 1030;
-		y= 2070;
-	}
 	
+
+
+
+
 	public void setLocTest(int x,int y) {
 		this.x = x;
 		this.y = y;
 		
 	}
 
+	
+	
 	@Override
 	public void startRequest(long distanceForUpdate, long timeForUpdate) {
 
