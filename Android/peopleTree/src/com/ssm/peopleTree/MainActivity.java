@@ -1,89 +1,80 @@
 package com.ssm.peopleTree;
 
-import org.json.JSONObject;
+import java.util.ArrayList;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
-import com.android.volley.Request.Method;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.VolleyLog;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.ssm.location.LocationMeasurer;
-import com.ssm.location.PeopleTreeLocationManager;
-import com.ssm.peopleTree.network.NetworkManager;
-import com.ssm.volley.VolleySingleton;
-
 public class MainActivity extends Activity {
-
-	private TextView mTvResult;
-	private TextView responseText;
-
-
+	
+	private TextView tvResult;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
+		setContentView(R.layout.test);
+
+   		//final ProgressDialog pDialog = new ProgressDialog(this);
+		//pDialog.setMessage("Loading...");
+		//pDialog.show();
 		
-		NetworkManager.getInstance().initialize(getApplicationContext());
-		// final ProgressDialog pDialog = new ProgressDialog(this);
-		// pDialog.setMessage("Loading...");
-		// pDialog.show();
-		PeopleTreeLocationManager.txt1 = (TextView) findViewById(R.id.locationTextview1);//테스트용  텍스트뷰 설정
-		PeopleTreeLocationManager.txt2 = (TextView) findViewById(R.id.locationTextview2);//테스트용  텍스트뷰 설정
+		ArrayList<String> strList = new ArrayList<String>();
+		strList.add("그룹 생성");
+		strList.add("그룹 나가기");
+		strList.add("관계 요청");
+		strList.add("관계 변경");
 		
-		LocationMeasurer locationMeasurer = PeopleTreeLocationManager.getMeasurer(getApplicationContext());
-		locationMeasurer.startRequest(0, 0);
+		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, strList);
+	
+		ListView list = (ListView) findViewById(R.id.listview_test);
+		list.setAdapter(adapter);
+		list.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+		list.setDivider(new ColorDrawable(Color.WHITE));
+		list.setDividerHeight(2);
 		
+		tvResult = (TextView) findViewById(R.id.textview_result);
 		
-		Log.i("Log", "start");
-		
-		
+		/*
 		Button btnSimpleRequest = (Button) findViewById(R.id.btn_simple_request);
 		responseText = (TextView) findViewById(R.id.test);
+		
+        btnSimpleRequest.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            	
+        		String url = C.baseURL+"/ptree/test";
+        		
+        		JsonObjectRequest jsonObjReq = new JsonObjectRequest(Method.GET, url,
+        				null, new Response.Listener<JSONObject>() {
 
-		btnSimpleRequest.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
+        					@Override
+        					public void onResponse(JSONObject response) {
+        						Log.d("App", response.toString());
+        						responseText.setText("Response:" + " "+ response.toString());
+        						Log.i("App",response.toString());
+        						//pDialog.hide();
+        					}
+        				}, new Response.ErrorListener() {
 
-				String url = C.baseURL + "/ptree/test";
-
-				JsonObjectRequest jsonObjReq = new JsonObjectRequest(
-						Method.GET, url, null,
-						new Response.Listener<JSONObject>() {
-
-							@Override
-							public void onResponse(JSONObject response) {
-								Log.d("App", response.toString());
-								responseText.setText("Response:" + " "
-										+ response.toString());
-								Log.i("App", response.toString());
-								// pDialog.hide();
-							}
-						}, new Response.ErrorListener() {
-
-							@Override
-							public void onErrorResponse(VolleyError error) {
-								VolleyLog.d("App_Error",
-										"Error: " + error.getMessage());
-								Log.i("App_Error", error.getMessage());
-								// hide the progress dialog
-								// pDialog.hide();
-							}
-						});
-				VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(jsonObjReq);
-			}
-		});
+        					@Override
+        					public void onErrorResponse(VolleyError error) {
+        						VolleyLog.d("App_Error", "Error: " + error.getMessage());
+        						Log.i("App_Error",error.getMessage());
+        						// hide the progress dialog
+        						//pDialog.hide();
+        					}
+        		});
+        		VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(jsonObjReq);
+            }
+        });
+        */
 	}
 
 	@Override
