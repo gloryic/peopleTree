@@ -26,16 +26,18 @@ import android.widget.TextView;
 
 class OutsideLocationUpdateNotifier implements UpdateNotifier, Response.Listener<JSONObject>, Response.ErrorListener {
 	OutsideLocationListener parent;
-	static int cnt=0;
-	
+
 	@Override
 	public void notifyUpdate(Object arg) {
 		parent = (OutsideLocationListener) arg;
 		Log.i("log", "OutsideLocationUpdateNotifier req");
-		
+		String locString = String.format("acc[%.1f],lat[%.6f],lon[%.6f]",parent.getAccuracy(),parent.getLatitude(), parent.getLongitude());
 	
-		PeopleTreeLocationManager.txt1.setText("["+cnt+"]"+"ac:" + parent.getAccuracy() + " ,la:" + parent.getLatitude() + " ,lo:" + parent.getLongitude());
-		cnt++;
+	
+		PeopleTreeLocationManager.txt1.setText(locString);
+		PeopleTreeLocationManager.txt2.setText("valid:"+parent.isValidLocation() + " ,gps:" + parent.isGPSEnabled());
+		
+		
 		/*
 		NetworkManager nm = NetworkManager.getInstance();
 			

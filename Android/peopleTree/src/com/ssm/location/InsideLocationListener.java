@@ -12,8 +12,10 @@ import android.os.Bundle;
 import android.os.IBinder;
 
 class InsideLocationListener implements LocationMeasurer{
-	private final Context mContext;
-
+	private Context mContext;
+	//미완성 더미 클래스
+	
+	
 	int x,y;
 	long lastLocGetTime;
 	long timeInterval = 1000*10;

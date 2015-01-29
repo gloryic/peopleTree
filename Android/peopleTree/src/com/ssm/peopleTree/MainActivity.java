@@ -18,6 +18,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.ssm.location.LocationMeasurer;
 import com.ssm.location.PeopleTreeLocationManager;
 import com.ssm.peopleTree.network.NetworkManager;
 import com.ssm.volley.VolleySingleton;
@@ -38,9 +39,13 @@ public class MainActivity extends Activity {
 		// final ProgressDialog pDialog = new ProgressDialog(this);
 		// pDialog.setMessage("Loading...");
 		// pDialog.show();
-
+		PeopleTreeLocationManager.txt1 = (TextView) findViewById(R.id.locationTextview1);//테스트용  텍스트뷰 설정
+		PeopleTreeLocationManager.txt2 = (TextView) findViewById(R.id.locationTextview2);//테스트용  텍스트뷰 설정
 		
-		PeopleTreeLocationManager.txt1 = (TextView) findViewById(R.id.locationTextview1);
+		LocationMeasurer locationMeasurer = PeopleTreeLocationManager.getMeasurer(getApplicationContext());
+		locationMeasurer.startRequest(0, 0);
+		
+		
 		Log.i("Log", "start");
 		
 		

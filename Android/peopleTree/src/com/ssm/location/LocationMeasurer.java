@@ -1,6 +1,6 @@
 package com.ssm.location;
 
-interface LocationMeasurer {
+public interface LocationMeasurer {
 
 	public void startRequest(long distanceForUpdate, long timeForUpdate);
 
