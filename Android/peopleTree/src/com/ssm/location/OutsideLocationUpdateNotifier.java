@@ -55,12 +55,12 @@ class OutsideLocationUpdateNotifier implements UpdateNotifier, Response.Listener
 	}
 	@Override
 	public void onErrorResponse(VolleyError arg0) {
-		Log.i("log", "resp err");
+
 	}
 	@Override
 	public void onResponse(JSONObject arg0) {
 		// TODO Auto-generated method stub
-		Log.i("log", "resp ok");
+
 	}
 
 }

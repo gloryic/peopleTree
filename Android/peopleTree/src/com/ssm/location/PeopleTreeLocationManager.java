@@ -8,14 +8,10 @@ public class PeopleTreeLocationManager  {
 
 
 	static private LocationMeasurer lm = null;
-	static private WifiManager wifiManager = null;
-	
-	
-	public static LocationMeasurer initMeasurer(Context context,Object wm){
+
+	public static LocationMeasurer initMeasurer(Context context){
 		
-		if(wifiManager == null ){
-			wifiManager = (WifiManager)wm;
-		}
+	
 		if(lm==null){
 			lm = new OutsideLocationListener(context);
 		}
@@ -27,7 +23,5 @@ public class PeopleTreeLocationManager  {
 		return lm;
 	}
 	
-	public static WifiManager getWifiManager(){	
-		return wifiManager;
-	}
+
 }

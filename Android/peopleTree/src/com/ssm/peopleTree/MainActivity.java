@@ -5,8 +5,11 @@ import java.util.ArrayList;
 import com.ssm.peopleTree.network.NetworkManager;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,17 +21,26 @@ public class MainActivity extends Activity {
 	
 	private TextView tvResult;
 	
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.test);
+		setContentView(R.layout.activity_main);
 
 		NetworkManager.getInstance().initialize(this);
+		
+		
+		
+		/**/
+		C.wifiTextView1 = (TextView) findViewById(R.id.WifiTextView1);
+
+		
+		/**/
 		
    		//final ProgressDialog pDialog = new ProgressDialog(this);
 		//pDialog.setMessage("Loading...");
 		//pDialog.show();
-		
+		/*
 		ArrayList<String> strList = new ArrayList<String>();
 		strList.add("그룹 생성");
 		strList.add("그룹 나가기");
@@ -79,6 +91,7 @@ public class MainActivity extends Activity {
             }
         });
         */
+		
 	}
 
 	@Override
