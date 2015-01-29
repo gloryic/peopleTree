@@ -1,47 +1,38 @@
 package com.ssm.peopleTree;
 
-import java.util.ArrayList;
+import org.json.JSONObject;
 
 import android.app.Activity;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
+import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.TextView;
 
+import com.android.volley.Request.Method;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.ssm.volley.VolleySingleton;
 public class MainActivity extends Activity {
 	
-	private TextView tvResult;
+	private TextView mTvResult;
+	private TextView responseText;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.test);
-
+		setContentView(R.layout.activity_main);
+		
    		//final ProgressDialog pDialog = new ProgressDialog(this);
 		//pDialog.setMessage("Loading...");
 		//pDialog.show();
 		
-		ArrayList<String> strList = new ArrayList<String>();
-		strList.add("그룹 생성");
-		strList.add("그룹 나가기");
-		strList.add("관계 요청");
-		strList.add("관계 변경");
-		
-		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, strList);
-	
-		ListView list = (ListView) findViewById(R.id.listview_test);
-		list.setAdapter(adapter);
-		list.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-		list.setDivider(new ColorDrawable(Color.WHITE));
-		list.setDividerHeight(2);
-		
-		tvResult = (TextView) findViewById(R.id.textview_result);
-		
-		/*
 		Button btnSimpleRequest = (Button) findViewById(R.id.btn_simple_request);
 		responseText = (TextView) findViewById(R.id.test);
 		
@@ -74,7 +65,6 @@ public class MainActivity extends Activity {
         		VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(jsonObjReq);
             }
         });
-        */
 	}
 
 	@Override
