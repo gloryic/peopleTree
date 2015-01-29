@@ -21,4 +21,23 @@
         android:text="act__simple_request__btn_request" >
     </Button>
 
+    <TextView
+        android:id="@+id/locationTextview1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignRight="@+id/btn_simple_request"
+        android:layout_below="@+id/btn_simple_request"
+        android:layout_marginTop="40dp"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/locationTextview2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/locationTextview1"
+        android:layout_alignRight="@+id/locationTextview1"
+        android:layout_below="@+id/locationTextview1"
+        android:text="TextView" />
+
 </RelativeLayout>
