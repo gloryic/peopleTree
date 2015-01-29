@@ -18,6 +18,7 @@ public class NetworkManager {
 	
 	private NetworkManager() {
 		instance = null;
+		context = null;
 	}
 	
 	public static NetworkManager getInstance() {
@@ -32,8 +33,10 @@ public class NetworkManager {
 	
 	
     public static void initialize(Context _context) {
-    	context = _context;
-    	requestQueue = Volley.newRequestQueue(context);
+    	if (context == null) {
+    		context = _context;
+    		requestQueue = Volley.newRequestQueue(context);
+    	}
     }
 
 	
