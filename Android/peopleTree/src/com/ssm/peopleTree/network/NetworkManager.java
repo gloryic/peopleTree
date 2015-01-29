@@ -4,11 +4,13 @@ import org.json.JSONObject;
 
 import android.content.Context;
 
+import com.android.volley.Request.Method;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.ssm.peopleTree.network.data.Param;
 
 public class NetworkManager {
 	
@@ -47,5 +49,21 @@ public class NetworkManager {
 		
 		JsonObjectRequest req = new JsonObjectRequest(method, url, jsonRequest, listener, errorListener); 
 		requestQueue.add(req);
+	}
+	
+	public void request(int method, String url, Param param, Listener<JSONObject> listener, ErrorListener errorListener) {
+		if (requestQueue == null) {
+            throw new IllegalStateException("Volley Request Queue is not initialized.");
+        }
+		
+		JsonObjectRequest req;
+		if (method == Method.GET) {
+			req = new JsonObjectRequest(method, url + param.toString(), null, listener, errorListener);
+			requestQueue.add(req);
+		}
+		else if (method == Method.POST) {
+			req = new JsonObjectRequest(method, url, param.toJSonObject(), listener, errorListener);
+			requestQueue.add(req);
+		}
 	}
 }
