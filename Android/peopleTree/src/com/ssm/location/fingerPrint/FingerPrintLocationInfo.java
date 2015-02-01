@@ -10,7 +10,7 @@ public class FingerPrintLocationInfo{
 	double latitude;
 	
 	
-	ArrayList<String> bssiInfos;
+	ArrayList<String> bssidInfos;
 	ArrayList<ReferencePoint> referencePoints;
 	
 	public FingerPrintLocationInfo(int locationNumber,String locationName,double longitude,double latitude){
@@ -18,21 +18,21 @@ public class FingerPrintLocationInfo{
 		this.locationName = locationName;
 		this.longitude = longitude;
 		this.latitude = latitude;
-		bssiInfos = new ArrayList<String>();
+		bssidInfos = new ArrayList<String>();
 		referencePoints = new ArrayList<ReferencePoint>();
 	}
 	
-	public void addBssiInfo(String bssi){
-		bssiInfos.add(bssi);
+	public void addBssiInfo(String bssid){
+		bssidInfos.add(bssid);
 	}
 	
 	public void addReferencePointInfo(ReferencePoint rp){
 		referencePoints.add(rp);
 	}
-	public int  bssiMatchingCnt (ArrayList<String> bssiInfos_){
+	public int  bssidMatchingCnt (ArrayList<String> bssidInfos_){
 		int cnt = 0;
-		for( String iter1 : bssiInfos){
-			for(String iter2 : bssiInfos_){
+		for( String iter1 : bssidInfos){
+			for(String iter2 : bssidInfos_){
 				if(iter2.compareTo(iter1)== 0){
 					cnt++;
 					break;
@@ -41,9 +41,13 @@ public class FingerPrintLocationInfo{
 		}
 		return cnt;
 	}
-
+	public ArrayList<ReferencePoint> getReferencePoints(){
+		return this.referencePoints;
+	}
 	
-	
+	public ArrayList<String>  getBssidInfos(){
+		return this.bssidInfos;
+	}
 }
 
 

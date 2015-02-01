@@ -14,32 +14,61 @@ public class ReferencePoint {
 	}
 	
  
-	public void addApMeasureInfo(String bssi,String ssid,int level){
+	public void addApMeasureInfo(String bssid,String ssid,int level){
 		
-		apMeasureInfos.add(new ApMeasureInfo(bssi,ssid,level));
+		apMeasureInfos.add(new ApMeasureInfo(bssid,ssid,level));
 	}
 	
 	
-	public int matchingBssiToLevel(String bssi){
+	public int matchingBssiToLevel(String bssid){
 		for(ApMeasureInfo iter : apMeasureInfos){
-			if(iter.bssi.compareTo(bssi) == 0){
+			if(iter.bssid.compareTo(bssid) == 0){
 				return iter.level;
 			}
 		}
 		return -1;
 	}
 		
+	
+	public double compreToApMeasureInfos(ArrayList<ApMeasureInfo> others){
+		int cnt = 0;
+		boolean flag;
+		int sum = 0;
+		for(ApMeasureInfo iter1 : apMeasureInfos){
+			flag = false;
+			for(ApMeasureInfo iter2 : others){
+				if(iter1.getBssid().compareTo(iter2.getBssid())==0 ){
+					cnt++;
+					
+					int diff = iter1.level - iter2.level;
+					
+					diff = diff *diff;
+					sum +=diff;
+					flag = true;
+					break;
+				}
+			}	
+			if(!flag){
+				int diff = iter1.level +100; // 해당 ap가 감지안되었을때 
+				diff= diff*diff;
+				sum += diff;
+			}
+		}
+		double sqrt = Math.sqrt((double)sum);
+		return sqrt;
+	}
+	public ArrayList<ApMeasureInfo> getApMeasureInfos(){
+		return apMeasureInfos;
+	}
+	public int getX(){
+		return xPoint;
+	}
+	public int getY(){
+		return yPoint;
+	}
 }
 
-class ApMeasureInfo{
-	String bssi;
-	String ssid;	
-	int level;
-	public ApMeasureInfo(String bssi,String ssid,int level){
-		this.bssi = bssi;
-		this.ssid = ssid;
-		this.level = level;
-	}
-	
-}
+
+
+
 

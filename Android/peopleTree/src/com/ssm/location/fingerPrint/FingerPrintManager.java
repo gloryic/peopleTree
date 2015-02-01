@@ -5,10 +5,10 @@ import java.util.ArrayList;
 
 public class FingerPrintManager {
 	private volatile static FingerPrintManager instance;
-	private static ArrayList<FingerPrintLocationInfo> LocInfos;
+	private ArrayList<FingerPrintLocationInfo> LocInfos;
 	
 	
-	public static final int MIN_AP_NUM = 5;
+	public static final int MIN_AP_NUM = 3;
 	
 	
 	
@@ -24,18 +24,18 @@ public class FingerPrintManager {
 	}
 	
 	
-	public static void addLocInfo(FingerPrintLocationInfo locInfo){
+	public  void addLocInfo(FingerPrintLocationInfo locInfo){
 		LocInfos.add(locInfo);
 	}
 	
 	
 	
 	
-	public static FingerPrintLocationInfo validLocInfoFind(ArrayList<String> bssiInfos_){
+	public FingerPrintLocationInfo validLocInfoFind(ArrayList<String> bssidInfos_){
 		FingerPrintLocationInfo ret = null;
 		int cnt;
 		for(FingerPrintLocationInfo iter : LocInfos){
-			cnt = iter.bssiMatchingCnt(bssiInfos_);
+			cnt = iter.bssidMatchingCnt(bssidInfos_);
 			if(cnt>= MIN_AP_NUM){
 				ret = iter;
 				break;

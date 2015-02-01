@@ -2,7 +2,7 @@ package com.ssm.location;
 
 public interface LocationMeasurer {
 
-	public void startRequest(long distanceForUpdate, long timeForUpdate);
+	public boolean startRequest(long distanceForUpdate, long timeForUpdate);
 
 	public void stopRequest();
 	public boolean isValidLocation();

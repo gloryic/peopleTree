@@ -32,7 +32,7 @@ class OutsideLocationListener extends Service implements
 	long validTime = 1000 * 60;
 	float validAccuracy = (float) 40.0;
 
-	public OutsideLocationListener(Context context) {
+	OutsideLocationListener(Context context) {
 		this.mContext = context;
 
 		this.updateNotifier = new OutsideLocationUpdateNotifier();
@@ -78,14 +78,22 @@ class OutsideLocationListener extends Service implements
 		
 		return ret;
 	}
-	public void startRequest(long distanceForUpdate, long timeForUpdate) {
+	public boolean startRequest(long distanceForUpdate, long timeForUpdate) {
+		
+		isGPSEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+		isNetworkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+		
+		if(!isGPSEnabled){
+			
+			return false;
+		}
 		if (isLocationRequested == false) {
 			this.isLocationRequested = true;
 			Log.i("Log","startRequest");
 			this.locationRequest(distanceForUpdate, timeForUpdate);
-
+	
 		}
-
+		return true;
 	}
 
 	
@@ -105,10 +113,7 @@ class OutsideLocationListener extends Service implements
 		try {
 			locationManager = (LocationManager) mContext
 					.getSystemService(LOCATION_SERVICE);
-			isGPSEnabled = locationManager
-					.isProviderEnabled(LocationManager.GPS_PROVIDER);
-			isNetworkEnabled = locationManager
-					.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+
 			if (locationManager != null) {
 				changedCnt = 0;
 
