@@ -2,10 +2,13 @@ package com.ssm.peopleTree;
 
 import java.util.ArrayList;
 
+import com.ssm.peopleTree.application.LoginData;
 import com.ssm.peopleTree.network.NetworkManager;
 
 import android.app.Activity;
+import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -16,6 +19,7 @@ import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends Activity {
 	
@@ -27,16 +31,7 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		NetworkManager.getInstance().initialize(this);
-		
-		
-		
-		/**/
-		C.wifiTextView1 = (TextView) findViewById(R.id.WifiTextView1);
-
-		
-		/**/
-		
+				
    		//final ProgressDialog pDialog = new ProgressDialog(this);
 		//pDialog.setMessage("Loading...");
 		//pDialog.show();
@@ -96,20 +91,49 @@ public class MainActivity extends Activity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
+		// TODO
+		
+		menu.add(0, 1, Menu.NONE, "Logout");
+		/*
+		 * .setIcon(android.R.drawable.ic_menu_rotate);
+        menu.add(0, 2, Menu.NONE, "").setIcon(android.R.drawable.ic_menu_add);
+        menu.add(0, 3, Menu.NONE, "").setIcon(android.R.drawable.ic_menu_agenda);
+        menu.add(0, 4, Menu.NONE, "");
+        menu.add(0, 5, Menu.NONE, "");
+        */
 		return true;
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
-		int id = item.getItemId();
-		if (id == R.id.action_settings) {
-			return true;
-		}
+		
+		switch (item.getItemId()) {
+        case 1:
+            Toast.makeText(MainActivity.this, "Logout", Toast.LENGTH_SHORT).show();
+            LoginData loginData = new LoginData();
+            loginData.load(this);
+            loginData.clear();
+            
+            Intent intent;
+    		intent = new Intent(MainActivity.this, LoginActivity.class);
+    		startActivity(intent);
+    		finish();
+            break;
+ 
+        case 2:
+            break;
+ 
+        case 3:
+            break;
+ 
+        default:
+            break;
+        }
 		return super.onOptionsItemSelected(item);
+	}
+	
+	@Override
+	public void onBackPressed() {
+		super.onBackPressed();
 	}
 }

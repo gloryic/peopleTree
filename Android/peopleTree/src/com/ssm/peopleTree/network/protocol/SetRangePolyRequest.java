@@ -1,35 +1,37 @@
-package com.ssm.peopleTree.network.data;
+package com.ssm.peopleTree.network.protocol;
 
 import java.util.ArrayList;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public class DSetRangePoly extends Data {
+import com.android.volley.Request.Method;
+
+public class SetRangePolyRequest extends Protocol {
 	// 지역 설정(다각형) 프로토콜 파라미터
 
-	public int userId;
+	public int userNumber;
 	public int userType;
 	public int deviceStatus;
 	public ArrayList<Double> points;
 	
-	public DSetRangePoly(int userId, int userType, int deviceStatus, ArrayList<Double> points) {
-		this.userId = userId;
+	public SetRangePolyRequest(int userId, int userType, int deviceStatus, ArrayList<Double> points) {
+		this.userNumber = userId;
 		this.userType = userType;
 		this.deviceStatus = deviceStatus;
 		this.points = new ArrayList<Double>(points);
 	}
 	
-	public DSetRangePoly(JSONObject jsonObject) {
+	public SetRangePolyRequest(JSONObject jsonObject) {
 		points = new ArrayList<Double>();
 		points.clear();
 		
 		try {
-			userId = jsonObject.getInt(USER_ID_NAME);
-			userType = jsonObject.getInt(USER_TYPE_NAME);
-			deviceStatus = jsonObject.getInt(DEVICE_STATUS_NAME);
+			userNumber = jsonObject.getInt(USER_NUM_KEY);
+			userType = jsonObject.getInt(USER_TYPE_KEY);
+			deviceStatus = jsonObject.getInt(DEVICE_STATUS_KEY);
 			
-			JSONArray jsonArr = jsonObject.getJSONArray(POINTS_NAME);
+			JSONArray jsonArr = jsonObject.getJSONArray(POINTS_KEY);
 			int end = jsonArr.length() / 2;
 			for (int i = 0; i < end; i++) {
 				points.add(jsonArr.getDouble(2 * i));
@@ -44,9 +46,9 @@ public class DSetRangePoly extends Data {
 	public JSONObject toJSonObject() {
 		JSONObject json = new JSONObject();
 		try {
-			json.put(USER_ID_NAME, userId);
-			json.put(USER_TYPE_NAME, userType);
-			json.put(DEVICE_STATUS_NAME, deviceStatus);
+			json.put(USER_NUM_KEY, userNumber);
+			json.put(USER_TYPE_KEY, userType);
+			json.put(DEVICE_STATUS_KEY, deviceStatus);
 			
 			JSONArray jsonArr = new JSONArray();
 			int end = points.size() / 2;
@@ -54,7 +56,7 @@ public class DSetRangePoly extends Data {
 				jsonArr.put(2 * i, points.get(2 * i));
 				jsonArr.put(2 * i + 1, points.get(2 * i + 1));
 			}
-			json.put(POINTS_NAME, jsonArr);
+			json.put(POINTS_KEY, jsonArr);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -66,10 +68,15 @@ public class DSetRangePoly extends Data {
 	@Override
 	public String toString() {
 		String result = "";
-		result += "?" + USER_ID_NAME + "=" + Integer.toString(userId);
-		result += "&?" + USER_TYPE_NAME + "=" + Integer.toString(userType);
-		result += "&?" + DEVICE_STATUS_NAME + "=" + Integer.toString(deviceStatus);
-		result += "&?" + POINTS_NAME + "=" + points.toString();
+		result += "?" + USER_NUM_KEY + "=" + Integer.toString(userNumber);
+		result += "&" + USER_TYPE_KEY + "=" + Integer.toString(userType);
+		result += "&" + DEVICE_STATUS_KEY + "=" + Integer.toString(deviceStatus);
+		result += "&" + POINTS_KEY + "=" + points.toString();
 		return result;
+	}
+	
+	@Override
+	public int getMethod() {
+		return Method.POST;
 	}
 }

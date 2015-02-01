@@ -3,6 +3,7 @@ package com.ssm.peopleTree.network;
 import org.json.JSONObject;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.android.volley.Request.Method;
 import com.android.volley.RequestQueue;
@@ -10,17 +11,14 @@ import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.ssm.peopleTree.network.data.Param;
+import com.ssm.peopleTree.C;
+import com.ssm.peopleTree.network.protocol.Param;
 
 public class NetworkManager {
 	
-	private volatile static NetworkManager instance;
-	private static RequestQueue requestQueue;
-	private static Context context;
+	private volatile static NetworkManager instance = null;
 	
 	private NetworkManager() {
-		instance = null;
-		context = null;
 	}
 	
 	public static NetworkManager getInstance() {
@@ -33,6 +31,8 @@ public class NetworkManager {
 		return instance;
 	}
 	
+	private RequestQueue requestQueue = null;
+	private Context context = null;
 	
     public void initialize(Context _context) {
     	if (context == null) {
@@ -47,23 +47,37 @@ public class NetworkManager {
             throw new IllegalStateException("Volley Request Queue is not initialized.");
         }
 		
+		if (C.networkAllGet) {
+			method = Method.GET;
+		}
+		
 		JsonObjectRequest req = new JsonObjectRequest(method, url, jsonRequest, listener, errorListener); 
 		requestQueue.add(req);
 	}
 	
-	public void request(int method, String url, Param param, Listener<JSONObject> listener, ErrorListener errorListener) {
+	public void request(Param param, Listener<JSONObject> listener, ErrorListener errorListener) {
 		if (requestQueue == null) {
             throw new IllegalStateException("Volley Request Queue is not initialized.");
         }
+				
+		String url = C.baseURL;
+		JSONObject jsonRequest = null;
+		int method = param.getMethod();
 		
-		JsonObjectRequest req;
+		if (C.networkAllGet) {
+			method = Method.GET;
+		}
+		
 		if (method == Method.GET) {
-			req = new JsonObjectRequest(method, url + param.toString(), null, listener, errorListener);
-			requestQueue.add(req);
+			url += param.toString();
 		}
-		else if (method == Method.POST) {
-			req = new JsonObjectRequest(method, url, param.toJSonObject(), listener, errorListener);
-			requestQueue.add(req);
+		else {
+			jsonRequest = param.toJSonObject();
 		}
+		
+		Log.e("test", url);
+		
+		JsonObjectRequest req = new JsonObjectRequest(method, url, jsonRequest, listener, errorListener);
+		requestQueue.add(req);
 	}
 }
