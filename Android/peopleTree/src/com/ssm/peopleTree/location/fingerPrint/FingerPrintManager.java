@@ -1,4 +1,4 @@
-package com.ssm.location.fingerPrint;
+package com.ssm.peopleTree.location.fingerPrint;
 
 import java.util.ArrayList;
 
@@ -13,7 +13,7 @@ public class FingerPrintManager {
 	
 	
 	private FingerPrintManager() {
-		instance = null;
+		LocInfos = new  ArrayList<FingerPrintLocationInfo>();
 	}
 
 	public static FingerPrintManager getInstance(){

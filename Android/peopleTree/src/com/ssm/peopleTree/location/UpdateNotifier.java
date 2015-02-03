@@ -1,4 +1,4 @@
-package com.ssm.location;
+package com.ssm.peopleTree.location;
 
 
 interface UpdateNotifier{

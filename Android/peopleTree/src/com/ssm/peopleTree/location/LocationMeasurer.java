@@ -1,4 +1,4 @@
-package com.ssm.location;
+package com.ssm.peopleTree.location;
 
 public interface LocationMeasurer {
 
@@ -8,4 +8,5 @@ public interface LocationMeasurer {
 	public boolean isValidLocation();
 	public void setUpdateNotifier(UpdateNotifier u);
 	public boolean isLocReqPossible();
+	public boolean isGetLcoation();
 }
