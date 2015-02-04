@@ -22,6 +22,4 @@ public class PeopleTreeLocationManager  {
 	public static LocationMeasurer getMeasurer(){
 		return lm;
 	}
-	
-
 }
