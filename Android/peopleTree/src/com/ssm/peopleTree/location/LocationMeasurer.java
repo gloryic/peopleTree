@@ -8,4 +8,5 @@ public interface LocationMeasurer {
 	public boolean isValidLocation();
 	public void setUpdateNotifier(UpdateNotifier u);
 	public boolean isLocReqPossible();
+	public boolean isGetLcoation();
 }

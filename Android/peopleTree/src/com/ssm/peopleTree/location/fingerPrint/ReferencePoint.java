@@ -12,8 +12,6 @@ public class ReferencePoint {
 		this.yPoint = yPoint;
 		apMeasureInfos = new ArrayList<ApMeasureInfo>();
 	}
-	
- 
 	public void addApMeasureInfo(String bssid,String ssid,int level){
 		
 		apMeasureInfos.add(new ApMeasureInfo(bssid,ssid,level));

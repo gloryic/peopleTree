@@ -19,7 +19,7 @@ class OutsideLocationListener extends Service implements
 	boolean isGPSEnabled = false;
 	boolean isNetworkEnabled = false;
 	boolean isLocationRequested = false;
-
+	boolean isGetLocation = false;
 	private Context mContext;
 
 	UpdateNotifier updateNotifier = null;
@@ -89,7 +89,7 @@ class OutsideLocationListener extends Service implements
 		}
 		if (isLocationRequested == false) {
 			this.isLocationRequested = true;
-			Log.i("Log","startRequest");
+			this.isGetLocation = false;
 			this.locationRequest(distanceForUpdate, timeForUpdate);
 	
 		}
@@ -99,6 +99,7 @@ class OutsideLocationListener extends Service implements
 	
 	public void stopRequest() {
 		if (locationManager != null) {
+			this.isGetLocation = false;
 			isLocationRequested = false;
 			locationManager.removeUpdates(OutsideLocationListener.this);
 
@@ -154,6 +155,7 @@ class OutsideLocationListener extends Service implements
 
 			statecnt++;
 			this.location = location;
+			isGetLocation = true;
 			if (updateNotifier != null) {
 
 				updateNotifier.notifyUpdate(this);
@@ -255,6 +257,12 @@ class OutsideLocationListener extends Service implements
 	@Override
 	public IBinder onBind(Intent intent) {
 		return null;
+	}
+
+	@Override
+	public boolean isGetLcoation() {
+		// TODO Auto-generated method stub
+		return this.isGetLocation;
 	}
 
 

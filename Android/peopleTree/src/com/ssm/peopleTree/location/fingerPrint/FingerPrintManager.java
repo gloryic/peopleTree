@@ -13,7 +13,7 @@ public class FingerPrintManager {
 	
 	
 	private FingerPrintManager() {
-		instance = null;
+		LocInfos = new  ArrayList<FingerPrintLocationInfo>();
 	}
 
 	public static FingerPrintManager getInstance(){

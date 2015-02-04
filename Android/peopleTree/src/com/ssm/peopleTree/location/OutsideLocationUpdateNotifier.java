@@ -27,10 +27,27 @@ import android.widget.TextView;
 class OutsideLocationUpdateNotifier implements UpdateNotifier, Response.Listener<JSONObject>, Response.ErrorListener {
 	OutsideLocationListener parent;
 
+	
+
 	@Override
 	public void notifyUpdate(Object arg) {
-		parent = (OutsideLocationListener) arg;
+	
 		Log.i("log", "OutsideLocationUpdateNotifier req");
+		
+		
+
+		PeopleTreeLocationManager pltm = PeopleTreeLocationManager.getInstance();		
+		long curTime = System.currentTimeMillis();
+		if(!parent.isValidLocation() && (curTime - pltm.getLastChangeTime() ) >  PeopleTreeLocationManager.MINTIMEINTERVAL){
+			
+
+			pltm.changeLocationMeasureMode();
+			
+		}else{
+			//위치전송
+		}
+		
+		
 		String locString = String.format("acc[%.1f],lat[%.6f],lon[%.6f]",parent.getAccuracy(),parent.getLatitude(), parent.getLongitude());
 	
 	

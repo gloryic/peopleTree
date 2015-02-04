@@ -197,4 +197,10 @@ class InsideLocationListener implements LocationMeasurer{
 		return this.apMeasureInfos;
 	}
 
+	@Override
+	public boolean isGetLcoation() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }
