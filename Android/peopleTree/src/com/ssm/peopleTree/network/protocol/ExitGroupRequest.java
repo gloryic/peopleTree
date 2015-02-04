@@ -4,7 +4,7 @@ import org.json.JSONObject;
 
 import com.android.volley.Request.Method;
 
-public class ExitGroupRequest extends Protocol {
+public class ExitGroupRequest extends Request {
 	// 그룹 나가기 프로토콜 파라미터
 	
 	public int userNumber;
@@ -19,7 +19,7 @@ public class ExitGroupRequest extends Protocol {
 	
 	public ExitGroupRequest(JSONObject jsonObject) {
 		try {
-			userNumber = jsonObject.getInt(USER_NUM_KEY);
+			userNumber = jsonObject.getInt(USER_NUMBER_KEY);
 			groupId = jsonObject.getInt(GROUP_ID_KEY);
 			memberId = jsonObject.getInt(MEMBER_ID_KEY);
 		} catch (Exception e) {
@@ -31,7 +31,7 @@ public class ExitGroupRequest extends Protocol {
 	public JSONObject toJSonObject() {
 		JSONObject json = new JSONObject();
 		try {
-			json.put(USER_NUM_KEY, userNumber);
+			json.put(USER_NUMBER_KEY, userNumber);
 			json.put(GROUP_ID_KEY, groupId);
 			json.put(MEMBER_ID_KEY, memberId);
 		} catch (Exception e) {
@@ -42,9 +42,9 @@ public class ExitGroupRequest extends Protocol {
 	}
 
 	@Override
-	public String toString() {
+	public String toURI() {
 		String result = "";
-		result += "?" + USER_NUM_KEY + "=" + Integer.toString(userNumber);
+		result += "?" + USER_NUMBER_KEY + "=" + Integer.toString(userNumber);
 		result += "&" + GROUP_ID_KEY + "=" + Integer.toString(groupId);
 		result += "&" + MEMBER_ID_KEY + "=" + Integer.toString(memberId);
 		return result;

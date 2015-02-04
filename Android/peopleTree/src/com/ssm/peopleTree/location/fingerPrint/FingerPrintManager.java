@@ -1,4 +1,4 @@
-package com.ssm.location.fingerPrint;
+package com.ssm.peopleTree.location.fingerPrint;
 
 import java.util.ArrayList;
 

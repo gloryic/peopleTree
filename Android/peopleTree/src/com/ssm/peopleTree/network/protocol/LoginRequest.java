@@ -4,10 +4,9 @@ import org.json.JSONObject;
 
 import com.android.volley.Request.Method;
 
-public class LoginRequest extends Protocol {
+public class LoginRequest extends Request {
 
-	private static final String PROTOCOL = "/ptree/login";
-	private static final String PHONE_PATTERN = "^[0-9]{11}$";
+	private static final String REST_PROTOCOL = "/ptree/login";
 	
 	public String id;
 	public String password;
@@ -19,20 +18,7 @@ public class LoginRequest extends Protocol {
 		this.password =password;
 		this.idLogin = !id.matches(PHONE_PATTERN);
 	}
-		
-	@Override
-	public String toString() {
-		String result = PROTOCOL;
-		if (idLogin) {
-			result += "?" + USER_ID_KEY + "=" + id;
-		}
-		else {
-			result += "?" + USER_PHONE_KEY + "=" + id;
-		}
-		result += "&" + USER_PASSWORD_KEY + "=" + password;
-		return result;
-	}
-	
+
 	@Override
 	public JSONObject toJSonObject() {
 		JSONObject json = new JSONObject();
@@ -50,7 +36,20 @@ public class LoginRequest extends Protocol {
 		
 		return json;
 	}
-
+		
+	@Override
+	public String toURI() {
+		String result = REST_PROTOCOL;
+		if (idLogin) {
+			result += "?" + USER_ID_KEY + "=" + id;
+		}
+		else {
+			result += "?" + USER_PHONE_KEY + "=" + id;
+		}
+		result += "&" + USER_PASSWORD_KEY + "=" + password;
+		return result;
+	}
+	
 	@Override
 	public int getMethod() {
 		return Method.POST;

@@ -2,15 +2,15 @@ package com.ssm.peopleTree.network.protocol;
 
 import org.json.JSONObject;
 
-public class SetRangeRelResponse extends Response {
-	// 지역 설정(상대) 프로토콜 결과
+public class SetRangeAbsResponse extends Response {
+	// 지역 설정(절대) 프로토콜 결과
 
 	public int validUserNumber;
 	public int edgeType;
 		
-	public SetRangeRelResponse(JSONObject jsonObj) {
+	public SetRangeAbsResponse(JSONObject jsonObj) {
 		super(jsonObj);
-	}
+	}	
 	
 	@Override
 	void OnSuccess(Object responseData) {

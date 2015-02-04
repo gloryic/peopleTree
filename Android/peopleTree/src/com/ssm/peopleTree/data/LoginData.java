@@ -1,4 +1,4 @@
-package com.ssm.peopleTree.application;
+package com.ssm.peopleTree.data;
 
 import android.content.Context;
 import android.content.SharedPreferences;

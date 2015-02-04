@@ -2,82 +2,64 @@ package com.ssm.peopleTree.network.protocol;
 
 import org.json.JSONObject;
 
-import com.android.volley.Request.Method;
-
-public class GetUserInfoResponse extends Protocol {
+public class GetUserInfoResponse extends Response {
 	// 사용자 정보 가져오기 프로토콜 결과
+	
+	public GetUserInfoResponse(JSONObject jsonObj) {
+		super(jsonObj);
+	}
 
-	public int status;
+	public String userId;
+	public String userName;
 	public int userNumber;
-	public int userName;
 	public int userPhoneNumber;
-	public int edgeType;
+	
+	public int groupId;
+	public int groupMemberId;
+	public int parentGroupMemberId;
+	
 	public int edgeStatus;
-	public double longtitude;
-	public double latitude;
 	
-	public GetUserInfoResponse(int status, int userId, int userName, int userPhoneNumber, int edgeType, int edgeStatus, double longtitude, double latitude) {
-		this.status = status;
-		this.userNumber = userId;
-		this.userName = userName;
-		this.userPhoneNumber = userPhoneNumber;
-		this.edgeType = edgeType;
-		this.edgeStatus = edgeStatus;
-		this.latitude = latitude;
-		this.longtitude = longtitude;
-	}
+	public int manageMode;
+	public int managedLocationRadius;
+	public int managingTotalNumber;
+	public int managingNumber;
 	
-	public GetUserInfoResponse(JSONObject jsonObject) {
-		try {			
-			status = jsonObject.getInt(STATUS_KEY);
-			userNumber = jsonObject.getInt(USER_NUM_KEY);
-			userName = jsonObject.getInt(USER_NAME_KEY);
-			userPhoneNumber = jsonObject.getInt(USER_PHONE_KEY);
-			edgeType = jsonObject.getInt(EDGE_TYPE_KEY);
-			edgeStatus = jsonObject.getInt(EDGE_STATUS_KEY);
-			longtitude = jsonObject.getInt(LONGTITUD_KEY);
-			latitude = jsonObject.getInt(LATITUDE_KEY);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}	
+	public Double longitude;
+	public Double latitude;
 	
 	@Override
-	public JSONObject toJSonObject() {
-		JSONObject json = new JSONObject();
+	void OnSuccess(Object responseData) {
 		try {
-			json.put("status", status);
-			json.put("userId", userNumber);
-			json.put("userName", userName);
-			json.put("userPhoneNumber", userPhoneNumber);
-			json.put("edgeType", edgeType);
-			json.put("edegStatus", edgeStatus);
-			json.put("longtitude", longtitude);
-			json.put("latitude", latitude);
+			JSONObject jsonObj = (JSONObject)responseData;
+			
+			userId = jsonObj.getString(USER_ID_KEY);
+			userName = jsonObj.getString(USER_NAME_KEY);
+			userNumber = jsonObj.getInt(USER_NUMBER_KEY);
+			userPhoneNumber = jsonObj.getInt(USER_PHONE_KEY);
+			
+			groupMemberId = jsonObj.getInt(GROUP_MEMBER_ID_KEY);
+			parentGroupMemberId = jsonObj.getInt(PARENT_GROUP_MEMBER_ID_KEY);
+			groupId = jsonObj.getInt(GROUP_ID_KEY);
+			
+			edgeStatus = jsonObj.getInt(EDGE_STATUS_KEY);
+			
+			manageMode = jsonObj.getInt(MANAGE_MODE_KEY);
+			managedLocationRadius = jsonObj.getInt(MANAGE_LOCATION_RADIUS_KEY);
+			managingTotalNumber = jsonObj.getInt(MANAGING_TOTAL_NUMBER_KEY);
+			managingNumber = jsonObj.getInt(MANAGING_NUMBER_KEY);
+			
+			try {
+				longitude = jsonObj.getDouble(LONGITUDE_KEY);
+				latitude = jsonObj.getDouble(LATITUDE_KEY);
+			}
+			catch (Exception e) {
+				longitude = null;
+				latitude = null;
+			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		return json;
-	}
-
-	@Override
-	public String toString() {
-		String result = "";
-		result += "?" + STATUS_KEY + "=" + Integer.toString(status);
-		result += "&" + USER_NUM_KEY + "=" + Integer.toString(userNumber);
-		result += "&" + USER_NAME_KEY + "=" + Integer.toString(userName);
-		result += "&" + USER_PHONE_KEY + "=" + Integer.toString(userPhoneNumber);
-		result += "&" + EDGE_TYPE_KEY + "=" + Integer.toString(edgeType);
-		result += "&" + EDGE_STATUS_KEY + "=" + Integer.toString(edgeStatus);
-		result += "&" + LATITUDE_KEY + "=" + Double.toString(latitude);
-		result += "&" + LONGTITUD_KEY + "=" + Double.toString(longtitude);
-		
-		return result;
-	}
-	
-	@Override
-	public int getMethod() {
-		return Method.POST;
 	}
 }

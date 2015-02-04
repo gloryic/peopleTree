@@ -4,7 +4,7 @@ import org.json.JSONObject;
 
 import com.android.volley.Request.Method;
 
-public class EmitMsgRequest extends Protocol {
+public class EmitMsgRequest extends Request {
 	// 브로드 캐스트 공지 메세지 전송 프로토콜
 	
 	public int userNumber;
@@ -17,7 +17,7 @@ public class EmitMsgRequest extends Protocol {
 	
 	public EmitMsgRequest(JSONObject jsonObject) {
 		try {
-			userNumber = jsonObject.getInt(USER_NUM_KEY);
+			userNumber = jsonObject.getInt(USER_NUMBER_KEY);
 			message = jsonObject.getString(MESSAGE_KEY);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -28,7 +28,7 @@ public class EmitMsgRequest extends Protocol {
 	public JSONObject toJSonObject() {
 		JSONObject json = new JSONObject();
 		try {
-			json.put(USER_NUM_KEY, userNumber);
+			json.put(USER_NUMBER_KEY, userNumber);
 			json.put(MESSAGE_KEY, message);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -38,9 +38,9 @@ public class EmitMsgRequest extends Protocol {
 	}
 	
 	@Override
-	public String toString() {
+	public String toURI() {
 		String result = "";
-		result += "?" + USER_NUM_KEY + "=" + Integer.toString(userNumber);
+		result += "?" + USER_NUMBER_KEY + "=" + Integer.toString(userNumber);
 		result += "&" + MESSAGE_KEY + "=" + message;
 		return result;
 	}

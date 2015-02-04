@@ -2,7 +2,7 @@ package com.ssm.peopleTree;
 
 import java.util.ArrayList;
 
-import com.ssm.peopleTree.application.LoginData;
+import com.ssm.peopleTree.data.LoginData;
 import com.ssm.peopleTree.network.NetworkManager;
 
 import android.app.Activity;

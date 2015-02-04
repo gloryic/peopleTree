@@ -5,6 +5,7 @@ import org.json.JSONObject;
 import com.android.volley.Response.Listener;
 import com.ssm.peopleTree.R;
 import com.ssm.peopleTree.network.NetworkManager;
+import com.ssm.peopleTree.network.Status;
 import com.ssm.peopleTree.network.protocol.MakeGroupRequest;
 import com.ssm.peopleTree.network.protocol.MakeGroupResponse;
 
@@ -100,7 +101,7 @@ public class JoinDialog implements DialogInterface.OnClickListener, Listener<JSO
 	@Override
 	public void onResponse(JSONObject arg0) {
 		MakeGroupResponse res = new MakeGroupResponse(arg0);
-		if (res.status == 200) {
+		if (res.getStatus() == Status.SUCCESS) {
 			onJoinSuccess();
 		}
 		else {

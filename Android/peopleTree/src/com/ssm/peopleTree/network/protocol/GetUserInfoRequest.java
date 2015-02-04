@@ -4,36 +4,22 @@ import org.json.JSONObject;
 
 import com.android.volley.Request.Method;
 
-public class GetUserInfoRequest extends Protocol {
+public class GetUserInfoRequest extends Request {
 	// 사용자 정보 가져오기 프로토콜 파라미터
 	
-	public int userNumber;
-	public int userType;
-	public int groupId;
+	private static final String REST_PROTOCOL = "/ptree/getinfo/group/member"; 
 	
-	public GetUserInfoRequest(int userId, int userType, int groupId) {
-		this.userNumber = userId;
-		this.userType = userType;
-		this.groupId = groupId;
+	private int userNumber;
+	
+	public GetUserInfoRequest(int userNumber) {
+		this.userNumber = userNumber;
 	}
-	
-	public GetUserInfoRequest(JSONObject jsonObject) {
-		try {
-			userNumber = jsonObject.getInt(USER_NUM_KEY);
-			userType = jsonObject.getInt(USER_TYPE_KEY);
-			groupId = jsonObject.getInt(GROUP_ID_KEY);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}	
 	
 	@Override
 	public JSONObject toJSonObject() {
 		JSONObject json = new JSONObject();
 		try {
-			json.put(USER_NUM_KEY, userNumber);
-			json.put(USER_TYPE_KEY, userType);
-			json.put(GROUP_ID_KEY, groupId);
+			json.put(USER_NUMBER_KEY, userNumber);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -42,11 +28,9 @@ public class GetUserInfoRequest extends Protocol {
 	}
 
 	@Override
-	public String toString() {
-		String result = "";
-		result += "?" + USER_NUM_KEY + "=" + Integer.toString(userNumber);
-		result += "&" + USER_TYPE_KEY + "=" + Integer.toString(userType);
-		result += "&" + GROUP_ID_KEY + "=" + Integer.toString(groupId);
+	public String toURI() {
+		String result = REST_PROTOCOL;
+		result += "?" + USER_NUMBER_KEY + "=" + Integer.toString(userNumber);
 		return result;
 	}
 	

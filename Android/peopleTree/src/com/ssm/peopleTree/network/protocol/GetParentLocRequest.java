@@ -4,7 +4,7 @@ import org.json.JSONObject;
 
 import com.android.volley.Request.Method;
 
-public class GetParentLocRequest extends Protocol {
+public class GetParentLocRequest extends Request {
 	// 관리자에게 유도 프로토콜 결과
 	
 	public int status;
@@ -22,9 +22,9 @@ public class GetParentLocRequest extends Protocol {
 	public GetParentLocRequest(JSONObject jsonObject) {
 		try {
 			status = jsonObject.getInt(STATUS_KEY);
-			userNumber = jsonObject.getInt(USER_NUM_KEY);
+			userNumber = jsonObject.getInt(USER_NUMBER_KEY);
 			latitude = jsonObject.getDouble(LATITUDE_KEY);
-			longtitude = jsonObject.getDouble(LONGTITUD_KEY);
+			longtitude = jsonObject.getDouble(LONGITUDE_KEY);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -35,9 +35,9 @@ public class GetParentLocRequest extends Protocol {
 		JSONObject json = new JSONObject();
 		try {
 			json.put(STATUS_KEY, status);
-			json.put(USER_NUM_KEY, userNumber);
+			json.put(USER_NUMBER_KEY, userNumber);
 			json.put(LATITUDE_KEY, latitude);
-			json.put(LONGTITUD_KEY, longtitude);
+			json.put(LONGITUDE_KEY, longtitude);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -46,12 +46,12 @@ public class GetParentLocRequest extends Protocol {
 	}
 	
 	@Override
-	public String toString() {
+	public String toURI() {
 		String result = "";
 		result += "?" + STATUS_KEY + "=" + Integer.toString(status);
-		result += "&" + USER_NUM_KEY + "=" + Integer.toString(userNumber);
+		result += "&" + USER_NUMBER_KEY + "=" + Integer.toString(userNumber);
 		result += "&" + LATITUDE_KEY + "=" + Double.toString(latitude);
-		result += "&" + LONGTITUD_KEY + "=" + Double.toString(longtitude);
+		result += "&" + LONGITUDE_KEY + "=" + Double.toString(longtitude);
 		return result;
 	}
 	

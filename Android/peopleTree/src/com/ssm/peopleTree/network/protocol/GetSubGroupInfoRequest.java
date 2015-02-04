@@ -4,7 +4,7 @@ import org.json.JSONObject;
 
 import com.android.volley.Request.Method;
 
-public class GetSubGroupInfoRequest extends Protocol {
+public class GetSubGroupInfoRequest extends Request {
 	// 하위 그룹 인원 정보 프로토콜 파라미터
 
 	public int userNumber;
@@ -21,7 +21,7 @@ public class GetSubGroupInfoRequest extends Protocol {
 	
 	public GetSubGroupInfoRequest(JSONObject jsonObject) {
 		try {
-			userNumber = jsonObject.getInt(USER_NUM_KEY);
+			userNumber = jsonObject.getInt(USER_NUMBER_KEY);
 			userType = jsonObject.getInt(USER_TYPE_KEY);
 			groupId = jsonObject.getInt(GROUP_ID_KEY);
 			subRootId = jsonObject.getInt(SUB_ROOT_ID_KEY);
@@ -34,7 +34,7 @@ public class GetSubGroupInfoRequest extends Protocol {
 	public JSONObject toJSonObject() {
 		JSONObject json = new JSONObject();
 		try {
-			json.put(USER_NUM_KEY, userNumber);
+			json.put(USER_NUMBER_KEY, userNumber);
 			json.put(USER_TYPE_KEY, userType);
 			json.put(GROUP_ID_KEY, groupId);
 			json.put(SUB_ROOT_ID_KEY, subRootId);
@@ -46,9 +46,9 @@ public class GetSubGroupInfoRequest extends Protocol {
 	}
 
 	@Override
-	public String toString() {
+	public String toURI() {
 		String result = "";
-		result += "?" + USER_NUM_KEY + "=" + Integer.toString(userNumber);
+		result += "?" + USER_NUMBER_KEY + "=" + Integer.toString(userNumber);
 		result += "&" + USER_TYPE_KEY + "=" + Integer.toString(userType);
 		result += "&" + GROUP_ID_KEY + "=" + Integer.toString(groupId);
 		result += "&" + SUB_ROOT_ID_KEY + "=" + Integer.toString(subRootId);

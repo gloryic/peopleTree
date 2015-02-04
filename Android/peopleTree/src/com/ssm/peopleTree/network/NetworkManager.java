@@ -12,7 +12,7 @@ import com.android.volley.Response.Listener;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.ssm.peopleTree.C;
-import com.ssm.peopleTree.network.protocol.Param;
+import com.ssm.peopleTree.network.protocol.Parameterizable;
 
 public class NetworkManager {
 	
@@ -55,7 +55,7 @@ public class NetworkManager {
 		requestQueue.add(req);
 	}
 	
-	public void request(Param param, Listener<JSONObject> listener, ErrorListener errorListener) {
+	public void request(Parameterizable param, Listener<JSONObject> listener, ErrorListener errorListener) {
 		if (requestQueue == null) {
             throw new IllegalStateException("Volley Request Queue is not initialized.");
         }
@@ -69,7 +69,7 @@ public class NetworkManager {
 		}
 		
 		if (method == Method.GET) {
-			url += param.toString();
+			url += param.toURI();
 		}
 		else {
 			jsonRequest = param.toJSonObject();

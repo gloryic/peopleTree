@@ -1,14 +1,14 @@
-package com.ssm.location;
+package com.ssm.peopleTree.location;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import com.ssm.location.fingerPrint.ApMeasureInfo;
-import com.ssm.location.fingerPrint.FingerPrintLocationInfo;
-import com.ssm.location.fingerPrint.FingerPrintManager;
-import com.ssm.location.fingerPrint.ReferencePoint;
+import com.ssm.peopleTree.location.fingerPrint.ApMeasureInfo;
+import com.ssm.peopleTree.location.fingerPrint.FingerPrintLocationInfo;
+import com.ssm.peopleTree.location.fingerPrint.FingerPrintManager;
+import com.ssm.peopleTree.location.fingerPrint.ReferencePoint;
 
 import android.app.Service;
 import android.content.BroadcastReceiver;

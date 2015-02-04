@@ -9,9 +9,9 @@ import android.util.Log;
 
 import com.android.volley.Request.Method;
 
-public class MakeGroupRequest extends Protocol {
+public class MakeGroupRequest extends Request {
 	// 그룹 만들기  프로토콜 결과
-	private static final String PROTOCOL = "/ptree/make/group";
+	private static final String REST_PROTOCOL = "/ptree/make/group";
 	
 	private String userPhoneNumber;
 	private String userId;
@@ -63,8 +63,8 @@ public class MakeGroupRequest extends Protocol {
 	}
 
 	@Override
-	public String toString() {
-		String result = PROTOCOL;
+	public String toURI() {
+		String result = REST_PROTOCOL;
 		try {
 			if (!valid) {
 				throw new Exception("Try to convert unvalid request");

@@ -4,7 +4,6 @@ import org.json.JSONObject;
 
 import com.android.volley.Response.Listener;
 import com.ssm.peopleTree.data.LoginData;
-import com.ssm.peopleTree.dialog.JoinDialog;
 import com.ssm.peopleTree.dialog.SimpleAlertDialog;
 import com.ssm.peopleTree.network.NetworkManager;
 import com.ssm.peopleTree.network.Status;
@@ -18,25 +17,22 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-public class LoginActivity extends Activity implements OnClickListener {
+public class IntroActivity extends Activity {
 	
-	private LinearLayout loginSet;
-	private Button loginBtn;
-	private Button joinBtn;
-	private EditText idET;
-	private EditText pwET;
+	private static final int LOGO_DURATION = 2000;
+	
+	private ImageView logo;
 	
 	private ProgressDialog progressDialog;
-	private JoinDialog joinDialog;
 	private SimpleAlertDialog alertDialog;
 	
+	private boolean introValidCheck;
+	private boolean loginSuccess;
 	private LoginData loginData;	
+	private Intro intro;
 	
 	private NetworkManager networkManager;
 	
@@ -61,14 +57,17 @@ public class LoginActivity extends Activity implements OnClickListener {
 					loginData.setLogin(true);
 					loginData.save();
 					
+					progressDialog.show();
 					GetUserInfoRequest req = new GetUserInfoRequest(lRes.userNumber);
 					networkManager.request(req, onGetInfoListener, null);	
 				}
 				else {
-					if (progressDialog.isShowing()) {
-						progressDialog.dismiss();
-					}
-					alertDialog.show();
+					loginSuccess = false;
+					introValidCheck = true;
+				}
+				
+				if (progressDialog.isShowing()) {
+					progressDialog.dismiss();
 				}
 			}
 			
@@ -81,59 +80,78 @@ public class LoginActivity extends Activity implements OnClickListener {
 				GetUserInfoResponse res = new GetUserInfoResponse(arg0);
 				if (res.getStatus() == Status.SUCCESS) {
 					Log.e("test", "" + arg0);
-					nextActivity(MainActivity.class);
+					loginSuccess = true;
+					introValidCheck = true;
 				}
 				else {
-					alertDialog.show();
+					loginSuccess = false;
+					introValidCheck = true;
 				}
 				
 				if (progressDialog.isShowing()) {
 					progressDialog.dismiss();
 				}
 			}
-			
 		};
-
-		loginSet = (LinearLayout)findViewById(R.id.layoutLoginSet);
-		loginSet.setAlpha(1f);
-		loginBtn = (Button)loginSet.findViewById(R.id.buttonLogin);
-		loginBtn.setOnClickListener(this);
-		joinBtn = (Button)loginSet.findViewById(R.id.buttonJoin);
-		joinBtn.setOnClickListener(this);
-		idET = (EditText)loginSet.findViewById(R.id.editTextId);
-		pwET = (EditText)loginSet.findViewById(R.id.editTextPw);
+		
+		logo = (ImageView)findViewById(R.id.imageLogo);
+		logo.setAlpha(0f);
+		logo.animate()
+			.alpha(1f)
+			.setDuration(LOGO_DURATION)
+			.setListener(null);
 		
 		progressDialog = new ProgressDialog(this);
-		joinDialog = new JoinDialog(this);
 		alertDialog = new SimpleAlertDialog(this);
 		alertDialog.setTitle(R.string.fail);
 		alertDialog.setMessage(getApplicationContext().getString(R.string.login_fail));
 		
 		loginData = new LoginData();
-		loginData.load(this);
+		loginData.load(IntroActivity.this);
+		if (loginData.isLogined()) {
+			introValidCheck = false;
+			loginSuccess = false;
+			networkManager.request(new LoginRequest(loginData.getSavedId(), loginData.getSavedPw()), onLoginListener, null);
+		}
+		else {
+			introValidCheck = true;
+			loginSuccess = false;
+		}
+				
+		intro = new Intro();
+		intro.start();
 	}
 
-	@Override
-	public void onClick(View v) {
-
-		if (v == loginBtn) {
-			progressDialog.show();
+	private class Intro extends Thread {
+		
+		@Override
+		public void run() {
+			try {
+				Thread.sleep(LOGO_DURATION);				
+				while(!introValidCheck) {
+					;
+				}
+				
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 			
-			String id = idET.getText().toString();
-			String pw = pwET.getText().toString();
-			loginData.setSavedId(id);
-			loginData.setSavedPw(pw);
-			
-			networkManager.request(new LoginRequest(id, pw), onLoginListener, null);;
-		}
-		else if (v == joinBtn) {
-			joinDialog.show();
+			if (loginSuccess) {
+				nextActivity(MainActivity.class);
+				
+			}
+			else {
+				nextActivity(LoginActivity.class);
+			}
 		}
 	}
 	
+	
 	private void nextActivity(Class<?> cls) {
 		Intent intent;
-		intent = new Intent(LoginActivity.this, cls);
+		//TODO
+		//intent = new Intent(IntroActivity.this, cls);
+		intent = new Intent(IntroActivity.this, TestActivity.class);
 		startActivity(intent);
 		finish();
 	}

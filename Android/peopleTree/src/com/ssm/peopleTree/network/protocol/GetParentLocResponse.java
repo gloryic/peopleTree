@@ -2,61 +2,28 @@ package com.ssm.peopleTree.network.protocol;
 
 import org.json.JSONObject;
 
-import com.android.volley.Request.Method;
-
-public class GetParentLocResponse extends Protocol {
+public class GetParentLocResponse extends Response {
 	// 관리자에게 유도 프로토콜 파라미터
 	
-	public int status;
 	public int parentId;
 	public double latitude;
 	public double longtitude;
 	
-	public GetParentLocResponse(int status, int parentId, double latitude, double longtitude) {
-		this.status = status;
-		this.parentId = parentId;
-		this.latitude = latitude;
-		this.longtitude = longtitude;
+	public GetParentLocResponse(JSONObject jsonObj) {
+		super(jsonObj);
 	}
-	
-	public GetParentLocResponse(JSONObject jsonObject) {
+
+	@Override
+	void OnSuccess(Object responseData) {
 		try {
-			status = jsonObject.getInt(STATUS_KEY);
-			parentId = jsonObject.getInt(PARENT_ID_KEY);
-			latitude = jsonObject.getDouble(LATITUDE_KEY);
-			longtitude = jsonObject.getDouble(LONGTITUD_KEY);
+			JSONObject jsonObj = (JSONObject)responseData;
+			
+			parentId = jsonObj.getInt(PARENT_GROUP_MEMBER_ID_KEY);
+			latitude = jsonObj.getDouble(LATITUDE_KEY);
+			longtitude = jsonObj.getDouble(LONGITUDE_KEY);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}	
-	
-	@Override
-	public JSONObject toJSonObject() {
-		JSONObject json = new JSONObject();
-		try {
-			json.put(STATUS_KEY, status);
-			json.put(PARENT_ID_KEY, parentId);
-			json.put(LATITUDE_KEY, latitude);
-			json.put(LONGTITUD_KEY, longtitude);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		return json;
-	}
-	
-	@Override
-	public String toString() {
-		String result = "";
-		result += "?" + STATUS_KEY + "=" + Integer.toString(status);
-		result += "&" + PARENT_ID_KEY + "=" + Integer.toString(parentId);
-		result += "&" + LATITUDE_KEY + "=" + Double.toString(latitude);
-		result += "&" + LONGTITUD_KEY + "=" + Double.toString(longtitude);
-		return result;
-	}
-	
-	@Override
-	public int getMethod() {
-		return Method.POST;
 	}
 }

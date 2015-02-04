@@ -1,4 +1,4 @@
-package com.ssm.location;
+package com.ssm.peopleTree.location;
 
 import org.json.JSONException;
 import org.json.JSONObject;

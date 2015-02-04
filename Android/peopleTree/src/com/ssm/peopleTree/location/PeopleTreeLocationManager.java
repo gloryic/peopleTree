@@ -1,4 +1,4 @@
-package com.ssm.location;
+package com.ssm.peopleTree.location;
 
 import android.content.Context;
 import android.net.wifi.WifiManager;
