@@ -5,6 +5,11 @@ import java.util.ArrayList;
 import org.json.JSONObject;
 
 import com.android.volley.Response.Listener;
+
+import com.ssm.peopleTree.UI.BroadCastListViewCustomAdapter;
+import com.ssm.peopleTree.UI.GroupListviewCustomAdapter;
+import com.ssm.peopleTree.UI.PushMessageListViewCustomAdapter;
+import com.ssm.peopleTree.UI.RequestListViewCustomAdapter;
 import com.ssm.peopleTree.application.MyManager;
 import com.ssm.peopleTree.data.MemberData;
 import com.ssm.peopleTree.network.NetworkManager;
@@ -13,115 +18,165 @@ import com.ssm.peopleTree.network.protocol.GetUserInfoRequest;
 import com.ssm.peopleTree.network.protocol.GetUserInfoResponse;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.ListView;
 
 public class TestActivity extends Activity {
 	
-	private GroupListAdapter adapter;
-	private ListView listView;
-	private ArrayList<GroupListItem> itemList;
 	
-	private MyManager myManager;
-	private NetworkManager networkManager;
+	PushMessageListViewCustomAdapter pmlvca;
+	BroadCastListViewCustomAdapter bclvca;
+	GroupListviewCustomAdapter glvca;
 	
-	private Listener<JSONObject> getParentListener;
-	private Listener<JSONObject> getChildrenListener;
-  
+	
+	LinearLayout contentsLayout;
+	LayoutInflater inflater;
+	ListView pmlv;
+	ListView bclv;
+	ListView glv;
+	
+	ImageButton frameImgBtn1;
+	ImageButton frameImgBtn2;
+	ImageButton frameImgBtn3;
+	ImageButton frameImgBtn4;
+	
+	
+	RequestListViewCustomAdapter upRqlvca;
+	RequestListViewCustomAdapter downRqlvca;
+
+	ListView reqlv;
+
+	ImageButton reqImgBtn1;
+	ImageButton reqImgBtn2;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-
 		super.onCreate(savedInstanceState);
-        setContentView(R.layout.layout_group);
- 
-        myManager = MyManager.getInstance();
-        networkManager = NetworkManager.getInstance();
-        
-        // 멤버 변수 초기화
-        itemList = new ArrayList<GroupListItem>();
- 
-        // 어댑터와 리스트뷰 초기화
-        adapter = new GroupListAdapter(this, itemList);
-        listView = (ListView) findViewById(R.id.groupList);
- 
-        // 스크롤 리스너를 등록합니다. onScroll에 추가구현을 해줍니다.
-        listView.setAdapter(adapter);
-        
-        TextView tvNum = (TextView)findViewById(R.id.my_num);
-        TextView tvName = (TextView)findViewById(R.id.my_name);
-        tvNum.setText(myManager.getManagingInfoStr());
-        tvName.setText(myManager.getUserName());    
+		//setContentView(R.layout.activity_main);
+		setContentView(R.layout.mframe);
+		contentsLayout = (LinearLayout) findViewById(R.id.contentsLayout1);
+		inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        getParentListener = new Listener<JSONObject>() {
+		frameImgBtn1 = (ImageButton) findViewById(R.id.mframe_ImgBtn1);	
+		frameImgBtn2 = (ImageButton) findViewById(R.id.mframe_ImgBtn2);
+		frameImgBtn3 = (ImageButton) findViewById(R.id.mframe_ImgBtn3);	
+		frameImgBtn4 = (ImageButton) findViewById(R.id.mframe_ImgBtn4);
 
-			@Override
-			public void onResponse(JSONObject arg0) {
-				
-				GetUserInfoResponse res = new GetUserInfoResponse(arg0);
-				
-				if (res.getStatus() == Status.SUCCESS) {
-					showParent();
-				}
-			}
-		};
 		
-		getChildrenListener = new Listener<JSONObject>() {
+		
+		
+		upRqlvca = new RequestListViewCustomAdapter(this);
+		for(int i=0;i<2;i++){
+			upRqlvca.addItem("uprq"+i);
+		}
+		
+		
+		downRqlvca = new RequestListViewCustomAdapter(this);
+		for(int i=0;i<4;i++){
+			downRqlvca.addItem("down rq "+i);
+		}
+		
+		
+		
+		
 
-			@Override
-			public void onResponse(JSONObject arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-		};
-        
-        GetUserInfoRequest req = new GetUserInfoRequest(myManager.getParentGroupMemberId());
-        networkManager.request(req, getParentListener, null);
-        //networkManager.request(req, getChildrenListener, null);
-        // TODO
-        
-        showChildList();
+		bclvca = new BroadCastListViewCustomAdapter(this);
+		for(int i=0;i<32;i++){
+			bclvca.addItem("broadcast list ^^"+i, i, "aa"+i, "bb"+i, "cc"+i);
+		}
+		pmlvca = new PushMessageListViewCustomAdapter(this);
+		for(int i=0;i<32;i++){
+			pmlvca.addItem("testtxt"+i, "push message"+i, "");
+		}
+		
+		glvca = new GroupListviewCustomAdapter(this);
+		for(int i=0;i<32;i++){
+			MemberData md = new MemberData();
+			md.setUserName("name"+i);
+			glvca.addItem(md);
+		}
+		
+		
+		frameImgBtn1.setOnClickListener(new View.OnClickListener() {
+			 
+			 
+            public void onClick(View arg0) {
+            
+            	contentsLayout.removeAllViews();
+        		inflater.inflate(R.layout.grouplist_layout,contentsLayout,true );	
+        		glv = (ListView) findViewById(R.id.groupList);
+        		glv.setAdapter(glvca);
+        		
+            }
+        });
+		frameImgBtn2.setOnClickListener(new View.OnClickListener() {
+			 
+            public void onClick(View arg0) {
+
+            	contentsLayout.removeAllViews();
+        		inflater.inflate(R.layout.requestlist,contentsLayout,true );
+        		reqImgBtn1 = (ImageButton) findViewById(R.id.reqFromUp_imgbtn);	
+        		reqImgBtn2 = (ImageButton) findViewById(R.id.reqFromDown_imgbtn);
+        		reqImgBtn1.setOnClickListener(new View.OnClickListener() {
+         			 
+                    public void onClick(View arg0) {
+
+                    	
+                    	reqlv = (ListView) findViewById(R.id.rqList);
+                		
+                		
+                		
+                    	reqlv.setAdapter(upRqlvca);
+                    }
+                });
+        		reqImgBtn2.setOnClickListener(new View.OnClickListener() {
+        			 
+                    public void onClick(View arg0) {
+
+
+                    	reqlv = (ListView) findViewById(R.id.rqList);
+                    	reqlv.setAdapter(downRqlvca);
+                    }
+                });
+            }
+        });
+		frameImgBtn3.setOnClickListener(new View.OnClickListener() {
+			 
+            public void onClick(View arg0) {
+            	Log.i("log","btn3 clicked");
+            	contentsLayout.removeAllViews();
+        		inflater.inflate(R.layout.broadcastlist_layout,contentsLayout,true );	
+        		bclv = (ListView) findViewById(R.id.bcList);
+        		bclv.setAdapter(bclvca);
+        		
+            }
+        });
+		
+		frameImgBtn4.setOnClickListener(new View.OnClickListener() {
+			 
+            public void onClick(View arg0) {
+            	Log.i("log","btn4 clicked");
+
+            	contentsLayout.removeAllViews();
+        		inflater.inflate(R.layout.pushmessagelist_layout,contentsLayout,true );
+        		
+        		pmlv = (ListView) findViewById(R.id.pmList);
+        		
+        		
+        		
+        		pmlv.setAdapter(pmlvca);
+
+       
+            }
+        });
 	}
+		
 	
-	private void showParent() {
-		   
-        MemberData data = new MemberData();
-        data.userName = "봉대장";
-        data.managingNumber = 7;
-        data.managingTotalNumber = 10;
-        GroupListItem item = new GroupListItem(data, ItemType.PARENT);
-        
-        TextView tvNum = (TextView)findViewById(R.id.parent_num);
-        TextView tvName = (TextView)findViewById(R.id.parent_name);
-        tvNum.setText(item.getManagingInfoStr());
-        tvName.setText(item.getUserName());   
-	}
-	
-	private void showChildList() {
-		  
-		MemberData data = new MemberData();
-        data.userName = "박진기";
-        data.managingNumber = 1;
-        data.managingTotalNumber = 1;
-        GroupListItem item = new GroupListItem(data, ItemType.CHILD);
-        itemList.add(item);
-        
-        data = new MemberData();
-        data.userName = "이재환";
-        data.managingNumber = 1;
-        data.managingTotalNumber = 1;
-        item = new GroupListItem(data, ItemType.CHILD);
-        itemList.add(item);
-        
-        MemberData[] dataArr = new MemberData[100];
-        GroupListItem[] itemArr = new GroupListItem[100];
-        for (int i = 0; i < 100; i++) {
-        	dataArr[i] = new MemberData();
-        	dataArr[i].userName = "사람" + i;
-        	dataArr[i].managingNumber = i;
-        	dataArr[i].managingTotalNumber = 99;
-        	itemArr[i] = new GroupListItem(dataArr[i], ItemType.CHILD);
-        	itemList.add(itemArr[i]);
-        }
-	}
 }
