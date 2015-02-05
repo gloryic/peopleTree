@@ -2,7 +2,6 @@ package com.ssm.location;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import com.android.volley.Response;
 import com.android.volley.Request.Method;
 import com.android.volley.VolleyError;
