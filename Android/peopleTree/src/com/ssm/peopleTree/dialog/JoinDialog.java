@@ -49,7 +49,7 @@ public class JoinDialog implements DialogInterface.OnClickListener, Listener<JSO
 		String id = ((EditText)joinDialog.findViewById(R.id.editTextId)).getText().toString();
 		String pw = ((EditText)joinDialog.findViewById(R.id.editTextPw)).getText().toString();
 		String uName = ((EditText)joinDialog.findViewById(R.id.editTextName)).getText().toString();
-		String gName = ((EditText)joinDialog.findViewById(R.id.editTextGroupName)).getText().toString();
+		String gName = ((EditText)joinDialog.findViewById(R.id.reqDialog_phoneNum)).getText().toString();
 		
 		MakeGroupRequest req = new MakeGroupRequest(pNum, id, pw, uName, gName);
 		if (req.isValid()) {

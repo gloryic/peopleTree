@@ -5,10 +5,13 @@ import java.util.ArrayList;
 import org.json.JSONObject;
 
 import com.android.volley.Response.Listener;
-
+import com.ssm.peopleTree.UI.BroadCastLayoutController;
 import com.ssm.peopleTree.UI.BroadCastListViewCustomAdapter;
+import com.ssm.peopleTree.UI.GroupListController;
 import com.ssm.peopleTree.UI.GroupListviewCustomAdapter;
 import com.ssm.peopleTree.UI.PushMessageListViewCustomAdapter;
+import com.ssm.peopleTree.UI.PushmsgLayoutController;
+import com.ssm.peopleTree.UI.RequestLayoutController;
 import com.ssm.peopleTree.UI.RequestListViewCustomAdapter;
 import com.ssm.peopleTree.application.MyManager;
 import com.ssm.peopleTree.data.MemberData;
@@ -23,39 +26,40 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.ListView;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 
 public class TestActivity extends Activity {
-	
-	
-	PushMessageListViewCustomAdapter pmlvca;
-	BroadCastListViewCustomAdapter bclvca;
-	GroupListviewCustomAdapter glvca;
-	
-	
+
 	LinearLayout contentsLayout;
 	LayoutInflater inflater;
-	ListView pmlv;
-	ListView bclv;
-	ListView glv;
+
 	
 	ImageButton frameImgBtn1;
 	ImageButton frameImgBtn2;
 	ImageButton frameImgBtn3;
 	ImageButton frameImgBtn4;
 	
-	
+	PushmsgLayoutController pushmsgLayoutController;
+	PushMessageListViewCustomAdapter pmlvca;
+	BroadCastLayoutController broadCastLayoutController;
+	BroadCastListViewCustomAdapter bclvca;
+	RequestLayoutController requestLayoutController;
 	RequestListViewCustomAdapter upRqlvca;
 	RequestListViewCustomAdapter downRqlvca;
-
-	ListView reqlv;
-
-	ImageButton reqImgBtn1;
-	ImageButton reqImgBtn2;
-
+	GroupListController groupListController;
+	GroupListviewCustomAdapter glvca;
+	
+	
+	
+	
+	
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -64,13 +68,11 @@ public class TestActivity extends Activity {
 		contentsLayout = (LinearLayout) findViewById(R.id.contentsLayout1);
 		inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-		frameImgBtn1 = (ImageButton) findViewById(R.id.mframe_ImgBtn1);	
+		frameImgBtn1 = (ImageButton) findViewById(R.id.reqDialog_ImgBtn1);	
 		frameImgBtn2 = (ImageButton) findViewById(R.id.mframe_ImgBtn2);
 		frameImgBtn3 = (ImageButton) findViewById(R.id.mframe_ImgBtn3);	
 		frameImgBtn4 = (ImageButton) findViewById(R.id.mframe_ImgBtn4);
 
-		
-		
 		
 		upRqlvca = new RequestListViewCustomAdapter(this);
 		for(int i=0;i<2;i++){
@@ -88,13 +90,10 @@ public class TestActivity extends Activity {
 		
 
 		bclvca = new BroadCastListViewCustomAdapter(this);
-		for(int i=0;i<32;i++){
+		for(int i=0;i<32000;i++){
 			bclvca.addItem("broadcast list ^^"+i, i, "aa"+i, "bb"+i, "cc"+i);
 		}
-		pmlvca = new PushMessageListViewCustomAdapter(this);
-		for(int i=0;i<32;i++){
-			pmlvca.addItem("testtxt"+i, "push message"+i, "");
-		}
+		
 		
 		glvca = new GroupListviewCustomAdapter(this);
 		for(int i=0;i<32;i++){
@@ -103,6 +102,19 @@ public class TestActivity extends Activity {
 			glvca.addItem(md);
 		}
 		
+		pmlvca = new PushMessageListViewCustomAdapter(this);
+		for(int i=0;i<32000;i++){
+			pmlvca.addItem("testtxt"+i, "push message"+i, "");
+		}
+		
+		
+		requestLayoutController = new RequestLayoutController(this);
+		broadCastLayoutController = new BroadCastLayoutController(this);
+		pushmsgLayoutController = new PushmsgLayoutController(this);
+		groupListController = new GroupListController(this);
+		
+		
+		
 		
 		frameImgBtn1.setOnClickListener(new View.OnClickListener() {
 			 
@@ -110,9 +122,8 @@ public class TestActivity extends Activity {
             public void onClick(View arg0) {
             
             	contentsLayout.removeAllViews();
-        		inflater.inflate(R.layout.grouplist_layout,contentsLayout,true );	
-        		glv = (ListView) findViewById(R.id.groupList);
-        		glv.setAdapter(glvca);
+        		inflater.inflate(R.layout.grouplist_layout,contentsLayout,true );
+        		groupListController.setupLayout(glvca);
         		
             }
         });
@@ -122,29 +133,8 @@ public class TestActivity extends Activity {
 
             	contentsLayout.removeAllViews();
         		inflater.inflate(R.layout.requestlist,contentsLayout,true );
-        		reqImgBtn1 = (ImageButton) findViewById(R.id.reqFromUp_imgbtn);	
-        		reqImgBtn2 = (ImageButton) findViewById(R.id.reqFromDown_imgbtn);
-        		reqImgBtn1.setOnClickListener(new View.OnClickListener() {
-         			 
-                    public void onClick(View arg0) {
-
-                    	
-                    	reqlv = (ListView) findViewById(R.id.rqList);
-                		
-                		
-                		
-                    	reqlv.setAdapter(upRqlvca);
-                    }
-                });
-        		reqImgBtn2.setOnClickListener(new View.OnClickListener() {
-        			 
-                    public void onClick(View arg0) {
-
-
-                    	reqlv = (ListView) findViewById(R.id.rqList);
-                    	reqlv.setAdapter(downRqlvca);
-                    }
-                });
+        		requestLayoutController.setupLayout(upRqlvca, downRqlvca);
+      
             }
         });
 		frameImgBtn3.setOnClickListener(new View.OnClickListener() {
@@ -152,28 +142,18 @@ public class TestActivity extends Activity {
             public void onClick(View arg0) {
             	Log.i("log","btn3 clicked");
             	contentsLayout.removeAllViews();
-        		inflater.inflate(R.layout.broadcastlist_layout,contentsLayout,true );	
-        		bclv = (ListView) findViewById(R.id.bcList);
-        		bclv.setAdapter(bclvca);
-        		
+        		inflater.inflate(R.layout.broadcastlist_layout,contentsLayout,true );		
+        		broadCastLayoutController.setupLayout(bclvca);
             }
         });
 		
 		frameImgBtn4.setOnClickListener(new View.OnClickListener() {
 			 
             public void onClick(View arg0) {
-            	Log.i("log","btn4 clicked");
-
             	contentsLayout.removeAllViews();
         		inflater.inflate(R.layout.pushmessagelist_layout,contentsLayout,true );
+        		pushmsgLayoutController.setupLayout(pmlvca);
         		
-        		pmlv = (ListView) findViewById(R.id.pmList);
-        		
-        		
-        		
-        		pmlv.setAdapter(pmlvca);
-
-       
             }
         });
 	}
