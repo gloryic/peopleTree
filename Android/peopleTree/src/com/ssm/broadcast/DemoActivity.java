@@ -18,8 +18,7 @@ package com.ssm.broadcast;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
-import com.ssm.R;
-
+import com.ssm.peopleTree.R;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;

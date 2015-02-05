@@ -16,8 +16,8 @@
 
 package com.ssm.broadcast;
 
-import com.ssm.R;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
+import com.ssm.peopleTree.R;
 
 import android.app.IntentService;
 import android.app.Notification;

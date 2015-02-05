@@ -2,10 +2,6 @@ package com.ssm.peopleTree;
 
 import org.json.JSONObject;
 
-<<<<<<< HEAD
-import com.ssm.R;
-=======
->>>>>>> 0bcae3b4919957651f31335fca6dad7c5f809068
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.Bundle;

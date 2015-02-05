@@ -20,7 +20,7 @@ import static com.ssm.broadcast.CommonUtilities.TAG;
 import static com.ssm.broadcast.CommonUtilities.displayMessage;
 
 import com.google.android.gcm.GCMRegistrar;
-import com.ssm.R;
+import com.ssm.peopleTree.R;
 
 import android.content.Context;
 import android.util.Log;
