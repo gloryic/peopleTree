@@ -1,4 +1,4 @@
-package com.ssm.location;
+package com.ssm.peopleTree.location;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -26,16 +26,35 @@ import android.widget.TextView;
 
 class OutsideLocationUpdateNotifier implements UpdateNotifier, Response.Listener<JSONObject>, Response.ErrorListener {
 	OutsideLocationListener parent;
-	static int cnt=0;
+
 	
+
 	@Override
 	public void notifyUpdate(Object arg) {
-		parent = (OutsideLocationListener) arg;
+	
 		Log.i("log", "OutsideLocationUpdateNotifier req");
 		
+		
+
+		PeopleTreeLocationManager pltm = PeopleTreeLocationManager.getInstance();		
+		long curTime = System.currentTimeMillis();
+		if(!parent.isValidLocation() && (curTime - pltm.getLastChangeTime() ) >  PeopleTreeLocationManager.MINTIMEINTERVAL){
+			
+
+			pltm.changeLocationMeasureMode();
+			
+		}else{
+			//위치전송
+		}
+		
+		
+		String locString = String.format("acc[%.1f],lat[%.6f],lon[%.6f]",parent.getAccuracy(),parent.getLatitude(), parent.getLongitude());
 	
-		PeopleTreeLocationManager.txt1.setText("["+cnt+"]"+"ac:" + parent.getAccuracy() + " ,la:" + parent.getLatitude() + " ,lo:" + parent.getLongitude());
-		cnt++;
+	
+		C.locationTextView1.setText(locString);
+		C.locationTextView2.setText("valid:"+parent.isValidLocation() + " ,gps:" + parent.isGPSEnabled());
+		
+		
 		/*
 		NetworkManager nm = NetworkManager.getInstance();
 			
@@ -53,12 +72,12 @@ class OutsideLocationUpdateNotifier implements UpdateNotifier, Response.Listener
 	}
 	@Override
 	public void onErrorResponse(VolleyError arg0) {
-		Log.i("log", "resp err");
+
 	}
 	@Override
 	public void onResponse(JSONObject arg0) {
 		// TODO Auto-generated method stub
-		Log.i("log", "resp ok");
+
 	}
 
 }
