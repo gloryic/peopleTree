@@ -12,7 +12,7 @@ public class ExitGroupResponse extends Response {
 	}
 
 	@Override
-	void OnSuccess(Object responseData) {
+	protected void OnSuccess(Object responseData) {
 		try {
 			JSONObject jsonObj = (JSONObject)responseData;
 			

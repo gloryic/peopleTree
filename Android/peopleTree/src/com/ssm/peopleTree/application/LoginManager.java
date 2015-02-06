@@ -9,6 +9,8 @@ import com.ssm.peopleTree.network.protocol.GetUserInfoRequest;
 import com.ssm.peopleTree.network.protocol.GetUserInfoResponse;
 import com.ssm.peopleTree.network.protocol.LoginRequest;
 import com.ssm.peopleTree.network.protocol.LoginResponse;
+import com.ssm.peopleTree.network.protocol.LogoutRequest;
+import com.ssm.peopleTree.network.protocol.LogoutResponse;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -35,19 +37,21 @@ public class LoginManager {
 	private static final int USER_NUMBER_DEFAULT = 0;
 	
 	
-	
 	private SharedPreferences prefs;
 	private int savedUserNumber;
 	private boolean loaded;
 	
 	private Listener<JSONObject> onLoginResponse;
+	private Listener<JSONObject> onLogoutResponse;
 	private Listener<JSONObject> onGetInfoResponse;
 	
 	private LoginListener loginListener;
+	private LogoutListener logoutListener;
 	
 	public void initialize(Context context) {
 		
 		loginListener = null;
+		logoutListener = null;
 		onLoginResponse = new Listener<JSONObject>() {
 
 			@Override
@@ -70,7 +74,27 @@ public class LoginManager {
 			}
 			
 		};
-		
+		onLogoutResponse = new Listener<JSONObject>() {
+
+			@Override
+			public void onResponse(JSONObject arg0) {
+				if (logoutListener == null)
+					return;
+				
+				LogoutResponse res = new LogoutResponse(arg0);
+				Status status = res.getStatus();
+				
+				if (status == Status.SUCCESS) {
+					savedUserNumber = USER_NUMBER_DEFAULT;
+					clear();
+					logoutListener.onLogoutSuccess();
+				}
+				else {
+					logoutListener.onLogoutFail(status);
+				}
+			}
+			
+		};
 		onGetInfoResponse = new Listener<JSONObject>() {
 
 			@Override
@@ -154,12 +178,15 @@ public class LoginManager {
 	}
 	
 	public void logout() {
-		savedUserNumber = USER_NUMBER_DEFAULT;
-		clear();
+		NetworkManager.getInstance().request(new LogoutRequest(savedUserNumber), onLogoutResponse, null);
 	}
 	
 	public void setLoginListener(LoginListener loginListener) {
 		this.loginListener = loginListener;
+	}
+	
+	public void setLogoutListener(LogoutListener logoutListener) {
+		this.logoutListener = logoutListener;
 	}
 	
 	public interface LoginListener {
@@ -168,4 +195,9 @@ public class LoginManager {
 		public void onLoginFail(Status status);
 	}
 
+	public interface LogoutListener {
+		
+		public void onLogoutSuccess();
+		public void onLogoutFail(Status status);
+	}
 }

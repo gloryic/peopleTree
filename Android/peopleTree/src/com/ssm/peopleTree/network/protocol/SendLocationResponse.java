@@ -15,7 +15,7 @@ public class SendLocationResponse extends Response {
 	}
 	
 	@Override
-	void OnSuccess(Object responseData) {
+	protected void OnSuccess(Object responseData) {
 		try {
 			JSONObject jsonObj = (JSONObject)responseData;
 			validUserNumber = jsonObj.getInt(VALID_USER_NUM_KEY);

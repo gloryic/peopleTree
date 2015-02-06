@@ -10,6 +10,6 @@ public class MakeGroupResponse extends Response {
 	}
 	
 	@Override
-	void OnSuccess(Object responseData) {
+	protected void OnSuccess(Object responseData) {
 	}
 }

@@ -37,7 +37,8 @@ public abstract class Response extends Protocol {
 	protected void OnInit() {
 	}
 	
-	abstract void OnSuccess(Object responseData);
+	protected void OnSuccess(Object responseData) {	
+	}
 	
 	protected void OnFail(Status status, Object errorDesc) {
 	}
