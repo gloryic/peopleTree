@@ -22,6 +22,8 @@ abstract class Protocol {
 	
 	protected static final String LATITUDE_KEY = "latitude";
 	protected static final String LONGITUDE_KEY = "longitude";
+	protected static final String LAT_KEY = "lat";
+	protected static final String LNG_KEY = "lng";
 	
 	protected static final String OWN_PHONE_KEY = "ownPhoneNumber";
 	protected static final String RADIUS_KEY = "radius";

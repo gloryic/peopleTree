@@ -2,13 +2,13 @@ package com.ssm.peopleTree.network.protocol;
 
 import org.json.JSONObject;
 
-public class SetRangeAbsResponse extends Response {
+public class SetGeoPointResponse extends Response {
 	// 지역 설정(절대) 프로토콜 결과
 
 	public int validUserNumber;
 	public int edgeType;
 		
-	public SetRangeAbsResponse(JSONObject jsonObj) {
+	public SetGeoPointResponse(JSONObject jsonObj) {
 		super(jsonObj);
 	}	
 	

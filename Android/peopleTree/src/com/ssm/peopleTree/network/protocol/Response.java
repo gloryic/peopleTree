@@ -15,11 +15,9 @@ public abstract class Response extends Protocol {
 	
 	private Status status;
 	
-	/*
-	 * Response를 상속받아 사용할 때는 반드시 부모 생성자를 먼저 호출
-	 */
 	public Response(JSONObject jsonObj) {
 		Object result = null;
+		OnInit();
 		try {		
 			status = Status.getStatus(jsonObj.getInt(STATUS_KEY));
 			if (status == Status.SUCCESS) {
@@ -34,6 +32,9 @@ public abstract class Response extends Protocol {
 			status = Status.UNKNOWN_ERROR;
 			OnFail(status, UNKNOWN_ERROR_DESC);
 		}
+	}
+	
+	protected void OnInit() {
 	}
 	
 	abstract void OnSuccess(Object responseData);

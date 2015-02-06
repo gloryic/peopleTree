@@ -19,7 +19,7 @@ public class MyManager {
 		
 		return instance;
 	}
-	
+
 	private MemberData myData;
 	
 	public void setMyData(MemberData myData) {
@@ -42,6 +42,14 @@ public class MyManager {
 		
 		this.myData.longitude = myData.longitude;
 		this.myData.latitude = myData.latitude;
+	}
+	
+	public boolean hasParent() {
+		return (myData.parentGroupMemberId != myData.groupMemberId); 
+	}
+	
+	public MemberData getMyData() {
+		return myData;
 	}
 	
 	public int getEdgeStatus() {
