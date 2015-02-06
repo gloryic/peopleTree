@@ -3,6 +3,7 @@ package com.ssm.peopleTree;
 import org.json.JSONObject;
 
 import com.android.volley.Response.Listener;
+import com.ssm.peopleTree.application.MyManager;
 import com.ssm.peopleTree.data.LoginData;
 import com.ssm.peopleTree.dialog.SimpleAlertDialog;
 import com.ssm.peopleTree.network.NetworkManager;
@@ -35,6 +36,7 @@ public class IntroActivity extends Activity {
 	private Intro intro;
 	
 	private NetworkManager networkManager;
+	private MyManager myManager;
 	
 	private Listener<JSONObject> onLoginListener;
 	private Listener<JSONObject> onGetInfoListener;
@@ -46,6 +48,7 @@ public class IntroActivity extends Activity {
 		
 		networkManager = NetworkManager.getInstance();
 		networkManager.initialize(getApplicationContext());
+		myManager = MyManager.getInstance();
 		
 		onLoginListener = new Listener<JSONObject>() {
 
@@ -79,7 +82,7 @@ public class IntroActivity extends Activity {
 				
 				GetUserInfoResponse res = new GetUserInfoResponse(arg0);
 				if (res.getStatus() == Status.SUCCESS) {
-					Log.e("test", "" + arg0);
+					myManager.setMyData(res.mData);
 					loginSuccess = true;
 					introValidCheck = true;
 				}
@@ -137,7 +140,9 @@ public class IntroActivity extends Activity {
 			}
 			
 			if (loginSuccess) {
-				nextActivity(MainActivity.class);
+				//TODO
+				//nextActivity(MainActivity.class);
+				nextActivity(TestActivity.class);
 				
 			}
 			else {
@@ -149,9 +154,7 @@ public class IntroActivity extends Activity {
 	
 	private void nextActivity(Class<?> cls) {
 		Intent intent;
-		//TODO
-		//intent = new Intent(IntroActivity.this, cls);
-		intent = new Intent(IntroActivity.this, TestActivity.class);
+		intent = new Intent(IntroActivity.this, cls);
 		startActivity(intent);
 		finish();
 	}

@@ -3,6 +3,7 @@ package com.ssm.peopleTree;
 import org.json.JSONObject;
 
 import com.android.volley.Response.Listener;
+import com.ssm.peopleTree.application.MyManager;
 import com.ssm.peopleTree.data.LoginData;
 import com.ssm.peopleTree.dialog.JoinDialog;
 import com.ssm.peopleTree.dialog.SimpleAlertDialog;
@@ -80,8 +81,10 @@ public class LoginActivity extends Activity implements OnClickListener {
 				
 				GetUserInfoResponse res = new GetUserInfoResponse(arg0);
 				if (res.getStatus() == Status.SUCCESS) {
-					Log.e("test", "" + arg0);
-					nextActivity(MainActivity.class);
+					MyManager.getInstance().setMyData(res.mData);
+					//TODO
+					//nextActivity(MainActivity.class);
+					nextActivity(TestActivity.class);
 				}
 				else {
 					alertDialog.show();

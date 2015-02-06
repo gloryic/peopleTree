@@ -44,6 +44,14 @@ public class MyManager {
 		this.myData.latitude = myData.latitude;
 	}
 	
+	public boolean hasParent() {
+		return (myData.parentGroupMemberId != myData.groupMemberId); 
+	}
+	
+	public MemberData getMyData() {
+		return myData;
+	}
+	
 	public int getEdgeStatus() {
 		return myData.edgeStatus;
 	}
