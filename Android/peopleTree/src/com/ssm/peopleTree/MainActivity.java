@@ -2,7 +2,7 @@ package com.ssm.peopleTree;
 
 import java.util.ArrayList;
 
-import com.ssm.peopleTree.data.LoginData;
+import com.ssm.peopleTree.application.LoginManager;
 import com.ssm.peopleTree.network.NetworkManager;
 
 import android.app.Activity;
@@ -110,9 +110,7 @@ public class MainActivity extends Activity {
 		switch (item.getItemId()) {
         case 1:
             Toast.makeText(MainActivity.this, "Logout", Toast.LENGTH_SHORT).show();
-            LoginData loginData = new LoginData();
-            loginData.load(this);
-            loginData.clear();
+            LoginManager.getInstance().logout();
             
             Intent intent;
     		intent = new Intent(MainActivity.this, LoginActivity.class);
