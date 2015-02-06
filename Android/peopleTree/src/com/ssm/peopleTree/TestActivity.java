@@ -58,7 +58,8 @@ public class TestActivity extends Activity {
 	GroupListController groupListController;
 	GroupListviewCustomAdapter glvca;
 	
-	
+	private NetworkManager networkManager;
+	private MyManager myManager;
 	
 	
 	
@@ -68,6 +69,10 @@ public class TestActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		//setContentView(R.layout.activity_main);
 		setContentView(R.layout.mframe);
+		
+		networkManager = NetworkManager.getInstance();
+		myManager = MyManager.getInstance();
+		
 		contentsLayout = (LinearLayout) findViewById(R.id.contentsLayout1);
 		inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
@@ -130,6 +135,24 @@ public class TestActivity extends Activity {
             	contentsLayout.removeAllViews();
         		inflater.inflate(R.layout.grouplist_layout,contentsLayout,true );
         		groupListController.setupLayout(glvca);
+        		groupListController.setCur(myManager.getMyData());
+        		
+        		// get parent info
+        		if (myManager.hasParent()) {
+        			networkManager.request(new GetUserInfoRequest(myManager.getParentGroupMemberId()), new Listener<JSONObject>() {
+
+    					@Override
+    					public void onResponse(JSONObject arg0) {
+    						GetUserInfoResponse res = new GetUserInfoResponse(arg0);
+    						groupListController.setParent(res.mData);
+    					}
+    				}, null);
+        		}
+        		else {
+        			groupListController.setParent(null);
+        		}
+        		
+        		// get child info
         		
         		mf_btn1.setBackgroundColor(Color.parseColor("#BBEEAA"));
         		mf_btn2.setBackgroundColor(Color.parseColor("#EEFFEE"));

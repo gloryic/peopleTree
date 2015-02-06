@@ -3,8 +3,9 @@ package com.ssm.peopleTree;
 import org.json.JSONObject;
 
 import com.android.volley.Response.Listener;
+import com.ssm.peopleTree.application.LoginManager;
 import com.ssm.peopleTree.application.MyManager;
-import com.ssm.peopleTree.data.LoginData;
+import com.ssm.peopleTree.application.LoginManager.LoginListener;
 import com.ssm.peopleTree.dialog.JoinDialog;
 import com.ssm.peopleTree.dialog.SimpleAlertDialog;
 import com.ssm.peopleTree.network.NetworkManager;
@@ -25,7 +26,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
-public class LoginActivity extends Activity implements OnClickListener {
+public class LoginActivity extends Activity implements OnClickListener, LoginListener {
 	
 	private LinearLayout loginSet;
 	private Button loginBtn;
@@ -36,66 +37,13 @@ public class LoginActivity extends Activity implements OnClickListener {
 	private ProgressDialog progressDialog;
 	private JoinDialog joinDialog;
 	private SimpleAlertDialog alertDialog;
-	
-	private LoginData loginData;	
-	
-	private NetworkManager networkManager;
-	
-	private Listener<JSONObject> onLoginListener;
-	private Listener<JSONObject> onGetInfoListener;
+
+	private LoginManager loginManager;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
-		
-		networkManager = NetworkManager.getInstance();
-		networkManager.initialize(getApplicationContext());
-		
-		onLoginListener = new Listener<JSONObject>() {
-
-			@Override
-			public void onResponse(JSONObject arg0) {
-
-				LoginResponse lRes = new LoginResponse(arg0);
-				if (lRes.getStatus() == Status.SUCCESS) {
-					loginData.setLogin(true);
-					loginData.save();
-					
-					GetUserInfoRequest req = new GetUserInfoRequest(lRes.userNumber);
-					networkManager.request(req, onGetInfoListener, null);	
-				}
-				else {
-					if (progressDialog.isShowing()) {
-						progressDialog.dismiss();
-					}
-					alertDialog.show();
-				}
-			}
-			
-		};
-		onGetInfoListener = new Listener<JSONObject>() {
-
-			@Override
-			public void onResponse(JSONObject arg0) {
-				
-				GetUserInfoResponse res = new GetUserInfoResponse(arg0);
-				if (res.getStatus() == Status.SUCCESS) {
-					MyManager.getInstance().setMyData(res.mData);
-					//TODO
-					//nextActivity(MainActivity.class);
-					nextActivity(TestActivity.class);
-				}
-				else {
-					alertDialog.show();
-				}
-				
-				if (progressDialog.isShowing()) {
-					progressDialog.dismiss();
-				}
-			}
-			
-		};
 
 		loginSet = (LinearLayout)findViewById(R.id.layoutLoginSet);
 		loginSet.setAlpha(1f);
@@ -112,8 +60,9 @@ public class LoginActivity extends Activity implements OnClickListener {
 		alertDialog.setTitle(R.string.fail);
 		alertDialog.setMessage(getApplicationContext().getString(R.string.login_fail));
 		
-		loginData = new LoginData();
-		loginData.load(this);
+		
+		loginManager = LoginManager.getInstance();
+		loginManager.setLoginListener(this);
 	}
 
 	@Override
@@ -124,10 +73,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 			
 			String id = idET.getText().toString();
 			String pw = pwET.getText().toString();
-			loginData.setSavedId(id);
-			loginData.setSavedPw(pw);
-			
-			networkManager.request(new LoginRequest(id, pw), onLoginListener, null);;
+			loginManager.login(id, pw);
 		}
 		else if (v == joinBtn) {
 			joinDialog.show();
@@ -139,5 +85,21 @@ public class LoginActivity extends Activity implements OnClickListener {
 		intent = new Intent(LoginActivity.this, cls);
 		startActivity(intent);
 		finish();
+	}
+
+	@Override
+	public void onLoginSuccess() {
+		if (progressDialog.isShowing()) {
+			progressDialog.dismiss();
+		}
+		nextActivity(TestActivity.class);
+	}
+
+	@Override
+	public void onLoginFail(Status status) {
+		if (progressDialog.isShowing()) {
+			progressDialog.dismiss();
+		}
+		alertDialog.show();
 	}
 }
