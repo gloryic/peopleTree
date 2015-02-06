@@ -19,7 +19,7 @@ public class MyManager {
 		
 		return instance;
 	}
-	
+
 	private MemberData myData;
 	
 	public void setMyData(MemberData myData) {
