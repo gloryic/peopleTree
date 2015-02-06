@@ -1,5 +1,8 @@
 package com.ssm.peopleTree.location;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -11,9 +14,8 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
 
-class OutsideLocationListener extends Service implements
-		LocationListener, LocationMeasurer {
-
+class OutsideLocationListener extends Service implements LocationListener,
+		LocationMeasurer {
 
 	LocationManager locationManager;
 	boolean isGPSEnabled = false;
@@ -30,14 +32,19 @@ class OutsideLocationListener extends Service implements
 	public int changedCnt = 0;
 
 	long validTime = 1000 * 60;
-	float validAccuracy = (float) 40.0;
-
+	float validAccuracy = (float) 50.0;
+	long lastUpdateTime = 0;
+	Timer jobScheduler;
+	
+	long savedDistanceForUpdate=0;
+	long savedTimeForUpdate =0;
 	OutsideLocationListener(Context context) {
 		this.mContext = context;
 
 		this.updateNotifier = new OutsideLocationUpdateNotifier();
-
-
+		 jobScheduler = new Timer();
+		 lastUpdateTime = System.currentTimeMillis();
+		
 	}
 
 	public boolean isGPSEnabled() {
@@ -47,8 +54,6 @@ class OutsideLocationListener extends Service implements
 	public boolean isNetworkEnabled() {
 		return isNetworkEnabled;
 	}
-
-
 
 	public void setValidCond(long validTime, float validAccuracy) {
 		this.validTime = validTime;
@@ -73,31 +78,64 @@ class OutsideLocationListener extends Service implements
 		return false;
 
 	}
-	public boolean isLocReqPossible(){
+
+	public boolean isLocReqPossible() {
 		boolean ret = false;
-		
+
 		return ret;
 	}
+
 	public boolean startRequest(long distanceForUpdate, long timeForUpdate) {
+		locationManager = (LocationManager) mContext
+				.getSystemService(LOCATION_SERVICE);
+		isGPSEnabled = locationManager
+				.isProviderEnabled(LocationManager.GPS_PROVIDER);
+		isNetworkEnabled = locationManager
+				.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+
 		
-		isGPSEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-		isNetworkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-		
-		if(!isGPSEnabled){
-			
+		this.savedDistanceForUpdate = distanceForUpdate;
+		this.savedTimeForUpdate = timeForUpdate;
+		if (!isGPSEnabled) {
+
 			return false;
 		}
 		if (isLocationRequested == false) {
 			this.isLocationRequested = true;
 			this.isGetLocation = false;
 			this.locationRequest(distanceForUpdate, timeForUpdate);
-	
+
 		}
+		
+		jobScheduler.scheduleAtFixedRate(new TimerTask() {
+			@Override
+			public void run() {
+				long curtime = System.currentTimeMillis();
+				long timediff = curtime- lastUpdateTime;
+				if(timediff>=savedTimeForUpdate*2){
+					if (updateNotifier != null) {
+						updateNotifier.notifyUpdate(this);
+					}
+				}
+			}	
+		}, 0,1000*5);
 		return true;
 	}
+	//
+//	Timer jobScheduler = new Timer();
+	//
+	//jobScheduler.scheduleAtFixedRate(new TimerTask() {
+	//@Override
+	//public void run() {
+	//	wifiManager.startScan();
+	//}
+	//
+//}, 0, timeInterval);
 
-	
+	///
+	//
 	public void stopRequest() {
+		jobScheduler.cancel();
 		if (locationManager != null) {
 			this.isGetLocation = false;
 			isLocationRequested = false;
@@ -105,7 +143,8 @@ class OutsideLocationListener extends Service implements
 
 		}
 	}
-	public void setUpdateNotifier(UpdateNotifier u){
+
+	public void setUpdateNotifier(UpdateNotifier u) {
 		this.updateNotifier = u;
 	}
 
@@ -118,7 +157,6 @@ class OutsideLocationListener extends Service implements
 			if (locationManager != null) {
 				changedCnt = 0;
 
-				
 				locationManager.requestLocationUpdates(
 						LocationManager.GPS_PROVIDER, distanceForUpdate,
 						timeForUpdate, this);
@@ -148,16 +186,28 @@ class OutsideLocationListener extends Service implements
 
 	@Override
 	public void onLocationChanged(Location location) {
-		long timeDiff = location.getTime() - this.location.getTime();
-		Log.i("Log", "onLocationChanged");
-		if (timeDiff >= validTime
-				|| location.getAccuracy() <= this.validAccuracy) {
+		if (location == null) {
 
+			return;
+		}
+		boolean isBetter= false;
+		if (this.location != null) {
+			long timeDiff = location.getTime() - this.location.getTime();
+			if (timeDiff >= validTime
+					|| location.getAccuracy() <= this.validAccuracy) {
+				isBetter= true;
+			}
+		}else{
+			isBetter=true;
+			
+		}
+		Log.i("Log", "onLocationChanged");
+		if (isBetter) {
 			statecnt++;
 			this.location = location;
 			isGetLocation = true;
 			if (updateNotifier != null) {
-
+				lastUpdateTime = System.currentTimeMillis();
 				updateNotifier.notifyUpdate(this);
 			}
 		}
@@ -264,6 +314,5 @@ class OutsideLocationListener extends Service implements
 		// TODO Auto-generated method stub
 		return this.isGetLocation;
 	}
-
 
 }

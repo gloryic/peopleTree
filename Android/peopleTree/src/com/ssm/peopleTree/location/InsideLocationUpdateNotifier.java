@@ -15,7 +15,8 @@ class InsideLocationUpdateNotifier implements UpdateNotifier{
 		
 		PeopleTreeLocationManager pltm = PeopleTreeLocationManager.getInstance();		
 		long curTime = System.currentTimeMillis();
-		if(!parent.isValidLocation() && (curTime - pltm.getLastChangeTime() ) >  PeopleTreeLocationManager.MINTIMEINTERVAL){
+		if( (!parent.isValidLocation() && (curTime - pltm.getLastChangeTime() ) >  PeopleTreeLocationManager.MINTIMEINTERVAL)
+				|| parent.nearReferPoint==null){
 			
 			pltm.changeLocationMeasureMode();
 			

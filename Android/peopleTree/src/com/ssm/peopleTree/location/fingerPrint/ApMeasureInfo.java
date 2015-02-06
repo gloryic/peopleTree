@@ -28,6 +28,9 @@ public class ApMeasureInfo{
 	}
 	
 	
-	
+	public void weightedReviseLevel(int level){
+		
+		this.level =  (int)Math.round((this.level*2 + level)/(double)3);
+	}
 	
 }

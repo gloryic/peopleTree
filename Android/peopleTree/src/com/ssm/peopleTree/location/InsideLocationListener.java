@@ -10,6 +10,7 @@ import com.ssm.peopleTree.location.fingerPrint.FingerPrintLocationInfo;
 import com.ssm.peopleTree.location.fingerPrint.FingerPrintManager;
 import com.ssm.peopleTree.location.fingerPrint.ReferencePoint;
 
+
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -39,7 +40,7 @@ class InsideLocationListener implements LocationMeasurer{
 	
 	
 	
-	long timeInterval = 1000*5;
+	long timeInterval = 1000*1;
 	boolean isLocationRequested = false;
 
 	Timer jobScheduler = new Timer();
@@ -54,10 +55,10 @@ class InsideLocationListener implements LocationMeasurer{
 	long lastLocGetTime = 0;
 	FingerPrintLocationInfo curFpLocInfo= null;
 	ReferencePoint nearReferPoint = null;
-	double referPointDistance;
+	double referPointDistance = 0;
 	
 	
-	private static final double VALIDDISTANCE = 60.0;
+	private static final double VALIDDISTANCE = 180.0;
 	private static final long VALIDTIME = 1000*60*5;
 	boolean isFpValid=false;
 	
@@ -83,14 +84,14 @@ class InsideLocationListener implements LocationMeasurer{
 					backup2ApMeasureInfos = backup1ApMeasureInfos;
 					backup1ApMeasureInfos = curApMeasureInfos;
 					curApMeasureInfos = new ArrayList<ApMeasureInfo>();
-					
+					bssidInfos.clear();
 					for (ScanResult iter1 : apList) {
 						if (iter1.level >= ApMeasureInfo.MINLEVEL) {
 							curApMeasureInfos.add(new ApMeasureInfo(iter1.BSSID, iter1.SSID,
 										iter1.level) );
 							apMeasureInfos.add(new ApMeasureInfo(iter1.BSSID, iter1.SSID,
 									iter1.level) );
-						
+							bssidInfos.add(iter1.BSSID);
 						}
 
 					}
@@ -128,9 +129,12 @@ class InsideLocationListener implements LocationMeasurer{
 			private void mergeApMeasureInfos(ArrayList<ApMeasureInfo> apinfo1){
 				for(ApMeasureInfo iter1 : apinfo1){
 					boolean flag = false;
-					for(ApMeasureInfo iter2 : apMeasureInfos){
-						if(iter2.getBssid().compareTo( iter1.getBssid())== 0){
-							iter2.reviseLevel(iter1.getlevel());
+				
+					for(int i=0;i<apMeasureInfos.size();i++){
+						ApMeasureInfo apmi = apMeasureInfos.get(i);
+						
+						if(apmi.getBssid().compareTo( iter1.getBssid())== 0){
+							apmi.weightedReviseLevel(iter1.getlevel());
 							flag = true;
 							break;
 						}
@@ -208,7 +212,8 @@ class InsideLocationListener implements LocationMeasurer{
 	@Override
 	public boolean isValidLocation() {
 		long curTime = System.currentTimeMillis();
-		long timediff = this.lastLocGetTime = curTime;
+		long timediff =  curTime - this.lastLocGetTime ;
+	
 		if(timediff >= VALIDTIME || this.referPointDistance >=VALIDDISTANCE || !isFpValid){
 			return false;
 		}

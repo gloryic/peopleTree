@@ -98,9 +98,6 @@ public class PeopleTreeLocationManager  {
 				break;
 			
 			}
-			
-			
-			
 		}
 	}
 	public void resetChangeTime(){			
