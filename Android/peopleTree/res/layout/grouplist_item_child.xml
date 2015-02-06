@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="80dp"
+    android:background="#AACCFF" >
+
+    <ImageButton
+        android:id="@+id/list_item_btn"
+        style="@style/AppBaseTheme"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="6dp"
+        android:src="@android:drawable/ic_menu_info_details" />
+
+    <ImageView
+        android:id="@+id/list_item_img"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="76dp"
+        android:src="@android:drawable/ic_menu_myplaces" />
+
+    <TextView
+        android:id="@+id/list_item_num"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/list_item_img"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/list_item_name"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/list_item_btn"
+        android:textSize="20sp" />
+
+
+
+</RelativeLayout>

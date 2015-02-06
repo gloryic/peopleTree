@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layoutLoginSet"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:background="#AA755A"
+    android:orientation="vertical"
+    android:padding="5dp" >
+
+    <TextView
+        android:id="@+id/reqDialog_reqtitle"
+        android:layout_width="258dp"
+        android:layout_height="60dp"
+        android:layout_weight="0.68"
+        android:gravity="center" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="38dp"
+        android:orientation="horizontal"
+        android:paddingBottom="1dp"
+        android:paddingLeft="1dp"
+        android:paddingRight="1dp"
+        android:paddingTop="1dp" >
+
+        <ImageButton
+            android:id="@+id/reqDialog_ImgBtn1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_launcher" />
+
+        <TextView
+            android:layout_width="49dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2.68" />
+
+        <ImageButton
+            android:id="@+id/reqDialog_ImgBtn2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_launcher" />
+    </LinearLayout>
+
+</LinearLayout>

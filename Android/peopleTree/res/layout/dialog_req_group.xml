@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layoutGroupReq"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:background="#AAAA9A"
+    android:orientation="vertical"
+    android:padding="10dp" >
+
+    <TextView
+        android:id="@+id/reqDialog_reqtitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.51"
+        android:gravity="center" />
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="대상찾기" />
+
+    <EditText
+        android:id="@+id/reqDialog_phoneNum"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="12dp"
+        android:inputType="text"
+        android:textSize="16sp" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="80dp"
+        android:orientation="horizontal"
+        android:paddingBottom="1dp"
+        android:paddingLeft="1dp"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="1dp" >
+
+        <ImageView
+            android:id="@+id/reqDialog_img"
+            android:layout_width="63dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_launcher" />
+
+        <TextView
+            android:id="@+id/reqDialog_name"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="38dp"
+        android:orientation="horizontal"
+        android:paddingBottom="1dp"
+        android:paddingLeft="1dp"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="1dp" >
+
+        <CheckBox
+            android:id="@+id/reqDialog_chkbox1"
+            android:layout_width="111dp"
+            android:layout_height="wrap_content"
+            android:text="위치정보 관리 여부"
+            android:textSize="8sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.57" />
+
+        <ImageButton
+            android:id="@+id/reqDialog_ImgBtn1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_launcher" />
+    </LinearLayout>
+
+</LinearLayout>

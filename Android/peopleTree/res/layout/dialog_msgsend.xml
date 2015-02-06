@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    
+        android:layout_gravity="center"
+    android:background="#9ACF88"
+    android:orientation="vertical"
+>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/msgsend_nametextv"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="0.17"
+            android:gravity="center"
+            android:text="대상" />
+
+        <ImageView
+            android:id="@+id/msgsend_img"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="0.18"
+            android:src="@drawable/ic_launcher" />
+
+        <TextView
+ 
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center" />
+
+        <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="0.46"
+            android:background="@drawable/border"
+            android:gravity="center"
+            android:text="송신 깊이" />
+
+        <RelativeLayout
+            android:layout_width="112dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/border" >
+
+            <ImageButton
+                android:id="@+id/msgsend_up_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:src="@android:drawable/arrow_up_float" />
+
+            <ImageButton
+                android:id="@+id/msgsend_down_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:src="@android:drawable/arrow_down_float" />
+
+            <TextView
+                android:id="@+id/reqDialog_reqtitle"
+                android:layout_width="60dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentTop="true"
+                android:layout_toLeftOf="@+id/msgsend_up_btn"
+                android:gravity="center" />
+
+        </RelativeLayout>
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/msgsend_editText"
+        android:layout_width="314dp"
+        android:layout_height="222dp"
+        android:ems="10"
+        android:gravity="top"
+        android:inputType="textMultiLine" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+          android:gravity="right"
+        android:orientation="horizontal" >
+
+        <ImageButton
+            android:id="@+id/msgsend_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@android:drawable/btn_dialog" />
+
+    <ImageButton
+        android:id="@+id/msgsend_send"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@android:drawable/ic_dialog_email" />
+</LinearLayout>
+</LinearLayout>

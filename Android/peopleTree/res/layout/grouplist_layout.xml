@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+    
+  	<TextView
+  	    android:id="@+id/naviText"
+  	    android:layout_width="fill_parent"
+  	    android:layout_height="30dp"
+  	    android:background="#CCCCCC"
+  	    android:text="#"
+  	    android:textSize="16sp" />
+       
+    <RelativeLayout
+        android:id="@+id/groupParent_layout"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_below="@+id/naviText"
+        android:background="#FFCCAA" >
+	
+	</RelativeLayout>
+    
+    <RelativeLayout
+        android:id="@+id/groupcur_layout"
+	    android:layout_width="match_parent"
+	    android:layout_height="60dp" 
+	    android:layout_below="@+id/groupParent_layout" 
+	    android:background="#FFFFAA">
+	
+	    
+	
+	</RelativeLayout>
+
+    <ListView
+        android:id="@+id/groupList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_below="@+id/groupcur_layout" 
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical" >
+    </ListView>
+     <ImageButton
+        android:id="@+id/imgbtn_childadder"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:src="@android:drawable/ic_input_add"
+
+         android:layout_marginRight="16dp"
+          android:layout_marginBottom="16dp" />
+    
+</RelativeLayout>
