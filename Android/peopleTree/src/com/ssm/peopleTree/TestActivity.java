@@ -183,4 +183,8 @@ public class TestActivity extends Activity {
 	}
 		
 	
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 19e9f9b6934b24322d6838b60dbe9899d6a2c801
