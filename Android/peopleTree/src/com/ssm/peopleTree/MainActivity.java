@@ -32,6 +32,11 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_main);
 
 				
+		
+		
+		
+		
+		
    		//final ProgressDialog pDialog = new ProgressDialog(this);
 		//pDialog.setMessage("Loading...");
 		//pDialog.show();

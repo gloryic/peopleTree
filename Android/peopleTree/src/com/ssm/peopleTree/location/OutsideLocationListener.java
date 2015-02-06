@@ -23,7 +23,6 @@ class OutsideLocationListener extends Service implements LocationListener,
 	boolean isLocationRequested = false;
 	boolean isGetLocation = false;
 	private Context mContext;
-
 	UpdateNotifier updateNotifier = null;
 
 	Location location = null;
@@ -121,19 +120,7 @@ class OutsideLocationListener extends Service implements LocationListener,
 		}, 0,1000*5);
 		return true;
 	}
-	//
-//	Timer jobScheduler = new Timer();
-	//
-	//jobScheduler.scheduleAtFixedRate(new TimerTask() {
-	//@Override
-	//public void run() {
-	//	wifiManager.startScan();
-	//}
-	//
-//}, 0, timeInterval);
 
-	///
-	//
 	public void stopRequest() {
 		jobScheduler.cancel();
 		if (locationManager != null) {

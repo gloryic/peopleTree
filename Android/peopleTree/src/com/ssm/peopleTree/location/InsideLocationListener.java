@@ -96,10 +96,10 @@ class InsideLocationListener implements LocationMeasurer{
 
 					}
 					if(backup1ApMeasureInfos !=null){
-						mergeApMeasureInfos(backup1ApMeasureInfos);
+						mergeApMeasureInfos(backup1ApMeasureInfos,2);
 					}
 					if(backup2ApMeasureInfos != null){
-						mergeApMeasureInfos(backup1ApMeasureInfos);
+						mergeApMeasureInfos(backup1ApMeasureInfos,3);
 					}
 
 					
@@ -126,7 +126,7 @@ class InsideLocationListener implements LocationMeasurer{
 
 				}
 			}
-			private void mergeApMeasureInfos(ArrayList<ApMeasureInfo> apinfo1){
+			private void mergeApMeasureInfos(ArrayList<ApMeasureInfo> apinfo1,int weight){
 				for(ApMeasureInfo iter1 : apinfo1){
 					boolean flag = false;
 				
@@ -134,7 +134,7 @@ class InsideLocationListener implements LocationMeasurer{
 						ApMeasureInfo apmi = apMeasureInfos.get(i);
 						
 						if(apmi.getBssid().compareTo( iter1.getBssid())== 0){
-							apmi.weightedReviseLevel(iter1.getlevel());
+							apmi.weightedReviseLevel(iter1.getlevel(),weight);
 							flag = true;
 							break;
 						}

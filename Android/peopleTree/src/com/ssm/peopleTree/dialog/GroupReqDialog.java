@@ -22,13 +22,16 @@ public class GroupReqDialog extends Dialog  {
 	Context mContext;
 	TextView reqTitleTxtv;
 	String reqTitle;
-	
+	Button btn1;
 	
 	public GroupReqDialog(Context context) {
 		super(context);
 		mContext = context;
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		this.setContentView(R.layout.dialog_req_group);
+		btn1 =(Button)this.findViewById(R.id.reqDialog_btn1);
+		btn1.setText("ฟไรป");
+		
 		
 	
 	}
@@ -38,7 +41,6 @@ public class GroupReqDialog extends Dialog  {
 		reqTitleTxtv = (TextView)this.findViewById(R.id.reqDialog_reqtitle);
 	
 		reqTitleTxtv.setText(reqtitle);
-		
 		
 	}
 
