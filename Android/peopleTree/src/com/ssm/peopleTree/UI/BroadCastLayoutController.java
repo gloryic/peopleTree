@@ -61,14 +61,6 @@ public class BroadCastLayoutController {
             	msgSendDialog = new MsgSendDialog(mContext);
             	msgSendDialog.show();
   
-            	/*
-            	LinearLayout contentsLayout;
-            	LayoutInflater inflater;
-            	contentsLayout = (LinearLayout) ((Activity)mContext).findViewById(R.id.broadcastlist_layout);
-        		inflater = (LayoutInflater) ((Activity)mContext).getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        	   	contentsLayout.removeAllViews();
-        		inflater.inflate(R.layout.msg_send_layout,contentsLayout,true );	
-        		*/
             }
         });
 		

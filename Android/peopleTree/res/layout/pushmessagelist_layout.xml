@@ -25,6 +25,7 @@
 	        android:layout_height="wrap_content"
 	        android:text="전체선택" />
 
+	   \
 	    <TextView
 	
 	        android:layout_width="wrap_content"
@@ -35,7 +36,7 @@
 	        android:id="@+id/imgBtn_pmlist_delete"
 	        android:layout_width="wrap_content"
 	        android:layout_height="32dp"
-	        android:src="@drawable/ic_launcher" />
+	        android:src="@android:drawable/ic_menu_delete" />
 
 	</LinearLayout>
 

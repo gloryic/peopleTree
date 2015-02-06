@@ -4,10 +4,22 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    android:background="#AAAA9A"
-    android:orientation="vertical"
-    android:padding="10dp" >
+    android:background="@drawable/myborder3"
+    android:orientation="vertical" >
+   <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+      >
 
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:layout_weight="0.80"
+            android:background="@drawable/myborder3"
+            android:gravity="center"
+            android:text="그룹 요청" />
+    </LinearLayout>
     <TextView
         android:id="@+id/reqDialog_reqtitle"
         android:layout_width="match_parent"
@@ -39,12 +51,6 @@
         android:paddingLeft="1dp"
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="1dp" >
-
-        <ImageView
-            android:id="@+id/reqDialog_img"
-            android:layout_width="63dp"
-            android:layout_height="match_parent"
-            android:src="@drawable/ic_launcher" />
 
         <TextView
             android:id="@+id/reqDialog_name"

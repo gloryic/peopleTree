@@ -10,19 +10,24 @@
          android:layout_height="40dp"
          android:orientation="horizontal" >
 
-         <ImageButton
-             android:id="@+id/reqFromUp_imgbtn"
+         
+           <Button
+             android:id="@+id/reqlist_btn1"
+             android:gravity="center"
              android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:layout_weight="0.27"
-             android:src="@drawable/ic_launcher" />
-
-         <ImageButton
-             android:id="@+id/reqFromDown_imgbtn"
+             android:layout_height="fill_parent"
+             android:layout_weight = "1"
+             android:background="#E5F5F5"
+             android:text="Bttn1" />
+             <Button
+             android:id="@+id/reqlist_btn2"
+             android:gravity="center"
              android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:layout_weight="0.27"
-             android:src="@drawable/ic_launcher" />
+             android:layout_height="fill_parent"
+             android:layout_weight = "1"
+             android:background="#E5F5F5"
+             android:text="Bttn2" />
+  
      </LinearLayout>
 
      <LinearLayout

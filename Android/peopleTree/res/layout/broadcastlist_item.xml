@@ -18,7 +18,8 @@
         android:id="@+id/bclist_item_imgView1"
         android:layout_width="64dp"
         android:layout_height="64dp"
-        android:src="@drawable/ic_launcher" />
+        
+          android:src="@android:drawable/ic_menu_send" />
 
         <TextView
             android:id="@+id/bclist_item_nametxt1"

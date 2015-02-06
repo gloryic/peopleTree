@@ -7,7 +7,7 @@
   	    android:id="@+id/naviText"
   	    android:layout_width="fill_parent"
   	    android:layout_height="30dp"
-  	    android:background="#CCCCCC"
+  	    android:background="@drawable/myborder2"
   	    android:text="#"
   	    android:textSize="16sp" />
        
@@ -16,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_below="@+id/naviText"
-        android:background="#FFCCAA" >
+        >
 	
 	</RelativeLayout>
     
@@ -25,7 +25,7 @@
 	    android:layout_width="match_parent"
 	    android:layout_height="60dp" 
 	    android:layout_below="@+id/groupParent_layout" 
-	    android:background="#FFFFAA">
+	  >
 	
 	    
 	

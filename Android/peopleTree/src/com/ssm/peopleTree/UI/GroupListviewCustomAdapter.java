@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.Comparator;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -18,6 +19,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+
 
 
 
@@ -68,7 +70,7 @@ public class GroupListviewCustomAdapter extends BaseAdapter{
 						.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 				convertView = inflater.inflate(R.layout.grouplist_item_child, null);
 				
-				convertView.setBackgroundColor(3);
+				convertView.setBackgroundColor(Color.parseColor("#AFEFEF"));
 				holder.nametxtv = (TextView) convertView.findViewById(R.id.list_item_name);
 				holder.numtxtv1 = (TextView) convertView.findViewById(R.id.list_item_num);
 				holder.btn1 = (ImageButton) convertView.findViewById(R.id.list_item_btn);

@@ -32,16 +32,17 @@
 	        android:layout_height="wrap_content"
 	        android:layout_weight="0.48" />
 
+
 	    <ImageButton
 	        android:id="@+id/imgBtn_bclist_delete"
 	        android:layout_width="wrap_content"
 	        android:layout_height="32dp"
-	        android:src="@drawable/ic_launcher" />
+	        android:src="@android:drawable/ic_menu_delete" />
 	    <ImageButton
 	        android:id="@+id/imgBtn_bclist_send"
 	        android:layout_width="wrap_content"
 	        android:layout_height="32dp"
-	        android:src="@drawable/ic_launcher" />
+	        android:src="@android:drawable/ic_dialog_email" />
 
 	</LinearLayout>
 

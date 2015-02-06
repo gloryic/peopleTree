@@ -33,7 +33,7 @@
              android:layout_width="wrap_content"
              android:layout_height="fill_parent"
               android:layout_weight = "1"
-              android:background="#EEFFEE"
+              android:background="#eeffee"
              android:text="Bttn3" />         
              <Button
              android:id="@+id/mframe_btn4"

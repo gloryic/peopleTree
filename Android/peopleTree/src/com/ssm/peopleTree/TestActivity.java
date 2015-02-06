@@ -22,6 +22,7 @@ import com.ssm.peopleTree.network.protocol.GetUserInfoResponse;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -130,6 +131,12 @@ public class TestActivity extends Activity {
         		inflater.inflate(R.layout.grouplist_layout,contentsLayout,true );
         		groupListController.setupLayout(glvca);
         		
+        		mf_btn1.setBackgroundColor(Color.parseColor("#BBEEAA"));
+        		mf_btn2.setBackgroundColor(Color.parseColor("#EEFFEE"));
+        		mf_btn3.setBackgroundColor(Color.parseColor("#EEFFEE"));
+        		mf_btn4.setBackgroundColor(Color.parseColor("#EEFFEE"));
+        		
+        		
             }
         });
 		mf_btn2.setOnClickListener(new View.OnClickListener() {
@@ -139,7 +146,10 @@ public class TestActivity extends Activity {
             	contentsLayout.removeAllViews();
         		inflater.inflate(R.layout.requestlist,contentsLayout,true );
         		requestLayoutController.setupLayout(upRqlvca, downRqlvca);
-      
+           		mf_btn1.setBackgroundColor(Color.parseColor("#EEFFEE"));
+        		mf_btn2.setBackgroundColor(Color.parseColor("#BBEEAA"));
+        		mf_btn3.setBackgroundColor(Color.parseColor("#EEFFEE"));
+        		mf_btn4.setBackgroundColor(Color.parseColor("#EEFFEE"));
             }
         });
 		mf_btn3.setOnClickListener(new View.OnClickListener() {
@@ -149,6 +159,10 @@ public class TestActivity extends Activity {
             	contentsLayout.removeAllViews();
         		inflater.inflate(R.layout.broadcastlist_layout,contentsLayout,true );		
         		broadCastLayoutController.setupLayout(bclvca);
+           		mf_btn1.setBackgroundColor(Color.parseColor("#EEFFEE"));
+        		mf_btn2.setBackgroundColor(Color.parseColor("#EEFFEE"));
+        		mf_btn3.setBackgroundColor(Color.parseColor("#BBEEAA"));
+        		mf_btn4.setBackgroundColor(Color.parseColor("#EEFFEE"));
             }
         });
 		
@@ -158,9 +172,14 @@ public class TestActivity extends Activity {
             	contentsLayout.removeAllViews();
         		inflater.inflate(R.layout.pushmessagelist_layout,contentsLayout,true );
         		pushmsgLayoutController.setupLayout(pmlvca);
+        		mf_btn1.setBackgroundColor(Color.parseColor("#EEFFEE"));
+        		mf_btn2.setBackgroundColor(Color.parseColor("#EEFFEE"));
+        		mf_btn3.setBackgroundColor(Color.parseColor("#EEFFEE"));
+        		mf_btn4.setBackgroundColor(Color.parseColor("#BBEEAA"));
         		
             }
         });
+		mf_btn1.callOnClick();
 	}
 		
 	

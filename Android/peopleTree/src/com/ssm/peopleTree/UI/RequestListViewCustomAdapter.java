@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
@@ -63,31 +64,39 @@ public class RequestListViewCustomAdapter extends BaseAdapter {
 			holder.img1 = (ImageView) convertView
 					.findViewById(R.id.rqlist_item_imgView1);
 			
-			holder.imgbtn1 = (ImageButton) convertView
-					.findViewById(R.id.rqlist_item_imgBtn1);
-			holder.imgbtn2 = (ImageButton) convertView
-					.findViewById(R.id.rqlist_item_imgBtn2);
+			holder.btn1 = (Button) convertView
+					.findViewById(R.id.rqlist_item_btn1);
+			holder.btn2 = (Button) convertView
+					.findViewById(R.id.rqlist_item_btn2);
 			
-			holder.imgbtn1.setOnClickListener(new OnClickListener(){
-				@Override
-				public void onClick(View v) {
-					
-				}
+		
 			
-			});
-			holder.imgbtn2.setOnClickListener(new OnClickListener(){
-				@Override
-				public void onClick(View v) {
-					
-				}
-			});
+			
 			convertView.setTag(holder);
 		}else{
 			holder = (RequestViewHolder) convertView.getTag();
 		}
 	
 		holder.text1.setText(mData.getText());
-			
+		holder.btn1.setText("거절");
+		holder.btn2.setText("수락");
+		holder.btn1.setOnClickListener(new OnClickListener(){
+			@Override
+			public void onClick(View v) {
+				
+			}
+		
+		});
+		holder.btn2.setOnClickListener(new OnClickListener(){
+			@Override
+			public void onClick(View v) {
+				
+			}
+		});
+		
+		
+		
+		
 		return convertView;
 	}
 
@@ -122,8 +131,8 @@ class RequestViewHolder {
 
     public ImageView img1;
     public TextView text1;
-    public ImageButton imgbtn1;
-    public ImageButton imgbtn2;
+    public Button btn1;
+    public Button btn2;
     
 
 }
