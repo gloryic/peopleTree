@@ -26,6 +26,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
@@ -40,10 +41,11 @@ public class TestActivity extends Activity {
 	LayoutInflater inflater;
 
 	
-	ImageButton frameImgBtn1;
-	ImageButton frameImgBtn2;
-	ImageButton frameImgBtn3;
-	ImageButton frameImgBtn4;
+	Button mf_btn1;
+	Button mf_btn2;
+	Button mf_btn3;
+	Button mf_btn4;
+	
 	
 	PushmsgLayoutController pushmsgLayoutController;
 	PushMessageListViewCustomAdapter pmlvca;
@@ -68,11 +70,14 @@ public class TestActivity extends Activity {
 		contentsLayout = (LinearLayout) findViewById(R.id.contentsLayout1);
 		inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-		frameImgBtn1 = (ImageButton) findViewById(R.id.reqDialog_ImgBtn1);	
-		frameImgBtn2 = (ImageButton) findViewById(R.id.mframe_ImgBtn2);
-		frameImgBtn3 = (ImageButton) findViewById(R.id.mframe_ImgBtn3);	
-		frameImgBtn4 = (ImageButton) findViewById(R.id.mframe_ImgBtn4);
-
+		mf_btn1 = (Button) findViewById(R.id.mframe_btn1);
+		mf_btn2 = (Button) findViewById(R.id.mframe_btn2);
+		mf_btn3 = (Button) findViewById(R.id.mframe_btn3);	
+		mf_btn4 = (Button) findViewById(R.id.mframe_btn4);
+		mf_btn1.setText("그룹");
+		mf_btn2.setText("요청");
+		mf_btn3.setText("메시지");
+		mf_btn4.setText("알림");
 		
 		upRqlvca = new RequestListViewCustomAdapter(this);
 		for(int i=0;i<2;i++){
@@ -116,7 +121,7 @@ public class TestActivity extends Activity {
 		
 		
 		
-		frameImgBtn1.setOnClickListener(new View.OnClickListener() {
+		mf_btn1.setOnClickListener(new View.OnClickListener() {
 			 
 			 
             public void onClick(View arg0) {
@@ -127,7 +132,7 @@ public class TestActivity extends Activity {
         		
             }
         });
-		frameImgBtn2.setOnClickListener(new View.OnClickListener() {
+		mf_btn2.setOnClickListener(new View.OnClickListener() {
 			 
             public void onClick(View arg0) {
 
@@ -137,7 +142,7 @@ public class TestActivity extends Activity {
       
             }
         });
-		frameImgBtn3.setOnClickListener(new View.OnClickListener() {
+		mf_btn3.setOnClickListener(new View.OnClickListener() {
 			 
             public void onClick(View arg0) {
             	Log.i("log","btn3 clicked");
@@ -147,7 +152,7 @@ public class TestActivity extends Activity {
             }
         });
 		
-		frameImgBtn4.setOnClickListener(new View.OnClickListener() {
+		mf_btn4.setOnClickListener(new View.OnClickListener() {
 			 
             public void onClick(View arg0) {
             	contentsLayout.removeAllViews();
