@@ -1,6 +1,7 @@
 package com.ssm.peopleTree.group;
 
 import java.util.ArrayList;
+import java.util.Observable;
 import java.util.Stack;
 
 import org.json.JSONObject;
@@ -16,13 +17,14 @@ import com.ssm.peopleTree.network.protocol.ChildrenResponse;
 import com.ssm.peopleTree.network.protocol.GetUserInfoRequest;
 import com.ssm.peopleTree.network.protocol.GetUserInfoResponse;
 
-public class GroupManager implements Listener<JSONObject> {
+public class GroupManager extends Observable implements Listener<JSONObject> {
 
 	private volatile static GroupManager instance = null;
 	
 	private GroupManager() {
 		children = new ArrayList<MemberData>();	
 		curStack = new Stack<MemberData>();
+		parent = new MemberData();
 	}
 	
 	public static GroupManager getInstance() {
@@ -37,6 +39,7 @@ public class GroupManager implements Listener<JSONObject> {
 	
 	private ArrayList<MemberData> children;
 	private Stack<MemberData> curStack;
+	private MemberData parent;
 	
 	public void createGroup() {
 		//TODO
@@ -50,9 +53,19 @@ public class GroupManager implements Listener<JSONObject> {
 		//TODO
 	}
 		
-	public void goNext(int groupMemberId) {
+	public void goNext(MemberData selectedChild) {
+		if (selectedChild == null) {
+			return;
+		}
+		
 		/*
-		NetworkManager.getInstance().request(new ChildrenRequest(md.groupMemberId), listener, null);
+		if (!children.contains(selectedChild)) {
+			return;
+		}
+		
+		curStack.push(selectedChild);
+		NetworkManager.getInstance().request(new GetUserInfoRequest(selectedChild.parentGroupMemberId), listener, null);
+		NetworkManager.getInstance().request(new ChildrenRequest(selectedChild.groupMemberId), listener, null);
 		*/
 	}
 	
@@ -64,6 +77,30 @@ public class GroupManager implements Listener<JSONObject> {
 		MemberData md = curStack.pop();
 		NetworkManager.getInstance().request(new ChildrenRequest(md.groupMemberId), listener, null);
 		*/
+	}
+	
+	public void goHome() {
+		
+	}
+	
+	public void groupChanged() {
+		notifyObservers();
+	}
+	
+	public void update() {
+		
+	}
+	
+	public MemberData getParent() {
+		return parent;
+	}
+	
+	public MemberData getCur() {
+		if (curStack.isEmpty()) {
+			return null;
+		}
+		
+		return curStack.peek();
 	}
 	
 	public ArrayList<MemberData> getChildren() {
@@ -84,11 +121,7 @@ public class GroupManager implements Listener<JSONObject> {
 				int child = res.children.get(i);
 				ChildrenAdder adder = new ChildrenAdder(child, curStack.peek().userNumber);
 			}
-			/*
-			for (int child : res.children) {
-				new ChildrenAdder(child, curStack.peek().userNumber);
-			}
-			*/
+			groupChanged();
 		} 
 		else {
 			Log.e("test", "Fail");
@@ -116,6 +149,7 @@ public class GroupManager implements Listener<JSONObject> {
 			
 			if (res.getStatus() == Status.SUCCESS) {
 				children.add(res.mData);
+				groupChanged();
 			}
 			else if (parentGroupMemberId == curStack.peek().userNumber){
 				NetworkManager.getInstance().request(new GetUserInfoRequest(groupMemberId), this, null);

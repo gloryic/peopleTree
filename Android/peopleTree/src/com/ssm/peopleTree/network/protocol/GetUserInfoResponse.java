@@ -31,7 +31,7 @@ public class GetUserInfoResponse extends Response {
 			JSONObject jsonObj = (JSONObject)responseData;
 			
 			mData.userId = jsonObj.getString(USER_ID_KEY);
-			mData.userName = "ÇÑ±Û";//jsonObj.getString(USER_NAME_KEY);//NetworkManager.getDecodedStr(jsonObj.getString(USER_NAME_KEY));
+			mData.userName = jsonObj.getString(USER_NAME_KEY);//NetworkManager.getDecodedStr(jsonObj.getString(USER_NAME_KEY));
 			mData.userNumber = jsonObj.getInt(USER_NUMBER_KEY);
 			mData.userPhoneNumber = jsonObj.getInt(USER_PHONE_KEY);
 			

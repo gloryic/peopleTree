@@ -1,40 +1,66 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="vertical" >
+<!-- 수정된 activity_main.xml -->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
 
-    <TabHost
-        android:id="@android:id/tabhost"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent" >
+    <LinearLayout
+        android:id="@+id/menuIcon"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
 
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:orientation="vertical" >
+        <Button
+            android:id="@+id/Page1Btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/tab_selector"
+            android:text="Page1"
+            android:textColor="@drawable/tab_text_selector" />
 
-            <TabWidget
-                android:id="@android:id/tabs"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="0"
-                android:orientation="horizontal" />
+        <Button
+            android:id="@+id/Page2Btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/tab_selector"
+            android:text="Page2"
+            android:textColor="@drawable/tab_text_selector" />
 
-  
+        <Button
+            android:id="@+id/Page3Btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/tab_selector"
+            android:text="Page2"
+            android:textColor="@drawable/tab_text_selector" />
 
-            <FrameLayout
-                android:id="@android:id/tabcontent"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="0" />
+        <Button
+            android:id="@+id/Page4Btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/tab_selector"
+            android:text="Page2"
+            android:textColor="@drawable/tab_text_selector" />
 
-            <android.support.v4.view.ViewPager
-                android:id="@+id/viewpager"
-                android:layout_width="fill_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
-        </LinearLayout>
-    </TabHost>
+        <Button
+            android:id="@+id/Page5Btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/tab_selector"
+            android:text="Page2"
+            android:textColor="@drawable/tab_text_selector" />
+    </LinearLayout>
 
-</LinearLayout>
+    <android.support.v4.view.ViewPager
+        android:id="@+id/pager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/menuIcon"
+        android:requiresFadingEdge="horizontal" />
+
+</RelativeLayout>

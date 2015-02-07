@@ -17,7 +17,7 @@ public class MapManager  implements POIItemEventListener, MapViewEventListener{
 	public MapManager(Activity activity) {
 
 		myMarker = new MapPOIItem();
-		myMarker.setItemName("나");
+		myMarker.setItemName("me");
 		myMarker.setTag(0);
 		myMarker.setMarkerType(MapPOIItem.MarkerType.BluePin); // 기본으로 제공하는 BluePin 마커 모양.
 		myMarker.setSelectedMarkerType(MapPOIItem.MarkerType.RedPin); // 마커를 클릭했을때, 기본으로 제공하는 RedPin 마커 모양.

@@ -38,7 +38,8 @@
         android:layout_gravity="center_horizontal"
         android:layout_below="@+id/groupcur_layout" 
         android:layout_alignParentBottom="true"
-        android:orientation="vertical" >
+        android:orientation="vertical"
+         >
     </ListView>
      <ImageButton
         android:id="@+id/imgbtn_childadder"

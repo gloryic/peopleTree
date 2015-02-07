@@ -4,12 +4,18 @@ import com.ssm.peopleTree.R;
 
 import android.app.Activity;
 import android.content.Context;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 
-public class PushmsgLayoutController{
+public class PushmsgLayoutController extends Fragment{
 	Context mContext;
 	
 	ListView pmlv;
@@ -19,14 +25,23 @@ public class PushmsgLayoutController{
 	public PushmsgLayoutController(Context context) {
 		this.mContext = context;
 		
-		
 	}
 	
-	public void setupLayout(PushMessageListViewCustomAdapter adap){
-		this.pmlvca = adap;
-		pmlv = (ListView) ((Activity)mContext).findViewById(R.id.pmList);
+	public void setListAdapter(PushMessageListViewCustomAdapter adap){
+		pmlvca = adap;
+	}
+	
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+	}
+	
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		LinearLayout layout = (LinearLayout)inflater.inflate(R.layout.pushmessagelist_layout, container, false);
+		pmlv = (ListView) layout.findViewById(R.id.pmList);
 		pmlv.setAdapter(pmlvca);
-		pmlv_chkbox1 = (CheckBox) ((Activity)mContext).findViewById(R.id.checkBox_pmlist_allselect);
+		
+		pmlv_chkbox1 = (CheckBox) layout.findViewById(R.id.checkBox_pmlist_allselect);
 		
 		
 		pmlv_chkbox1.setOnCheckedChangeListener(new OnCheckedChangeListener() {
@@ -38,10 +53,12 @@ public class PushmsgLayoutController{
 					pmlvca.chekingAllItem(isChecked);
 				
 			}
-			
-
+		
 		});
 		pmlv_chkbox1.setChecked(pmlv_chkval);
+		
+		return layout;
 	}
+
 
 }

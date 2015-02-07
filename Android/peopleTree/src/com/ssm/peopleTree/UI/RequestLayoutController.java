@@ -3,20 +3,25 @@ package com.ssm.peopleTree.UI;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 
 import com.ssm.peopleTree.R;
 
-public class RequestLayoutController {
+public class RequestLayoutController extends Fragment {
 	Context mContext;
 
-
+	LinearLayout layout;
 	
 	RequestListViewCustomAdapter upRqlvca;
 	RequestListViewCustomAdapter downRqlvca;
@@ -28,19 +33,22 @@ public class RequestLayoutController {
 	
 	public RequestLayoutController(Context context){
 		this.mContext = context;
-		
 	}
 	
-	public void setupLayout(RequestListViewCustomAdapter upAdap,RequestListViewCustomAdapter downAdap){
+	public void setListAdapter(RequestListViewCustomAdapter upAdap,RequestListViewCustomAdapter downAdap){
 		this.upRqlvca = upAdap;
 		this.downRqlvca = downAdap;
-		reqlv = (ListView) ((Activity)mContext).findViewById(R.id.rqList);
+	}
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+	}
+	
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		
-		
-		
-		
-		btn1 = (Button) ((Activity)mContext).findViewById(R.id.reqlist_btn1);	
-		btn2 = (Button) ((Activity)mContext).findViewById(R.id.reqlist_btn2);
+		layout = (LinearLayout)inflater.inflate(R.layout.requestlist, container, false);
+		btn1 = (Button) layout.findViewById(R.id.reqlist_btn1);	
+		btn2 = (Button) layout.findViewById(R.id.reqlist_btn2);
 		
 		btn1.setText("위에서");
 		btn2.setText("아래에서");
@@ -50,7 +58,7 @@ public class RequestLayoutController {
             public void onClick(View arg0) {
 
             	
-            	reqlv = (ListView) ((Activity)mContext).findViewById(R.id.rqList);
+            	reqlv = (ListView) layout.findViewById(R.id.rqList);
         		//#d3F1F5
         
             	reqlv.setAdapter(upRqlvca);
@@ -64,7 +72,7 @@ public class RequestLayoutController {
             public void onClick(View arg0) {
 
 
-            	reqlv = (ListView) ((Activity)mContext).findViewById(R.id.rqList);
+            	reqlv = (ListView) layout.findViewById(R.id.rqList);
             	reqlv.setAdapter(downRqlvca);
             	
              	btn1.setBackgroundColor(Color.parseColor("#E5F5F5"));
@@ -73,7 +81,11 @@ public class RequestLayoutController {
         });
 		
 		btn1.callOnClick();
-		}
+		
+
+		return layout;
+	}
+
 	
 
 	
