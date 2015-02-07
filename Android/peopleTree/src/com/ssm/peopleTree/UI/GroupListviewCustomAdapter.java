@@ -7,6 +7,7 @@ import java.util.Comparator;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -57,6 +58,9 @@ public class GroupListviewCustomAdapter extends BaseAdapter {
 		final MemberData mData = mListData.get(position);
 		final int checkBoxPosition = position;
 
+	
+		//    android:background="#AACCFF" 
+		
 		if (convertView == null) {
 			holder = new GroupListViewHolder();
 
@@ -90,6 +94,28 @@ public class GroupListviewCustomAdapter extends BaseAdapter {
 
 		});
 
+		int cnum = position %5;
+		switch(cnum){
+		case 0:
+			convertView.setBackgroundColor(Color.parseColor("#7FBFFF"));
+			break;
+		case 1:
+			convertView.setBackgroundColor(Color.parseColor("#93DAFF"));
+			break;
+		case 2:
+
+			convertView.setBackgroundColor(Color.parseColor("#9FAFFF"));
+			break;
+		case 3:
+
+			convertView.setBackgroundColor(Color.parseColor("#1EA4FF"));
+			break;		
+		case 4:
+
+			convertView.setBackgroundColor(Color.parseColor("#87CEFA"));
+			break;		
+		}
+		
 		return convertView;
 	}
 

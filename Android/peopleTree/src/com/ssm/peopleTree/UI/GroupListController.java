@@ -82,6 +82,7 @@ public class GroupListController  extends Fragment{
 				groupReqDialog.setReqTitle("자식추가 대화상자");
 			}
 		});
+		
 
 		return layout;
 	}	

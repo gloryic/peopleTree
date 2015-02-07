@@ -5,7 +5,23 @@
     android:background="#ECFCFC"
     android:gravity="center|top"
     android:orientation="vertical" >
-
+   <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal"
+        android:paddingBottom="5dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:paddingTop="5dp"
+        android:gravity="center" >
+        
+        <Button
+            android:id="@+id/setting_logoutbtn"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/commonbtn_selector1"
+            android:text="로그아웃" />   
+           </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
@@ -16,19 +32,19 @@
         android:paddingTop="5dp" >
 
         <TextView
-            android:id="@+id/setting_txtv1"
+            android:id="@+id/setting_dbg_txtv1"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="TextView1" />
+            android:text="debug_textview1" />
 
         <Button
-            android:id="@+id/setting_btn1"
+            android:id="@+id/setting_dbg_btn1"
             android:layout_width="120dp"
             android:layout_height="wrap_content"
-            android:background="@drawable/myborder2"
-            android:text="Bttn1" />
+            android:background="@drawable/commonbtn_selector1"
+            android:text="debug_btn1" />
     </LinearLayout>
 
     <LinearLayout
@@ -41,19 +57,19 @@
         android:paddingTop="5dp" >
 
         <TextView
-            android:id="@+id/setting_txtv2"
+            android:id="@+id/setting_dbg_txtv2"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="TextView2" />
+            android:text="debug_textview2" />
 
         <Button
-            android:id="@+id/setting_btn2"
+            android:id="@+id/setting_dbg_btn2"
             android:layout_width="120dp"
             android:layout_height="wrap_content"
-            android:background="@drawable/myborder2"
-            android:text="Bttn2" />
+            android:background="@drawable/commonbtn_selector1"
+            android:text="debug_btn2" />
     </LinearLayout>
 
     <LinearLayout
@@ -66,19 +82,19 @@
         android:paddingTop="5dp" >
 
         <TextView
-            android:id="@+id/setting_txtv3"
+            android:id="@+id/setting_dbg_txtv3"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="TextView3" />
+            android:text="debug_textview3" />
 
         <Button
-            android:id="@+id/setting_btn3"
+            android:id="@+id/setting_dbg_btn3"
             android:layout_width="120dp"
             android:layout_height="wrap_content"
-            android:background="@drawable/myborder2"
-            android:text="Bttn3" />
+            android:background="@drawable/commonbtn_selector1"
+            android:text="debug_btn3" />
     </LinearLayout>
 
     <LinearLayout
@@ -91,19 +107,19 @@
         android:paddingTop="5dp" >
 
         <TextView
-            android:id="@+id/setting_txtv4"
+            android:id="@+id/setting_dbg_txtv4"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="TextView4" />
+            android:text="debug_textview4" />
 
         <Button
-            android:id="@+id/setting_btn4"
+            android:id="@+id/setting_dbg_btn4"
             android:layout_width="120dp"
             android:layout_height="wrap_content"
-            android:background="@drawable/myborder2"
-            android:text="Bttn4" />
+            android:background="@drawable/commonbtn_selector1"
+            android:text="debug_btn4" />
     </LinearLayout>
 
 </LinearLayout>

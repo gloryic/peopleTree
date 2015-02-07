@@ -57,26 +57,27 @@ public class RequestLayoutController extends Fragment {
  			 
             public void onClick(View arg0) {
 
+            	btn1.setSelected(true);
+            	btn2.setSelected(false);
             	
             	reqlv = (ListView) layout.findViewById(R.id.rqList);
         		//#d3F1F5
         
             	reqlv.setAdapter(upRqlvca);
-            	btn1.setBackgroundColor(Color.parseColor("#A0E5E5"));
-            	btn2.setBackgroundColor(Color.parseColor("#E5F5F5"));
+ 
         		
             }
         });
 		btn2.setOnClickListener(new View.OnClickListener() {
 			 
             public void onClick(View arg0) {
-
+            	btn2.setSelected(true);
+            	btn1.setSelected(false);
+            	
 
             	reqlv = (ListView) layout.findViewById(R.id.rqList);
             	reqlv.setAdapter(downRqlvca);
             	
-             	btn1.setBackgroundColor(Color.parseColor("#E5F5F5"));
-            	btn2.setBackgroundColor(Color.parseColor("#A0E5E5"));
             }
         });
 		

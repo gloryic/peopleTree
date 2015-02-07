@@ -33,7 +33,10 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:gravity="right"
-        android:orientation="horizontal" >
+        android:orientation="horizontal"
+        android:paddingBottom="5dp"
+        android:paddingLeft="5dp"
+        android:paddingTop="1dp" >
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -42,20 +45,20 @@
 
             <TextView
                 android:layout_width="72dp"
-                android:layout_height="match_parent"
+                android:layout_height="50dp"
                 android:background="@drawable/border"
                 android:gravity="center"
                 android:text="전송 깊이" />
 
             <RelativeLayout
                 android:layout_width="86dp"
-                android:layout_height="match_parent"
+                android:layout_height="50dp"
                 android:background="@drawable/border" >
 
                 <ImageButton
                     android:id="@+id/msgsend_up_btn"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="28dp"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentTop="true"
                     android:src="@android:drawable/arrow_up_float" />
@@ -63,7 +66,7 @@
                 <ImageButton
                     android:id="@+id/msgsend_down_btn"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="28dp"
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentRight="true"
                     android:src="@android:drawable/arrow_down_float" />
@@ -75,6 +78,7 @@
                     android:layout_alignParentTop="true"
                     android:layout_toLeftOf="@+id/msgsend_up_btn"
                     android:gravity="center" />
+
             </RelativeLayout>
         </LinearLayout>
 
