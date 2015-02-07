@@ -16,6 +16,9 @@ abstract class Protocol {
 	protected static final String USER_PHONE_KEY = "userPhoneNumber";
 	protected static final String USER_PASSWORD_KEY = "password";
 	
+	protected static final String CHILDREN_KEY = "children";
+	protected static final String NUMBER_OF_CHILDREN_KEY = "numberOfChildren";
+	
 	protected static final String MESSAGE_KEY = "message";
 	
 	protected static final String SEND_COUNT_KEY = "sendCount";

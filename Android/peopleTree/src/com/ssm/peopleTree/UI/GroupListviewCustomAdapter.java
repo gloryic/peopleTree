@@ -1,9 +1,6 @@
 package com.ssm.peopleTree.UI;
 
-import java.text.Collator;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -12,34 +9,28 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.CompoundButton.OnCheckedChangeListener;
-
-
-
-
 
 
 import com.ssm.peopleTree.R;
 import com.ssm.peopleTree.data.MemberData;
-import com.ssm.peopleTree.dialog.ChidInfoDialog;
-import com.ssm.peopleTree.dialog.GroupReqDialog;
+import com.ssm.peopleTree.dialog.ChildInfoDialog;
+import com.ssm.peopleTree.group.GroupManager;
 
 public class GroupListviewCustomAdapter extends BaseAdapter{
 
 		private Context mContext = null;
-	    private ArrayList<MemberData> mListData = new ArrayList<MemberData>();
+	    private ArrayList<MemberData> mListData;
+	    private ChildInfoDialog childInfoDialog;
 
-	    public GroupListviewCustomAdapter(Context mContext) {
+	    public GroupListviewCustomAdapter(Context mContext, OnClickListener onClickListener) {
 	        super();
 	        this.mContext = mContext;
 	        
-
+	        mListData = GroupManager.getInstance().getChildren();
+	        childInfoDialog = new ChildInfoDialog(mContext, onClickListener);
 	    }
 
 	    @Override
@@ -61,7 +52,6 @@ public class GroupListviewCustomAdapter extends BaseAdapter{
 	    public View getView(int position, View convertView, ViewGroup parent) {
 	    	GroupListViewHolder holder;
 			final MemberData mData = mListData.get(position);
-			final int checkBoxPosition = position;
 		
 			if (convertView == null){
 				holder = new GroupListViewHolder();
@@ -86,10 +76,8 @@ public class GroupListviewCustomAdapter extends BaseAdapter{
 			holder.btn1.setOnClickListener(new OnClickListener(){
 				@Override
 				public void onClick(View v) {
-					ChidInfoDialog cid = new ChidInfoDialog(mContext);
-					cid.show();
-					cid.setchildInfoTitle(mData.getUserName());
-					
+					childInfoDialog.show();
+					childInfoDialog.setchildInfoTitle(mData.getUserName());	
 				}
 			
 			});
@@ -98,22 +86,6 @@ public class GroupListviewCustomAdapter extends BaseAdapter{
 			
 			return convertView;
 		}
-	    
-	    
-		public void addItem(MemberData data){
-	        mListData.add(data);
-	    }
-
-	    public void remove(int position){
-	        mListData.remove(position);
-	        dataChange();
-	    }
-
-
-	    public void dataChange(){
-	        this.notifyDataSetChanged();
-	    }
-
 	}
 
 class GroupListViewHolder {

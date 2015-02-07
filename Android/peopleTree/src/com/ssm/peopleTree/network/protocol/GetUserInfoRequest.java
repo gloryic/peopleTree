@@ -7,7 +7,7 @@ import com.android.volley.Request.Method;
 public class GetUserInfoRequest extends Request {
 	// 사용자 정보 가져오기 프로토콜 파라미터
 	
-	private static final String REST_PROTOCOL = "/ptree/getinfo/group/member"; 
+	private static final String REST_PROTOCOL = "/ptree/_getinfo/group/member"; 
 	
 	private int userNumber;
 	

@@ -1,8 +1,14 @@
 package com.ssm.peopleTree.network.protocol;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
 import org.json.JSONObject;
 
+import android.util.Log;
+
 import com.ssm.peopleTree.data.MemberData;
+import com.ssm.peopleTree.network.NetworkManager;
 
 public class GetUserInfoResponse extends Response {
 	// 사용자 정보 가져오기 프로토콜 결과
@@ -20,11 +26,12 @@ public class GetUserInfoResponse extends Response {
 	
 	@Override
 	protected void OnSuccess(Object responseData) {
+		
 		try {
 			JSONObject jsonObj = (JSONObject)responseData;
 			
 			mData.userId = jsonObj.getString(USER_ID_KEY);
-			mData.userName = jsonObj.getString(USER_NAME_KEY);
+			mData.userName = "한글";//jsonObj.getString(USER_NAME_KEY);//NetworkManager.getDecodedStr(jsonObj.getString(USER_NAME_KEY));
 			mData.userNumber = jsonObj.getInt(USER_NUMBER_KEY);
 			mData.userPhoneNumber = jsonObj.getInt(USER_PHONE_KEY);
 			

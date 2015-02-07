@@ -13,8 +13,10 @@ import com.ssm.peopleTree.UI.PushMessageListViewCustomAdapter;
 import com.ssm.peopleTree.UI.PushmsgLayoutController;
 import com.ssm.peopleTree.UI.RequestLayoutController;
 import com.ssm.peopleTree.UI.RequestListViewCustomAdapter;
+import com.ssm.peopleTree.application.LoginManager;
 import com.ssm.peopleTree.application.MyManager;
 import com.ssm.peopleTree.data.MemberData;
+import com.ssm.peopleTree.group.GroupManager;
 import com.ssm.peopleTree.network.NetworkManager;
 import com.ssm.peopleTree.network.Status;
 import com.ssm.peopleTree.network.protocol.GetUserInfoRequest;
@@ -22,10 +24,13 @@ import com.ssm.peopleTree.network.protocol.GetUserInfoResponse;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -34,6 +39,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.ListView;
+import android.widget.Toast;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 
 public class TestActivity extends Activity {
@@ -60,7 +66,7 @@ public class TestActivity extends Activity {
 	
 	private NetworkManager networkManager;
 	private MyManager myManager;
-	
+	private GroupManager groupManager;
 	
 	
 	
@@ -72,6 +78,8 @@ public class TestActivity extends Activity {
 		
 		networkManager = NetworkManager.getInstance();
 		myManager = MyManager.getInstance();
+		groupManager = GroupManager.getInstance();
+		groupManager.setChildren(myManager.getMyData());
 		
 		contentsLayout = (LinearLayout) findViewById(R.id.contentsLayout1);
 		inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -106,12 +114,13 @@ public class TestActivity extends Activity {
 		}
 		
 		
-		glvca = new GroupListviewCustomAdapter(this);
-		for(int i=0;i<32;i++){
-			MemberData md = new MemberData();
-			md.setUserName("name"+i);
-			glvca.addItem(md);
-		}
+		glvca = new GroupListviewCustomAdapter(this, new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				nextActivity(MapActivity.class);
+			}
+		});
 		
 		pmlvca = new PushMessageListViewCustomAdapter(this);
 		for(int i=0;i<32000;i++){
@@ -204,7 +213,52 @@ public class TestActivity extends Activity {
         });
 		mf_btn1.callOnClick();
 	}
-		
 
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// TODO
+		
+		menu.add(0, 1, Menu.NONE, "Logout");
+		/*
+		 * .setIcon(android.R.drawable.ic_menu_rotate);
+        menu.add(0, 2, Menu.NONE, "").setIcon(android.R.drawable.ic_menu_add);
+        menu.add(0, 3, Menu.NONE, "").setIcon(android.R.drawable.ic_menu_agenda);
+        menu.add(0, 4, Menu.NONE, "");
+        menu.add(0, 5, Menu.NONE, "");
+        */
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		
+		switch (item.getItemId()) {
+        case 1:
+            Toast.makeText(TestActivity.this, "Logout", Toast.LENGTH_SHORT).show();
+            LoginManager.getInstance().logout();
+            
+            Intent intent;
+    		intent = new Intent(TestActivity.this, LoginActivity.class);
+    		startActivity(intent);
+    		finish();
+            break;
+ 
+        case 2:
+            break;
+ 
+        case 3:
+            break;
+ 
+        default:
+            break;
+        }
+		return super.onOptionsItemSelected(item);
+	}	
+	
+	private void nextActivity(Class<?> cls) {
+		Intent intent;
+		intent = new Intent(TestActivity.this, cls);
+		startActivity(intent);
+	}
 }
 
