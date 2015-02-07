@@ -1,5 +1,7 @@
 package com.ssm.peopleTree.data;
 
+import org.json.JSONObject;
+
 public class MemberData {
 	
 	public String userId;
@@ -132,4 +134,5 @@ public class MemberData {
 	public void setUserPhoneNumber(int userPhoneNumber) {
 		this.userPhoneNumber = userPhoneNumber;
 	}
+
 }

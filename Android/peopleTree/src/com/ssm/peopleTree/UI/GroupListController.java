@@ -64,6 +64,9 @@ public class GroupListController extends Fragment implements Observer {
 		glv.setAdapter(glvca);
 
 		this.inflater = inflater;
+		
+		setCur(null);
+		setParent(null);
 
 		childAddBtn = (ImageButton) layout.findViewById(R.id.imgbtn_childadder);
 		childAddBtn.setOnClickListener(new View.OnClickListener() {
@@ -74,6 +77,7 @@ public class GroupListController extends Fragment implements Observer {
 				groupReqDialog.setReqTitle("자식추가 대화상자");
 			}
 		});
+		
 
 		return layout;
 	}	

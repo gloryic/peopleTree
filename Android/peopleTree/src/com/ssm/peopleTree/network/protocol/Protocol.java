@@ -46,4 +46,9 @@ abstract class Protocol {
 	protected static final String POINTS_KEY = "points";
 	
 	protected static final String PHONE_PATTERN = "^[0-9]{11}$";
+	
+	//TODO
+	protected static final String PARENT_INFO_KEY = "parentInfo";
+	protected static final String CUR_INFO_KEY = "curInfo";
+	protected static final String CHILDREN_INFO_KEY = "chilrdrenInfo";
 }

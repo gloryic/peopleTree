@@ -3,6 +3,7 @@ package com.ssm.peopleTree.network.protocol;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.util.Log;
@@ -10,12 +11,12 @@ import android.util.Log;
 import com.ssm.peopleTree.data.MemberData;
 import com.ssm.peopleTree.network.NetworkManager;
 
-public class GetUserInfoResponse extends Response {
+public class GetInfoResponse extends Response {
 	// 사용자 정보 가져오기 프로토콜 결과
 
 	public MemberData mData;
 	
-	public GetUserInfoResponse(JSONObject jsonObj) {
+	public GetInfoResponse(JSONObject jsonObj) {
 		super(jsonObj);
 	}
 	
@@ -26,7 +27,6 @@ public class GetUserInfoResponse extends Response {
 	
 	@Override
 	protected void OnSuccess(Object responseData) {
-		
 		try {
 			JSONObject jsonObj = (JSONObject)responseData;
 			
@@ -59,4 +59,5 @@ public class GetUserInfoResponse extends Response {
 			e.printStackTrace();
 		}
 	}
+
 }

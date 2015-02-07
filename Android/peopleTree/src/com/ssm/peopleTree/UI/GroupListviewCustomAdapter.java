@@ -9,6 +9,7 @@ import com.ssm.peopleTree.group.GroupManager;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -52,8 +53,13 @@ public class GroupListviewCustomAdapter extends BaseAdapter implements OnClickLi
     public View getView(int position, View convertView, ViewGroup parent) {
     	GroupListViewHolder holder;
 		final MemberData mData = mListData.get(position);
+
+		final int checkBoxPosition = position;
+
 	
-		if (convertView == null){
+		//    android:background="#AACCFF" 
+		
+		if (convertView == null) {
 			holder = new GroupListViewHolder();
 
 			LayoutInflater inflater = (LayoutInflater) mContext
@@ -76,6 +82,28 @@ public class GroupListviewCustomAdapter extends BaseAdapter implements OnClickLi
 		holder.btn1.setOnClickListener(this);
 		holder.btn1.setTag(mData.getUserName());
 
+		int cnum = position %5;
+		switch(cnum){
+		case 0:
+			convertView.setBackgroundColor(Color.parseColor("#7FBFFF"));
+			break;
+		case 1:
+			convertView.setBackgroundColor(Color.parseColor("#93DAFF"));
+			break;
+		case 2:
+
+			convertView.setBackgroundColor(Color.parseColor("#9FAFFF"));
+			break;
+		case 3:
+
+			convertView.setBackgroundColor(Color.parseColor("#1EA4FF"));
+			break;		
+		case 4:
+
+			convertView.setBackgroundColor(Color.parseColor("#87CEFA"));
+			break;		
+		}
+		
 		return convertView;
 	}
 

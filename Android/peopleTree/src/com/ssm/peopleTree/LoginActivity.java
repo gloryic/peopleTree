@@ -10,8 +10,8 @@ import com.ssm.peopleTree.dialog.JoinDialog;
 import com.ssm.peopleTree.dialog.SimpleAlertDialog;
 import com.ssm.peopleTree.network.NetworkManager;
 import com.ssm.peopleTree.network.Status;
-import com.ssm.peopleTree.network.protocol.GetUserInfoRequest;
-import com.ssm.peopleTree.network.protocol.GetUserInfoResponse;
+import com.ssm.peopleTree.network.protocol.GetInfoRequest;
+import com.ssm.peopleTree.network.protocol.GetInfoResponse;
 import com.ssm.peopleTree.network.protocol.LoginRequest;
 import com.ssm.peopleTree.network.protocol.LoginResponse;
 

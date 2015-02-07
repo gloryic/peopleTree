@@ -14,8 +14,10 @@ import com.ssm.peopleTree.network.NetworkManager;
 import com.ssm.peopleTree.network.Status;
 import com.ssm.peopleTree.network.protocol.ChildrenRequest;
 import com.ssm.peopleTree.network.protocol.ChildrenResponse;
-import com.ssm.peopleTree.network.protocol.GetUserInfoRequest;
-import com.ssm.peopleTree.network.protocol.GetUserInfoResponse;
+import com.ssm.peopleTree.network.protocol.GetInfoAllRequest;
+import com.ssm.peopleTree.network.protocol.GetInfoAllResponse;
+import com.ssm.peopleTree.network.protocol.GetInfoRequest;
+import com.ssm.peopleTree.network.protocol.GetInfoResponse;
 
 public class GroupManager extends Observable implements Listener<JSONObject> {
 
@@ -39,6 +41,7 @@ public class GroupManager extends Observable implements Listener<JSONObject> {
 	
 	private ArrayList<MemberData> children;
 	private Stack<MemberData> curStack;
+	private MemberData cur;
 	private MemberData parent;
 	
 	public void createGroup() {
@@ -52,7 +55,7 @@ public class GroupManager extends Observable implements Listener<JSONObject> {
 	public void makeEdge() {
 		//TODO
 	}
-		
+			
 	public void goNext(MemberData selectedChild) {
 		if (selectedChild == null) {
 			return;
@@ -81,6 +84,10 @@ public class GroupManager extends Observable implements Listener<JSONObject> {
 	
 	public void goHome() {
 		
+	}
+	
+	public void update(int groupMemberId) {
+		NetworkManager.getInstance().request(new GetInfoAllRequest(groupMemberId), this, null);
 	}
 	
 	public void groupChanged() {
@@ -114,13 +121,12 @@ public class GroupManager extends Observable implements Listener<JSONObject> {
 
 	@Override
 	public void onResponse(JSONObject arg0) {
-		ChildrenResponse res = new ChildrenResponse(arg0);
+		GetInfoAllResponse res = new GetInfoAllResponse(arg0);
 		if (res.getStatus() == Status.SUCCESS) {
+			parent = res.parentData;
+			cur = res.curData;
 			children.clear();
-			for (int i = 0; i < res.children.size(); i++) {
-				int child = res.children.get(i);
-				ChildrenAdder adder = new ChildrenAdder(child, curStack.peek().userNumber);
-			}
+			children.addAll(res.children);
 			groupChanged();
 		} 
 		else {
@@ -133,28 +139,4 @@ public class GroupManager extends Observable implements Listener<JSONObject> {
 		public void onSetChildrenFail();
 	}
 	
-	private class ChildrenAdder implements Listener<JSONObject> {
-		private int groupMemberId;
-		private int parentGroupMemberId;
-		
-		public ChildrenAdder(int groupMemberId, int parentGroupMemberId) {
-			this.groupMemberId = groupMemberId;
-			this.parentGroupMemberId = parentGroupMemberId;
-			NetworkManager.getInstance().request(new GetUserInfoRequest(groupMemberId), this, null);
-		}
-
-		@Override
-		public void onResponse(JSONObject arg0) {
-			GetUserInfoResponse res = new GetUserInfoResponse(arg0);
-			
-			if (res.getStatus() == Status.SUCCESS) {
-				children.add(res.mData);
-				groupChanged();
-			}
-			else if (parentGroupMemberId == curStack.peek().userNumber){
-				NetworkManager.getInstance().request(new GetUserInfoRequest(groupMemberId), this, null);
-			}
-		}
-	}
-
 }
