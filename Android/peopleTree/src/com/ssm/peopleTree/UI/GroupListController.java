@@ -2,10 +2,14 @@ package com.ssm.peopleTree.UI;
 
 import android.app.Activity;
 import android.content.Context;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -21,14 +25,13 @@ import com.ssm.peopleTree.data.MemberData;
 import com.ssm.peopleTree.dialog.GroupReqDialog;
 import com.ssm.peopleTree.dialog.MyMenuDialog;
 
-public class GroupListController {
+public class GroupListController  extends Fragment{
 	Context mContext;
 
 	private RelativeLayout parentLayout;
 	private RelativeLayout curLayout;
 	LayoutInflater inflater;
 
-	boolean testVal_isParentExist = true;
 
 	GroupListviewCustomAdapter glvca;
 	ListView glv;
@@ -44,22 +47,33 @@ public class GroupListController {
 	
 	public GroupListController(Context context) {
 		this.mContext = context;	
+
 	}
 	
-	public void setupLayout(GroupListviewCustomAdapter adap){
+	public void setListAdapter(GroupListviewCustomAdapter adap){
 		this.glvca = adap;
-		glv = (ListView) ((Activity)mContext).findViewById(R.id.groupList);
+	}
+	
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+	}
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		RelativeLayout layout = (RelativeLayout)inflater.inflate(R.layout.grouplist_layout, container, false);
+		glv = (ListView) layout.findViewById(R.id.groupList);
 		glv.setAdapter(glvca);
+
+		this.inflater = inflater;
 		
-		inflater = (LayoutInflater) ((Activity)mContext).getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		parentLayout = (RelativeLayout) ((Activity)mContext).findViewById(R.id.groupParent_layout);
-		curLayout = (RelativeLayout) ((Activity)mContext).findViewById(R.id.groupcur_layout);
+		parentLayout = (RelativeLayout) layout.findViewById(R.id.groupParent_layout);
+		curLayout = (RelativeLayout) layout.findViewById(R.id.groupcur_layout);
 		inflater.inflate(R.layout.grouplist_cur, curLayout, true);
-		
+
 		setParent(null);
 		setCur(null);
 		
-		childAddBtn = (ImageButton) ((Activity)mContext).findViewById(R.id.imgbtn_childadder);
+
+		childAddBtn = (ImageButton) layout.findViewById(R.id.imgbtn_childadder);
 		childAddBtn.setOnClickListener(new View.OnClickListener() {
 			 
             public void onClick(View arg0) {
@@ -68,7 +82,9 @@ public class GroupListController {
 				groupReqDialog.setReqTitle("자식추가 대화상자");
 			}
 		});
-	}
+
+		return layout;
+	}	
 
 	public void setCur(MemberData myData) {
 		
@@ -107,13 +123,11 @@ public class GroupListController {
 
 	public void setParent(MemberData parentData) {
 		parentLayout.removeAllViews();
-		
 		if(parentData == null){
 			inflater.inflate(R.layout.grouplist_parent_adder,parentLayout,true);
-			
 			parentAddBtn = (ImageButton)parentLayout.findViewById(R.id.parent_add_btn);
 			parentAddBtn.setOnClickListener(new View.OnClickListener() {
-				 
+				
 	            public void onClick(View arg0) {
 	            	groupReqDialog = new GroupReqDialog(mContext);
 	            	groupReqDialog.show();
@@ -121,15 +135,19 @@ public class GroupListController {
 	            }
 	        });
 			
-			
 		}
 		else {
+
 			inflater.inflate(R.layout.grouplist_parent,parentLayout,true);
-			
+
+
 			TextView parentNum = (TextView)parentLayout.findViewById(R.id.parent_num);
 			TextView parentName = (TextView)parentLayout.findViewById(R.id.parent_name);
 			ImageButton parentBtn = (ImageButton)((Activity)mContext).findViewById(R.id.parent_btn);
 			
+			
+
+
 			if (parentNum != null) {
 				parentNum.setText(parentData.managingNumber + "/" + parentData.managingTotalNumber);
 			}

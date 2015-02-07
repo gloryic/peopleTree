@@ -30,8 +30,8 @@ public class BroadCastListViewCustomAdapter extends BaseAdapter {
     public BroadCastListViewCustomAdapter(Context mContext) {
         super();
         this.mContext = mContext;
-        
-
+        Collections.reverse(mListData); 
+      
     }
 
     @Override
@@ -52,7 +52,7 @@ public class BroadCastListViewCustomAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
     	BroadcastListViewHolder holder;
-		final BroadcastListData mData = mListData.get(position);
+		final BroadcastListData mData = mListData.get(mListData.size()-position -1);
 		final int checkBoxPosition = position;
 	
 		if (convertView == null){

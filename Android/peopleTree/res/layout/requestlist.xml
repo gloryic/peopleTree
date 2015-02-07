@@ -42,7 +42,8 @@
              android:layout_height="fill_parent"
              android:background="@drawable/border"
              android:divider="#b5b5b5"
-             android:dividerHeight="1dp" />
+             android:dividerHeight="1dp" 
+             />
      </LinearLayout>
 
 </LinearLayout>

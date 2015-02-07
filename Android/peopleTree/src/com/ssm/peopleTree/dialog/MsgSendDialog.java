@@ -26,9 +26,10 @@ public class MsgSendDialog extends Dialog  {
 	
 	ImageButton imgbtn_cacel;
 	
-	
 	public MsgSendDialog(Context context) {
 		super(context);
+
+		
 		mContext = context;
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		this.setContentView(R.layout.dialog_msgsend);

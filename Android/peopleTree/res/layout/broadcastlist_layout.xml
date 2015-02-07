@@ -8,6 +8,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical"
+     android:background="#ECFCFC"
     tools:context=".MainActivity" >
     
 	<LinearLayout
@@ -52,6 +53,7 @@
         android:layout_height="fill_parent"
         android:background="@drawable/border"
         android:divider="#b5b5b5"
-        android:dividerHeight="2dp" />
+        android:dividerHeight="2dp"
+         />
 
 </LinearLayout>
