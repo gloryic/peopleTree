@@ -18,7 +18,7 @@ public class BatteryInfoReceiver extends BroadcastReceiver {
 			
 			int batterCapa = (level*100 / scale);
 					
-			C.batteryTextView.setText("πË≈Õ∏Æ : " + batterCapa +"%");
+
 		}
 
 }

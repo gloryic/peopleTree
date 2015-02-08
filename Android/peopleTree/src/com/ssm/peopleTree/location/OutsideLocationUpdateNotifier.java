@@ -38,10 +38,7 @@ class OutsideLocationUpdateNotifier implements UpdateNotifier, Response.Listener
 		String locString = String.format("acc[%.1f],lat[%.6f],lon[%.6f]",parent.getAccuracy(),parent.getLatitude(), parent.getLongitude());
 	
 	
-		C.locationTextView1.setText(locString);
-		C.locationTextView2.setText("valid:"+parent.isValidLocation() + " ,gps:" + parent.isGPSEnabled());
-		
-		
+
 		/*
 		NetworkManager nm = NetworkManager.getInstance();
 			

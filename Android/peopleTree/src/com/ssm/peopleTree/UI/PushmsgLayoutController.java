@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.CompoundButton.OnCheckedChangeListener;
@@ -22,6 +23,7 @@ public class PushmsgLayoutController extends Fragment{
 	CheckBox pmlv_chkbox1;
 	boolean pmlv_chkval = false;
 	PushMessageListViewCustomAdapter pmlvca;
+	ImageButton delete_btn;
 	public PushmsgLayoutController(Context context) {
 		this.mContext = context;
 		
@@ -57,6 +59,16 @@ public class PushmsgLayoutController extends Fragment{
 		});
 		pmlv_chkbox1.setChecked(pmlv_chkval);
 		
+		
+		delete_btn= (ImageButton) layout.findViewById(R.id.imgBtn_pmlist_delete);
+		delete_btn.setOnClickListener(new View.OnClickListener() {
+
+			public void onClick(View arg0) {
+
+				pmlvca.removeChecked();
+			
+			}
+		});
 		return layout;
 	}
 

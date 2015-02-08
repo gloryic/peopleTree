@@ -112,6 +112,8 @@ public class RequestListViewCustomAdapter extends BaseAdapter {
         dataChange();
     }
 
+    
+
     public void sort(){
         Collections.sort(mListData, RequestListData.ALPHA_COMPARATOR);
         dataChange();

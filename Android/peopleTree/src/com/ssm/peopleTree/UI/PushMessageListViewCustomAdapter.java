@@ -97,6 +97,20 @@ public class PushMessageListViewCustomAdapter extends BaseAdapter {
         mListData.remove(position);
         dataChange();
     }
+    
+    public void removeChecked(){
+    	
+    	for(int i =0;i<mListData.size();i++){
+    		if(mListData.get(i).isChk()){
+    			mListData.remove(i);
+
+        		i--;
+    		}
+    	}
+    	
+    	
+        dataChange();
+    }
 
     public void sort(){
         Collections.sort(mListData, PushMessageListData.ALPHA_COMPARATOR);
@@ -109,9 +123,10 @@ public class PushMessageListViewCustomAdapter extends BaseAdapter {
     
     public void chekingAllItem(boolean chk){
     	
-    	for(PushMessageListData iter : mListData ){
-    		iter.setChk(chk);
-    		
+    	for(int i=0;i< mListData.size();i++)
+    	{
+    		mListData.get(i).setChk(chk);
+   
     	}
         this.notifyDataSetChanged();
     }

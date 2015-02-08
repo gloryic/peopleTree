@@ -20,6 +20,7 @@ import com.ssm.peopleTree.R;
 import com.ssm.peopleTree.data.MemberData;
 import com.ssm.peopleTree.dialog.GroupReqDialog;
 import com.ssm.peopleTree.dialog.MyMenuDialog;
+import com.ssm.peopleTree.dialog.SearchUserDialog;
 import com.ssm.peopleTree.group.GroupManager;
 
 public class GroupListController extends Fragment implements Observer {
@@ -39,6 +40,7 @@ public class GroupListController extends Fragment implements Observer {
 	ImageButton childAddBtn;
 	
 	GroupReqDialog groupReqDialog;
+	SearchUserDialog searchUserDialog;
 	MyMenuDialog myMenuDialog;
 	
 	private RelativeLayout layout;
@@ -72,9 +74,9 @@ public class GroupListController extends Fragment implements Observer {
 		childAddBtn.setOnClickListener(new View.OnClickListener() {
 			 
             public void onClick(View arg0) {
-            	groupReqDialog = new GroupReqDialog(mContext);
-				groupReqDialog.show();
-				groupReqDialog.setReqTitle("자식추가 대화상자");
+            	searchUserDialog = new SearchUserDialog(mContext);
+            	searchUserDialog.setMode(SearchUserDialog.CHILD_ADD_MODE);
+				searchUserDialog.show();
 			}
 		});
 		
@@ -130,9 +132,9 @@ public class GroupListController extends Fragment implements Observer {
 			parentAddBtn.setOnClickListener(new View.OnClickListener() {
 				
 	            public void onClick(View arg0) {
-	            	groupReqDialog = new GroupReqDialog(mContext);
-	            	groupReqDialog.show();
-	            	groupReqDialog.setReqTitle("부모추가 대화상자");
+	            	searchUserDialog = new SearchUserDialog(mContext);
+	            	searchUserDialog.setMode(SearchUserDialog.PARENT_ADD_MODE);
+	            	searchUserDialog.show();
 	            }
 	        });
 			
