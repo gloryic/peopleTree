@@ -65,11 +65,7 @@ public class GroupManager extends Observable implements Listener<JSONObject> {
 	public void onResponse(JSONObject arg0) {
 		GetInfoAllResponse res = new GetInfoAllResponse(arg0);
 		if (res.getStatus() == Status.SUCCESS) {
-			parent = res.parentData;
-			cur = res.curData;
-			children.clear();
-			children.addAll(res.children);
-			groupChanged();
+			setGroup(res.parentData, res.curData, res.children);
 		} 
 		else {
 			Log.e("test", "Fail");

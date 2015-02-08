@@ -5,7 +5,7 @@ import org.json.JSONObject;
 import com.android.volley.Request.Method;
 
 public class CheckMemberRequest extends Request {
-	// 위치 정보 전송 프로토콜 파라미터
+	// 디바이스 상태 체크 및 위치 기록,검사 프로토콜 요청
 	
 	public int groupMemeberId;
 	public int parentGroupMemberId;

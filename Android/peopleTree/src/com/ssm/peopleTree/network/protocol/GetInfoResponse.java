@@ -1,15 +1,8 @@
 package com.ssm.peopleTree.network.protocol;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.util.Log;
-
 import com.ssm.peopleTree.data.MemberData;
-import com.ssm.peopleTree.network.NetworkManager;
 
 public class GetInfoResponse extends Response {
 	// 사용자 정보 가져오기 프로토콜 결과
