@@ -79,6 +79,16 @@ public class BroadCastLayoutController extends Fragment {
 			}
 		});
 
+		imgBtn_bclist_delete =  (ImageButton) layout.findViewById(R.id.imgBtn_bclist_delete);
+		imgBtn_bclist_delete.setOnClickListener(new View.OnClickListener() {
+
+			public void onClick(View arg0) {
+
+				bclvca.removeChecked();
+
+			}
+		});
+
 		return layout;
 	}
 

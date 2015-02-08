@@ -5,7 +5,7 @@ public class MemberData {
 	public String userId;
 	public String userName;
 	public int userNumber;
-	public int userPhoneNumber;
+	public String userPhoneNumber;
 	
 	public int groupMemberId;
 	public int parentGroupMemberId;
@@ -73,7 +73,7 @@ public class MemberData {
 		return userNumber;
 	}
 	
-	public int getUserPhoneNumber() {
+	public String getUserPhoneNumber() {
 		return userPhoneNumber;
 	}
 	
@@ -129,7 +129,7 @@ public class MemberData {
 		this.userNumber = userNumber;
 	}
 	
-	public void setUserPhoneNumber(int userPhoneNumber) {
+	public void setUserPhoneNumber(String userPhoneNumber) {
 		this.userPhoneNumber = userPhoneNumber;
 	}
 }

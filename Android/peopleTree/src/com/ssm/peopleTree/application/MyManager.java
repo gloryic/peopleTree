@@ -104,7 +104,7 @@ public class MyManager {
 		return myData.userNumber;
 	}
 	
-	public int getUserPhoneNumber() {
+	public String getUserPhoneNumber() {
 		return myData.userPhoneNumber;
 	}
 	
@@ -164,7 +164,7 @@ public class MyManager {
 		myData.userNumber = userNumber;
 	}
 	
-	public void setUserPhoneNumber(int userPhoneNumber) {
+	public void setUserPhoneNumber(String userPhoneNumber) {
 		myData.userPhoneNumber = userPhoneNumber;
 	}
 }

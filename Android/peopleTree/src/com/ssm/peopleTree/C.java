@@ -9,8 +9,5 @@ public class C {
 	static public boolean networkAllGet = true;
 	
 	
-	static public TextView locationTextView1;
-	static public TextView locationTextView2;
-	static public TextView batteryTextView;
-	static public TextView wifiTextView1;
+
 }

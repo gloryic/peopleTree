@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/layoutGroupReq"
-    android:layout_width="wrap_content"
+    android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:background="@drawable/myborder3"
@@ -29,8 +29,9 @@
 
     <TextView
         android:id="@+id/textView1"
-        android:layout_width="280dp"
+      android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_weight="0.51"
         android:gravity="center"
         android:text="대상찾기" />
 
@@ -60,7 +61,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="fill_parent"
+        android:layout_width="320dp"
         android:layout_height="38dp"
         android:orientation="horizontal"
         android:paddingBottom="1dp"
@@ -72,8 +73,9 @@
             android:id="@+id/reqDialog_chkbox1"
             android:layout_width="111dp"
             android:layout_height="wrap_content"
+            android:layout_weight="0.25"
             android:text="위치정보 관리 여부"
-            android:textSize="8sp" />
+            android:textSize="13sp" />
 
         <TextView
             android:layout_width="wrap_content"
