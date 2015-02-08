@@ -5,6 +5,10 @@ abstract class Protocol {
 	protected static final String GROUP_ID_KEY = "groupId";
 	protected static final String GROUP_NAME_KEY = "groupName";
 	protected static final String GROUP_MEMBER_ID_KEY = "groupMemberId";
+	protected static final String GROUP_MEMBERS_NUMBER_KEY = "groupMembersNumber";
+	protected static final String GROUP_MEMBERS_INFO_KEY = "groupMembersInfo";
+	
+	
 	protected static final String MEMBER_ID_KEY = "memberId";
 	protected static final String PARENT_GROUP_MEMBER_ID_KEY = "parentGroupMemberId";
 	protected static final String SUB_ROOT_ID_KEY = "subRootId";
@@ -14,6 +18,7 @@ abstract class Protocol {
 	protected static final String USER_TYPE_KEY = "userType";
 	protected static final String USER_NAME_KEY = "userName";
 	protected static final String USER_PHONE_KEY = "userPhoneNumber";
+	protected static final String USER_ID_OR_PHONE_KEY = "userIdOrPhone";
 	protected static final String USER_PASSWORD_KEY = "password";
 	
 	protected static final String CHILDREN_KEY = "children";
@@ -32,6 +37,8 @@ abstract class Protocol {
 	protected static final String RADIUS_KEY = "radius";
 	
 	protected static final String STATUS_KEY = "status";
+	protected static final String STATUS_CODE_KEY = "statusCode";
+	
 	protected static final String EDGE_TYPE_KEY = "edgeType";
 	protected static final String EDGE_STATUS_KEY = "edgeStatus";
 	protected static final String DEVICE_STATUS_KEY = "deviceStatus";
@@ -47,8 +54,17 @@ abstract class Protocol {
 	
 	protected static final String PHONE_PATTERN = "^[0-9]{11}$";
 	
-	//TODO
 	protected static final String PARENT_INFO_KEY = "parentInfo";
 	protected static final String CUR_INFO_KEY = "curInfo";
-	protected static final String CHILDREN_INFO_KEY = "chilrdrenInfo";
+	protected static final String CHILDREN_INFO_KEY = "childrenInfo";
+	
+	protected static final String ACCUMULATE_WARNING_KEY = "accumulateWarning";
+	
+	protected static final String FP_ID_KEY = "fpId";
+	protected static final String FROM_KEY = "from";
+	protected static final String TO_KEY = "to";
+	
+	protected static final String KEYWORD_KEY = "keyword";
+	
+	protected static final String DESC_KEY = "desc";
 }

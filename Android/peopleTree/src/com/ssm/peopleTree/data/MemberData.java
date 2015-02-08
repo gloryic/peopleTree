@@ -7,18 +7,20 @@ public class MemberData {
 	public String userId;
 	public String userName;
 	public int userNumber;
-	public int userPhoneNumber;
+	public String userPhoneNumber;
 	
 	public int groupMemberId;
 	public int parentGroupMemberId;
 	public int groupId;
 	
 	public int edgeStatus;
+	public int edgeType;
 	
 	public int manageMode;
 	public int managedLocationRadius;
 	public int managingTotalNumber;
 	public int managingNumber;
+	public int accumulateWarning;
 	
 	public Double longitude;
 	public Double latitude;
@@ -75,7 +77,7 @@ public class MemberData {
 		return userNumber;
 	}
 	
-	public int getUserPhoneNumber() {
+	public String getUserPhoneNumber() {
 		return userPhoneNumber;
 	}
 	
@@ -131,7 +133,7 @@ public class MemberData {
 		this.userNumber = userNumber;
 	}
 	
-	public void setUserPhoneNumber(int userPhoneNumber) {
+	public void setUserPhoneNumber(String userPhoneNumber) {
 		this.userPhoneNumber = userPhoneNumber;
 	}
 

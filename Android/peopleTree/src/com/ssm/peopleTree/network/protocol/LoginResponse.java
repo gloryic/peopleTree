@@ -5,6 +5,7 @@ import org.json.JSONObject;
 public class LoginResponse extends Response {
 
 	public int userNumber;
+	public String desc;
 	
 	public LoginResponse(JSONObject jsonObj) {
 		super(jsonObj);
@@ -16,6 +17,8 @@ public class LoginResponse extends Response {
 			JSONObject jsonObj = (JSONObject)responseData;
 			
 			userNumber = jsonObj.getInt(USER_NUMBER_KEY);
+			desc = jsonObj.getString(DESC_KEY);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

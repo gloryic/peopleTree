@@ -29,12 +29,12 @@ public class GetInfoAllResponse extends Response {
 		
 		try {
 			JSONObject jsonObj = (JSONObject)responseData;
-			parentData = parse(jsonObj.getJSONObject(PARENT_INFO_KEY));
-			curData = parse(jsonObj.getJSONObject(PARENT_INFO_KEY));
+			parentData = parseInfo(jsonObj.getJSONObject(PARENT_INFO_KEY));
+			curData = parseInfo(jsonObj.getJSONObject(CUR_INFO_KEY));
 			
 			JSONArray jsonArr = jsonObj.getJSONArray(CHILDREN_INFO_KEY);
 			for (int i = 0; !jsonArr.isNull(i); i++) {
-				children.add(parse(jsonArr.getJSONObject(i)));
+				children.add(parseInfo(jsonArr.getJSONObject(i)));
 			}
 			
 		} catch (Exception e) {
@@ -46,25 +46,4 @@ public class GetInfoAllResponse extends Response {
 		}
 	}
 	
-	private static MemberData parse(JSONObject jsonObj) throws JSONException {
-		MemberData mData = new MemberData();
-		
-		mData.userId = jsonObj.getString(USER_ID_KEY);
-		mData.userName = jsonObj.getString(USER_NAME_KEY);
-		mData.userNumber = jsonObj.getInt(USER_NUMBER_KEY);
-		mData.userPhoneNumber = jsonObj.getInt(USER_PHONE_KEY);
-		
-		mData.groupMemberId = jsonObj.getInt(GROUP_MEMBER_ID_KEY);
-		mData.parentGroupMemberId = jsonObj.getInt(PARENT_GROUP_MEMBER_ID_KEY);
-		mData.groupId = jsonObj.getInt(GROUP_ID_KEY);
-		
-		mData.edgeStatus = jsonObj.getInt(EDGE_STATUS_KEY);
-		
-		mData.manageMode = jsonObj.getInt(MANAGE_MODE_KEY);
-		mData.managedLocationRadius = jsonObj.getInt(MANAGE_LOCATION_RADIUS_KEY);
-		mData.managingTotalNumber = jsonObj.getInt(MANAGING_TOTAL_NUMBER_KEY);
-		mData.managingNumber = jsonObj.getInt(MANAGING_NUMBER_KEY);			
-		
-		return mData;
-	}
 }

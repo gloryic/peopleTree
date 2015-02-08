@@ -6,6 +6,7 @@ import com.ssm.peopleTree.R;
 import com.ssm.peopleTree.data.MemberData;
 import com.ssm.peopleTree.dialog.ChildInfoDialog;
 import com.ssm.peopleTree.group.GroupManager;
+import com.ssm.peopleTree.map.MapManager;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -80,7 +81,7 @@ public class GroupListviewCustomAdapter extends BaseAdapter implements OnClickLi
 		}
 		holder.nametxtv.setText(mData.getUserName());
 		holder.btn1.setOnClickListener(this);
-		holder.btn1.setTag(mData.getUserName());
+		holder.btn1.setTag(mData);
 
 		int cnum = position %5;
 		switch(cnum){
@@ -110,13 +111,18 @@ public class GroupListviewCustomAdapter extends BaseAdapter implements OnClickLi
 	@Override
 	public void onClick(View v) {
 		ImageButton btn = (ImageButton)v;
-		String title = "";
-		if (btn != null) {
-			title = (String)btn.getTag();
+		if (btn == null) {
+			return;
 		}
 		
+		MemberData mData = (MemberData)btn.getTag();
+		if (mData == null) {
+			return;
+		}
+		
+		MapManager.getInstance().setChild(mData);
+		childInfoDialog.setchildInfoTitle(mData.userName);
 		childInfoDialog.show();
-		childInfoDialog.setchildInfoTitle(title);	
 	}
 	
 	class GroupListViewHolder {

@@ -1,28 +1,14 @@
 package com.ssm.peopleTree.location;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
-
-
-
-
-
-
-
-
-
-
 import com.android.volley.Response;
-import com.android.volley.Request.Method;
 import com.android.volley.VolleyError;
 import com.ssm.peopleTree.C;
-import com.ssm.peopleTree.R;
 import com.ssm.peopleTree.network.NetworkManager;
+import com.ssm.peopleTree.network.protocol.CheckMemberRequest;
 
-import android.location.Location;
 import android.util.Log;
-import android.widget.TextView;
 
 class OutsideLocationUpdateNotifier implements UpdateNotifier, Response.Listener<JSONObject>, Response.ErrorListener {
 	OutsideLocationListener parent;
@@ -39,12 +25,13 @@ class OutsideLocationUpdateNotifier implements UpdateNotifier, Response.Listener
 		PeopleTreeLocationManager pltm = PeopleTreeLocationManager.getInstance();		
 		long curTime = System.currentTimeMillis();
 		if(!parent.isValidLocation() && (curTime - pltm.getLastChangeTime() ) >  PeopleTreeLocationManager.MINTIMEINTERVAL){
-			
 
 			pltm.changeLocationMeasureMode();
 			
 		}else{
-			//위치전송
+			parent.location.getLatitude();
+			parent.location.getLongitude();
+			
 		}
 		
 		
@@ -70,10 +57,12 @@ class OutsideLocationUpdateNotifier implements UpdateNotifier, Response.Listener
 		
 		*/
 	}
+	
 	@Override
 	public void onErrorResponse(VolleyError arg0) {
 
 	}
+	
 	@Override
 	public void onResponse(JSONObject arg0) {
 		// TODO Auto-generated method stub
