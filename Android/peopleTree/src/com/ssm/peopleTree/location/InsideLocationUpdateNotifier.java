@@ -22,6 +22,8 @@ class InsideLocationUpdateNotifier implements UpdateNotifier{
 			
 			pltm.changeLocationMeasureMode();
 		}else{
+			parent.nearReferPoint.getX();
+			parent.nearReferPoint.getY();
 			
 			parent.nearReferPoint.getX();
 			parent.nearReferPoint.getY();

@@ -14,11 +14,13 @@ public class MemberData {
 	public int groupId;
 	
 	public int edgeStatus;
+	public int edgeType;
 	
 	public int manageMode;
 	public int managedLocationRadius;
 	public int managingTotalNumber;
 	public int managingNumber;
+	public int accumulateWarning;
 	
 	public Double longitude;
 	public Double latitude;

@@ -3,8 +3,11 @@ package com.ssm.peopleTree.application;
 import org.json.JSONObject;
 
 import com.android.volley.Response.Listener;
+import com.ssm.peopleTree.group.GroupManager;
 import com.ssm.peopleTree.network.NetworkManager;
 import com.ssm.peopleTree.network.Status;
+import com.ssm.peopleTree.network.protocol.GetInfoAllRequest;
+import com.ssm.peopleTree.network.protocol.GetInfoAllResponse;
 import com.ssm.peopleTree.network.protocol.GetInfoRequest;
 import com.ssm.peopleTree.network.protocol.GetInfoResponse;
 import com.ssm.peopleTree.network.protocol.LoginRequest;
@@ -66,7 +69,7 @@ public class LoginManager {
 					savedUserNumber = res.userNumber;
 					save();
 
-					NetworkManager.getInstance().request(new GetInfoRequest(savedUserNumber), onGetInfoResponse, null);
+					NetworkManager.getInstance().request(new GetInfoAllRequest(savedUserNumber), onGetInfoResponse, null);
 				}
 				else {
 					loginListener.onLoginFail(status);
@@ -102,11 +105,12 @@ public class LoginManager {
 				if (loginListener == null)
 					return;
 				
-				GetInfoResponse res = new GetInfoResponse(arg0);
+				GetInfoAllResponse res = new GetInfoAllResponse(arg0);
 				Status status = res.getStatus();
 				
 				if (res.getStatus() == Status.SUCCESS) {
-					MyManager.getInstance().setMyData(res.mData);
+					MyManager.getInstance().setMyData(res.curData);
+					GroupManager.getInstance().setGroup(res.parentData, res.curData, res.children);
 					loginListener.onLoginSuccess();
 				}
 				else {
@@ -164,7 +168,7 @@ public class LoginManager {
 		}
 		
 		if (savedUserNumber != USER_NUMBER_DEFAULT) {
-			NetworkManager.getInstance().request(new GetInfoRequest(savedUserNumber), onGetInfoResponse, null);
+			NetworkManager.getInstance().request(new GetInfoAllRequest(savedUserNumber), onGetInfoResponse, null);
 		}
 		else {
 			// TODO

@@ -36,7 +36,6 @@ public class MakeGroupRequest extends Request {
 		groupNamePattern = Pattern.compile("^(\\w|[°¡-ÆR]){4,20}$");
 		
 		valid = true;
-		Log.e("test", "init: " + valid);
 		setUserPhoneNumber(userPhoneNumber);
 		setUserId(userId);
 		setPassword(password);

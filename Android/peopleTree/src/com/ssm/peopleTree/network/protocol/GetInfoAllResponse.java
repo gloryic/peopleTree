@@ -29,12 +29,12 @@ public class GetInfoAllResponse extends Response {
 		
 		try {
 			JSONObject jsonObj = (JSONObject)responseData;
-			parentData = parse(jsonObj.getJSONObject(PARENT_INFO_KEY));
-			curData = parse(jsonObj.getJSONObject(PARENT_INFO_KEY));
+			parentData = parseInfo(jsonObj.getJSONObject(PARENT_INFO_KEY));
+			curData = parseInfo(jsonObj.getJSONObject(CUR_INFO_KEY));
 			
 			JSONArray jsonArr = jsonObj.getJSONArray(CHILDREN_INFO_KEY);
 			for (int i = 0; !jsonArr.isNull(i); i++) {
-				children.add(parse(jsonArr.getJSONObject(i)));
+				children.add(parseInfo(jsonArr.getJSONObject(i)));
 			}
 			
 		} catch (Exception e) {
@@ -46,6 +46,7 @@ public class GetInfoAllResponse extends Response {
 		}
 	}
 	
+
 	private static MemberData parse(JSONObject jsonObj) throws JSONException {
 		MemberData mData = new MemberData();
 		
@@ -67,4 +68,5 @@ public class GetInfoAllResponse extends Response {
 		
 		return mData;
 	}
+
 }

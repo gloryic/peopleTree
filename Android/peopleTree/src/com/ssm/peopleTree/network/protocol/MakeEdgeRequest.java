@@ -5,35 +5,21 @@ import org.json.JSONObject;
 import com.android.volley.Request.Method;
 
 public class MakeEdgeRequest extends Request {
-	// 연결 신청 프로토콜 파라미터
+	// 연결 수락 프로토콜 요청
 	
-	public int ownPhoneNumber;
-	public int edgeType;
-	public int userNumber;	
+	private static final String REST_PROTOCOL = "/ptree/make/edge"; 
 	
-	public MakeEdgeRequest(int ownPhoneNumber, int edgeType, int userId) {
-		this.ownPhoneNumber = ownPhoneNumber;
-		this.edgeType = edgeType;
-		this.userNumber =userId;
+	private int groupMemberId;
+	
+	public MakeEdgeRequest(int groupMemberId) {
+		this.groupMemberId = groupMemberId;
 	}
-	
-	public MakeEdgeRequest(JSONObject jsonObject) {
-		try {
-			ownPhoneNumber = jsonObject.getInt(OWN_PHONE_KEY);
-			edgeType = jsonObject.getInt(EDGE_TYPE_KEY);
-			userNumber = jsonObject.getInt(USER_NUMBER_KEY);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}	
 	
 	@Override
 	public JSONObject toJSonObject() {
 		JSONObject json = new JSONObject();
 		try {
-			json.put(OWN_PHONE_KEY, ownPhoneNumber);
-			json.put(EDGE_TYPE_KEY, edgeType);
-			json.put(USER_NUMBER_KEY, userNumber);
+			json.put(GROUP_MEMBER_ID_KEY, groupMemberId);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -43,10 +29,8 @@ public class MakeEdgeRequest extends Request {
 
 	@Override
 	public String toURI() {
-		String result = "";
-		result += "?" + OWN_PHONE_KEY + "=" + Integer.toString(ownPhoneNumber);
-		result += "&" + EDGE_TYPE_KEY + "=" + Integer.toString(edgeType);
-		result += "&" + USER_NUMBER_KEY + "=" + Integer.toString(userNumber);
+		String result = REST_PROTOCOL;
+		result += "?" + GROUP_MEMBER_ID_KEY + "=" + Integer.toString(groupMemberId);
 		return result;
 	}
 	

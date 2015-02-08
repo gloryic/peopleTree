@@ -1,6 +1,9 @@
 package com.ssm.peopleTree.dialog;
 
 
+import org.json.JSONObject;
+
+import com.android.volley.Response.Listener;
 import com.ssm.peopleTree.R;
 
 
@@ -10,7 +13,15 @@ import com.ssm.peopleTree.R;
 
 
 
+import com.ssm.peopleTree.application.MyManager;
 import com.ssm.peopleTree.data.MemberData;
+import com.ssm.peopleTree.group.GroupManager;
+import com.ssm.peopleTree.network.NetworkManager;
+import com.ssm.peopleTree.network.Status;
+import com.ssm.peopleTree.network.protocol.GetInfoAllRequest;
+import com.ssm.peopleTree.network.protocol.GetInfoAllResponse;
+import com.ssm.peopleTree.network.protocol.SearchMemberRequest;
+import com.ssm.peopleTree.network.protocol.SearchMemberResponse;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -21,6 +32,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -34,12 +46,15 @@ public class SearchUserDialog extends Dialog  {
 	EditText editText;
 	Button searchBtn;
 	TextView searchNumTxtv;
-	
+	CheckBox chkbx;
 	
 	public static final int NOT_VALID_MODE =0;
 	public static final int PARENT_ADD_MODE =1;
 	public static final int CHILD_ADD_MODE =2;
 	int mode = NOT_VALID_MODE;
+	
+	
+	private Listener<JSONObject> onSearchMemberResponse;
 	
 	public SearchUserDialog(Context context) {
 		super(context);
@@ -47,33 +62,56 @@ public class SearchUserDialog extends Dialog  {
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		this.setContentView(R.layout.dialog_searchuser);
 		lv = (ListView) this.findViewById(R.id.searchuser_listview);
+		chkbx = (CheckBox)this.findViewById(R.id.searchuser_chkbx);
 		sudlva = new SearchUserDialogListViewAdapter(mContext);
 		sudlva.setParent(this);
 		lv.setAdapter(sudlva);
 	
+		
+		onSearchMemberResponse = new Listener<JSONObject>() {
+
+			@Override
+			public void onResponse(JSONObject arg0) {
+	
+				SearchMemberResponse res = new SearchMemberResponse(arg0);
+				Status status = res.getStatus();
+				
+				if (res.getStatus() == Status.SUCCESS) {
+						
+						sudlva.setmListData(res.groupMembersInfo);
+
+				}
+				else {
+					sudlva.clear();
+				}
+				searchNumTxtv.setText(""+sudlva.getCount()+"명");
+			}
+		};
+		
+		
+		
+		
+		
 		searchBtn= (Button) this.findViewById(R.id.searchuser_searchbtn);
 		searchNumTxtv = (TextView) this.findViewById(R.id.searchuser_seachnum_txtv);
+		editText = (EditText)this.findViewById(R.id.searchuser_edittxt);
+		
 		searchBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {
             	sudlva.clear();
             	
+            	String qstr= editText.getText().toString();
+            	NetworkManager.getInstance().request(new SearchMemberRequest(qstr), onSearchMemberResponse, null);
             	
             	
-            	searchNumTxtv.setText(""+sudlva.getCount()+"명");
+            	
+            	
             }
         });
 
 		
-		/*테스트용
-		 */
-		for(int i=0;i<32;i++){
-			MemberData tmp = new MemberData();
-			tmp.setUserId("ididid"+i);
-			tmp.setUserName("nmnmnm"+i);
-			tmp.setUserPhoneNumber("phphph"+i);
-			
-			sudlva.addItem(tmp);
-		}
+	
+		
 
 	}
 	public void setMode(int m){

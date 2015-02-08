@@ -31,12 +31,12 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="68dp"
         android:gravity="right"
         android:orientation="horizontal"
         android:paddingBottom="5dp"
         android:paddingLeft="5dp"
-        android:paddingTop="1dp" >
+        android:paddingTop="8dp" >
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -72,7 +72,7 @@
                     android:src="@android:drawable/arrow_down_float" />
 
                 <TextView
-                    android:id="@+id/reqDialog_reqtitle"
+                    android:id="@+id/msgsend_depth_txtv"
                     android:layout_width="60dp"
                     android:layout_height="match_parent"
                     android:layout_alignParentTop="true"

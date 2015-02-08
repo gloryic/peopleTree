@@ -3,10 +3,9 @@ package com.ssm.peopleTree.application;
 import com.ssm.peopleTree.data.MemberData;
 
 public class MyManager {
-	private volatile static MyManager instance;
+	private volatile static MyManager instance = null;
 
 	private MyManager() {
-		instance = null;
 		myData = new MemberData();
 	}
 	
@@ -34,6 +33,7 @@ public class MyManager {
 		this.myData.groupId = myData.groupId;
 		
 		this.myData.edgeStatus = myData.edgeStatus;
+		this.myData.edgeType = myData.edgeType;
 		
 		this.myData.manageMode = myData.manageMode;
 		this.myData.managedLocationRadius = myData.managedLocationRadius;
@@ -54,6 +54,10 @@ public class MyManager {
 	
 	public int getEdgeStatus() {
 		return myData.edgeStatus;
+	}
+	
+	public int getEdgeType() {
+		return myData.edgeType;
 	}
 	
 	public int getGroupId() {
@@ -114,6 +118,10 @@ public class MyManager {
 	
 	public void setEdgeStatus(int edgeStatus) {
 		myData.edgeStatus = edgeStatus;
+	}
+	
+	public void setEdgeType(int edgeType) {
+		myData.edgeType = edgeType;
 	}
 	
 	public void setGroupId(int groupId) {

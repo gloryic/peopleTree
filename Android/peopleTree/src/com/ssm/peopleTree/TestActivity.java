@@ -183,7 +183,6 @@ public class TestActivity extends FragmentActivity implements OnClickListener {
 				switch(position){
 					case 0:
 						page1Btn.setSelected(true);
-						groupManager.setChildren(myManager.getMyData());
 						break;
 					case 1:
 						page2Btn.setSelected(true);
@@ -202,6 +201,7 @@ public class TestActivity extends FragmentActivity implements OnClickListener {
 			
 			@Override
 			public void onPageScrolled(int arg0, float arg1, int arg2) {
+				
 			}
 			
 			@Override
@@ -209,7 +209,7 @@ public class TestActivity extends FragmentActivity implements OnClickListener {
 				// TODO Auto-generated method stub
 			}
 		});
-
+		
 		page1Btn.setSelected(true);
 	}
 

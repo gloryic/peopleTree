@@ -36,6 +36,6 @@ public class GetInfoRequest extends Request {
 	
 	@Override
 	public int getMethod() {
-		return Method.POST;
+		return Method.GET;
 	}
 }

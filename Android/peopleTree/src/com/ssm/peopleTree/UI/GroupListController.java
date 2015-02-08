@@ -61,14 +61,14 @@ public class GroupListController extends Fragment implements Observer {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		layout = (RelativeLayout)inflater.inflate(R.layout.grouplist_layout, container, false);
-		
+
 		glv = (ListView) layout.findViewById(R.id.groupList);
 		glv.setAdapter(glvca);
 
 		this.inflater = inflater;
 		
-		setCur(null);
-		setParent(null);
+		setParent(GroupManager.getInstance().getParent());
+		setCur(GroupManager.getInstance().getCur());
 
 		childAddBtn = (ImageButton) layout.findViewById(R.id.imgbtn_childadder);
 		childAddBtn.setOnClickListener(new View.OnClickListener() {
@@ -86,6 +86,8 @@ public class GroupListController extends Fragment implements Observer {
 
 	private void setCur(MemberData myData) {
 		RelativeLayout curLayout = (RelativeLayout) layout.findViewById(R.id.groupcur_layout);
+		curLayout.removeAllViews();
+		
 		inflater.inflate(R.layout.grouplist_cur, curLayout, true);
 		
 		TextView myNum = (TextView)curLayout.findViewById(R.id.grouplist_cur_num);

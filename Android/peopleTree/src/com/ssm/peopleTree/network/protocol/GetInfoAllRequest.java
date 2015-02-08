@@ -11,17 +11,17 @@ public class GetInfoAllRequest extends Request {
 	
 	private static final String REST_PROTOCOL = "/ptree/getinfoall/group/member"; 
 	
-	private int userNumber;
+	private int groupMemberId;
 	
-	public GetInfoAllRequest(int userNumber) {
-		this.userNumber = userNumber;
+	public GetInfoAllRequest(int groupMemberId) {
+		this.groupMemberId = groupMemberId;
 	}
 	
 	@Override
 	public JSONObject toJSonObject() {
 		JSONObject json = new JSONObject();
 		try {
-			json.put(USER_NUMBER_KEY, userNumber);
+			json.put(GROUP_MEMBER_ID_KEY, groupMemberId);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -32,13 +32,13 @@ public class GetInfoAllRequest extends Request {
 	@Override
 	public String toURI() {
 		String result = REST_PROTOCOL;
-		result += "?" + USER_NUMBER_KEY + "=" + Integer.toString(userNumber);
+		result += "?" + GROUP_MEMBER_ID_KEY + "=" + Integer.toString(groupMemberId);
 		return result;
 	}
 	
 	@Override
 	public int getMethod() {
-		return Method.POST;
+		return Method.GET;
 	}
 	
 }
