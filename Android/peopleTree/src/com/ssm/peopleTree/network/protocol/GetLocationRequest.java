@@ -4,21 +4,22 @@ import org.json.JSONObject;
 
 import com.android.volley.Request.Method;
 
-public class LogoutRequest extends Request {
+public class GetLocationRequest extends Request {
+	// 현 위치 정보 가져오기 프로토콜 요청
 	
-	private static final String REST_PROTOCOL = "/ptree/logout"; 
+	private static final String REST_PROTOCOL = "/ptree/location/getlocation"; 
 	
-	private int userNumber;
+	private int groupMemberId;
 	
-	public LogoutRequest(int usernumber) {
-		this.userNumber = usernumber;
+	public GetLocationRequest(int groupMemberId) {
+		this.groupMemberId = groupMemberId;
 	}
 	
 	@Override
 	public JSONObject toJSonObject() {
 		JSONObject json = new JSONObject();
 		try {
-			json.put(USER_NUMBER_KEY, userNumber);
+			json.put(GROUP_MEMBER_ID_KEY, groupMemberId);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -29,7 +30,7 @@ public class LogoutRequest extends Request {
 	@Override
 	public String toURI() {
 		String result = REST_PROTOCOL;
-		result += "?" + USER_NUMBER_KEY + "=" + userNumber;
+		result += "?" + GROUP_MEMBER_ID_KEY + "=" + groupMemberId;
 		return result;
 	}
 

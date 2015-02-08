@@ -3,7 +3,6 @@ package com.ssm.peopleTree.network.protocol;
 import java.util.ArrayList;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.ssm.peopleTree.data.MemberData;

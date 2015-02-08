@@ -67,4 +67,10 @@ abstract class Protocol {
 	protected static final String KEYWORD_KEY = "keyword";
 	
 	protected static final String DESC_KEY = "desc";
+	
+	protected static final String PARENTS_KEY = "parents";
+	
+	protected static final String DEPTH_KEY = "depth";
+	
+	protected static final String VALIDATION_KEY = "validation";
 }
