@@ -21,7 +21,7 @@ public class PeopleTreeLocationManager  {
 	
 	static public final int NOT_INITIALIZED = 0;	
 	static public final int INSIDE_MODE = 1;
-	static public final int OUTSIZE_MODE = 2;
+	static public final int OUTSIDE_MODE = 2;
 	static public final int NOT_MEASURABLE= 4;
 	
 	long distanceForUpdate = 0;
@@ -53,7 +53,7 @@ public class PeopleTreeLocationManager  {
     		
     		insideLocationMeasurer = new InsideLocationListener(_context);
     		outsideLocationMeasurer = new OutsideLocationListener(_context);
-    		locationMeasureMode = OUTSIZE_MODE;
+    		locationMeasureMode = OUTSIDE_MODE;
     		currentLocationMeasurer = outsideLocationMeasurer;
     		
     	}
@@ -87,9 +87,9 @@ public class PeopleTreeLocationManager  {
 				this.currentLocationMeasurer = outsideLocationMeasurer;
 				currentLocationMeasurer.startRequest(distanceForUpdate, timeForUpdate);
 
-				this.locationMeasureMode = OUTSIZE_MODE;
+				this.locationMeasureMode = OUTSIDE_MODE;
 				break;
-			case OUTSIZE_MODE:
+			case OUTSIDE_MODE:
 				this.currentLocationMeasurer = insideLocationMeasurer;
 				currentLocationMeasurer.startRequest(distanceForUpdate, timeForUpdate);
 				this.locationMeasureMode = INSIDE_MODE;

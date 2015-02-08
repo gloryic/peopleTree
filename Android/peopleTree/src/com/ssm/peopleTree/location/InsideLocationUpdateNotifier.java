@@ -18,10 +18,13 @@ class InsideLocationUpdateNotifier implements UpdateNotifier{
 		if( (!parent.isValidLocation() && (curTime - pltm.getLastChangeTime() ) >  PeopleTreeLocationManager.MINTIMEINTERVAL)
 				|| parent.nearReferPoint==null){
 			
-			pltm.changeLocationMeasureMode();
 			
+			
+			pltm.changeLocationMeasureMode();
 		}else{
 			
+			parent.nearReferPoint.getX();
+			parent.nearReferPoint.getY();
 			
 			//위치전송
 		}

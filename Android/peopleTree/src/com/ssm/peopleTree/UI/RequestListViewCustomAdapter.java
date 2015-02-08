@@ -7,7 +7,9 @@ import java.util.Comparator;
 
 import com.ssm.peopleTree.R;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,7 +53,7 @@ public class RequestListViewCustomAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
     	RequestViewHolder holder;
 		final RequestListData mData = mListData.get(position);
-
+		final int position_ = position;
 		if (convertView == null){
 			holder = new RequestViewHolder();
 
@@ -84,6 +86,29 @@ public class RequestListViewCustomAdapter extends BaseAdapter {
 			@Override
 			public void onClick(View v) {
 				
+				AlertDialog.Builder builder = new AlertDialog.Builder(mContext); 
+				builder.setTitle("")
+						.setMessage("거절 하시겠습니까?")
+						.setCancelable(true)
+						.setPositiveButton("확인",
+								new DialogInterface.OnClickListener() {
+									public void onClick(DialogInterface dialog,
+											int whichButton) {
+
+										remove(position_);
+									}
+								})
+						.setNegativeButton("취소",
+								new DialogInterface.OnClickListener() {
+									// 취소 버튼 클릭시 설정
+									public void onClick(DialogInterface dialog,
+											int whichButton) {
+
+										dialog.cancel();
+									}
+								});
+				AlertDialog dialog = builder.create(); // 알림창 객체 생성
+				dialog.show(); // 알림창 띄우기
 			}
 		
 		});
