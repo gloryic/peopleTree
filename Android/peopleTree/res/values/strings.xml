@@ -16,11 +16,14 @@
     <string name="user_name">이름</string>
     <string name="alert">alert</string>
     <string name="ok">확인</string>
+    <string name="close">닫기</string>
     
     <string name="success">성공</string>
     <string name="fail">실패</string>
     <string name="login_fail">사용자 정보를 정확히 입력해주세요!</string>
     <string name="join_success">회원 가입에 성공했습니다!</string>
     <string name="join_fail">회원 가입에 실패했습니다!</string>
+    
+    <string name="get_position">위치 보기</string>
 
 </resources>

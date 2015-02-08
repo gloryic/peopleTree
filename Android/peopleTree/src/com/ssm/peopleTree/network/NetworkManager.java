@@ -1,5 +1,10 @@
 package com.ssm.peopleTree.network;
 
+
+import java.net.URLDecoder;
+import java.net.URLEncoder;
+
+import org.apache.http.client.utils.URLEncodedUtils;
 import org.json.JSONObject;
 
 import android.content.Context;
@@ -40,25 +45,14 @@ public class NetworkManager {
     		requestQueue = Volley.newRequestQueue(context);
     	}
     }
-
-	
-	public void request(int method, String url, JSONObject jsonRequest, Listener<JSONObject> listener, ErrorListener errorListener) {
-		if (requestQueue == null) {
-            throw new IllegalStateException("Volley Request Queue is not initialized.");
-        }
-		
-		if (C.networkAllGet) {
-			method = Method.GET;
-		}
-		
-		JsonObjectRequest req = new JsonObjectRequest(method, url, jsonRequest, listener, errorListener); 
-		requestQueue.add(req);
-	}
 	
 	public void request(Parameterizable param, Listener<JSONObject> listener, ErrorListener errorListener) {
 		if (requestQueue == null) {
             throw new IllegalStateException("Volley Request Queue is not initialized.");
         }
+		if (C.networkLogging) {
+			Log.e("test-network", "request: " + param.toURI());
+		}
 				
 		String url = C.baseURL;
 		JSONObject jsonRequest = null;
@@ -79,5 +73,32 @@ public class NetworkManager {
 		
 		JsonObjectRequest req = new JsonObjectRequest(method, url, jsonRequest, listener, errorListener);
 		requestQueue.add(req);
+	}
+	
+	public String getString(int resId) {
+		try {
+			return context.getString(resId);
+		} catch (Exception e) {
+			return "";
+		}
+	}
+	
+	public static String getEncodedStr(String str) {
+		try {
+			str = URLEncoder.encode(str, "UTF-8");
+			String result = new String(str.getBytes("UTF8"));
+			return result; 
+		} catch (Exception e) {
+			e.printStackTrace();
+			return str;
+		}
+	}
+	
+	public static String getDecodedStr(String str) {
+		try {
+			return URLDecoder.decode(str, "utf-8");
+		} catch (Exception ee) {
+			return str;
+		}
 	}
 }

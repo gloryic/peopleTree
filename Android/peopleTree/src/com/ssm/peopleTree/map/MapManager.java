@@ -7,7 +7,6 @@ import net.daum.mf.map.api.MapView;
 import net.daum.mf.map.api.MapView.MapViewEventListener;
 import net.daum.mf.map.api.MapView.POIItemEventListener;
 import android.app.Activity;
-import android.view.ViewGroup;
 
 public class MapManager  implements POIItemEventListener, MapViewEventListener{
 
@@ -15,10 +14,10 @@ public class MapManager  implements POIItemEventListener, MapViewEventListener{
 	private MapView mapView;
 	private MapPOIItem myMarker;
 	
-	public MapManager(Activity activity, int containerId) {
+	public MapManager(Activity activity) {
 
 		myMarker = new MapPOIItem();
-		myMarker.setItemName("나");
+		myMarker.setItemName("me");
 		myMarker.setTag(0);
 		myMarker.setMarkerType(MapPOIItem.MarkerType.BluePin); // 기본으로 제공하는 BluePin 마커 모양.
 		myMarker.setSelectedMarkerType(MapPOIItem.MarkerType.RedPin); // 마커를 클릭했을때, 기본으로 제공하는 RedPin 마커 모양.
@@ -29,8 +28,8 @@ public class MapManager  implements POIItemEventListener, MapViewEventListener{
 		mapView.setPOIItemEventListener(this);
 		mapView.addPOIItem(myMarker);
 
-		ViewGroup mapViewContainer = (ViewGroup)activity.findViewById(containerId);
-		mapViewContainer.addView(mapView);
+		//ViewGroup mapViewContainer = (ViewGroup)parent.findViewById(R.id.map_view);
+		//mapViewContainer.addView(mapView);
 
 	}
 	
@@ -112,6 +111,14 @@ public class MapManager  implements POIItemEventListener, MapViewEventListener{
 	public void onPOIItemSelected(MapView arg0, MapPOIItem arg1) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	public MapView getMapView() {
+		return mapView;
+	}
+	
+	public void refresh() {
+		mapView.refreshMapTiles();
 	}
 	
 	public void setMe(double lat, double lng) {

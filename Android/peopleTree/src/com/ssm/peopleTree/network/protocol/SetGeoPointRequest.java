@@ -40,10 +40,12 @@ public class SetGeoPointRequest extends Request {
 			jsonObj.put(RADIUS_KEY, radius);
 			jsonObj.put(DEVICE_STATUS_KEY, deviceStatus);
 			
-			JSONArray jsonArr = jsonObj.getJSONArray(POINTS_KEY);
-			for (int i = 0; !jsonArr.isNull(i); i++) {
-				points.add(new GeoPoint(jsonArr.getJSONObject(i)));
+			JSONArray jsonArr = new JSONArray();
+			for (GeoPoint point : points) {
+				jsonArr.put(point);
 			}
+			jsonObj.put(POINTS_KEY, jsonArr);
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

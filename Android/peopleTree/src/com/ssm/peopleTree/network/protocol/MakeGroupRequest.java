@@ -8,6 +8,7 @@ import org.json.JSONObject;
 import android.util.Log;
 
 import com.android.volley.Request.Method;
+import com.ssm.peopleTree.network.NetworkManager;
 
 public class MakeGroupRequest extends Request {
 	// 그룹 만들기  프로토콜 결과
@@ -72,8 +73,8 @@ public class MakeGroupRequest extends Request {
 			result += "?" + USER_PHONE_KEY + "=" + userPhoneNumber;
 			result += "&" + USER_ID_KEY + "=" + userId;
 			result += "&" + USER_PASSWORD_KEY + "=" + password;
-			result += "&" + USER_NAME_KEY + "=" + userName;
-			result += "&" + GROUP_NAME_KEY + "=" + groupName;	
+			result += "&" + USER_NAME_KEY + "=" + NetworkManager.getEncodedStr(userName);
+			result += "&" + GROUP_NAME_KEY + "=" + NetworkManager.getEncodedStr(groupName);	
 		} catch (Exception e) {
 			e.printStackTrace();
 		}	

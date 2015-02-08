@@ -5,8 +5,8 @@ import org.json.JSONObject;
 import com.android.volley.Response.Listener;
 import com.ssm.peopleTree.network.NetworkManager;
 import com.ssm.peopleTree.network.Status;
-import com.ssm.peopleTree.network.protocol.GetUserInfoRequest;
-import com.ssm.peopleTree.network.protocol.GetUserInfoResponse;
+import com.ssm.peopleTree.network.protocol.GetInfoRequest;
+import com.ssm.peopleTree.network.protocol.GetInfoResponse;
 import com.ssm.peopleTree.network.protocol.LoginRequest;
 import com.ssm.peopleTree.network.protocol.LoginResponse;
 import com.ssm.peopleTree.network.protocol.LogoutRequest;
@@ -66,7 +66,7 @@ public class LoginManager {
 					savedUserNumber = res.userNumber;
 					save();
 
-					NetworkManager.getInstance().request(new GetUserInfoRequest(savedUserNumber), onGetInfoResponse, null);
+					NetworkManager.getInstance().request(new GetInfoRequest(savedUserNumber), onGetInfoResponse, null);
 				}
 				else {
 					loginListener.onLoginFail(status);
@@ -102,7 +102,7 @@ public class LoginManager {
 				if (loginListener == null)
 					return;
 				
-				GetUserInfoResponse res = new GetUserInfoResponse(arg0);
+				GetInfoResponse res = new GetInfoResponse(arg0);
 				Status status = res.getStatus();
 				
 				if (res.getStatus() == Status.SUCCESS) {
@@ -164,7 +164,7 @@ public class LoginManager {
 		}
 		
 		if (savedUserNumber != USER_NUMBER_DEFAULT) {
-			NetworkManager.getInstance().request(new GetUserInfoRequest(savedUserNumber), onGetInfoResponse, null);
+			NetworkManager.getInstance().request(new GetInfoRequest(savedUserNumber), onGetInfoResponse, null);
 		}
 		else {
 			// TODO

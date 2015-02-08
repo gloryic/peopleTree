@@ -2,7 +2,10 @@ package com.ssm.peopleTree.network.protocol;
 
 import org.json.JSONObject;
 
+import android.util.Log;
+
 import com.android.volley.Response.Listener;
+import com.ssm.peopleTree.C;
 import com.ssm.peopleTree.network.Status;
 
 public abstract class Response extends Protocol {
@@ -31,6 +34,10 @@ public abstract class Response extends Protocol {
 		} catch (Exception e) {
 			status = Status.UNKNOWN_ERROR;
 			OnFail(status, UNKNOWN_ERROR_DESC);
+		}
+		
+		if (C.networkLogging) {
+			Log.e("test-network", "response: " + result.toString());
 		}
 	}
 	

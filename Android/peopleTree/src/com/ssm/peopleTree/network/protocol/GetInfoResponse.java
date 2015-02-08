@@ -1,15 +1,22 @@
 package com.ssm.peopleTree.network.protocol;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
+import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.ssm.peopleTree.data.MemberData;
+import android.util.Log;
 
-public class GetUserInfoResponse extends Response {
+import com.ssm.peopleTree.data.MemberData;
+import com.ssm.peopleTree.network.NetworkManager;
+
+public class GetInfoResponse extends Response {
 	// 사용자 정보 가져오기 프로토콜 결과
 
 	public MemberData mData;
 	
-	public GetUserInfoResponse(JSONObject jsonObj) {
+	public GetInfoResponse(JSONObject jsonObj) {
 		super(jsonObj);
 	}
 	
@@ -24,7 +31,7 @@ public class GetUserInfoResponse extends Response {
 			JSONObject jsonObj = (JSONObject)responseData;
 			
 			mData.userId = jsonObj.getString(USER_ID_KEY);
-			mData.userName = jsonObj.getString(USER_NAME_KEY);
+			mData.userName = jsonObj.getString(USER_NAME_KEY);//NetworkManager.getDecodedStr(jsonObj.getString(USER_NAME_KEY));
 			mData.userNumber = jsonObj.getInt(USER_NUMBER_KEY);
 			mData.userPhoneNumber = jsonObj.getString(USER_PHONE_KEY);
 			
@@ -52,4 +59,5 @@ public class GetUserInfoResponse extends Response {
 			e.printStackTrace();
 		}
 	}
+
 }
