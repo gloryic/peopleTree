@@ -27,3 +27,6 @@ proguard/
 *.log
 
 Android\peopleTree\.classpath
+
+Android\peopleTree\.classpath
+Android\peopleTree\.settings\org.eclipse.core.resources.prefs

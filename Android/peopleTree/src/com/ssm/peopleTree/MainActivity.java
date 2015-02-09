@@ -2,6 +2,7 @@ package com.ssm.peopleTree;
 
 import java.util.ArrayList;
 
+import com.parse.ParseAnalytics;
 import com.ssm.peopleTree.application.LoginManager;
 import com.ssm.peopleTree.network.NetworkManager;
 
@@ -31,8 +32,8 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-				
-		
+		//TODO		
+		ParseAnalytics.trackAppOpened(getIntent());
 		
 		
 		
