@@ -5,64 +5,65 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:background="@drawable/myborder3"
-    android:orientation="vertical"
-    android:padding="10dp" >
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/childInfoDialog_title"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/myborder3"
+        android:gravity="center"
+        android:text="text"
+        android:textAlignment="center" />
+
+    <LinearLayout
+        android:layout_width="264dp"
+        android:layout_height="38dp"
+        android:layout_weight="0.46"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/childInfoDialog_btn1"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="@drawable/mydialog1_selector" />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="264dp"
         android:layout_height="38dp"
         android:layout_weight="0.46"
         android:orientation="horizontal"
-        android:paddingBottom="1dp"
-        android:paddingLeft="1dp"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="1dp" >
+         >
 
-        <TextView
-            android:id="@+id/childInfoDialog_title"
-            android:layout_width="66dp"
-            android:layout_height="match_parent"
-            android:gravity="center" />
-
-        <TextView
-            android:id="@+id/childInfoDialog_txt1"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center" />
+        <Button
+            android:id="@+id/childInfoDialog_btn2"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="@drawable/mydialog1_selector" />
     </LinearLayout>
 
-    <CheckBox
-        android:id="@+id/reqDialog_chkbox1"
-        android:layout_width="137dp"
-        android:layout_height="wrap_content"
-        android:text="위치 정보 관리"
-        android:textSize="13sp" />
+    <LinearLayout
+        android:layout_width="264dp"
+        android:layout_height="38dp"
+        android:layout_weight="0.46"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/childInfoDialog_btn3"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="@drawable/mydialog1_selector" />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="38dp"
+        android:layout_height="16dp"
         android:orientation="horizontal"
         android:paddingBottom="1dp"
         android:paddingLeft="1dp"
         android:paddingRight="1dp"
         android:paddingTop="1dp" >
-
-        <Button
-            android:id="@+id/childInfoDialog_btn1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Button" />
-
-        <TextView
-            android:layout_width="108dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="2.06" />
-
-        <Button
-            android:id="@+id/childInfoDialog_btn2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Button" />
     </LinearLayout>
 
 </LinearLayout>

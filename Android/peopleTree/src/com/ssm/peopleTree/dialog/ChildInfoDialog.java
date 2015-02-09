@@ -25,7 +25,7 @@ public class ChildInfoDialog extends Dialog  {
 	Button btn1;
 	Button btn2;
 
-	private MemberData childData;
+	//private MemberData childData;
 	
 	public ChildInfoDialog(Context context) {
 		super(context);
@@ -35,7 +35,7 @@ public class ChildInfoDialog extends Dialog  {
 		
 		AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
 		builder.setTitle("알림")
-				.setMessage("위치를 표시할 수 업습니다.")
+				.setMessage("위치를 표시할 수 없습니다.")
 				.setCancelable(true)
 				// 뒤로 버튼 클릭시 취소 가능 설정
 				.setPositiveButton("확인", new DialogInterface.OnClickListener() {
@@ -51,7 +51,7 @@ public class ChildInfoDialog extends Dialog  {
 		final AlertDialog dialog = builder.create(); // 알림창 객체 생성	
 
 		btn1 =(Button)this.findViewById(R.id.childInfoDialog_btn1);
-		btn2 =(Button)this.findViewById(R.id.childInfoDialog_btn2);
+		
 		btn1.setText("위치보기");
 		btn1.setOnClickListener(new View.OnClickListener() {
 			
@@ -66,17 +66,7 @@ public class ChildInfoDialog extends Dialog  {
 				}
 			}
 		});
-		btn2.setText("하위그룹보기");
-		btn2.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				if (childData != null) {
-					GroupManager.getInstance().update(childData.groupMemberId);
-					dismiss();
-				}
-			}
-		});
+
 	}
 
 	public void setchildInfoTitle(String reqtitle){
@@ -86,8 +76,6 @@ public class ChildInfoDialog extends Dialog  {
 		reqTitleTxtv.setText(reqtitle);
 	}
 
-	public void setChildData(MemberData childData) {
-		this.childData = childData;
-	}
+
 	
 }
