@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/mymenuDialog"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:background="@drawable/myborder3"
+    android:orientation="vertical"
+    android:padding="5dp" >
+
+    <TextView
+        android:id="@+id/mymenu_reqtitle"
+        android:layout_width="258dp"
+        android:layout_height="60dp"
+        android:layout_weight="0.68"
+        android:gravity="center" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="38dp"
+        android:orientation="horizontal"
+        android:paddingBottom="1dp"
+        android:paddingLeft="1dp"
+        android:paddingRight="1dp"
+        android:paddingTop="1dp" >
+
+        <Button
+            android:id="@+id/mymenuDialog_Btn1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+             android:layout_weight="0.68"
+           	android:text="btn1"/>
+
+        
+      
+        <Button
+            android:id="@+id/mymenuDialog_Btn2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.68" 
+            android:text="btn2" />
+
+    </LinearLayout>
+
+</LinearLayout>

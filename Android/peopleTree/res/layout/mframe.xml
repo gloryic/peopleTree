@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+     >
+
+     <LinearLayout
+         android:layout_width="fill_parent"
+         android:layout_height="40dp"
+         
+         android:orientation="horizontal" >
+
+         <Button
+             android:id="@+id/mframe_btn1"
+             android:gravity="center"
+             android:layout_width="wrap_content"
+             android:layout_height="fill_parent"
+             android:layout_weight = "1"
+             android:background="#EEFFEE"
+             android:text="Bttn1" />
+             <Button
+             android:id="@+id/mframe_btn2"
+             android:gravity="center"
+             android:layout_width="wrap_content"
+             android:layout_height="fill_parent"
+              android:layout_weight = "1"
+             android:background="#EEFFEE"
+             android:text="Bttn2" />         
+             <Button
+             android:id="@+id/mframe_btn3"
+             android:gravity="center"
+             android:layout_width="wrap_content"
+             android:layout_height="fill_parent"
+              android:layout_weight = "1"
+              android:background="#eeffee"
+             android:text="Bttn3" />         
+             <Button
+             android:id="@+id/mframe_btn4"
+             android:gravity="center"
+             android:layout_width="wrap_content"
+             android:layout_height="fill_parent"
+              android:layout_weight = "1"
+              android:background="#EEFFEE"
+             android:text="Bttn4" />
+        
+     </LinearLayout>
+     <LinearLayout
+         android:id="@+id/contentsLayout1"
+         android:layout_width="fill_parent"
+         android:layout_height="fill_parent"
+         android:orientation="vertical" >
+
+     </LinearLayout>
+	
+</LinearLayout>

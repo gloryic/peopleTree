@@ -1,0 +1,60 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.ssm.peopleTree.MainActivity" >
+
+    <TextView
+        android:id="@+id/test"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/hello_world" />
+    
+    <Button
+        android:id="@+id/btn_simple_request"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="act__simple_request__btn_request" >
+    </Button>
+
+    <TextView
+        android:id="@+id/locationTextview1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignRight="@+id/btn_simple_request"
+        android:layout_below="@+id/btn_simple_request"
+        android:layout_marginTop="40dp"
+        android:text="&quot;위치정보(정확도,위도,경도)텍스트뷰&quot;" />
+
+    <TextView
+        android:id="@+id/locationTextview2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/locationTextview1"
+        android:layout_alignRight="@+id/locationTextview1"
+        android:layout_below="@+id/locationTextview1"
+        android:text=":&quot;위치정보 유효성 &amp; gps 가능여부 텍스트뷰&quot;" />
+
+    <TextView
+        android:id="@+id/BatteryTextView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/locationTextview2"
+        android:layout_alignRight="@+id/locationTextview2"
+        android:layout_below="@+id/locationTextview2"
+        android:text="&quot;배터리 낮을때 알려주는 텍스트뷰&quot;" />
+
+    <TextView
+        android:id="@+id/WifiTextView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/BatteryTextView1"
+        android:layout_below="@+id/BatteryTextView1"
+        android:text="&quot;와이파이정보 텍스트뷰&quot;" />
+
+</RelativeLayout>
