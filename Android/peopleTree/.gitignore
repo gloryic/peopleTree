@@ -1,7 +1,10 @@
-\bin
-\gen
-\.settings
-\.classpath
-\gen\.project
-\gen\lint
-\gen\proguard-project
+bin
+gen
+.settings
+.classpath
+gen\.project
+gen\lint
+gen\proguard-project
+
+.classpath
+.gradle/
