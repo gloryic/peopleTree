@@ -33,11 +33,18 @@ public class RequestLayoutController extends Fragment {
 	
 	public RequestLayoutController(Context context){
 		this.mContext = context;
+		
+		
+		
+		
 	}
 	
 	public void setListAdapter(RequestListViewCustomAdapter upAdap,RequestListViewCustomAdapter downAdap){
 		this.upRqlvca = upAdap;
 		this.downRqlvca = downAdap;
+		
+		upRqlvca.setmode(RequestListViewCustomAdapter.FROMUP);
+		downRqlvca.setmode(RequestListViewCustomAdapter.FROMDOWN);
 	}
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -62,7 +69,7 @@ public class RequestLayoutController extends Fragment {
             	
             	reqlv = (ListView) layout.findViewById(R.id.rqList);
         		//#d3F1F5
-        
+
             	reqlv.setAdapter(upRqlvca);
  
         		
