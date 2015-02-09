@@ -97,7 +97,7 @@ public class ParseBroadcastReceiver extends BroadcastReceiver {
         
         
         NotificationCompat.InboxStyle style = new NotificationCompat.InboxStyle()
-        .addLine(message)//硫붿�?吏� �쟾泥�
+        .addLine(message)//메세지 전체
         .setBigContentTitle(msg.getString("userName"))
         .setSummaryText(msg.getString("statusCode"));
         
@@ -105,10 +105,10 @@ public class ParseBroadcastReceiver extends BroadcastReceiver {
         NotificationCompat.Builder mBuilder =  new NotificationCompat.Builder(context)
         .setSmallIcon(R.drawable.ic_launcher)
         .setContentInfo("1")
-        .setTicker("peopleTree")
-        .setContentTitle(msg.getString("userName"))
-        .setContentText(subMessage)
-        .setStyle(style);
+        .setTicker("피플트리")
+        .setContentTitle(getSummmaryText(msg.getInt("userName")))
+        .setContentText(subMessage)//메세지의 요악본
+        .setStyle(style);    
         
         //.setStyle(new NotificationCompat.BigTextStyle()
         //.bigText("3"));
@@ -121,6 +121,28 @@ public class ParseBroadcastReceiver extends BroadcastReceiver {
         noti.flags |= Notification.FLAG_AUTO_CANCEL;
         
         mNotificationManager.notify(NOTIFICATION_ID, noti);
+    }  
+    
+    private String getSummmaryText(int statusCode){
+    	
+    	switch(statusCode)
+    	{
+    	case 100: return "피플트리 공지사항";
+    	case 200: return "피플트리 변경 알림";
+    	case 210: return "피플트리 변경 알림";
+    	case 220: return "피플트리 변경 알림";
+    	case 230: return "피플트리 변경 알림";
+    	case 410: return "피플트리 요청 알림";
+    	case 420: return "피플트리 요청 알림";
+    	case 510: return "피플트리 요청 알림";
+    	case 520: return "피플트리 요청 알림";
+    	case 415: return "피플트리 수락 알림";
+    	case 425: return "피플트리 수락 알림";
+    	case 515: return "피플트리 수락 알림";
+    	case 525: return "피플트리 수락 알림";
+    	case 600: return "피플트리 메세지";
+    	default : return "피플트리";
+    	}
     }
         
 }
