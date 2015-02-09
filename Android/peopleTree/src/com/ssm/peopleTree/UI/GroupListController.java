@@ -91,25 +91,21 @@ public class GroupListController extends Fragment implements Observer {
 		inflater.inflate(R.layout.grouplist_cur, curLayout, true);
 		
 		TextView myNum = (TextView)curLayout.findViewById(R.id.grouplist_cur_num);
-		TextView myName = (TextView)curLayout.findViewById(R.id.grouplist_cur_name);
-		
-		if (myData != null) {
-			if (myNum != null) {
-				myNum.setText(myData.managingNumber + "/" + myData.managingTotalNumber);
+		if (myNum != null) {
+			String myNumStr = "";
+			if (myData != null && myData.managingTotalNumber > 0) {
+				myNumStr = myData.managingNumber + "/" + myData.managingTotalNumber;
 			}
-			
-			if (myName != null) {
-				myName.setText(myData.userName);	
-			}
+			myNum.setText(myNumStr);
 		}
-		else {
-			if (myNum != null) {
-				myNum.setText("");
+		
+		TextView myName = (TextView)curLayout.findViewById(R.id.grouplist_cur_name);
+		if (myName != null) {
+			String myNameStr = "";
+			if (myData != null) {
+				myNameStr = myData.userName;
 			}
-			
-			if (myName != null) {
-				myName.setText("");	
-			}
+			myName.setText(myNameStr);
 		}
 		
 		curBtn = (ImageButton)curLayout.findViewById(R.id.grouplist_cur_btn);
@@ -140,25 +136,18 @@ public class GroupListController extends Fragment implements Observer {
 			
 		}
 		else {
-
 			inflater.inflate(R.layout.grouplist_parent,parentLayout,true);
 
-
-			TextView parentNum = (TextView)parentLayout.findViewById(R.id.parent_num);
 			TextView parentName = (TextView)parentLayout.findViewById(R.id.parent_name);
-			ImageButton parentBtn = (ImageButton)((Activity)mContext).findViewById(R.id.parent_btn);
-			
-			
-
-
-			if (parentNum != null) {
-				parentNum.setText(parentData.managingNumber + "/" + parentData.managingTotalNumber);
-			}
-			
 			if (parentName != null) {
-				parentName.setText(parentData.userName);	
+				String parentNameStr = "";
+				if (parentData != null) {
+					parentNameStr = parentData.userName;
+				}
+				parentName.setText(parentNameStr);
 			}
 			
+			ImageButton parentBtn = (ImageButton)((Activity)mContext).findViewById(R.id.parent_btn);			
 			if (parentBtn != null) {
 				parentBtn.setOnClickListener(new OnClickListener() {
 					
@@ -181,5 +170,8 @@ public class GroupListController extends Fragment implements Observer {
 		
 		setParent(groupManager.getParent());
 		setCur(groupManager.getCur());
+		if (glv != null) {
+			glv.removeAllViewsInLayout();
+		}
 	}
 }

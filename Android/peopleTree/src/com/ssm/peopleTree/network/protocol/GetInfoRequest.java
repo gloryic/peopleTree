@@ -9,17 +9,17 @@ public class GetInfoRequest extends Request {
 	
 	private static final String REST_PROTOCOL = "/ptree/getinfo/group/member"; 
 	
-	private int userNumber;
+	private int groupMemberId;
 	
-	public GetInfoRequest(int userNumber) {
-		this.userNumber = userNumber;
+	public GetInfoRequest(int groupMemberId) {
+		this.groupMemberId = groupMemberId;
 	}
 	
 	@Override
 	public JSONObject toJSonObject() {
 		JSONObject json = new JSONObject();
 		try {
-			json.put(USER_NUMBER_KEY, userNumber);
+			json.put(USER_NUMBER_KEY, groupMemberId);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -30,7 +30,7 @@ public class GetInfoRequest extends Request {
 	@Override
 	public String toURI() {
 		String result = REST_PROTOCOL;
-		result += "?" + USER_NUMBER_KEY + "=" + Integer.toString(userNumber);
+		result += "?" + USER_NUMBER_KEY + "=" + Integer.toString(groupMemberId);
 		return result;
 	}
 	

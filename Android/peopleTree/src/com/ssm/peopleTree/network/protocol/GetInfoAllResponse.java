@@ -44,28 +44,4 @@ public class GetInfoAllResponse extends Response {
 			children.clear();
 		}
 	}
-	
-
-	private static MemberData parse(JSONObject jsonObj) throws JSONException {
-		MemberData mData = new MemberData();
-		
-		mData.userId = jsonObj.getString(USER_ID_KEY);
-		mData.userName = jsonObj.getString(USER_NAME_KEY);
-		mData.userNumber = jsonObj.getInt(USER_NUMBER_KEY);
-		mData.userPhoneNumber = jsonObj.getString(USER_PHONE_KEY);
-		
-		mData.groupMemberId = jsonObj.getInt(GROUP_MEMBER_ID_KEY);
-		mData.parentGroupMemberId = jsonObj.getInt(PARENT_GROUP_MEMBER_ID_KEY);
-		mData.groupId = jsonObj.getInt(GROUP_ID_KEY);
-		
-		mData.edgeStatus = jsonObj.getInt(EDGE_STATUS_KEY);
-		
-		mData.manageMode = jsonObj.getInt(MANAGE_MODE_KEY);
-		mData.managedLocationRadius = jsonObj.getInt(MANAGE_LOCATION_RADIUS_KEY);
-		mData.managingTotalNumber = jsonObj.getInt(MANAGING_TOTAL_NUMBER_KEY);
-		mData.managingNumber = jsonObj.getInt(MANAGING_NUMBER_KEY);			
-		
-		return mData;
-	}
-
 }

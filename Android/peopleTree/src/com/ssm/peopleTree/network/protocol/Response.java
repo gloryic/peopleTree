@@ -64,7 +64,6 @@ public abstract class Response extends Protocol {
 			
 			mData.userId = jsonObj.getString(USER_ID_KEY);
 			mData.userName = jsonObj.getString(USER_NAME_KEY);
-			mData.userNumber = jsonObj.getInt(USER_NUMBER_KEY);
 			mData.userPhoneNumber = jsonObj.getString(USER_PHONE_KEY);
 			
 			mData.groupMemberId = jsonObj.getInt(GROUP_MEMBER_ID_KEY);

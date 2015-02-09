@@ -178,6 +178,13 @@ public class LoginManager {
 	
 	
 	public void login(String id, String pw) {
+		if (!id.matches("^[ \t\n]*[a-zA-Z]([a-zA-z0-9]*)[ \t\n]*$")) {
+			if (loginListener != null) {
+				loginListener.onLoginFail(null);
+			}
+			return;
+		}
+		id = id.replaceAll("[ \t\n]", "");
 		NetworkManager.getInstance().request(new LoginRequest(id, pw), onLoginResponse, null);
 	}
 	

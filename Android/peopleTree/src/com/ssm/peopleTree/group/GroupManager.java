@@ -58,6 +58,7 @@ public class GroupManager extends Observable implements Listener<JSONObject> {
 	}
 	
 	public void groupChanged() {
+		setChanged();
 		notifyObservers();
 	}
 

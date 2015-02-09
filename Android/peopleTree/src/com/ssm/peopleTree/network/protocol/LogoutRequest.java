@@ -10,8 +10,8 @@ public class LogoutRequest extends Request {
 	
 	private int userNumber;
 	
-	public LogoutRequest(int usernumber) {
-		this.userNumber = usernumber;
+	public LogoutRequest(int userNumber) {
+		this.userNumber = userNumber;
 	}
 	
 	@Override

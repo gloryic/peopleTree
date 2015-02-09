@@ -30,7 +30,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 
-public class TestActivity extends FragmentActivity implements OnClickListener {
+public class TestActivity extends FragmentActivity implements Progressable, OnClickListener {
 	
 	private int NUM_PAGES = 5;		// 최대 페이지의 수 
 	
@@ -133,13 +133,7 @@ public class TestActivity extends FragmentActivity implements OnClickListener {
 		}
 		*/
 		
-		glvca = new GroupListviewCustomAdapter(this, new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				nextActivity(MapActivity.class);
-			}
-		});
+		glvca = new GroupListviewCustomAdapter(this);
 		
 		pmlvca = new PushMessageListViewCustomAdapter(this);
 		pmlvca.addItem("", "03:08 이탈자 OOO 발생하였습니다.", null);
@@ -218,11 +212,11 @@ public class TestActivity extends FragmentActivity implements OnClickListener {
 		// TODO
 		
 		menu.add(0, 1, Menu.NONE, "Logout");
+        menu.add(0, 2, Menu.NONE, "Refresh");
 		/*
 		 * .setIcon(android.R.drawable.ic_menu_rotate);
-        menu.add(0, 2, Menu.NONE, "").setIcon(android.R.drawable.ic_menu_add);
         menu.add(0, 3, Menu.NONE, "").setIcon(android.R.drawable.ic_menu_agenda);
-        menu.add(0, 4, Menu.NONE, "");
+        menu.add(0, 4, Menu.NONE, "").setIcon(android.R.drawable.ic_menu_add);
         menu.add(0, 5, Menu.NONE, "");
         */
 		return true;
@@ -243,6 +237,7 @@ public class TestActivity extends FragmentActivity implements OnClickListener {
             break;
  
         case 2:
+        	groupManager.update(myManager.getGroupMemberId());
             break;
  
         case 3:
@@ -254,7 +249,7 @@ public class TestActivity extends FragmentActivity implements OnClickListener {
 		return super.onOptionsItemSelected(item);
 	}	
 	
-	private void nextActivity(Class<?> cls) {
+	public void nextActivity(Class<?> cls) {
 		Intent intent;
 		intent = new Intent(TestActivity.this, cls);
 		startActivity(intent);
@@ -316,6 +311,11 @@ public class TestActivity extends FragmentActivity implements OnClickListener {
 				break;
 
 		}
+	}
+
+	@Override
+	public void progress() {
+		nextActivity(MapActivity.class);
 	}	
 }
 

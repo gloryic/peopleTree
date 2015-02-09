@@ -138,9 +138,9 @@ public class SearchUserDialogListViewAdapter extends BaseAdapter {
 			holder = (SeartchUserDialogListViewHolder) convertView.getTag();
 		}
 
-		holder.textvID.setText(mData.getUserId());
-		holder.textvName.setText(mData.getUserName());
-		holder.textvTel.setText(mData.getUserPhoneNumber());
+		holder.textvID.setText(mData.userId);
+		holder.textvName.setText(mData.userName);
+		holder.textvTel.setText(mData.userPhoneNumber);
 		holder.selectBtn.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {

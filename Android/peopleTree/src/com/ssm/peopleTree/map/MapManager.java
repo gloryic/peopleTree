@@ -20,6 +20,7 @@ import net.daum.mf.map.api.MapView.POIItemEventListener;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.view.View;
 import android.view.ViewGroup;
 
 public class MapManager implements POIItemEventListener, MapViewEventListener {
@@ -62,6 +63,8 @@ public class MapManager implements POIItemEventListener, MapViewEventListener {
 	
 	//private MapView mapView;
 	private MapView rangeMapView;
+	
+	private MapMode mode;
 	
 	public void initialize(Context context) {
 		
@@ -119,7 +122,8 @@ public class MapManager implements POIItemEventListener, MapViewEventListener {
 		ed.commit();
 	}
 	
-	public void showGroupPosition(Activity activity) {
+	public void showGroupLocation(Activity activity) {
+		setMode(MapMode.GROUP_LOCATION);		
 	
 		MyManager myManager = MyManager.getInstance();
 		
@@ -129,16 +133,22 @@ public class MapManager implements POIItemEventListener, MapViewEventListener {
 		mapView.setPOIItemEventListener(this);
 		
 		int tag = -1;
-		MapPoint mp = MapPoint.mapPointWithGeoCoord(myManager.getLatitude(), myManager.getLongitude());
-		MapPOIItem myMarker = new MapPOIItem();
-		myMarker.setItemName("me");
-		myMarker.setTag(++tag);
-		myMarker.setMarkerType(MapPOIItem.MarkerType.BluePin);
-		myMarker.setMapPoint(mp);
-		mapView.addPOIItem(myMarker);
+	
+		if (myManager.getLatitude() != null && myManager.getLongitude() != null) {
+			MapPoint mp = MapPoint.mapPointWithGeoCoord(myManager.getLatitude(), myManager.getLongitude());
+			MapPOIItem myMarker = new MapPOIItem();
+			myMarker.setItemName("me");
+			myMarker.setTag(++tag);
+			myMarker.setMarkerType(MapPOIItem.MarkerType.BluePin);
+			myMarker.setMapPoint(mp);
+			mapView.addPOIItem(myMarker);
+		}
 		
 		for (MemberData mData : memberMap.values()) {
-			mp = MapPoint.mapPointWithGeoCoord(mData.getLatitude(), mData.getLongitude());
+			if (mData.latitude == null || mData.longitude == null) {
+				continue;
+			}
+			MapPoint mp = MapPoint.mapPointWithGeoCoord(mData.latitude, mData.longitude);
 			MapPOIItem  marker = new MapPOIItem();
 			marker.setItemName(mData.userName);
 			marker.setTag(++tag);
@@ -147,9 +157,8 @@ public class MapManager implements POIItemEventListener, MapViewEventListener {
 			mapView.addPOIItem(marker);
 		}
 		
-		if (childData != null) {
-			mp = MapPoint.mapPointWithGeoCoord(childData.getLatitude(), childData.getLongitude());
-		
+		if (childData != null && childData.latitude != null && childData.longitude != null) {
+			MapPoint mp = MapPoint.mapPointWithGeoCoord(childData.latitude, childData.longitude);
 			MapPOIItem childMarker = new MapPOIItem();
 			childMarker.setItemName(childData.userName);
 			childMarker.setTag(+tag);
@@ -164,6 +173,8 @@ public class MapManager implements POIItemEventListener, MapViewEventListener {
 	}
 	
 	public void showRangeSetting(Activity activity) {
+		setMode(MapMode.SET_GEOPOINT);
+		
 		MyManager myManager = MyManager.getInstance();
 		
 		rangeMapView = new MapView(activity);
@@ -271,16 +282,23 @@ public class MapManager implements POIItemEventListener, MapViewEventListener {
 		memberMap.clear();
 		childData = null;
 	}
-	/*
-	public Mode getMode() {
-		
+	
+	public MapMode getMode() {
+		return mode;
 	}
-	*/
-	public void setMode() {
-		
+	
+	public void setMode(MapMode mode) {
+		if (mode == null) {
+			return;
+		}
+		this.mode = mode;
 	}
 	
 	public void setChild(MemberData childData) {
 		this.childData = childData;
+	}
+	
+	public boolean hasValidLocation() {
+		return childData.latitude != null && childData.longitude != null;
 	}
 }

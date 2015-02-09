@@ -10,7 +10,6 @@ import com.ssm.peopleTree.map.MapManager;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -27,12 +26,12 @@ public class GroupListviewCustomAdapter extends BaseAdapter implements OnClickLi
     private ArrayList<MemberData> mListData;
     private ChildInfoDialog childInfoDialog;
 
-    public GroupListviewCustomAdapter(Context mContext, OnClickListener onClickListener) {
+    public GroupListviewCustomAdapter(Context mContext) {
         super();
         this.mContext = mContext;
         
         mListData = GroupManager.getInstance().getChildren();
-        childInfoDialog = new ChildInfoDialog(mContext, onClickListener);
+        childInfoDialog = new ChildInfoDialog(mContext);
     }
 
     @Override
@@ -55,9 +54,6 @@ public class GroupListviewCustomAdapter extends BaseAdapter implements OnClickLi
     	GroupListViewHolder holder;
 		final MemberData mData = mListData.get(position);
 
-		final int checkBoxPosition = position;
-
-	
 		//    android:background="#AACCFF" 
 		
 		if (convertView == null) {
@@ -79,7 +75,13 @@ public class GroupListviewCustomAdapter extends BaseAdapter implements OnClickLi
 		}else{
 			holder = (GroupListViewHolder) convertView.getTag();
 		}
-		holder.nametxtv.setText(mData.getUserName());
+		holder.nametxtv.setText(mData.userName);
+		if (mData.managingTotalNumber == 0) {
+			holder.numtxtv1.setText("");
+		}
+		else {
+			holder.numtxtv1.setText(mData.managingNumber + "/" + mData.managingTotalNumber);
+		}
 		holder.btn1.setOnClickListener(this);
 		holder.btn1.setTag(mData);
 
@@ -121,6 +123,7 @@ public class GroupListviewCustomAdapter extends BaseAdapter implements OnClickLi
 		}
 		
 		MapManager.getInstance().setChild(mData);
+		childInfoDialog.setChildData(mData);
 		childInfoDialog.setchildInfoTitle(mData.userName);
 		childInfoDialog.show();
 	}

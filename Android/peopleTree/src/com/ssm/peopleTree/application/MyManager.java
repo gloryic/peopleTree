@@ -25,7 +25,6 @@ public class MyManager {
 
 		this.myData.userId = myData.userId;
 		this.myData.userName = myData.userName;
-		this.myData.userNumber = myData.userNumber;
 		this.myData.userPhoneNumber = myData.userPhoneNumber;
 		
 		this.myData.groupMemberId = myData.groupMemberId;
@@ -103,11 +102,7 @@ public class MyManager {
 	public String getUserName() {
 		return myData.userName;
 	}
-	
-	public int getUserNumber() {
-		return myData.userNumber;
-	}
-	
+
 	public String getUserPhoneNumber() {
 		return myData.userPhoneNumber;
 	}
@@ -166,10 +161,6 @@ public class MyManager {
 	
 	public void setUserName(String userName) {
 		myData.userName = userName;
-	}
-	
-	public void setUserNumber(int userNumber) {
-		myData.userNumber = userNumber;
 	}
 	
 	public void setUserPhoneNumber(String userPhoneNumber) {

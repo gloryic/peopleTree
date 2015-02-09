@@ -18,7 +18,7 @@ public class MapActivity extends Activity implements OnClickListener {
 		setContentView(R.layout.activity_map_childpos);
 	
 		mapManager = MapManager.getInstance();
-		mapManager.showGroupPosition(this);
+		mapManager.showGroupLocation(this);
 		
 		Button btn = (Button)this.findViewById(R.id.btn_close);
 		btn.setOnClickListener(this);

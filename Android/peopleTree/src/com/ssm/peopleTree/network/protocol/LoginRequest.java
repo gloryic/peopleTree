@@ -13,6 +13,7 @@ public class LoginRequest extends Request {
 	
 	public LoginRequest(String userIdOrPhone, String password) {
 		this.userIdOrPhone = userIdOrPhone;
+		this.password = password;
 	}
 
 	@Override
