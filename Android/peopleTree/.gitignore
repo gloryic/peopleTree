@@ -1,8 +1,7 @@
-PeopleTree\Android\peopleTree\bin
-PeopleTree\Android\peopleTree\gen
-PeopleTree\Android\peopleTree\gen\.settings
-PeopleTree\Android\peopleTree\gen\.classpath
-PeopleTree\Android\peopleTree\gen\.gitignore
-PeopleTree\Android\peopleTree\gen\.project
-PeopleTree\Android\peopleTree\gen\lint
-PeopleTree\Android\peopleTree\gen\proguard-project
+\bin
+\gen
+\.settings
+\.classpath
+\gen\.project
+\gen\lint
+\gen\proguard-project
