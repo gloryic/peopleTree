@@ -1,4 +1,4 @@
-package com.ssm.broadcast;
+package com.ssm.peopleTree.broadcast;
 
 import java.util.Iterator;
 
@@ -97,7 +97,7 @@ public class ParseBroadcastReceiver extends BroadcastReceiver {
         
         
         NotificationCompat.InboxStyle style = new NotificationCompat.InboxStyle()
-        .addLine(message)//硫붿꽭吏� �쟾泥�
+        .addLine(message)//硫붿�?吏� �쟾泥�
         .setBigContentTitle(msg.getString("userName"))
         .setSummaryText(msg.getString("statusCode"));
         
@@ -107,7 +107,7 @@ public class ParseBroadcastReceiver extends BroadcastReceiver {
         .setContentInfo("1")
         .setTicker("peopleTree")
         .setContentTitle(msg.getString("userName"))
-        .setContentText(subMessage)//硫붿꽭吏��쓽 �슂�븙蹂�
+        .setContentText(subMessage)
         .setStyle(style);
         
         //.setStyle(new NotificationCompat.BigTextStyle()

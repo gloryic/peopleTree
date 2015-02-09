@@ -1,4 +1,4 @@
-package com.ssm.broadcast;
+package com.ssm.peopleTree.broadcast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
