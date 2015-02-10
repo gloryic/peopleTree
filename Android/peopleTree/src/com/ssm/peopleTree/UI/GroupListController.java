@@ -4,22 +4,28 @@ import java.util.Observable;
 import java.util.Observer;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.RelativeLayout;
 
 import com.ssm.peopleTree.R;
+import com.ssm.peopleTree.application.MyManager;
 import com.ssm.peopleTree.data.MemberData;
 import com.ssm.peopleTree.dialog.GroupReqDialog;
 import com.ssm.peopleTree.dialog.MyMenuDialog;
+import com.ssm.peopleTree.dialog.ParentInfoDialog;
 import com.ssm.peopleTree.dialog.SearchUserDialog;
 import com.ssm.peopleTree.group.GroupManager;
 
@@ -34,7 +40,7 @@ public class GroupListController extends Fragment implements Observer {
 	ListView glv;
 	
 	
-	ImageButton curBtn;
+	ImageView mmenu;
 	
 	ImageButton parentAddBtn;
 	ImageButton childAddBtn;
@@ -42,6 +48,7 @@ public class GroupListController extends Fragment implements Observer {
 	GroupReqDialog groupReqDialog;
 	SearchUserDialog searchUserDialog;
 	MyMenuDialog myMenuDialog;
+	ParentInfoDialog parentInfoDialog;
 	
 	private RelativeLayout layout;
 	
@@ -80,6 +87,18 @@ public class GroupListController extends Fragment implements Observer {
 			}
 		});
 		
+		mmenu = (ImageView)layout.findViewById(R.id.grouplist_mymenu);
+		mmenu.setOnClickListener(new View.OnClickListener() {
+
+			public void onClick(View arg0) {
+				myMenuDialog = new MyMenuDialog(mContext);
+
+				myMenuDialog.setMytitle("메뉴");
+				myMenuDialog.show();
+				
+			}
+		});
+		
 
 		return layout;
 	}	
@@ -108,19 +127,22 @@ public class GroupListController extends Fragment implements Observer {
 			myName.setText(myNameStr);
 		}
 		
-		curBtn = (ImageButton)curLayout.findViewById(R.id.grouplist_cur_btn);
-		curBtn.setOnClickListener(new View.OnClickListener() {
 
-			public void onClick(View arg0) {
-				myMenuDialog = new MyMenuDialog(mContext);
+		
 
-				myMenuDialog.show();
-			}
-		});
+		curLayout.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+
+					
+				}
+			});
 	}
 
 	private void setParent(MemberData parentData) {
 		RelativeLayout parentLayout = (RelativeLayout) layout.findViewById(R.id.groupParent_layout);
+		final MemberData fparentData = parentData;
 		parentLayout.removeAllViews();
 		if(parentData == null){
 			inflater.inflate(R.layout.grouplist_parent_adder,parentLayout,true);
@@ -137,7 +159,7 @@ public class GroupListController extends Fragment implements Observer {
 		}
 		else {
 			inflater.inflate(R.layout.grouplist_parent,parentLayout,true);
-
+			
 			TextView parentName = (TextView)parentLayout.findViewById(R.id.parent_name);
 			if (parentName != null) {
 				String parentNameStr = "";
@@ -147,17 +169,53 @@ public class GroupListController extends Fragment implements Observer {
 				parentName.setText(parentNameStr);
 			}
 			
-			ImageButton parentBtn = (ImageButton)((Activity)mContext).findViewById(R.id.parent_btn);			
+			ImageButton parentBtn = (ImageButton)parentLayout.findViewById(R.id.parent_btn);			
 			if (parentBtn != null) {
 				parentBtn.setOnClickListener(new OnClickListener() {
 					
 					@Override
 					public void onClick(View v) {
-						// TODO Auto-generated method stub
+				
+						parentInfoDialog = new ParentInfoDialog(mContext);
+						parentInfoDialog.show();
+						parentInfoDialog.setParentData(fparentData);
+		
 						
 					}
 				});
 			}
+
+			parentLayout.setOnClickListener(new OnClickListener() {
+					
+					@Override
+					public void onClick(View v) {
+						MemberData mydata = MyManager.getInstance().getMyData();
+						
+						if(mydata.parentGroupMemberId!= fparentData.groupMemberId ||mydata.groupMemberId ==fparentData.groupMemberId   ){
+							GroupManager.getInstance().update(fparentData.groupMemberId);
+						}else{
+							
+							AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+							builder.setTitle("알림")
+									.setMessage("자신의 상위 그룹 보기는 금지되어있습니다.")
+									.setCancelable(true)
+									// 뒤로 버튼 클릭시 취소 가능 설정
+									.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+										// 확인 버튼 클릭시 설정
+										public void onClick(DialogInterface dialog, int whichButton) {
+											
+											
+
+											dialog.cancel();
+										}
+
+									});
+							AlertDialog dialog = builder.create(); // 알림창 객체 생성
+							dialog.show();
+						}
+					}
+				});
+			
 		}
 	}
 

@@ -5,7 +5,18 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
+import org.json.JSONObject;
+
+import com.android.volley.Response.Listener;
 import com.ssm.peopleTree.R;
+import com.ssm.peopleTree.application.MyManager;
+import com.ssm.peopleTree.data.MemberData;
+import com.ssm.peopleTree.dialog.MsgSendDialog;
+import com.ssm.peopleTree.group.GroupManager;
+import com.ssm.peopleTree.network.NetworkManager;
+import com.ssm.peopleTree.network.Status;
+import com.ssm.peopleTree.network.protocol.MakeEdgeRequest;
+import com.ssm.peopleTree.network.protocol.MakeEdgeResponse;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -26,14 +37,65 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 public class RequestListViewCustomAdapter extends BaseAdapter {
 
 	private Context mContext = null;
-    private ArrayList<RequestListData> mListData = new ArrayList<RequestListData>();
-
-    public RequestListViewCustomAdapter(Context mContext) {
+    private ArrayList<MemberData> mListData = new ArrayList<MemberData>();
+    private ArrayList<Integer> edgeTypes = new ArrayList<Integer>();
+    
+    public static final int FROMUP = 1;
+    public static final int FROMDOWN =2;
+    
+    private int mode;
+    
+    private Listener<JSONObject> onMakeEdgeResponse;
+    public RequestListViewCustomAdapter(Context mContext_) {
         super();
-        this.mContext = mContext;
+        this.mContext = mContext_;
+        
+        
+        onMakeEdgeResponse  = new Listener<JSONObject>() {
+
+			@Override
+			public void onResponse(JSONObject arg0) {
+	
+				MakeEdgeResponse res = new MakeEdgeResponse(arg0);
+				Status status = res.getStatus();
+				String str1 = "알림";
+				String str2 = "";
+				if (res.getStatus() == Status.SUCCESS) {
+
+					str2 = "요청수락성공\n [from:"+res.from +"]\n [to:"+res.to +"]";
+					str2+="\n status:" +res.statusCode;
+
+				} else {
+					str2 = "요청수락이 실패하였습니다";
+
+				}
+				AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+				builder.setTitle(str1)
+						.setMessage(str2)
+						.setCancelable(true)
+						// 뒤로 버튼 클릭시 취소 가능 설정
+						.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+							// 확인 버튼 클릭시 설정
+							public void onClick(DialogInterface dialog, int whichButton) {
+								
+								
+								
+								dialog.cancel();
+								
+							}
+
+						});
+				
+				AlertDialog dialog = builder.create(); // 알림창 객체 생성
+				dialog.show();
+			
+			}
+		};
         
     }
-
+    public void setmode(int mode){
+    	this.mode = mode;
+    }
     @Override
     public int getCount() {
         return mListData.size();
@@ -52,7 +114,8 @@ public class RequestListViewCustomAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
     	RequestViewHolder holder;
-		final RequestListData mData = mListData.get(position);
+		final MemberData mData = mListData.get(position);
+		final int edgeType = edgeTypes.get(position);
 		final int position_ = position;
 		if (convertView == null){
 			holder = new RequestViewHolder();
@@ -79,7 +142,8 @@ public class RequestListViewCustomAdapter extends BaseAdapter {
 			holder = (RequestViewHolder) convertView.getTag();
 		}
 	
-		holder.text1.setText(mData.getText());
+		holder.text1.setText(""+ mData.userName + "  "+ mData.userPhoneNumber);
+		
 		holder.btn1.setText("거절");
 		holder.btn2.setText("수락");
 		holder.btn1.setOnClickListener(new OnClickListener(){
@@ -113,9 +177,44 @@ public class RequestListViewCustomAdapter extends BaseAdapter {
 		
 		});
 		holder.btn2.setOnClickListener(new OnClickListener(){
+			
+			
 			@Override
 			public void onClick(View v) {
+				MakeEdgeRequest mer = null;
+
+				MemberData parentData = GroupManager.getInstance().getParent();
+				int myid = MyManager.getInstance().getGroupMemberId();
+				if(mode == FROMUP){
+					
+					if(parentData == null){
+						
+						mer = new MakeEdgeRequest(myid,mData.groupMemberId,edgeType);
+						
+					}else{
+						
+
+					}
+					
+					
+				}else if(mode ==FROMDOWN){
+					
+					mer = new MakeEdgeRequest(myid,mData.groupMemberId,edgeType) ;
+
+
+					
+				}else{
+					return;
+	
+				}
+				if(mer != null){
+					
+					NetworkManager.getInstance().request(mer, onMakeEdgeResponse, null);
+				}
 				
+
+				
+				remove(position_);
 			}
 		});
 		
@@ -125,24 +224,20 @@ public class RequestListViewCustomAdapter extends BaseAdapter {
 		return convertView;
 	}
 
-	public void addItem(String text){
-		RequestListData addInfo = null;
-        addInfo = new RequestListData();
-        addInfo.text = text; 
-        mListData.add(addInfo);
+	public void addItem(MemberData mdata, int edgeType){
+
+        mListData.add(mdata);
+        edgeTypes.add(edgeType);
     }
 
     public void remove(int position){
         mListData.remove(position);
+        edgeTypes.remove(position);
         dataChange();
     }
 
     
 
-    public void sort(){
-        Collections.sort(mListData, RequestListData.ALPHA_COMPARATOR);
-        dataChange();
-    }
 
     public void dataChange(){
         this.notifyDataSetChanged();
@@ -164,40 +259,3 @@ class RequestViewHolder {
 
 }
 
-class RequestListData {
-
-	public String name;
-	public String text;
-	public Object img;
-	
-	public String getName() {
-		return name;
-	}
-	public String getText() {
-		return text;
-	}
-	public Object getImg() {
-		return img;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public void setText(String text) {
-		this.text = text;
-	}
-	public void setImg(Object img) {
-		this.img = img;
-	}
-
-
-	public static final Comparator<RequestListData> ALPHA_COMPARATOR = new Comparator<RequestListData>() {
-		private final Collator sCollator = Collator.getInstance();
-
-		@Override
-		public int compare(RequestListData mListDate_1,
-				RequestListData mListDate_2) {
-			return sCollator.compare(mListDate_1.name, mListDate_2.name);
-		}
-	};
-
-}

@@ -3,18 +3,7 @@
     android:id="@+id/groupCur"
     android:layout_width="match_parent"
     android:layout_height="60dp"
-    android:background="@drawable/myborder3" >
-
-	    <ImageButton
-	        android:id="@+id/grouplist_cur_btn"
-	        style="@style/AppBaseTheme"
-	        android:layout_width="60dp"
-	        android:layout_height="60dp"
-	        android:layout_alignParentRight="true"
-	        android:layout_centerVertical="true"
-	        android:layout_marginRight="24dp"
-	        android:background="@drawable/info_btn_selector"
-	        android:src="@android:drawable/ic_menu_info_details" />
+    android:background="#dffddf" >
 	
 	    <ImageView
 	        android:id="@+id/grouplist_cur_img"
@@ -40,5 +29,15 @@
 	        android:layout_toLeftOf="@+id/grouplist_cur_btn"
 	        android:layout_centerVertical="true"
 	        android:textSize="20sp"/>
+
+	    <ImageButton
+	        android:id="@+id/grouplist_cur_btn"
+	        style="@style/AppBaseTheme"
+	        android:layout_width="60dp"
+	        android:layout_height="60dp"
+	        android:layout_alignParentRight="true"
+	        android:layout_alignParentTop="true"
+	        android:background="#00FF0000"
+	      />
 	
 </RelativeLayout>

@@ -3,6 +3,10 @@ package com.ssm.peopleTree.application;
 import org.json.JSONObject;
 
 import com.android.volley.Response.Listener;
+import com.parse.ParseException;
+import com.parse.ParseInstallation;
+import com.parse.SaveCallback;
+import com.ssm.peopleTree.R;
 import com.ssm.peopleTree.group.GroupManager;
 import com.ssm.peopleTree.map.MapManager;
 import com.ssm.peopleTree.network.NetworkManager;
@@ -18,6 +22,8 @@ import com.ssm.peopleTree.network.protocol.LogoutResponse;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
+import android.widget.Toast;
 
 public class LoginManager {
 	private volatile static LoginManager instance = null;
@@ -114,6 +120,37 @@ public class LoginManager {
 				if (res.getStatus() == Status.SUCCESS) {
 					MyManager.getInstance().setMyData(res.curData);
 					GroupManager.getInstance().setGroup(res.parentData, res.curData, res.children);
+					
+					//TODO
+					
+					int groupMemberId = ParseInstallation.getCurrentInstallation().getInt("groupMemberId");		
+					
+					Log.i("groupMemberId",groupMemberId+"!!!");
+					
+					if(groupMemberId <= 0)
+						ParseInstallation.getCurrentInstallation().put("groupMemberId", res.curData.groupMemberId);
+					
+					
+					ParseInstallation.getCurrentInstallation().saveInBackground(new SaveCallback() {
+						@Override
+						public void done(ParseException e) {
+							if (e == null) {
+								//Toast toast = Toast.makeText(getApplicationContext(), R.string.alert_dialog_success, Toast.LENGTH_SHORT);
+								//toast.show();
+							} else {
+								e.printStackTrace();
+
+								//Toast toast = Toast.makeText(getApplicationContext(), R.string.alert_dialog_failed, Toast.LENGTH_SHORT);
+								//toast.show();
+							}
+						}
+					});
+					
+					
+					
+					//TODO
+					
+					
 					loginListener.onLoginSuccess();
 				}
 				else {

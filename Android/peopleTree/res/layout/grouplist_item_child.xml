@@ -1,19 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+     android:id="@+id/list_item_rlayout"
     android:layout_width="match_parent"
     android:layout_height="80dp"
-    android:background="#AACCFF" >
-
-    <ImageButton
-        android:id="@+id/list_item_btn"
-        style="@style/AppBaseTheme"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:layout_marginRight="6dp"
-        android:background="@drawable/info_btn_selector"
-        android:src="@android:drawable/ic_menu_info_details" />
+       android:background="@drawable/gclist_selector">
     <ImageView
         android:id="@+id/list_item_img"
         android:layout_width="48dp"
@@ -38,5 +28,15 @@
         android:layout_alignParentTop="true"
         android:layout_toLeftOf="@+id/list_item_btn"
         android:textSize="20sp" />
+
+    <ImageButton
+        android:id="@+id/list_item_btn"
+        style="@style/AppBaseTheme"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/list_item_img"
+        android:background="@drawable/info_btn_selector"
+        android:src="@android:drawable/ic_dialog_info" />
 
 </RelativeLayout>

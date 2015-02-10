@@ -10,6 +10,7 @@ import com.ssm.peopleTree.map.MapManager;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -54,8 +55,7 @@ public class GroupListviewCustomAdapter extends BaseAdapter implements OnClickLi
     	GroupListViewHolder holder;
 		final MemberData mData = mListData.get(position);
 
-		//    android:background="#AACCFF" 
-		
+
 		if (convertView == null) {
 			holder = new GroupListViewHolder();
 
@@ -63,7 +63,7 @@ public class GroupListviewCustomAdapter extends BaseAdapter implements OnClickLi
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			convertView = inflater.inflate(R.layout.grouplist_item_child, null);
 			
-			convertView.setBackgroundColor(Color.parseColor("#AFEFEF"));
+		
 			holder.nametxtv = (TextView) convertView.findViewById(R.id.list_item_name);
 			holder.numtxtv1 = (TextView) convertView.findViewById(R.id.list_item_num);
 			holder.btn1 = (ImageButton) convertView.findViewById(R.id.list_item_btn);
@@ -85,10 +85,21 @@ public class GroupListviewCustomAdapter extends BaseAdapter implements OnClickLi
 		holder.btn1.setOnClickListener(this);
 		holder.btn1.setTag(mData);
 
+		convertView.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+
+				GroupManager.getInstance().update(mData.groupMemberId);
+			}
+		});
+		
+		
+		/*
 		int cnum = position %5;
 		switch(cnum){
 		case 0:
-			convertView.setBackgroundColor(Color.parseColor("#7FBFFF"));
+			convertView.setBackgroundColor(Color.parseColor("#1FFEFE"));
 			break;
 		case 1:
 			convertView.setBackgroundColor(Color.parseColor("#93DAFF"));
@@ -105,7 +116,7 @@ public class GroupListviewCustomAdapter extends BaseAdapter implements OnClickLi
 
 			convertView.setBackgroundColor(Color.parseColor("#87CEFA"));
 			break;		
-		}
+		}*/
 		
 		return convertView;
 	}
@@ -123,7 +134,6 @@ public class GroupListviewCustomAdapter extends BaseAdapter implements OnClickLi
 		}
 		
 		MapManager.getInstance().setChild(mData);
-		childInfoDialog.setChildData(mData);
 		childInfoDialog.setchildInfoTitle(mData.userName);
 		childInfoDialog.show();
 	}

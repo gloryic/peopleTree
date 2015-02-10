@@ -7,8 +7,8 @@
   	    android:id="@+id/naviText"
   	    android:layout_width="fill_parent"
   	    android:layout_height="30dp"
-  	    android:background="@drawable/myborder2"
-  	    android:text="#"
+  	    android:background="@drawable/myborder3"
+  	    android:text=""
   	    android:textSize="16sp" />
        
     <RelativeLayout
@@ -52,5 +52,14 @@
 
          android:layout_marginRight="16dp"
           android:layout_marginBottom="8dp" />
+
+     <ImageView
+         android:id="@+id/grouplist_mymenu"
+         android:layout_width="30dp"
+         android:layout_height="30dp"
+         android:layout_alignParentRight="true"
+         android:layout_alignParentTop="true"
+         android:background="@drawable/info_btn_selector"
+         android:src="@drawable/test1" />
     
 </RelativeLayout>

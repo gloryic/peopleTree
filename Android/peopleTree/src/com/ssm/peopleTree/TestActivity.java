@@ -97,17 +97,12 @@ public class TestActivity extends FragmentActivity implements Progressable, OnCl
 		}
 		*/
 		
-		upRqlvca.addItem("¡÷øµ±§ 010-0000-0000");
-		upRqlvca.addItem("∫¿¥Î¿Â 010-0000-0000");
-		
+
 		
 		downRqlvca = new RequestListViewCustomAdapter(this);
 		
 
-		downRqlvca.addItem("±∏πŒ¡§ 010-0000-0000");
-		downRqlvca.addItem("±Ë«¸¡∂ 010-0000-0000");
-		downRqlvca.addItem("π⁄¡ˆº± 010-0000-0000");
-		
+
 		/*
 		for(int i=0;i<4;i++){
 			downRqlvca.addItem("down rq "+i);
