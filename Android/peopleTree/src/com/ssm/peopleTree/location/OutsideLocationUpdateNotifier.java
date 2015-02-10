@@ -43,10 +43,20 @@ class OutsideLocationUpdateNotifier implements UpdateNotifier, Response.Listener
 
 	@Override
 	public void notifyUpdate(Object arg) {
-	
+		Log.i("log", "locTest - outside -notifyUpdate");
+		
+		parent = (OutsideLocationListener)arg;
 		int groupMemeberId = MyManager.getInstance().getGroupMemberId();
 		int parentGroupMemberId =  MyManager.getInstance().getParentGroupMemberId();
-		int parentManageMode = MyManager.getInstance().getMyParentData().manageMode;
+		int parentManageMode;
+		
+		if(MyManager.getInstance().getMyParentData() == null){
+			parentManageMode = 0;
+		}else{
+			 parentManageMode = MyManager.getInstance().getMyParentData().manageMode;
+		}
+		
+
 		int edgyType = MyManager.getInstance().getEdgeType();
 		
 		int statusCode;
@@ -82,6 +92,7 @@ class OutsideLocationUpdateNotifier implements UpdateNotifier, Response.Listener
 			pltm.changeLocationMeasureMode();
 			
 		}else{
+			Log.i("log", "locTest gps" +"lat"+latitude +" ,lon"+ longtitude);
 			statusCode= Status.getStatus();
 			cmr = new CheckMemberRequest(groupMemeberId, parentGroupMemberId, parentManageMode, edgyType, statusCode, fpId, latitude, longtitude);
 		}

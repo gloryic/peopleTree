@@ -42,7 +42,7 @@ class InsideLocationListener implements LocationMeasurer{
 	
 	
 	
-	long timeInterval = 1000*1;
+	long timeInterval = 1000*7;
 	boolean isLocationRequested = false;
 
 	Timer jobScheduler = new Timer();

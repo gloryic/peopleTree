@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import org.json.JSONObject;
 
+import android.util.Log;
+
 import com.android.volley.Response.Listener;
 import com.ssm.peopleTree.application.MyManager;
 import com.ssm.peopleTree.group.GroupManager;
@@ -44,12 +46,19 @@ class InsideLocationUpdateNotifier implements UpdateNotifier{
 	
 	@Override
 	public void notifyUpdate(Object arg) {
-	
+		Log.i("log", "locTest - inside -notifyUpdate");
+		parent = (InsideLocationListener)arg;
 		int groupMemeberId = MyManager.getInstance().getGroupMemberId();
-		int parentGroupMemberId =  MyManager.getInstance().getParentGroupMemberId();
-		int parentManageMode = MyManager.getInstance().getMyParentData().manageMode;
 		int edgyType = MyManager.getInstance().getEdgeType();
-
+		int parentGroupMemberId =  MyManager.getInstance().getParentGroupMemberId();
+		int parentManageMode;
+		if(MyManager.getInstance().getMyParentData() == null){
+			parentManageMode = 0;
+		}else{
+			 parentManageMode = MyManager.getInstance().getMyParentData().manageMode;
+		}
+		
+	
 		int statusCode;
 		
 		int fpId;
@@ -61,21 +70,25 @@ class InsideLocationUpdateNotifier implements UpdateNotifier{
 		}
 		double latitude;
 		double longtitude;
-		
+
 		CheckMemberRequest cmr ; 
 		PeopleTreeLocationManager pltm = PeopleTreeLocationManager.getInstance();		
-		
+
+
 		Status.clear();
-		
+
 		if(!parent.isWifiEnabled){
 			Status.set(Status.WIFI_OFF);
 		}
-		
+
+
 		
 		
 		long curTime = System.currentTimeMillis();
 		if( (!parent.isValidLocation() && (curTime - pltm.getLastChangeTime() ) >  PeopleTreeLocationManager.MINTIMEINTERVAL)
 				|| parent.nearReferPoint==null || !parent.isWifiEnabled){
+			Log.i("log", "locTest inside loc noty inval");
+			
 			
 			latitude = 0;
 			longtitude = 0;
@@ -86,6 +99,8 @@ class InsideLocationUpdateNotifier implements UpdateNotifier{
 			
 			pltm.changeLocationMeasureMode();
 		}else{
+			Log.i("log", "locTest inside loc noty valid");
+			
 			latitude = parent.nearReferPoint.getX();
 			longtitude = parent.nearReferPoint.getY();
 			statusCode= Status.getStatus();
@@ -99,25 +114,5 @@ class InsideLocationUpdateNotifier implements UpdateNotifier{
 	}
 
 }
-class ChkMemReqData{
-	int groupMemeberId;
-	int parentGroupMemberId;
-	int parentManageMode;
-	int edgyType;
-	int statusCode;
-	int fpId;
-	double latitude;
-	double longtitude;
+
 	
-	public ChkMemReqData(int groupMemeberId, int parentGroupMemberId, int parentManageMode, int edgyType, int statusCode, int fpId, double latitude, double longtitude){
-		this.groupMemeberId = groupMemeberId;
-		this.parentGroupMemberId = parentGroupMemberId;
-		this.parentManageMode = parentManageMode;
-		this.edgyType = edgyType;
-		this.statusCode = statusCode;
-		this.fpId = fpId;
-		this.latitude = latitude;
-		this.longtitude = longtitude;
-	}
-	
-}

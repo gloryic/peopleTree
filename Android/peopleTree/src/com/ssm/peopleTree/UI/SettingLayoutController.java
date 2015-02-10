@@ -50,16 +50,16 @@ public class SettingLayoutController extends Fragment {
 		
 		logoutbtn  = (Button)layout.findViewById(R.id.setting_logoutbtn);	
 		debug_btn1  = (Button)layout.findViewById(R.id.setting_dbg_btn1);	
-		debug_btn1  = (Button)layout.findViewById(R.id.setting_dbg_btn2);	
-		debug_btn1  = (Button)layout.findViewById(R.id.setting_dbg_btn3);	
-		debug_btn1  = (Button)layout.findViewById(R.id.setting_dbg_btn4);	
+		debug_btn2  = (Button)layout.findViewById(R.id.setting_dbg_btn2);	
+		debug_btn3  = (Button)layout.findViewById(R.id.setting_dbg_btn3);	
+		debug_btn4  = (Button)layout.findViewById(R.id.setting_dbg_btn4);	
 		
 		debug_btn1.setText("위치측위");
 		debug_btn1.setOnClickListener(new OnClickListener() {
 					
 					@Override
 					public void onClick(View v) {
-				
+						PeopleTreeLocationManager.getInstance().initialize(mContext);
 						PeopleTreeLocationManager.getInstance().startLocationMeasure();
 						
 					}
