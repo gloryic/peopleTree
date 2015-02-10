@@ -192,7 +192,9 @@ public class GroupListController extends Fragment implements Observer {
 						MemberData mydata = MyManager.getInstance().getMyData();
 						
 						if(mydata.parentGroupMemberId!= fparentData.groupMemberId ||mydata.groupMemberId ==fparentData.groupMemberId   ){
+							
 							GroupManager.getInstance().update(fparentData.groupMemberId);
+							
 						}else{
 							
 							AlertDialog.Builder builder = new AlertDialog.Builder(mContext);

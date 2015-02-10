@@ -114,6 +114,16 @@
         </receiver>
         
         <service android:name="com.parse.PushService" />
+        
+        <service
+            android:name="com.ssm.peopleTree.service.peopleTreeService"
+            android:exported="false" >
+
+            <intent-filter>
+                <action android:name="android.servcice.MAIN" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </service>
               
         <receiver
             android:name="com.parse.GcmBroadcastReceiver"

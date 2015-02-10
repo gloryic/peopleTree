@@ -18,8 +18,11 @@ import com.ssm.peopleTree.group.GroupManager;
 import com.ssm.peopleTree.network.NetworkManager;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -74,6 +77,7 @@ public class TestActivity extends FragmentActivity implements Progressable, OnCl
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.tframe);
 		
+
 		backPressCloseHandler = new BackPressCloseHandler(this);
 		
 		networkManager = NetworkManager.getInstance();
@@ -171,7 +175,9 @@ public class TestActivity extends FragmentActivity implements Progressable, OnCl
 			}
 		});
 		
-		page1Btn.setSelected(true);
+		page1Btn.setSelected(true);	
+		
+
 	}
 	
 	@Override
@@ -308,6 +314,6 @@ public class TestActivity extends FragmentActivity implements Progressable, OnCl
 	@Override
 	public void progress() {
 		nextActivity(MapActivity.class);
-	}	
+	}
 }
 
