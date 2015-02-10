@@ -1,5 +1,7 @@
 package com.ssm.peopleTree.application;
 
+import android.util.Log;
+
 import com.ssm.peopleTree.data.MemberData;
 
 public class MyManager {
@@ -7,6 +9,7 @@ public class MyManager {
 
 	private MyManager() {
 		myData = new MemberData();
+		myParentData = new MemberData();
 	}
 	
 	public static MyManager getInstance() {
@@ -23,27 +26,33 @@ public class MyManager {
 	private MemberData myParentData;
 	
 	public void setMyData(MemberData myData,MemberData myParentData) {
+		Log.i("asd","asd"+ (myData==null) + (myParentData==null));
+		Log.i("", "asd dead 1");
+		if (myData != null) {
+			this.myData.userId = myData.userId;
+			this.myData.userName = myData.userName;
+			this.myData.userPhoneNumber = myData.userPhoneNumber;
 
-		this.myData.userId = myData.userId;
-		this.myData.userName = myData.userName;
-		this.myData.userPhoneNumber = myData.userPhoneNumber;
-		
-		this.myData.groupMemberId = myData.groupMemberId;
-		this.myData.parentGroupMemberId = myData.parentGroupMemberId;
-		this.myData.groupId = myData.groupId;
-		
-		this.myData.edgeStatus = myData.edgeStatus;
-		this.myData.edgeType = myData.edgeType;
-		
-		this.myData.manageMode = myData.manageMode;
-		this.myData.managedLocationRadius = myData.managedLocationRadius;
-		this.myData.managingTotalNumber = myData.managingTotalNumber;
-		this.myData.managingNumber = myData.managingNumber;
-		
-		this.myData.longitude = myData.longitude;
-		this.myData.latitude = myData.latitude;
+			this.myData.groupMemberId = myData.groupMemberId;
+			this.myData.parentGroupMemberId = myData.parentGroupMemberId;
+			this.myData.groupId = myData.groupId;
+
+			this.myData.edgeStatus = myData.edgeStatus;
+			this.myData.edgeType = myData.edgeType;
+
+			this.myData.manageMode = myData.manageMode;
+			this.myData.managedLocationRadius = myData.managedLocationRadius;
+			this.myData.managingTotalNumber = myData.managingTotalNumber;
+			this.myData.managingNumber = myData.managingNumber;
+
+			this.myData.longitude = myData.longitude;
+			this.myData.latitude = myData.latitude;
+		}
+		Log.i("", "asd dead 2");
 		// ----------
 		if (myParentData != null) {
+			Log.i("", "asd dead 3");
+			
 			this.myParentData.userId = myParentData.userId;
 			this.myParentData.userName = myParentData.userName;
 			this.myParentData.userPhoneNumber = myParentData.userPhoneNumber;
@@ -59,8 +68,11 @@ public class MyManager {
 			this.myParentData.managedLocationRadius = myParentData.managedLocationRadius;
 			this.myParentData.managingTotalNumber = myParentData.managingTotalNumber;
 			this.myParentData.managingNumber = myParentData.managingNumber;
+			
+			Log.i("", "asd dead 4");
 		} else {
-			this.myParentData = null;
+			Log.i("", "asd dead 5");
+			this.myParentData =  new MemberData();
 		}
 
 	}

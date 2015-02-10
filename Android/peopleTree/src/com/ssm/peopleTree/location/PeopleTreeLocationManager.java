@@ -26,7 +26,7 @@ public class PeopleTreeLocationManager  {
 	static public final int NOT_MEASURABLE= 4;
 	
 	long distanceForUpdate = 0;
-	long timeForUpdate = 1000*15;
+	long timeForUpdate = 1000*10;
 	
 	
 	long lastChangeTime =0;
