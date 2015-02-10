@@ -55,7 +55,26 @@ public class GroupManager extends Observable implements Listener<JSONObject> {
 	}
 	
 	public void update(int groupMemberId) {
-		NetworkManager.getInstance().request(new GetInfoAllRequest(groupMemberId), this, null);
+		final int id = groupMemberId;
+		Listener<JSONObject> getInfoListener = new Listener<JSONObject>() {
+
+			@Override
+			public void onResponse(JSONObject arg0) {
+				GetInfoAllResponse res = new GetInfoAllResponse(arg0);
+				if (res.getStatus() == Status.SUCCESS) {
+					setGroup(res.parentData, res.curData, res.children);
+				} 
+				else {
+					Log.e("test", "Fail");
+					int myId = MyManager.getInstance().getGroupMemberId();
+					if (myId != id) {
+						NetworkManager.getInstance().request(new GetInfoAllRequest(myId), this, null);
+					}
+				}
+			}
+			
+		};
+		NetworkManager.getInstance().request(new GetInfoAllRequest(groupMemberId), getInfoListener, null);
 	}
 	
 	public void groupChanged() {
