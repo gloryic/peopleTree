@@ -11,8 +11,12 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -51,6 +55,12 @@ public class GroupListController extends Fragment implements Observer {
 	ParentInfoDialog parentInfoDialog;
 	
 	private RelativeLayout layout;
+	boolean dragFlag = true;
+	boolean firstDragFlag = true;
+	float startYposition;
+	float endYPosition;
+	private Animation slideup, slidedown;
+	private RelativeLayout mBottomBar;
 	
 	public GroupListController(Context context, Observable observable) {
 		this.mContext = context;
@@ -70,6 +80,9 @@ public class GroupListController extends Fragment implements Observer {
 		layout = (RelativeLayout)inflater.inflate(R.layout.grouplist_layout, container, false);
 
 		glv = (ListView) layout.findViewById(R.id.groupList);
+		
+		mBottomBar = (RelativeLayout) layout.findViewById(R.id.bottom_bar);
+		
 		glv.setAdapter(glvca);
 
 		this.inflater = inflater;
@@ -98,6 +111,72 @@ public class GroupListController extends Fragment implements Observer {
 				
 			}
 		});
+		
+		
+		
+		mBottomBar.bringToFront();
+		mBottomBar.setVisibility(View.GONE);
+		mBottomBar.invalidate();
+		
+		slideup = AnimationUtils.loadAnimation(mContext, R.anim.slide_from_bottom);
+		slidedown = AnimationUtils.loadAnimation(mContext, R.anim.slide_to_bottom);
+		
+		
+		
+		glv.setOnTouchListener(new OnTouchListener() {
+            
+		    @Override
+		    public boolean onTouch(View arg0, MotionEvent event) {
+		    	
+		    	
+		    	
+		    	switch (event.getAction()) {
+		    	case MotionEvent.ACTION_MOVE:
+		    		dragFlag = true;
+		    		if(firstDragFlag){
+		    			startYposition = event.getY();
+		    			firstDragFlag = false;
+		    		}
+		    		
+		    		break;
+		    		
+		    		
+		    	case MotionEvent.ACTION_UP :
+		    		endYPosition = event.getY();
+		    		firstDragFlag = true;
+		    		if(dragFlag){
+		    			if((startYposition > endYPosition) && (startYposition - endYPosition) > 10){
+		    				
+		    				Log.i("TestActivity","胶农费 促款");
+							if (mBottomBar.getVisibility() != View.VISIBLE) {
+								mBottomBar.startAnimation(slideup);
+								mBottomBar.setVisibility(View.VISIBLE);
+							}
+							else{}
+		    			}
+		    			else if((startYposition < endYPosition) && (endYPosition - startYposition) > 10){
+		    			
+							Log.i("TestActivity", "胶农费 促款");
+							if (mBottomBar.getVisibility() != View.GONE) {
+								mBottomBar.startAnimation(slidedown);
+								mBottomBar.setVisibility(View.GONE);
+							}
+							else {}
+						}
+		    		}
+			        startYposition = 0.0f;
+			        endYPosition = 0.0f;
+			        //motionFlag = false;
+			        break;
+		    	}
+		    	
+		    	
+		    	return false;
+
+		    }
+		});
+		
+		
 		
 
 		return layout;

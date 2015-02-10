@@ -1,5 +1,6 @@
 package com.ssm.peopleTree;
 
+
 import com.ssm.peopleTree.BackPressCloseHandler;
 import com.ssm.peopleTree.UI.BroadCastLayoutController;
 import com.ssm.peopleTree.UI.BroadCastListViewCustomAdapter;
@@ -32,9 +33,15 @@ import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 
@@ -64,7 +71,7 @@ public class TestActivity extends FragmentActivity implements Progressable, OnCl
 	private NetworkManager networkManager;
 	private MyManager myManager;
 	private GroupManager groupManager;
-	
+	private RelativeLayout bottomBar;
 	
 	GroupListController groupListController;
 	RequestLayoutController requestLayoutController;
@@ -75,8 +82,8 @@ public class TestActivity extends FragmentActivity implements Progressable, OnCl
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.tframe);
 		
+		setContentView(R.layout.tframe);
 
 		backPressCloseHandler = new BackPressCloseHandler(this);
 		
@@ -101,7 +108,7 @@ public class TestActivity extends FragmentActivity implements Progressable, OnCl
 		page4Btn.setText("알림");
 		page5Btn.setText("설정");
 		
-		
+				
 		bclvca = new BroadCastListViewCustomAdapter(this);
 	
 		upRqlvca = new RequestListViewCustomAdapter(this);
@@ -109,7 +116,6 @@ public class TestActivity extends FragmentActivity implements Progressable, OnCl
 		
 		downRqlvca = new RequestListViewCustomAdapter(this);
 		
-
 
 
 		
@@ -177,10 +183,11 @@ public class TestActivity extends FragmentActivity implements Progressable, OnCl
 			}
 		});
 		
-		page1Btn.setSelected(true);	
-		
+		page1Btn.setSelected(true);
 
 	}
+	
+	
 	
 	@Override
 	public void onBackPressed() {
