@@ -51,7 +51,7 @@ public class MyMenuDialog extends Dialog  {
 				GroupOutResponse res = new GroupOutResponse(arg0);
 				Status status = res.getStatus();
 				
-				if (res.getStatus() == Status.SUCCESS) {
+				if (status == Status.SUCCESS) {
 
 					Toast.makeText(mContext,"그룹을 나갔습니다.", Toast.LENGTH_SHORT).show();
 				}
@@ -72,7 +72,8 @@ public class MyMenuDialog extends Dialog  {
 			public void onClick(View v) {
 				Progressable p = (Progressable)mContext;
 				if (p != null) {
-					MapManager.getInstance().setMode(ManageMode.GEOFENCE);
+					ManageMode mode = ManageMode.getMode(MyManager.getInstance().getManageMode());
+					MapManager.getInstance().setMode(mode);
 					p.progress();
 				}
 				else {
@@ -87,12 +88,7 @@ public class MyMenuDialog extends Dialog  {
              public void onClick(View arg0) { 
              	int myid = MyManager.getInstance().getGroupMemberId(); 
  
-
              	NetworkManager.getInstance().request(new GroupOutRequest(myid), onGroupOutResponse, null); 
-                         	 
-                         	 
-             	 
-             	 
              } 
          }); 
  		 

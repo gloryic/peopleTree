@@ -62,7 +62,7 @@ public class MapManager {
 	private static final String MANAGE_RADIUS_KEY = "manageRadius";
 	private static final String GEO_POINTS_KEY = "geoPoints";
 	
-	private static final int RADIUS_MIN = 1;
+	private static final int RADIUS_MIN = 5;
 	private static final int RADIUS_MAX = 5000;
 	
 	private SharedPreferences prefs;
@@ -158,30 +158,6 @@ public class MapManager {
 		ed.commit();
 	}
 	
-	public void show(Activity activity) {
-
-		ViewGroup mapViewContainer = (ViewGroup)activity.findViewById(R.id.map_view);
-		
-		switch(mode) {
-		case TRAKING:
-			mapViewContainer.addView(new TrackingModeMapView(activity));
-			break;
-			
-		case AREA:
-			geoPointsSettingStarted = false;
-			mapViewContainer.addView(new AreaModeMapView(activity));
-			break;
-			
-		case GEOFENCE:
-			mapViewContainer.addView(new GeofenceModeMapView(activity));
-			break;
-			
-		default:
-			mapViewContainer.addView(new GroupLocationMapView(activity));
-			break;
-		}
-	}
-	
 	public void addMember(MemberData memberData) {
 		if (memberData == null) {
 			return;
@@ -240,29 +216,47 @@ public class MapManager {
 		tempGeoPoints.addAll(geoPoints);
 	}
 
-	public void finishAllSetting() {
+	public boolean finishAllSetting() {
 		
+		if (!isValidSetting()) {
+			return false;
+		}
+			
 		int id = MyManager.getInstance().getGroupMemberId();
+		
+		
+		
 		SetGeoPointRequest req = null;
 		switch(mode) {
 		case TRAKING:
-			req = new SetGeoPointRequest(id, manageRadius);
+			req = new SetGeoPointRequest(id, tempRadius);
 			break;
 		case AREA:
-			req = new SetGeoPointRequest(id, manageRadius, geoPoints);
+			req = new SetGeoPointRequest(id, tempRadius, tempGeoPoints);
 			break;
 		case GEOFENCE:
-			req = new SetGeoPointRequest(id, geoPoints);
+			req = new SetGeoPointRequest(id, tempGeoPoints);
 			break;
 		}
 		
 		if (req == null) {
-			return;
+			return false;
 		}
-		
+				
 		NetworkManager.getInstance().request(req, onSetGeoPointResponse, null);
 		
+		manageRadius = tempRadius;
+		geoPoints.clear();
+		geoPoints.addAll(tempGeoPoints);
 		save();
+		return true;
+	}
+	
+	public boolean isValidSetting() {
+		// TODO
+		
+		
+		return true;
 	}
 	
 	public boolean isGeoPointSettingStarted() {

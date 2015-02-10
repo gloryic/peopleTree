@@ -73,4 +73,5 @@ abstract class Protocol {
 	protected static final String DEPTH_KEY = "depth";
 	
 	protected static final String VALIDATION_KEY = "validation";
+	protected static final String MY_GROUP_MEMBER_ID_KEY = "myGroupMemberId";
 }

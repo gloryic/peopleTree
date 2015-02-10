@@ -1,13 +1,10 @@
 package com.ssm.peopleTree.map.view;
 
-import com.ssm.peopleTree.R;
 import com.ssm.peopleTree.map.GeoPoint;
 import com.ssm.peopleTree.map.MapManager;
 
 import android.app.Activity;
 import android.graphics.Color;
-import android.view.View;
-import android.widget.Button;
 import net.daum.mf.map.api.MapPOIItem;
 import net.daum.mf.map.api.MapPoint;
 import net.daum.mf.map.api.MapPolyline;
