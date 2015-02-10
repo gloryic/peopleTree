@@ -118,7 +118,7 @@ public class LoginManager {
 				Status status = res.getStatus();
 				
 				if (res.getStatus() == Status.SUCCESS) {
-					MyManager.getInstance().setMyData(res.curData);
+					MyManager.getInstance().setMyData(res.curData,res.parentData);
 					GroupManager.getInstance().setGroup(res.parentData, res.curData, res.children);
 					
 					//TODO

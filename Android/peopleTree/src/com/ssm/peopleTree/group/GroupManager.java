@@ -89,7 +89,7 @@ public class GroupManager extends Observable implements Listener<JSONObject> {
 	public void setGroup(MemberData parent, MemberData cur, ArrayList<MemberData> children) {
 		
 		if(MyManager.getInstance().getGroupMemberId() == cur.groupMemberId ){
-			MyManager.getInstance().setMyData(cur);
+			MyManager.getInstance().setMyData(cur,parent);
 		}
 		this.parent = parent;
 		this.cur = cur;

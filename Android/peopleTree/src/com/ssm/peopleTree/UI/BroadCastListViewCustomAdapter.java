@@ -5,9 +5,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
+import org.json.JSONArray;
+
 import com.ssm.peopleTree.R;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,13 +29,77 @@ public class BroadCastListViewCustomAdapter extends BaseAdapter {
 
 	private Context mContext = null;
     private ArrayList<BroadcastListData> mListData = new ArrayList<BroadcastListData>();
+	private SharedPreferences prefs;
 
+    
+	 private static final String BCMSG_DATA = "bcmsg_data"; 
+	    private static final String BCMSG_ARR1_KEY = "bcmsg_arr1_key";
+	    private static final String BCMSG_ARR2_KEY = "bcmsg_arr2_key";
+	    private static final String BCMSG_ARR3_KEY = "bcmsg_arr3_key";
+	    private static final String BCMSG_ARR4_KEY = "bcmsg_arr4_key";
     public BroadCastListViewCustomAdapter(Context mContext) {
         super();
         this.mContext = mContext;
-        Collections.reverse(mListData); 
+        this.reLoadFromLocal();
+       // Collections.reverse(mListData); 
       
     }
+    
+    public void reLoadFromLocal(){
+		prefs = mContext.getSharedPreferences(BCMSG_DATA,Context.MODE_PRIVATE);
+		if(prefs==null){
+			return;
+		}
+		mListData.clear();
+		
+		String str1 = prefs.getString(BCMSG_ARR1_KEY, "");
+		String str2 = prefs.getString(BCMSG_ARR2_KEY, "");
+		String str3 = prefs.getString(BCMSG_ARR3_KEY, "");
+		String str4 = prefs.getString(BCMSG_ARR4_KEY, "");
+		
+		try {
+			JSONArray jsonArr1 = new JSONArray(str1);
+			JSONArray jsonArr2 = new JSONArray(str2);
+			JSONArray jsonArr3 = new JSONArray(str3);
+			JSONArray jsonArr4 = new JSONArray(str4);
+
+			for (int i = 0; !jsonArr1.isNull(i); i++) {
+				
+				BroadcastListData addInfo = new BroadcastListData(jsonArr1.getString(i),null,jsonArr2.getString(i),jsonArr3.getString(i),jsonArr4.getString(i));
+		        mListData.add(addInfo);
+			
+			}
+			
+		} catch (Exception e) {
+			mListData.clear();
+		}
+		this.dataChange();
+	}
+    /* String broacdcastMessageId, Object img, String name, String text1, String text2 */
+    public void reSaveToLocal(){
+    	SharedPreferences.Editor ed = prefs.edit();
+    	JSONArray jsonArr1 = new JSONArray();
+    	JSONArray jsonArr2 = new JSONArray();
+    	JSONArray jsonArr3 = new JSONArray();
+    	JSONArray jsonArr4 = new JSONArray();
+    	for(BroadcastListData iter : mListData){
+    		
+    		jsonArr1.put(iter.getBroacdcastMessageId());
+    		jsonArr2.put(iter.getName());
+    		jsonArr3.put(iter.getText1());
+    		jsonArr4.put(iter.getText2());
+    		
+    	}
+    	ed.putString(BCMSG_ARR1_KEY, jsonArr1.toString());
+    	ed.putString(BCMSG_ARR2_KEY, jsonArr2.toString());
+    	ed.putString(BCMSG_ARR3_KEY, jsonArr3.toString());
+    	ed.putString(BCMSG_ARR4_KEY, jsonArr4.toString());
+    	ed.commit();
+    }
+    
+
+    
+    
 
     @Override
     public int getCount() {
@@ -92,13 +159,19 @@ public class BroadCastListViewCustomAdapter extends BaseAdapter {
 	}
 
 	public void addItem(String broacdcastMessageId, Object img, String name, String text1, String text2){
+
 		BroadcastListData addInfo = new BroadcastListData(broacdcastMessageId,img,name,text1,text2);
 
         mListData.add(addInfo);
+        this.reSaveToLocal();
+        
     }
 
     public void remove(int position){
         mListData.remove(position);
+        this.reSaveToLocal();
+        this.reLoadFromLocal();
+        
         dataChange();
     }
     public void removeChecked(){
@@ -110,7 +183,9 @@ public class BroadCastListViewCustomAdapter extends BaseAdapter {
     		}
     		
     	}
-    	
+        this.reSaveToLocal();
+        this.reLoadFromLocal();
+        
     	
         dataChange();
     }

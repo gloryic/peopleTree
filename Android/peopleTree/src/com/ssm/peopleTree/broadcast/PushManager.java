@@ -3,12 +3,14 @@ package com.ssm.peopleTree.broadcast;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.util.Log;
 import android.widget.Toast;
 
 import com.android.volley.Response.Listener;
+import com.ssm.peopleTree.R;
 import com.ssm.peopleTree.UI.BroadCastListViewCustomAdapter;
 import com.ssm.peopleTree.UI.GroupListviewCustomAdapter;
 import com.ssm.peopleTree.UI.PushMessageListViewCustomAdapter;
@@ -17,6 +19,7 @@ import com.ssm.peopleTree.application.MyManager;
 import com.ssm.peopleTree.data.MemberData;
 import com.ssm.peopleTree.dialog.MyMenuDialog;
 import com.ssm.peopleTree.group.GroupManager;
+import com.ssm.peopleTree.map.ManageMode;
 import com.ssm.peopleTree.network.NetworkManager;
 import com.ssm.peopleTree.network.Status;
 import com.ssm.peopleTree.network.protocol.GetInfoRequest;
@@ -29,10 +32,7 @@ public class PushManager {
 	
 	private PushManager() {
 		
-		
-		
-		
-		
+
 	}
 	
 	public static PushManager getInstance() {
@@ -62,17 +62,7 @@ public class PushManager {
 		this.glvca = glvca;
 		
 	}
-	
-	
-//5
-	
-//7
-	
 
-	
-	
-	
-	
 	
 	public void pushMessageAccept(PushData pd){
 
@@ -86,7 +76,7 @@ public class PushManager {
 				GetInfoResponse res = new GetInfoResponse(arg0);
 				Status status = res.getStatus();
 				String str1 = "";
-				//long time =
+		
 				Calendar calen = Calendar.getInstance();
 				String timeStr1 = "" + (calen.get(Calendar.MONTH)+1) + "월 " + calen.get(Calendar.DAY_OF_MONTH)+"일    "
 						+ calen.get(Calendar.HOUR_OF_DAY) + ":"
@@ -94,12 +84,20 @@ public class PushManager {
 
 				if (res.getStatus() == Status.SUCCESS) {
 					 MemberData mData = res.mData;
+					 
+					 if(pushdata.statusCode >=2000 && pushdata.statusCode <=3000){
+						 str1 = "관리대상 상태변화 "+mData.userName+"\n" + pushdata.msgstr;
+						 
+						 pmlvca.addItem("", timeStr1 + str1, "");
+						 pmlvca.dataChange();
+						 
+					 }
 
 					switch (pushdata.statusCode) {
 					
 					case 100:
 						bclvca.addItem("", null, "[공지사항]", timeStr1+pushdata.msgstr, "");
-						pmlvca.dataChange();
+						bclvca.dataChange();
 						break;
 					case 200:
 						str1 = "관리자 "+mData.userName+"가 위치관리를 더이상 하지 않습니다.";
@@ -128,7 +126,7 @@ public class PushManager {
 						break;
 					case 600:
 						bclvca.addItem("", null,  "["+mData.userName+"]\n", timeStr1+pushdata.msgstr, "");
-						pmlvca.dataChange();
+						bclvca.dataChange();
 						break;
 					case 410:
 						upRqlvca.addItem(mData, pushdata.statusCode);
@@ -208,6 +206,7 @@ public class PushManager {
 						pmlvca.addItem("", timeStr1 + str1, "");
 						pmlvca.dataChange();
 						break;
+					
 									
 
 					}
@@ -223,13 +222,71 @@ public class PushManager {
 
 		NetworkManager.getInstance().request(new GetInfoRequest(pd.from), onGetInfoResponse, null);
     	
-    	
+
+	}
+	
+	public void pushMessageAcceptEx(JSONObject msgObj) throws JSONException{
+		int manageMode;
+		int radius;
+		double distance;
+		int edgeStatus;
+		int accumulateWarning;
+		
+		manageMode = msgObj.getInt("manageMode");
+		/*
+		INVALID(100, 0),
+		NOTHING(200, R.layout.activity_map),
+		TRAKING(210, R.layout.activity_map_tracking),
+		AREA(220, R.layout.activity_map_area),
+		GEOFENCE(230, R.layout.activity_map_geofence)
+		
+		*/
+		
+		Calendar calen = Calendar.getInstance();
+		String timeStr1 = "" + (calen.get(Calendar.MONTH)+1) + "월 " + calen.get(Calendar.DAY_OF_MONTH)+"일    "
+				+ calen.get(Calendar.HOUR_OF_DAY) + ":"
+				+ calen.get(Calendar.MINUTE) +"\n";
+		String str1;
+
+		switch(ManageMode.getMode(manageMode)){
+		case TRAKING:
+			radius = msgObj.getInt("radius");
+			distance = msgObj.getDouble("distance");
+			edgeStatus  = msgObj.getInt("edgeStatus");
+			accumulateWarning = msgObj.getInt("accumulateWarning");
+			
+			str1 = "관리자에게서 벗어났습니다.\n ";
+			
+			pmlvca.addItem("", timeStr1 + str1, "");
+			pmlvca.dataChange();
+			break;
+		case AREA:
+			radius = msgObj.getInt("radius");
+			distance = msgObj.getInt("distance");
+			edgeStatus  = msgObj.getInt("edgeStatus");
+			accumulateWarning = msgObj.getInt("accumulateWarning");
+			
+			str1 = "관리지역 위치를 벗어났습니다.\n ";
+			pmlvca.addItem("", timeStr1 + str1, "");
+			pmlvca.dataChange();
+			break;
+		case GEOFENCE:
+			edgeStatus  = msgObj.getInt("edgeStatus");
+			accumulateWarning = msgObj.getInt("accumulateWarning");
+			
+			str1 = "지오펜싱 관리 위치를 벗어났습니다.";
+			pmlvca.addItem("", timeStr1 + str1, "");
+			pmlvca.dataChange();
+			break;
+			
+				
+				//
+			
+		}
 		
 		
 		
 	}
-	
-	
 	
 	
 }
