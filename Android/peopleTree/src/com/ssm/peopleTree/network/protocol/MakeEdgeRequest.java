@@ -7,7 +7,7 @@ import com.android.volley.Request.Method;
 public class MakeEdgeRequest extends Request {
 	// 연결 수락 프로토콜 요청
 	
-	private static final String REST_PROTOCOL = "/ptree/make/edge"; 
+	private static final String REST_PROTOCOL = "/ptree/event/make/edge"; 
 	
 	public int from;
 	public int to;

@@ -14,7 +14,8 @@
         android:background="@drawable/myborder3"
         android:gravity="center"
         android:text="text"
-/>
+     />
+
 
     <LinearLayout
         android:layout_width="264dp"

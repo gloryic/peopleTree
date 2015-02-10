@@ -3,32 +3,65 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
     
-  	<TextView
-  	    android:id="@+id/naviText"
-  	    android:layout_width="fill_parent"
+
+  <RelativeLayout
+  	    android:id="@+id/naviTextLayout"
+  	    android:layout_width="match_parent"
   	    android:layout_height="30dp"
-  	    android:background="@drawable/myborder3"
-  	    android:text=""
-  	    android:textSize="16sp" />
+  	    android:background="@color/blue_pressed" >
+	  	<TextView
+	  	    android:id="@+id/naviText"
+	  	    android:layout_width="match_parent"
+	  	    android:layout_height="match_parent"
+	  	    android:background="@drawable/myborder3"
+	  	    android:text=""
+	  	    android:textSize="12sp" />
+	</RelativeLayout>
+	<!-- 
+  	<RelativeLayout
+  	    android:id="@+id/differLine1"
+  	    android:layout_width="match_parent"
+  	    android:layout_height="5dp"
+  	    android:layout_below="@+id/naviTextLayout"
+  	    android:background="@color/blue_normal" >
+
+	</RelativeLayout>
+	 -->
        
     <RelativeLayout
         android:id="@+id/groupParent_layout"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:layout_below="@+id/naviText"
+        android:layout_below="@+id/naviTextLayout"
         >
 	
 	</RelativeLayout>
+	
+    <RelativeLayout
+            android:id="@+id/differLine2"
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:layout_below="@+id/groupParent_layout"
+            android:background="@color/blue_pressed" >
+	
+	</RelativeLayout>
+    
     
     <RelativeLayout
         android:id="@+id/groupcur_layout"
 	    android:layout_width="match_parent"
 	    android:layout_height="60dp" 
-	    android:layout_below="@+id/groupParent_layout" 
+	    android:layout_below="@+id/differLine2" 
 	  >
 	
-	    
+	</RelativeLayout>
 	
+    <RelativeLayout
+           android:id="@+id/differLine3"
+           android:layout_width="match_parent"
+           android:layout_height="5dp"
+           android:layout_below="@+id/groupcur_layout"
+           android:background="@color/blue_pressed" >
 	</RelativeLayout>
 
     <ListView
@@ -36,7 +69,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_below="@+id/groupcur_layout" 
+        android:layout_below="@+id/differLine3" 
         android:layout_alignParentBottom="true"
         android:orientation="vertical"
          >

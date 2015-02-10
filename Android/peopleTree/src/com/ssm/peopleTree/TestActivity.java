@@ -1,5 +1,6 @@
 package com.ssm.peopleTree;
 
+import com.ssm.peopleTree.BackPressCloseHandler;
 import com.ssm.peopleTree.UI.BroadCastLayoutController;
 import com.ssm.peopleTree.UI.BroadCastListViewCustomAdapter;
 import com.ssm.peopleTree.UI.GroupListController;
@@ -11,9 +12,13 @@ import com.ssm.peopleTree.UI.RequestListViewCustomAdapter;
 import com.ssm.peopleTree.UI.SettingLayoutController;
 import com.ssm.peopleTree.application.LoginManager;
 import com.ssm.peopleTree.application.MyManager;
+import com.ssm.peopleTree.broadcast.PushManager;
+import com.ssm.peopleTree.data.MemberData;
 import com.ssm.peopleTree.group.GroupManager;
 import com.ssm.peopleTree.network.NetworkManager;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -40,7 +45,8 @@ public class TestActivity extends FragmentActivity implements Progressable, OnCl
 	public final static int FRAGMENT_PAGE3 = 2;
 	public final static int FRAGMENT_PAGE4 = 3;
 	public final static int FRAGMENT_PAGE5 = 4;
-
+	private BackPressCloseHandler backPressCloseHandler;
+	
 	ViewPager mViewPager;			// View pager를 지칭할 변수 
 	
 	Button page1Btn, page2Btn, page3Btn,page4Btn,page5Btn;
@@ -68,6 +74,8 @@ public class TestActivity extends FragmentActivity implements Progressable, OnCl
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.tframe);
 		
+		backPressCloseHandler = new BackPressCloseHandler(this);
+		
 		networkManager = NetworkManager.getInstance();
 		myManager = MyManager.getInstance();
 		groupManager = GroupManager.getInstance();
@@ -91,58 +99,20 @@ public class TestActivity extends FragmentActivity implements Progressable, OnCl
 		
 	
 		upRqlvca = new RequestListViewCustomAdapter(this);
-		/*
-		for(int i=0;i<2;i++){
-			upRqlvca.addItem("uprq"+i);
-		}
-		*/
-		
 
 		
 		downRqlvca = new RequestListViewCustomAdapter(this);
 		
 
 
-		/*
-		for(int i=0;i<4;i++){
-			downRqlvca.addItem("down rq "+i);
-		}
-		*/
-		
 
-		bclvca = new BroadCastListViewCustomAdapter(this);
-		
-
-		bclvca.addItem("", null, "봉대장", "3시  반까지 갤럭시로!!  ", "");
-
-		bclvca.addItem("", null, "봉대장", "다들 식사하셨나요??  ", "");
-
-		bclvca.addItem("", null, "봉대장", "4시  반까지 갤럭시로!!  ", "");
-
-		bclvca.addItem("", null, "봉대장", "다들 힘내요! ^^  ", "");
-
-		bclvca.addItem("", null, "봉대장", "5시 까지 갤럭시로!!  ", "");
-		/*
-		for(int i=0;i<320;i++){
-			bclvca.addItem("broadcast list ^^"+i, i, "aa"+i, "bb"+i, "cc"+i);
-		}
-		*/
 		
 		glvca = new GroupListviewCustomAdapter(this);
 		
 		pmlvca = new PushMessageListViewCustomAdapter(this);
-		pmlvca.addItem("", "03:08 이탈자 OOO 발생하였습니다.", null);
-		pmlvca.addItem("", "22:01 봉대장과 연결되었습니다. \n 당신의 관리자는 봉대장입니다.", null);
-		pmlvca.addItem("", "17:21 박진기와 연결되었습니다. \n 당신은 박진기의 관리자입니다.", null);
-		
-		
-		
 
-		/*
-		for(int i=0;i<320;i++){
-			pmlvca.addItem("testtxt"+i, "push message"+i, "");
-		}
-		*/
+
+
 		groupListController = new GroupListController(this, groupManager);
 		requestLayoutController =  new RequestLayoutController(this);
 		broadCastLayoutController = new BroadCastLayoutController(this);
@@ -153,6 +123,8 @@ public class TestActivity extends FragmentActivity implements Progressable, OnCl
 		requestLayoutController.setListAdapter(upRqlvca, downRqlvca);
 		broadCastLayoutController.setListAdapter(bclvca);
 		pushmsgLayoutController.setListAdapter(pmlvca);
+		PushManager.getInstance().setAdapters(pmlvca, bclvca, upRqlvca, downRqlvca, glvca);
+		
 		// ViewPager를 검색하고 Adapter를 달아주고, 첫 페이지를 선정해준다.
 		mViewPager = (ViewPager) findViewById(R.id.pager);
 		mViewPager.setAdapter(new pagerAdapter(getSupportFragmentManager()));
@@ -200,6 +172,31 @@ public class TestActivity extends FragmentActivity implements Progressable, OnCl
 		});
 		
 		page1Btn.setSelected(true);
+	}
+	
+	@Override
+	public void onBackPressed() {
+		
+		
+
+		MyManager myManager = MyManager.getInstance();
+		MemberData myData = myManager.getMyData();
+		MemberData curData = groupManager.getCur();
+	
+		
+		if(myData.groupMemberId != curData.groupMemberId ){
+			
+			if(curData.parentGroupMemberId == curData.groupMemberId)
+				GroupManager.getInstance().update(myData.groupMemberId);
+			else
+				GroupManager.getInstance().update(curData.parentGroupMemberId);
+			
+		}else{
+			
+			backPressCloseHandler.onBackPressed();
+
+		}
+		
 	}
 
 	@Override
