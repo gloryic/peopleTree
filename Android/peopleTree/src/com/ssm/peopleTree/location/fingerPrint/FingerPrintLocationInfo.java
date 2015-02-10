@@ -48,6 +48,10 @@ public class FingerPrintLocationInfo{
 	public ArrayList<String>  getBssidInfos(){
 		return this.bssidInfos;
 	}
+	
+	public int getLocationNumber(){
+		return this.locationNumber;
+	}
 }
 
 

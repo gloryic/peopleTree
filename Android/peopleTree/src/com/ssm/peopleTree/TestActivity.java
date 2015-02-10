@@ -101,6 +101,8 @@ public class TestActivity extends FragmentActivity implements Progressable, OnCl
 		page4Btn.setText("알림");
 		page5Btn.setText("설정");
 		
+		
+		bclvca = new BroadCastListViewCustomAdapter(this);
 	
 		upRqlvca = new RequestListViewCustomAdapter(this);
 

@@ -11,6 +11,7 @@ import com.ssm.peopleTree.location.fingerPrint.FingerPrintManager;
 import com.ssm.peopleTree.location.fingerPrint.ReferencePoint;
 
 
+
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -22,6 +23,7 @@ import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.util.Log;
 
 class InsideLocationListener implements LocationMeasurer{
 	private Context mContext;
@@ -40,7 +42,7 @@ class InsideLocationListener implements LocationMeasurer{
 	
 	
 	
-	long timeInterval = 1000*1;
+	long timeInterval = 1000*7;
 	boolean isLocationRequested = false;
 
 	Timer jobScheduler = new Timer();
@@ -61,7 +63,7 @@ class InsideLocationListener implements LocationMeasurer{
 	private static final double VALIDDISTANCE = 180.0;
 	private static final long VALIDTIME = 1000*60*5;
 	boolean isFpValid=false;
-	
+	boolean isWifiEnabled = false;
 	boolean isGetLocation = false;
 	InsideLocationListener(Context context) {
 		this.mContext = context;
@@ -186,10 +188,20 @@ class InsideLocationListener implements LocationMeasurer{
 			isLocationRequested = true;
 			this.isGetLocation = false;
 
+			
+			
+			
 			jobScheduler.scheduleAtFixedRate(new TimerTask() {
 				@Override
 				public void run() {
-					wifiManager.startScan();
+					isWifiEnabled = wifiManager.isWifiEnabled();
+					Log.i("log", "isWifiEnabled :"+isWifiEnabled);
+					if(isWifiEnabled){
+
+						wifiManager.startScan();	
+					}else{
+						updateNotifier.notifyUpdate(InsideLocationListener.this);
+					}
 				}
 				
 			}, 0, timeInterval);
