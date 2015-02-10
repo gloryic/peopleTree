@@ -68,15 +68,19 @@ public class MyManager {
 	}
 	
 	public Double getLatitude() {
-		return myData.latitude;
+		// TODO
+		//return myData.latitude;
+		return 37.551094;
 	}
 	
 	public Double getLongitude() {
-		return myData.longitude;
+		//return myData.longitude;
+		return 127.019470;
 	}
 	
 	public int getManagedLocationRadius() {
-		return myData.managedLocationRadius;
+		//return myData.managedLocationRadius;
+		return 50;
 	}
 	
 	public int getManageMode() {

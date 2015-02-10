@@ -6,6 +6,7 @@ import com.ssm.peopleTree.R;
 import com.ssm.peopleTree.data.MemberData;
 import com.ssm.peopleTree.group.GroupManager;
 import com.ssm.peopleTree.map.MapManager;
+import com.ssm.peopleTree.map.ManageMode;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -59,6 +60,7 @@ public class ChildInfoDialog extends Dialog  {
 			public void onClick(View v) {
 				Progressable p = (Progressable)mContext;
 				if (p != null && MapManager.getInstance().hasValidLocation()) {
+					MapManager.getInstance().setMode(ManageMode.NOTHING);
 					p.progress();
 				}
 				else {

@@ -19,8 +19,8 @@ import com.parse.ParseInstallation;
 import com.parse.ParseObject;
 import com.parse.RefreshCallback;
 import com.parse.SaveCallback;
-import com.ssm.peopleTree.R;
 import com.parse.ParseBroadcastReceiver;
+import com.ssm.peopleTree.R;
 
 public class MainActivity extends Activity {
 
