@@ -1,19 +1,19 @@
 package com.ssm.peopleTree.network.protocol;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.android.volley.Request.Method;
-import com.ssm.peopleTree.data.MemberData;
 
 public class GetInfoAllRequest extends Request {
 	// 사용자 정보 가져오기 프로토콜 파라미터
 	
 	private static final String REST_PROTOCOL = "/ptree/getinfoall/group/member"; 
 	
+	private int myGroupMemberId;
 	private int groupMemberId;
 	
-	public GetInfoAllRequest(int groupMemberId) {
+	public GetInfoAllRequest(int myGroupMemberId, int groupMemberId) {
+		this.myGroupMemberId = myGroupMemberId;
 		this.groupMemberId = groupMemberId;
 	}
 	
@@ -21,6 +21,7 @@ public class GetInfoAllRequest extends Request {
 	public JSONObject toJSonObject() {
 		JSONObject json = new JSONObject();
 		try {
+			json.put(MY_GROUP_MEMBER_ID_KEY, myGroupMemberId);
 			json.put(GROUP_MEMBER_ID_KEY, groupMemberId);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -33,6 +34,8 @@ public class GetInfoAllRequest extends Request {
 	public String toURI() {
 		String result = REST_PROTOCOL;
 		result += "?" + GROUP_MEMBER_ID_KEY + "=" + Integer.toString(groupMemberId);
+		result += "&" + MY_GROUP_MEMBER_ID_KEY + "=" + Integer.toString(myGroupMemberId);
+		
 		return result;
 	}
 	

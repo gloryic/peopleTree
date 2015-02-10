@@ -1,5 +1,6 @@
 package com.ssm.peopleTree;
 
+import com.ssm.peopleTree.BackPressCloseHandler;
 import com.ssm.peopleTree.UI.BroadCastLayoutController;
 import com.ssm.peopleTree.UI.BroadCastListViewCustomAdapter;
 import com.ssm.peopleTree.UI.GroupListController;
@@ -12,9 +13,12 @@ import com.ssm.peopleTree.UI.SettingLayoutController;
 import com.ssm.peopleTree.application.LoginManager;
 import com.ssm.peopleTree.application.MyManager;
 import com.ssm.peopleTree.broadcast.PushManager;
+import com.ssm.peopleTree.data.MemberData;
 import com.ssm.peopleTree.group.GroupManager;
 import com.ssm.peopleTree.network.NetworkManager;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -41,7 +45,8 @@ public class TestActivity extends FragmentActivity implements Progressable, OnCl
 	public final static int FRAGMENT_PAGE3 = 2;
 	public final static int FRAGMENT_PAGE4 = 3;
 	public final static int FRAGMENT_PAGE5 = 4;
-
+	private BackPressCloseHandler backPressCloseHandler;
+	
 	ViewPager mViewPager;			// View pager를 지칭할 변수 
 	
 	Button page1Btn, page2Btn, page3Btn,page4Btn,page5Btn;
@@ -68,6 +73,8 @@ public class TestActivity extends FragmentActivity implements Progressable, OnCl
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.tframe);
+		
+		backPressCloseHandler = new BackPressCloseHandler(this);
 		
 		networkManager = NetworkManager.getInstance();
 		myManager = MyManager.getInstance();
@@ -167,6 +174,31 @@ public class TestActivity extends FragmentActivity implements Progressable, OnCl
 		});
 		
 		page1Btn.setSelected(true);
+	}
+	
+	@Override
+	public void onBackPressed() {
+		
+		
+
+		MyManager myManager = MyManager.getInstance();
+		MemberData myData = myManager.getMyData();
+		MemberData curData = groupManager.getCur();
+	
+		
+		if(myData.groupMemberId != curData.groupMemberId ){
+			
+			if(curData.parentGroupMemberId == curData.groupMemberId)
+				GroupManager.getInstance().update(myData.groupMemberId);
+			else
+				GroupManager.getInstance().update(curData.parentGroupMemberId);
+			
+		}else{
+			
+			backPressCloseHandler.onBackPressed();
+
+		}
+		
 	}
 
 	@Override

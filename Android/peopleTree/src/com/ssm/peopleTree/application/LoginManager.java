@@ -76,7 +76,7 @@ public class LoginManager {
 					savedUserNumber = res.userNumber;
 					save();
 
-					NetworkManager.getInstance().request(new GetInfoAllRequest(savedUserNumber), onGetInfoResponse, null);
+					NetworkManager.getInstance().request(new GetInfoAllRequest(savedUserNumber, savedUserNumber), onGetInfoResponse, null);
 				}
 				else {
 					loginListener.onLoginFail(status);
@@ -208,7 +208,7 @@ public class LoginManager {
 		}
 		
 		if (savedUserNumber != USER_NUMBER_DEFAULT) {
-			NetworkManager.getInstance().request(new GetInfoAllRequest(savedUserNumber), onGetInfoResponse, null);
+			NetworkManager.getInstance().request(new GetInfoAllRequest(savedUserNumber, savedUserNumber), onGetInfoResponse, null);
 		}
 		else {
 			// TODO

@@ -42,25 +42,27 @@ public class MyManager {
 		
 		this.myData.longitude = myData.longitude;
 		this.myData.latitude = myData.latitude;
-		//----------
-		this.myParentData.userId = myParentData.userId;
-		this.myParentData.userName = myParentData.userName;
-		this.myParentData.userPhoneNumber = myParentData.userPhoneNumber;
-		
-		this.myParentData.groupMemberId = myParentData.groupMemberId;
-		this.myParentData.parentGroupMemberId = myParentData.parentGroupMemberId;
-		this.myParentData.groupId = myParentData.groupId;
-		
-		this.myParentData.edgeStatus = myParentData.edgeStatus;
-		this.myParentData.edgeType = myParentData.edgeType;
-		
-		this.myParentData.manageMode = myParentData.manageMode;
-		this.myParentData.managedLocationRadius = myParentData.managedLocationRadius;
-		this.myParentData.managingTotalNumber = myParentData.managingTotalNumber;
-		this.myParentData.managingNumber = myParentData.managingNumber;
-		
+		// ----------
+		if (myParentData != null) {
+			this.myParentData.userId = myParentData.userId;
+			this.myParentData.userName = myParentData.userName;
+			this.myParentData.userPhoneNumber = myParentData.userPhoneNumber;
 
-		
+			this.myParentData.groupMemberId = myParentData.groupMemberId;
+			this.myParentData.parentGroupMemberId = myParentData.parentGroupMemberId;
+			this.myParentData.groupId = myParentData.groupId;
+
+			this.myParentData.edgeStatus = myParentData.edgeStatus;
+			this.myParentData.edgeType = myParentData.edgeType;
+
+			this.myParentData.manageMode = myParentData.manageMode;
+			this.myParentData.managedLocationRadius = myParentData.managedLocationRadius;
+			this.myParentData.managingTotalNumber = myParentData.managingTotalNumber;
+			this.myParentData.managingNumber = myParentData.managingNumber;
+		} else {
+			this.myParentData = null;
+		}
+
 	}
 	
 	public MemberData getMyParentData() {

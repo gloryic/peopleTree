@@ -85,11 +85,7 @@
         <!-- push start -->
         
         
-        <activity
-            android:name="com.ssm.peopleTree.parse.pushnotifications.MainActivity"
-            android:label="@string/app_name" >
-        </activity>
-        
+      
         
         <activity
             android:name="ssm.peopleTree.parse.pushnotifications.ParseCallbackActivity"

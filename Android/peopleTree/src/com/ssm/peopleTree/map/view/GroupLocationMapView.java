@@ -129,5 +129,4 @@ public class GroupLocationMapView extends MapView implements MapViewEventListene
 	@Override
 	public void onPOIItemSelected(MapView arg0, MapPOIItem arg1) {
 	}
-
 }
