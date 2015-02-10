@@ -4,6 +4,7 @@ import org.json.JSONObject;
 
 import com.android.volley.Response.Listener;
 import com.ssm.peopleTree.group.GroupManager;
+import com.ssm.peopleTree.map.MapManager;
 import com.ssm.peopleTree.network.NetworkManager;
 import com.ssm.peopleTree.network.Status;
 import com.ssm.peopleTree.network.protocol.GetInfoAllRequest;
@@ -90,6 +91,8 @@ public class LoginManager {
 				if (status == Status.SUCCESS) {
 					savedUserNumber = USER_NUMBER_DEFAULT;
 					clear();
+					MapManager.getInstance().clear();
+					
 					logoutListener.onLogoutSuccess();
 				}
 				else {

@@ -1,30 +1,40 @@
 package com.ssm.peopleTree.map;
 
+import com.ssm.peopleTree.R;
+
 public enum ManageMode {
 
-	NOTHING(200),
-	TRACKING(210),
-	AREA(220),
-	GEOFENCE(230),
-	INDOOR(300)
+	INVALID(100, 0),
+	NOTHING(200, R.layout.activity_map),
+	TRAKING(210, R.layout.activity_map_tracking),
+	AREA(220, R.layout.activity_map_area),
+	GEOFENCE(230, R.layout.activity_map_geofence)
 	;
 	
 	private int code;
+	private int layout;
 	
-	private ManageMode(int code) {
+	
+	private ManageMode(int code, int layout) {
 		this.code = code;
-	}
-	
-	public static ManageMode getMode(int code) {
-		for (ManageMode mode : values()) {
-			if (mode.code == code)
-				return mode;
-		}
-		
-		return NOTHING;
+		this.layout = layout;
 	}
 	
 	public int getCode() {
 		return code;
+	}
+	
+	public int getLayout() {
+		return layout;
+	}
+	
+	public static ManageMode getMode(int code) {
+		for (ManageMode value : values()) {
+			if (code == value.getCode()) {
+				return value;
+			}
+		}
+		
+		return NOTHING;
 	}
 }

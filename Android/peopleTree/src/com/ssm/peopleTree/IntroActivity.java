@@ -4,8 +4,10 @@ import com.ssm.peopleTree.application.LoginManager;
 import com.ssm.peopleTree.application.MyManager;
 import com.ssm.peopleTree.application.LoginManager.LoginListener;
 import com.ssm.peopleTree.dialog.SimpleAlertDialog;
+import com.ssm.peopleTree.map.MapManager;
 import com.ssm.peopleTree.network.NetworkManager;
 import com.ssm.peopleTree.network.Status;
+
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -25,20 +27,17 @@ public class IntroActivity extends Activity implements LoginListener {
 	private boolean loginSuccess;
 	private Intro intro;
 	
-	private NetworkManager networkManager;
 	private LoginManager loginManager;
-	private MyManager myManager;
 		
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
-		
-		networkManager = NetworkManager.getInstance();
-		networkManager.initialize(getApplicationContext());
+
+		NetworkManager.getInstance().initialize(getApplicationContext());
+		MapManager.getInstance().initialize(getApplicationContext());
 		loginManager = LoginManager.getInstance();
 		loginManager.initialize(getApplicationContext());
-		myManager = MyManager.getInstance();
 		
 		
 		logo = (ImageView)findViewById(R.id.imageLogo);
