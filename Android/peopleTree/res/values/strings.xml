@@ -17,6 +17,11 @@
     <string name="alert">alert</string>
     <string name="ok">확인</string>
     <string name="close">닫기</string>
+    <string name="setting">설정</string>
+    <string name="radius_hint">반경(m)</string>
+    <string name="center_setting">중심 설정</string>
+    <string name="setting_start">설정 시작</string>
+    <string name="setting_finish">설정 완료</string>
     
     <string name="success">성공</string>
     <string name="fail">실패</string>

@@ -9,6 +9,7 @@ import org.json.JSONObject;
 import android.util.Log;
 
 import com.android.volley.Response.Listener;
+import com.ssm.peopleTree.application.MyManager;
 import com.ssm.peopleTree.data.MemberData;
 import com.ssm.peopleTree.network.NetworkManager;
 import com.ssm.peopleTree.network.Status;
@@ -86,6 +87,10 @@ public class GroupManager extends Observable implements Listener<JSONObject> {
 	}
 	
 	public void setGroup(MemberData parent, MemberData cur, ArrayList<MemberData> children) {
+		
+		if(MyManager.getInstance().getGroupMemberId() == cur.groupMemberId ){
+			MyManager.getInstance().setMyData(cur);
+		}
 		this.parent = parent;
 		this.cur = cur;
 		this.children.clear();

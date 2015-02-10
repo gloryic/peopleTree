@@ -64,7 +64,7 @@ public class RequestListViewCustomAdapter extends BaseAdapter {
 
 					str2 = "요청수락성공\n [from:"+res.from +"]\n [to:"+res.to +"]";
 					str2+="\n status:" +res.statusCode;
-
+					GroupManager.getInstance().update(MyManager.getInstance().getGroupMemberId());
 				} else {
 					str2 = "요청수락이 실패하였습니다";
 
@@ -114,8 +114,8 @@ public class RequestListViewCustomAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
     	RequestViewHolder holder;
-		final MemberData mData = mListData.get(position);
-		final int edgeType = edgeTypes.get(position);
+		final MemberData mData = mListData.get(mListData.size()-position -1);
+		final int edgeType = edgeTypes.get(mListData.size()-position -1);
 		final int position_ = position;
 		if (convertView == null){
 			holder = new RequestViewHolder();
@@ -141,8 +141,19 @@ public class RequestListViewCustomAdapter extends BaseAdapter {
 		}else{
 			holder = (RequestViewHolder) convertView.getTag();
 		}
-	
-		holder.text1.setText(""+ mData.userName + "  "+ mData.userPhoneNumber);
+		
+		String edgeTypeStr = "";
+		
+		if(edgeType%100 == 10){
+			
+			edgeTypeStr="정보보고관계 요청\n";
+		}else if(edgeType%100 == 20){
+			
+			edgeTypeStr="위치관리관계 요청\n";
+		}
+		
+		
+		holder.text1.setText(""+edgeTypeStr+ "  "+ mData.userName + "  "+ mData.userPhoneNumber);
 		
 		holder.btn1.setText("거절");
 		holder.btn2.setText("수락");
@@ -193,6 +204,25 @@ public class RequestListViewCustomAdapter extends BaseAdapter {
 						
 					}else{
 						
+						
+						AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+						builder.setTitle("알림")
+								.setMessage("이미 관리자가있습니다!")
+								.setCancelable(true)
+								.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+		
+									public void onClick(DialogInterface dialog, int whichButton) {
+										
+										
+										
+										dialog.cancel();
+										
+									}
+
+								});
+						
+						AlertDialog dialog = builder.create(); // 알림창 객체 생성
+						dialog.show();
 
 					}
 					

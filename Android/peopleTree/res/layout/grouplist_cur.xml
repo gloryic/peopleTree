@@ -3,7 +3,7 @@
     android:id="@+id/groupCur"
     android:layout_width="match_parent"
     android:layout_height="60dp"
-    android:background="@drawable/glist_selector" >
+    android:background="#dffddf" >
 	
 	    <ImageView
 	        android:id="@+id/grouplist_cur_img"

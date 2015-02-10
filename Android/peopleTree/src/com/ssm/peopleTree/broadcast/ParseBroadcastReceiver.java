@@ -17,6 +17,7 @@ import android.util.Log;
 
 import com.ssm.peopleTree.MainActivity;
 import com.ssm.peopleTree.R;
+import com.ssm.peopleTree.TestActivity;
 
 
 public class ParseBroadcastReceiver extends BroadcastReceiver {
@@ -121,7 +122,29 @@ public class ParseBroadcastReceiver extends BroadcastReceiver {
         noti.flags |= Notification.FLAG_AUTO_CANCEL;
         
         mNotificationManager.notify(NOTIFICATION_ID, noti);
+
+        pushMessageControl(msg);
     }  
+    
+    private void pushMessageControl(JSONObject msg) throws JSONException{
+    
+
+
+    	String msgstr = msg.getString("message");
+
+    	String userName = msg.getString("userName");
+
+    	int statusCode = msg.getInt("statusCode");
+
+    	int from = msg.getInt("from");
+
+    	int to = msg.getInt("to");
+
+    	
+    	PushManager.getInstance().pushMessageAccept(new PushData(statusCode, userName, msgstr, from, to));
+
+    }
+    
     
     private String getSummmaryText(int statusCode){
     	
@@ -137,9 +160,13 @@ public class ParseBroadcastReceiver extends BroadcastReceiver {
     	case 510: return "피플트리 요청 알림";
     	case 520: return "피플트리 요청 알림";
     	case 415: return "피플트리 수락 알림";
+    	case 417: return "피플트리 변경 알림";
     	case 425: return "피플트리 수락 알림";
+    	case 427: return "피플트리 변경 알림";
     	case 515: return "피플트리 수락 알림";
+    	case 517: return "피플트리 변경 알림";
     	case 525: return "피플트리 수락 알림";
+    	case 527: return "피플트리 변경 알림";
     	case 600: return "피플트리 메세지";
     	default : return "피플트리";
     	}
