@@ -99,14 +99,14 @@ public class ParseBroadcastReceiver extends BroadcastReceiver {
         NotificationCompat.InboxStyle style = new NotificationCompat.InboxStyle()
         .addLine(message)//메세지 전체
         .setBigContentTitle(msg.getString("userName"))
-        .setSummaryText(msg.getString("statusCode"));
+        .setSummaryText(getSummmaryText(msg.getInt("statusCode")));
         
         
         NotificationCompat.Builder mBuilder =  new NotificationCompat.Builder(context)
         .setSmallIcon(R.drawable.ic_launcher)
         .setContentInfo("1")
         .setTicker("피플트리")
-        .setContentTitle(getSummmaryText(msg.getInt("userName")))
+        .setContentTitle(msg.getString("userName"))
         .setContentText(subMessage)//메세지의 요악본
         .setStyle(style);    
         
