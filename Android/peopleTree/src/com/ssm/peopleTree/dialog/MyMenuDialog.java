@@ -42,9 +42,6 @@ public class MyMenuDialog extends Dialog  {
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		this.setContentView(R.layout.dialog_group_mymenu);
 		this.mContext = context;
-			
-		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		this.setContentView(R.layout.dialog_group_mymenu);
 		
 		onGroupOutResponse = new Listener<JSONObject>() {
 
