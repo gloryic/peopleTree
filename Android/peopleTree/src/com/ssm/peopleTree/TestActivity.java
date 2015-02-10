@@ -99,10 +99,7 @@ public class TestActivity extends FragmentActivity implements Progressable, OnCl
 		
 		
 		bclvca = new BroadCastListViewCustomAdapter(this);
-	
 		upRqlvca = new RequestListViewCustomAdapter(this);
-
-		
 		downRqlvca = new RequestListViewCustomAdapter(this);
 		
 
@@ -110,7 +107,6 @@ public class TestActivity extends FragmentActivity implements Progressable, OnCl
 
 		
 		glvca = new GroupListviewCustomAdapter(this);
-		
 		pmlvca = new PushMessageListViewCustomAdapter(this);
 
 
