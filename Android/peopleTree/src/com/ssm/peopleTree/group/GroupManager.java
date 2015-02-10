@@ -56,6 +56,7 @@ public class GroupManager extends Observable implements Listener<JSONObject> {
 	
 	public void update(int groupMemberId) {
 		final int id = groupMemberId;
+		final int myId = MyManager.getInstance().getGroupMemberId();
 		Listener<JSONObject> getInfoListener = new Listener<JSONObject>() {
 
 			@Override
@@ -66,15 +67,14 @@ public class GroupManager extends Observable implements Listener<JSONObject> {
 				} 
 				else {
 					Log.e("test", "Fail");
-					int myId = MyManager.getInstance().getGroupMemberId();
 					if (myId != id) {
-						NetworkManager.getInstance().request(new GetInfoAllRequest(myId), this, null);
+						NetworkManager.getInstance().request(new GetInfoAllRequest(myId, myId), this, null);
 					}
 				}
 			}
 			
 		};
-		NetworkManager.getInstance().request(new GetInfoAllRequest(groupMemberId), getInfoListener, null);
+		NetworkManager.getInstance().request(new GetInfoAllRequest(myId, groupMemberId), getInfoListener, null);
 	}
 	
 	public void groupChanged() {
