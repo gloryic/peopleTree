@@ -19,7 +19,7 @@ public class GetInfoRequest extends Request {
 	public JSONObject toJSonObject() {
 		JSONObject json = new JSONObject();
 		try {
-			json.put(USER_NUMBER_KEY, groupMemberId);
+			json.put(GROUP_MEMBER_ID_KEY, groupMemberId);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -30,7 +30,7 @@ public class GetInfoRequest extends Request {
 	@Override
 	public String toURI() {
 		String result = REST_PROTOCOL;
-		result += "?" + USER_NUMBER_KEY + "=" + Integer.toString(groupMemberId);
+		result += "?" + GROUP_MEMBER_ID_KEY + "=" + Integer.toString(groupMemberId);
 		return result;
 	}
 	

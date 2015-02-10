@@ -173,52 +173,92 @@ public class SearchUserDialogListViewAdapter extends BaseAdapter {
 			modeSettingNum = 10;
 			str1 = "정보보고 ";
 		}
-		
+		boolean validEdge = true;
+	
 		switch (parentDialog.getMode()) {
 		case SearchUserDialog.CHILD_ADD_MODE:
 			str2 = "관리대상으로 요청";
 			modeSettingNum+=400;
+			
+			if(MyManager.getInstance().getEdgeType()== 200 && modeSettingNum == 10){
+				validEdge = false;
+			}
+			
 			break;
 		case SearchUserDialog.PARENT_ADD_MODE:
 			str2 = "관리자로 요청";
 			modeSettingNum+=500;
+			if(mData.edgeType== 200 && modeSettingNum == 10){
+				validEdge = false;
+			}
+			
+			
 			break;
 		default:
 			break;
 
 		}
 		
+	
+		
 		final int statusCode = modeSettingNum;
+		
+		
+		
 		AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-		builder.setTitle(str1+str2)
-				.setMessage(mData.userName + "을(를) 선택하시겠습니까?")
-				.setCancelable(true)
-				// 뒤로 버튼 클릭시 취소 가능 설정
-				.setPositiveButton("확인", new DialogInterface.OnClickListener() {
-					// 확인 버튼 클릭시 설정
-					public void onClick(DialogInterface dialog, int whichButton) {
-						
-						int myid = MyManager.getInstance().getGroupMemberId();
-						int yid = mData.groupMemberId;
-						RequestEdgeRequest rer = new RequestEdgeRequest(myid,yid,statusCode );
-						NetworkManager.getInstance().request(rer, onRequestEdgeResponse, null);
-						
-						
-						
-						
+		
+		
+		
+		if (validEdge) {
+			builder.setTitle(str1 + str2)
+					.setMessage(mData.userName + "을(를) 선택하시겠습니까?")
+					.setCancelable(true)
+					// 뒤로 버튼 클릭시 취소 가능 설정
+					.setPositiveButton("확인",
+							new DialogInterface.OnClickListener() {
+								// 확인 버튼 클릭시 설정
+								public void onClick(DialogInterface dialog,
+										int whichButton) {
 
-						parentDialog.dismiss();
-					}
+									int myid = MyManager.getInstance()
+											.getGroupMemberId();
+									int yid = mData.groupMemberId;
+									RequestEdgeRequest rer = new RequestEdgeRequest(
+											myid, yid, statusCode);
+									NetworkManager.getInstance().request(rer,
+											onRequestEdgeResponse, null);
 
-				})
-				.setNegativeButton("취소", new DialogInterface.OnClickListener() {
-					// 취소 버튼 클릭시 설정
-					public void onClick(DialogInterface dialog, int whichButton) {
-						
+									parentDialog.dismiss();
+								}
 
-						dialog.cancel();
-					}
-				});
+							})
+					.setNegativeButton("취소",
+							new DialogInterface.OnClickListener() {
+								// 취소 버튼 클릭시 설정
+								public void onClick(DialogInterface dialog,
+										int whichButton) {
+
+									dialog.cancel();
+								}
+							});
+		} else {
+			
+
+			builder.setTitle("알림")
+					.setMessage("유효하지 않은 관계요청입니다!\n요청대상의 위치정보 관리여부를 확인하세요")
+					.setCancelable(true)
+					// 뒤로 버튼 클릭시 취소 가능 설정
+					.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+						// 확인 버튼 클릭시 설정
+						public void onClick(DialogInterface dialog, int whichButton) {
+							
+							
+
+							dialog.cancel();
+						}
+
+					});
+		}
 		return builder;
 
 	}

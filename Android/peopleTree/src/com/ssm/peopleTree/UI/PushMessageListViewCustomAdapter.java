@@ -52,7 +52,7 @@ public class PushMessageListViewCustomAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
     	PushMessageViewHolder holder;
-		final PushMessageListData mData = mListData.get(position);
+		final PushMessageListData mData = mListData.get(mListData.size()-position -1);
 		final int checkBoxPosition = position;
 		
 		if (convertView == null){
