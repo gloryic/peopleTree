@@ -71,7 +71,7 @@ public class MakeGroupRequest extends Request {
 			}
 			result += "?" + USER_PHONE_KEY + "=" + userPhoneNumber;
 			result += "&" + USER_ID_KEY + "=" + userId;
-			result += "&" + USER_PASSWORD_KEY + "=" + password;
+			result += "&" + USER_PASSWORD_KEY + "=" + NetworkManager.getEncodedStr(password);
 			result += "&" + USER_NAME_KEY + "=" + NetworkManager.getEncodedStr(userName);
 			result += "&" + GROUP_NAME_KEY + "=" + NetworkManager.getEncodedStr(groupName);	
 		} catch (Exception e) {
