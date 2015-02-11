@@ -8,6 +8,7 @@ import android.util.Log;
 
 import com.android.volley.Response.Listener;
 import com.ssm.peopleTree.application.MyManager;
+import com.ssm.peopleTree.device.DeviceStatus;
 import com.ssm.peopleTree.group.GroupManager;
 import com.ssm.peopleTree.network.NetworkManager;
 import com.ssm.peopleTree.network.protocol.CheckMemberRequest;
@@ -75,10 +76,10 @@ class InsideLocationUpdateNotifier implements UpdateNotifier{
 		PeopleTreeLocationManager pltm = PeopleTreeLocationManager.getInstance();		
 
 
-		Status.clear();
+		DeviceStatus.clear();
 
 		if(!parent.isWifiEnabled){
-			Status.set(Status.WIFI_OFF);
+			DeviceStatus.set(DeviceStatus.WIFI_OFF);
 		}
 
 
@@ -92,8 +93,8 @@ class InsideLocationUpdateNotifier implements UpdateNotifier{
 			
 			latitude = 0;
 			longtitude = 0;
-			Status.set(Status.INVALID);
-			statusCode= Status.getStatus();
+			DeviceStatus.set(DeviceStatus.INVALID);
+			statusCode= DeviceStatus.getStatus();
 			cmr = new CheckMemberRequest(groupMemeberId, parentGroupMemberId, parentManageMode, edgyType, statusCode, fpId, latitude, longtitude);
 			NetworkManager.getInstance().request(cmr, onCheckMemberResponse, null);
 			
@@ -103,7 +104,7 @@ class InsideLocationUpdateNotifier implements UpdateNotifier{
 			
 			latitude = parent.nearReferPoint.getX();
 			longtitude = parent.nearReferPoint.getY();
-			statusCode= Status.getStatus();
+			statusCode= DeviceStatus.getStatus();
 			cmr = new CheckMemberRequest(groupMemeberId, parentGroupMemberId, parentManageMode, edgyType, statusCode, fpId, latitude, longtitude);
 			NetworkManager.getInstance().request(cmr, onCheckMemberResponse, null);
 		}

@@ -1,6 +1,6 @@
 package com.ssm.peopleTree.service;
 
-import com.ssm.peopleTree.broadcast.ConnReceiver;
+import com.ssm.peopleTree.device.DeviceStatusReceiver;
 
 import android.app.AlertDialog;
 import android.app.Service;
@@ -14,7 +14,7 @@ import android.util.Log;
 public class peopleTreeService extends Service{
      
 	static final String TAG = "peopleTreeService";
-	ConnReceiver mReceiver = new ConnReceiver();
+	DeviceStatusReceiver mReceiver = new DeviceStatusReceiver();
 	
     @Override
     public IBinder onBind(Intent intent) {
