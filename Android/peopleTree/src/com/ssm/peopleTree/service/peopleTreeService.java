@@ -2,8 +2,10 @@ package com.ssm.peopleTree.service;
 
 import com.ssm.peopleTree.broadcast.ConnReceiver;
 
+import android.app.AlertDialog;
 import android.app.Service;
 import android.bluetooth.BluetoothAdapter;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.IBinder;
@@ -11,7 +13,7 @@ import android.util.Log;
  
 public class peopleTreeService extends Service{
      
-	static final String TAG = "blineService";
+	static final String TAG = "peopleTreeService";
 	ConnReceiver mReceiver = new ConnReceiver();
 	
     @Override
@@ -28,9 +30,6 @@ public class peopleTreeService extends Service{
         this.registerReceiver(mReceiver, filter);
         
         
-        
-        
-        
         return 0;
     }
      
@@ -40,4 +39,5 @@ public class peopleTreeService extends Service{
         this.unregisterReceiver(mReceiver);
         super.onDestroy();
     }
+
 }

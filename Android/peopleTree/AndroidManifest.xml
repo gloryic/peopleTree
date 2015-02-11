@@ -97,6 +97,7 @@
             android:enabled="true"
             android:priority="0" >
             <intent-filter>
+                <action android:name="android.location.PROVIDERS_CHANGED" />
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
         </receiver>
