@@ -117,7 +117,7 @@ class OutsideLocationListener extends Service implements LocationListener,
 						}
 					}
 				}	
-			}, 1000,1000*10);
+			}, 1000,1000*13);
 
 		}
 		

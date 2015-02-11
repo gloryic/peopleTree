@@ -11,6 +11,8 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -35,6 +37,12 @@ public class ParentInfoDialog extends Dialog  {
 		
 		btn1 = (Button)this.findViewById(R.id.parentInfoDialog_btn1);
 		titleTxtv = (TextView)this.findViewById(R.id.parentInfoDialog_title);
+		
+		
+		
+		
+		
+		
 	}
 
 	public void setParentData(MemberData ptData){
@@ -42,6 +50,14 @@ public class ParentInfoDialog extends Dialog  {
 
 		titleTxtv.setText(ptData.userName);
 		btn1.setText(ptData.userPhoneNumber);
+		btn1.setOnClickListener(new View.OnClickListener() {
+			 
+            public void onClick(View arg0) {
+            	String str = "tel:"+btn1.getText().toString();
+            	Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse(str));
+            	mContext.startActivity(intent);
+            }
+        });
 	}
 
 

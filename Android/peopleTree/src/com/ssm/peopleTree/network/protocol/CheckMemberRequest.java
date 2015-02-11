@@ -39,7 +39,7 @@ public class CheckMemberRequest extends Request {
 			json.put(PARENT_GROUP_MEMBER_ID_KEY, parentGroupMemberId);
 			json.put(PARENT_MANAGE_MODE_KEY, parentManageMode);
 			json.put(EDGE_TYPE_KEY, edgeType);
-			json.put(STATUS_KEY, statusCode);
+			json.put(STATUS_CODE_KEY, statusCode);
 			json.put(FP_ID_KEY, fpId);
 			json.put(LONGITUDE_KEY, latitude);
 			json.put(LATITUDE_KEY, longitude);
