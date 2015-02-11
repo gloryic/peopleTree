@@ -2,41 +2,34 @@ package com.ssm.peopleTree.dialog;
 
 import com.ssm.peopleTree.R;
 
-import android.app.AlertDialog;
-import android.app.ProgressDialog;
+import android.R.attr;
+import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Handler;
 import android.os.Message;
+import android.view.ViewGroup.LayoutParams;
+import android.widget.ProgressBar;
 
-public class NetworkProgressDialog extends ProgressDialog {// implements DialogInterface.OnClickListener {
+public class NetworkProgressDialog extends Dialog {
 	
 	private static final int DURATION = 500;
 	
-	private AlertDialog alertDialog;
-	
 	private Handler handler;
 	private ProgressTimer timer;
-	private boolean complete;
+	
+	private boolean progressComplete;
 
 	public NetworkProgressDialog(Context context) {
-		super(context);
-		
-		/*
-		AlertDialog.Builder builder = new AlertDialog.Builder(context);
-		builder.setTitle("경고")
-				.setMessage("진행을 멈추시겠습니까?")
-				.setCancelable(true)
-				.setNegativeButton(R.string.cancel, this)
-				.setPositiveButton(R.string.ok, this);
-		
-		alertDialog = builder.create();
-		*/
+		super(context, R.style.NetworkProgessDialog);
+
+		setCancelable(false);
+		setCanceledOnTouchOutside(false);
+		ProgressBar pb = new ProgressBar(context, null, attr.progressBarStyleLargeInverse);
+		addContentView(pb, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
 		
 		handler = new Handler() {
 			public void handleMessage(Message msg) {
-				//alertDialog.cancel();
-				
+	
 				if (isShowing()) {
 					dismiss();
 				}
@@ -44,33 +37,18 @@ public class NetworkProgressDialog extends ProgressDialog {// implements DialogI
 		};
 	}
 	
-	public void completeProgress() {
-		complete = true;
+	public void complete() {
+		progressComplete = true;
 	}
 	
 	@Override
 	public void show() {
-		super.show();
-		
-		complete = false;
+		progressComplete = false;
 		timer = new ProgressTimer();
 		timer.start();
+		
+		super.show();
 	}
-
-	@Override
-	public void onBackPressed() {
-		//alertDialog.show();
-	}
-
-	/*
-	@Override
-	public void onClick(DialogInterface dialog, int which) {
-		if (which == -1) {
-			dismiss();
-		}
-		dialog.cancel();
-	}
-	*/
 	
 	private class ProgressTimer extends Thread {
 
@@ -78,7 +56,7 @@ public class NetworkProgressDialog extends ProgressDialog {// implements DialogI
 		public void run() {
 			try {
 				Thread.sleep(DURATION);				
-				while(!complete) {
+				while(!progressComplete) {
 					;
 				}
 				
