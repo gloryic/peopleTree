@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -284,7 +285,15 @@ public class GroupListController extends Fragment implements Observer {
 				}
 			});
 		
+		Drawable da = mContext.getResources().getDrawable(R.drawable.gclist_selector);
 
+		if(myData.accumulateWarning>0){
+			da = mContext.getResources().getDrawable(R.drawable.gclist_ex2_selector);
+		}else if(myData.managingNumber != myData.managingTotalNumber){
+			da = mContext.getResources().getDrawable(R.drawable.gclist_ex1_selector);
+		}
+		curLayout.setBackground(da);
+		
 		curLayout.setOnClickListener(new OnClickListener() {
 				
 				@Override
