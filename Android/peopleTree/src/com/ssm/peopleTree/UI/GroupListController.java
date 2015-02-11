@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -23,7 +24,12 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
+import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 import com.ssm.peopleTree.R;
 import com.ssm.peopleTree.application.MyManager;
 import com.ssm.peopleTree.data.MemberData;
@@ -43,7 +49,8 @@ public class GroupListController extends Fragment implements Observer {
 
 
 	GroupListviewCustomAdapter glvca;
-	ListView glv;
+	//Listview glv
+	PullToRefreshListView glv;
 	
 	
 	ImageView mmenu;
@@ -55,7 +62,7 @@ public class GroupListController extends Fragment implements Observer {
 	SearchUserDialog searchUserDialog;
 	MyMenuDialog myMenuDialog;
 	ParentInfoDialog parentInfoDialog;
-	 ChildInfoDialog childInfoDialog;
+	ChildInfoDialog childInfoDialog;
 	private RelativeLayout layout;
 	boolean dragFlag = true;
 	boolean firstDragFlag = true;
@@ -63,6 +70,7 @@ public class GroupListController extends Fragment implements Observer {
 	float endYPosition;
 	private Animation slideup, slidedown, slideup_top, slidedown_top;
 	private RelativeLayout mBottomBar, mTopBar;
+
 	
 	public GroupListController(Context context, Observable observable) {
 		this.mContext = context;
@@ -81,10 +89,14 @@ public class GroupListController extends Fragment implements Observer {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		layout = (RelativeLayout)inflater.inflate(R.layout.grouplist_layout, container, false);
 
-		glv = (ListView) layout.findViewById(R.id.groupList);
+		//glv = (ListView) layout.findViewById(R.id.groupList);
 		
+		//TODO//
+		glv = (PullToRefreshListView)layout.findViewById(R.id.groupList);
+
+
 		mBottomBar = (RelativeLayout) layout.findViewById(R.id.bottom_bar);
-		mTopBar = (RelativeLayout) layout.findViewById(R.id.groupParent_layout);
+		//mTopBar = (RelativeLayout) layout.findViewById(R.id.groupParent_layout_Total);
 		
 		glv.setAdapter(glvca);
 
@@ -105,14 +117,13 @@ public class GroupListController extends Fragment implements Observer {
 		
 
 		
-		
 		mBottomBar.bringToFront();
 		mBottomBar.setVisibility(View.GONE);
 		mBottomBar.invalidate();
 		
-		mTopBar.bringToFront();
-		mTopBar.setVisibility(View.GONE);
-		mTopBar.invalidate();
+		//mTopBar.bringToFront();
+		//mTopBar.setVisibility(View.GONE);
+		//mTopBar.invalidate();
 		
 		slideup = AnimationUtils.loadAnimation(mContext, R.anim.slide_from_bottom);
 		slidedown = AnimationUtils.loadAnimation(mContext, R.anim.slide_to_bottom);
@@ -121,6 +132,7 @@ public class GroupListController extends Fragment implements Observer {
 		slidedown_top = AnimationUtils.loadAnimation(mContext, R.anim.slide_to_top);
 		
 		
+
 		glv.setOnTouchListener(new OnTouchListener() {
             
 		    @Override
@@ -142,29 +154,34 @@ public class GroupListController extends Fragment implements Observer {
 		    		endYPosition = event.getY();
 		    		firstDragFlag = true;
 		    		if(dragFlag){
+		    			
+		    			Log.i("11",startYposition +">" + endYPosition + "&&" +startYposition +"-"+ endYPosition+"胶农费");
 		    			if((startYposition > endYPosition) && (startYposition - endYPosition) > 13){
-		    				
-							if (mBottomBar.getVisibility() != View.VISIBLE && mTopBar.getVisibility() != View.VISIBLE) {
+		    				Log.i("111","胶农费诀");
+							if (mBottomBar.getVisibility() != View.VISIBLE ) {//&& mTopBar.getVisibility() != View.VISIBLE
 								mBottomBar.startAnimation(slideup);
 								mBottomBar.setVisibility(View.VISIBLE);
-							}					
+							}	
+							/*
 							else if (mTopBar.getVisibility() != View.GONE) {
 								mTopBar.startAnimation(slideup_top);
 								mTopBar.setVisibility(View.GONE);
-							}
+							}*/
 							else {}
 							
 		    			}
 		    			else if((startYposition < endYPosition) && (endYPosition - startYposition) > 13){
-		    			
+		    				Log.i("111","胶农费促款");
 							if (mBottomBar.getVisibility() != View.GONE) {
 								mBottomBar.startAnimation(slidedown);
 								mBottomBar.setVisibility(View.GONE);
 							}
+							/*
 							else if (mTopBar.getVisibility() != View.VISIBLE) {
 								mTopBar.startAnimation(slidedown_top);
 								mTopBar.setVisibility(View.VISIBLE);
 							}
+							*/
 							else{}
 						}
 		    		}
@@ -180,9 +197,18 @@ public class GroupListController extends Fragment implements Observer {
 		    }
 		});
 		
+		glv.setOnRefreshListener(new OnRefreshListener<ListView>() {
+				
+				@Override
+				public void onRefresh(
+						PullToRefreshBase<ListView> refreshView) {
+					new ProcessTask().execute();
+					//glv.setAdapter(adapter);
+					//GroupManager.getInstance().update(GroupManager.getInstance().getCur().groupMemberId);
+				}
+			});
+			
 		
-		
-
 		return layout;
 	}	
 
@@ -294,9 +320,11 @@ public class GroupListController extends Fragment implements Observer {
 						MemberData mydata = MyManager.getInstance().getMyData();
 						
 						if(mydata.parentGroupMemberId!= fparentData.groupMemberId ||mydata.groupMemberId ==fparentData.groupMemberId   ){
-							
+							Log.i("test", "asd test1");
 							GroupManager.getInstance().update(fparentData.groupMemberId);
+			
 							
+
 						}else{
 							
 							AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
@@ -333,7 +361,39 @@ public class GroupListController extends Fragment implements Observer {
 		setParent(groupManager.getParent());
 		setCur(groupManager.getCur());
 		if (glv != null) {
-			glv.removeAllViewsInLayout();
+			//glv.removeAllViewsInLayout();
+			glv.setAdapter(glvca);
 		}
 	}
+	
+
+	public class ProcessTask extends AsyncTask<String, Integer, Long> {
+
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+			
+		}
+
+		@Override
+		protected Long doInBackground(String... params) {
+			try {
+				Thread.sleep(1000);
+				//Toast.makeText(mContext, "dddd",Toast.LENGTH_SHORT).show();
+			} catch (Exception e) {
+				return 0l;
+			}
+			return 1l;
+		}
+
+		@Override
+		protected void onPostExecute(Long result) {
+			super.onPostExecute(result);
+
+			glv.onRefreshComplete();
+		}
+	}
+	
+	
+	
 }
