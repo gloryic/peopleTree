@@ -89,13 +89,15 @@
 	</RelativeLayout>
      
    
-     <ImageView
+   <!--   
+   <ImageView
          android:id="@+id/grouplist_mymenu"
          android:layout_width="30dp"
          android:layout_height="30dp"
          android:layout_alignParentRight="true"
          android:layout_alignParentTop="true"
          android:background="@drawable/info_btn_selector"
-         android:src="@drawable/test1" />
+         android:src="@drawable/test1" /> 
+         -->
     
 </RelativeLayout>

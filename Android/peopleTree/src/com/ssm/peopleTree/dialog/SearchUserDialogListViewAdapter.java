@@ -148,14 +148,23 @@ public class SearchUserDialogListViewAdapter extends BaseAdapter {
 					return;
 				}
 				
-				AlertDialog.Builder builder = settingAlertDialog(mData);
+				if(parentDialog.getMode() == SearchUserDialog.MSG_SEND_MODE){
+					MsgSendDialog msgSendDialog = new MsgSendDialog(mContext, mData);
+					msgSendDialog.show();
+					parentDialog.dismiss();
+					
+				} else {
 
-				AlertDialog dialog = builder.create(); // ¾Ë¸²Ã¢ °´Ã¼ »ý¼º
-				dialog.show(); // ¾Ë¸²Ã¢ ¶ç¿ì±â
-				
+					AlertDialog.Builder builder = settingAlertDialog(mData);
+
+					AlertDialog dialog = builder.create(); // ¾Ë¸²Ã¢ °´Ã¼ »ý¼º
+					dialog.show(); // ¾Ë¸²Ã¢ ¶ç¿ì±â
+
+				}
 
 			}
 		});
+		
 
 		
 		return convertView;

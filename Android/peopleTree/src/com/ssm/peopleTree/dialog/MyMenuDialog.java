@@ -31,6 +31,7 @@ public class MyMenuDialog extends Dialog  {
 
 	Button btn1;
 	Button btn2;
+	Button btn3;
 	
 
 	private Listener<JSONObject> onGroupOutResponse;
@@ -89,6 +90,16 @@ public class MyMenuDialog extends Dialog  {
              	int myid = MyManager.getInstance().getGroupMemberId(); 
  
              	NetworkManager.getInstance().request(new GroupOutRequest(myid), onGroupOutResponse, null); 
+             } 
+         }); 
+ 		btn3 =(Button)this.findViewById(R.id.mymenuDialog_btn3); 
+ 		btn3.setText("공지메시지 전송"); 
+ 		btn3.setOnClickListener(new View.OnClickListener() { 
+ 			  
+             public void onClick(View arg0) { 
+            	 BroacCastMsgSendDialog msgSendDialog;
+            	 msgSendDialog = new BroacCastMsgSendDialog(mContext);
+ 				msgSendDialog.show();
              } 
          }); 
  		 

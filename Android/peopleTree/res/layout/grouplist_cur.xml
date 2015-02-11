@@ -37,7 +37,10 @@
 	        android:layout_height="60dp"
 	        android:layout_alignParentRight="true"
 	        android:layout_alignParentTop="true"
-	        android:background="#00FF0000"
+	      android:background="@drawable/info_btn_selector"
+        android:src="@android:drawable/ic_dialog_info"
 	      />
+
+	    
 	
 </RelativeLayout>

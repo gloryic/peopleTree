@@ -17,6 +17,7 @@
         android:layout_height="wrap_content" >
 
         <TextView
+            android:id="@+id/searchuser_title_txtv"
             android:layout_width="fill_parent"
             android:layout_height="30dp"
             android:layout_gravity="center"

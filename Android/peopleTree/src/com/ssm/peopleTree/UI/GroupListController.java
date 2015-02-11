@@ -27,11 +27,13 @@ import android.widget.RelativeLayout;
 import com.ssm.peopleTree.R;
 import com.ssm.peopleTree.application.MyManager;
 import com.ssm.peopleTree.data.MemberData;
+import com.ssm.peopleTree.dialog.ChildInfoDialog;
 import com.ssm.peopleTree.dialog.GroupReqDialog;
 import com.ssm.peopleTree.dialog.MyMenuDialog;
 import com.ssm.peopleTree.dialog.ParentInfoDialog;
 import com.ssm.peopleTree.dialog.SearchUserDialog;
 import com.ssm.peopleTree.group.GroupManager;
+import com.ssm.peopleTree.map.MapManager;
 
 public class GroupListController extends Fragment implements Observer {
 	Context mContext;
@@ -53,7 +55,7 @@ public class GroupListController extends Fragment implements Observer {
 	SearchUserDialog searchUserDialog;
 	MyMenuDialog myMenuDialog;
 	ParentInfoDialog parentInfoDialog;
-	
+	 ChildInfoDialog childInfoDialog;
 	private RelativeLayout layout;
 	boolean dragFlag = true;
 	boolean firstDragFlag = true;
@@ -101,18 +103,7 @@ public class GroupListController extends Fragment implements Observer {
 			}
 		});
 		
-		mmenu = (ImageView)layout.findViewById(R.id.grouplist_mymenu);
-		mmenu.setOnClickListener(new View.OnClickListener() {
 
-			public void onClick(View arg0) {
-				myMenuDialog = new MyMenuDialog(mContext);
-
-				myMenuDialog.setMytitle("메뉴");
-				myMenuDialog.show();
-				
-			}
-		});
-		
 		
 		
 		mBottomBar.bringToFront();
@@ -219,7 +210,26 @@ public class GroupListController extends Fragment implements Observer {
 			myName.setText(myNameStr);
 		}
 		
+		mmenu = (ImageView) layout.findViewById(R.id.grouplist_cur_btn);
+		mmenu.setOnClickListener(new View.OnClickListener() {
 
+				public void onClick(View arg0) {
+					int curId = GroupManager.getInstance().getCur().groupMemberId;
+					int myID = MyManager.getInstance().getGroupMemberId();
+					MemberData curData = GroupManager.getInstance().getCur();
+					if(curId == myID){
+						myMenuDialog = new MyMenuDialog(mContext);
+
+						myMenuDialog.setMytitle("메뉴");
+						myMenuDialog.show();
+					}else{
+						 childInfoDialog = new ChildInfoDialog(mContext, curData);
+						 MapManager.getInstance().setChild(curData);
+						 childInfoDialog.setchildInfoTitle(curData.userName);
+						 childInfoDialog.show();
+					}
+				}
+			});
 		
 
 		curLayout.setOnClickListener(new OnClickListener() {
