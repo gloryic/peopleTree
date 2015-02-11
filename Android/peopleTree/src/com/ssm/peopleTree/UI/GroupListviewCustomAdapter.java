@@ -91,6 +91,7 @@ public class GroupListviewCustomAdapter extends BaseAdapter implements OnClickLi
 			public void onClick(View v) {
 
 				GroupManager.getInstance().update(mData.groupMemberId);
+				GroupManager.getInstance().navigateDown(mData);
 			}
 		});
 		

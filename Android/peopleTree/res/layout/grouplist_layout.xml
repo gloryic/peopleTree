@@ -8,14 +8,44 @@
   	    android:id="@+id/naviTextLayout"
   	    android:layout_width="match_parent"
   	    android:layout_height="30dp"
-  	    android:background="@color/blue_pressed" >
+  	    android:background="@drawable/myborder3" >
+  	    
+  	    <TextView
+	  	    android:id="@+id/naviTextMe"
+	  	    android:layout_width="wrap_content"
+	  	    android:layout_height="match_parent"
+	  	   	android:layout_alignParentLeft="true"
+	  	   	android:gravity="center_vertical"
+	  	    android:textSize="12sp"
+	  	    android:layout_marginLeft="5dp"
+	  	    android:text="나>" />
+  	    
+  	    <HorizontalScrollView
+  	        android:id="@+id/naviScroll"
+  	        android:layout_width="match_parent"
+  	        android:layout_height="match_parent"
+  	        android:layout_toRightOf="@+id/naviTextMe"
+  	        android:paddingRight="30dp" >
+  	        
+  	        <TextView
+		  	    android:id="@+id/naviText"
+		  	    android:layout_width="wrap_content"
+	  	    	android:layout_height="match_parent"
+		  	    android:gravity="center_vertical"
+		  	    android:textSize="12sp" />
+  	    </HorizontalScrollView>
+  	    <!-- 
 	  	<TextView
 	  	    android:id="@+id/naviText"
 	  	    android:layout_width="match_parent"
 	  	    android:layout_height="match_parent"
-	  	    android:background="@drawable/myborder3"
-	  	    android:text=""
-	  	    android:textSize="12sp" />
+	  	    android:layout_toRightOf="@+id/naviTextMe"
+	  	    android:gravity="center_vertical"
+	  	    android:textSize="12sp"
+	  	    android:paddingRight="5dp"
+	  	    max
+	  	    android:singleLine="true"/>
+	  	     -->
 	</RelativeLayout>
 	
 
@@ -137,7 +167,8 @@
 	    
 	        <com.handmark.pulltorefresh.library.PullToRefreshListView
         android:id="@+id/pull_refresh_list"
-        android:layout_width="fill_parent"
+   
+	        d:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:fadingEdge="none"
         android:fastScrollEnabled="false"
