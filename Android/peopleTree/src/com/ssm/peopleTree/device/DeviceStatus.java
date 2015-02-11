@@ -2,11 +2,11 @@ package com.ssm.peopleTree.device;
 
 public enum DeviceStatus {
 
-	INVALID(2049),
-	GPS_OFF(2050),
-	WIFI_OFF(2052),
-	BATTERY_LACK(2056),
-	POWER_OFF(2064)
+	INVALID(1),
+	GPS_OFF(2),
+	WIFI_OFF(4),
+	BATTERY_LACK(8),
+	POWER_OFF(16)
 	;
 	
 	private static final int NORMAL_STATUS = 2048;
