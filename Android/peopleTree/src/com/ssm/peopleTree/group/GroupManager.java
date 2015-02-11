@@ -16,7 +16,7 @@ import com.ssm.peopleTree.network.Status;
 import com.ssm.peopleTree.network.protocol.GetInfoAllRequest;
 import com.ssm.peopleTree.network.protocol.GetInfoAllResponse;
 
-public class GroupManager extends Observable implements Listener<JSONObject> {
+public class GroupManager extends Observable {
 
 	private volatile static GroupManager instance = null;
 	
@@ -56,12 +56,16 @@ public class GroupManager extends Observable implements Listener<JSONObject> {
 	
 	public void updateSelf() {
 		int myId = MyManager.getInstance().getGroupMemberId();
-		NetworkManager.getInstance().request(new GetInfoAllRequest(myId, myId), this, null);
+		update(myId);
 	}
 	
 	public void update(int groupMemberId) {
+		update(groupMemberId, groupListener);
+	}
+	
+	public void update(int groupMemberId, GroupListener groupListener) {
 		final int id = groupMemberId;
-		final int myId = MyManager.getInstance().getGroupMemberId();
+		final GroupListener listener = groupListener;
 		Listener<JSONObject> getInfoListener = new Listener<JSONObject>() {
 
 			@Override
@@ -69,33 +73,28 @@ public class GroupManager extends Observable implements Listener<JSONObject> {
 				GetInfoAllResponse res = new GetInfoAllResponse(arg0);
 				if (res.getStatus() == Status.SUCCESS) {
 					setGroup(res.parentData, res.curData, res.children);
+					if (listener != null) {
+						listener.onUpdateSuccess(null);
+					}
 				} 
 				else {
-					Log.e("test", "Fail");
-					if (myId != id) {
-						NetworkManager.getInstance().request(new GetInfoAllRequest(myId, myId), this, null);
+					Log.e("test", "Fail");					
+					if (listener != null) {
+						listener.onUpdateFail(id);
 					}
 				}
 			}
 			
 		};
+		
+		int myId = MyManager.getInstance().getGroupMemberId();
 		NetworkManager.getInstance().request(new GetInfoAllRequest(myId, groupMemberId), getInfoListener, null);
+		groupListener.onUpdateStart(null);
 	}
 	
 	public void groupChanged() {
 		setChanged();
 		notifyObservers();
-	}
-
-	@Override
-	public void onResponse(JSONObject arg0) {
-		GetInfoAllResponse res = new GetInfoAllResponse(arg0);
-		if (res.getStatus() == Status.SUCCESS) {
-			setGroup(res.parentData, res.curData, res.children);
-		} 
-		else {
-			Log.e("test", "Fail");
-		}
 	}
 	
 	public MemberData getParent() {
@@ -127,8 +126,9 @@ public class GroupManager extends Observable implements Listener<JSONObject> {
 	}
 	
 	public interface GroupListener {
-		public void onUpdateSuccess();
-		public void onUpdateFail();
+		public void onUpdateStart(Object arg);
+		public void onUpdateSuccess(Object arg);
+		public void onUpdateFail(Object arg);
 	}
 	
 }
