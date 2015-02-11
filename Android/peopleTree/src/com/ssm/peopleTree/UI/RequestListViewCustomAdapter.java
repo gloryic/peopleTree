@@ -11,7 +11,7 @@ import com.android.volley.Response.Listener;
 import com.ssm.peopleTree.R;
 import com.ssm.peopleTree.application.MyManager;
 import com.ssm.peopleTree.data.MemberData;
-import com.ssm.peopleTree.dialog.MsgSendDialog;
+import com.ssm.peopleTree.dialog.BroacCastMsgSendDialog;
 import com.ssm.peopleTree.group.GroupManager;
 import com.ssm.peopleTree.network.NetworkManager;
 import com.ssm.peopleTree.network.Status;

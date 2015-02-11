@@ -27,6 +27,10 @@ public class peopleTreeService extends Service{
         IntentFilter filter = new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED);
         this.registerReceiver(mReceiver, filter);
         
+        
+        
+        
+        
         return 0;
     }
      

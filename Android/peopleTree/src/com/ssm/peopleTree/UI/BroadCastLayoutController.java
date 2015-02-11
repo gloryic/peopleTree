@@ -17,7 +17,7 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 
 import com.ssm.peopleTree.R;
 import com.ssm.peopleTree.dialog.GroupReqDialog;
-import com.ssm.peopleTree.dialog.MsgSendDialog;
+import com.ssm.peopleTree.dialog.BroacCastMsgSendDialog;
 
 public class BroadCastLayoutController extends Fragment {
 
@@ -28,7 +28,7 @@ public class BroadCastLayoutController extends Fragment {
 	ImageButton imgBtn_bclist_delete;
 	ImageButton imgBtn_bclist_send;
 
-	MsgSendDialog msgSendDialog;
+	BroacCastMsgSendDialog msgSendDialog;
 
 	BroadCastListViewCustomAdapter bclvca;
 
@@ -73,7 +73,7 @@ public class BroadCastLayoutController extends Fragment {
 
 			public void onClick(View arg0) {
 
-				msgSendDialog = new MsgSendDialog(mContext);
+				msgSendDialog = new BroacCastMsgSendDialog(mContext);
 				msgSendDialog.show();
 
 			}

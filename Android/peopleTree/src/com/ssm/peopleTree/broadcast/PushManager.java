@@ -96,7 +96,7 @@ public class PushManager {
 					switch (pushdata.statusCode) {
 					
 					case 100:
-						bclvca.addItem("", null, "[공지사항]", timeStr1+pushdata.msgstr, "");
+						bclvca.addItem("", null, "[공지사항]", timeStr1+mData.userName+"이(가) 전송하였습니다\n"+pushdata.msgstr, "");
 						bclvca.dataChange();
 						break;
 					case 200:

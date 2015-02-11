@@ -9,8 +9,6 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-         android:orientation="vertical"
-         android:background="@drawable/myborder3"
       >
 
         <TextView
@@ -18,13 +16,13 @@
             android:layout_height="30dp"
             android:layout_gravity="center"
             android:layout_weight="0.80"
+            android:background="@drawable/myborder3"
             android:gravity="center"
-            android:text="메시지 전송" />
-
+            android:text="공지메시지 전송" />
     </LinearLayout>
 
     <EditText
-        android:id="@+id/msgsend_editText"
+        android:id="@+id/bcmsgsend_editText"
         android:layout_width="314dp"
         android:layout_height="222dp"
         android:ems="10"
@@ -44,6 +42,44 @@
             android:layout_width="wrap_content"
             android:layout_height="60dp"
             android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="72dp"
+                android:layout_height="50dp"
+                android:background="@drawable/border"
+                android:gravity="center"
+                android:text="전송 깊이" />
+
+            <RelativeLayout
+                android:layout_width="86dp"
+                android:layout_height="50dp"
+                android:background="@drawable/border" >
+
+                <ImageButton
+                    android:id="@+id/bcmsgsend_up_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="28dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:src="@android:drawable/arrow_up_float" />
+
+                <ImageButton
+                    android:id="@+id/bcmsgsend_down_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="28dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:src="@android:drawable/arrow_down_float" />
+
+                <TextView
+                    android:id="@+id/bcmsgsend_depth_txtv"
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentTop="true"
+                    android:layout_toLeftOf="@+id/msgsend_up_btn"
+                    android:gravity="center" />
+
+            </RelativeLayout>
         </LinearLayout>
 
         <TextView
@@ -58,13 +94,13 @@
             android:layout_height="wrap_content" />
 
         <ImageButton
-            android:id="@+id/msgsend_cancel"
+            android:id="@+id/bcmsgsend_cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@android:drawable/btn_dialog" />
 
         <ImageButton
-            android:id="@+id/msgsend_send"
+            android:id="@+id/bcmsgsend_send"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@android:drawable/ic_dialog_email" />
