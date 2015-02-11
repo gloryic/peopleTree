@@ -16,11 +16,10 @@ import com.ssm.peopleTree.R;
 
 
 import com.ssm.peopleTree.application.MyManager;
-import com.ssm.peopleTree.data.MemberData;
 import com.ssm.peopleTree.network.NetworkManager;
 import com.ssm.peopleTree.network.Status;
-import com.ssm.peopleTree.network.protocol.BroadcastMsgRequest;
-import com.ssm.peopleTree.network.protocol.BroadcastMsgResponse;
+import com.ssm.peopleTree.network.protocol.BroadcastDownRequest;
+import com.ssm.peopleTree.network.protocol.BroadcastDownResponse;
 import com.ssm.peopleTree.network.protocol.SearchMemberRequest;
 import com.ssm.peopleTree.network.protocol.SearchMemberResponse;
 
@@ -37,31 +36,32 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 
-public class MsgSendDialog extends Dialog  {
+public class BroacCastMsgSendDialog extends Dialog  {
 	Context mContext;
 	
 	
 	ImageButton imgbtn_cacel,imgbtn_send;
-
+	ImageButton upbtn, downbtn;
 	EditText edtxt;
-
-	MemberData receiver;
-	private Listener<JSONObject> onBroadcastMsgResponse;
+	TextView depthTxtv;
+	
+	
+	private Listener<JSONObject> onBroadcastDownResponse;
 	int depthnum = 1;
-	public MsgSendDialog(Context context,MemberData receiver_) {
+	public BroacCastMsgSendDialog(Context context) {
 		super(context);
-		this.receiver= receiver_;
+
 		
 		mContext = context;
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		this.setContentView(R.layout.dialog_msgsend);
+		this.setContentView(R.layout.dialog_bc_msgsend);
 		
-		onBroadcastMsgResponse = new Listener<JSONObject>() {
+		onBroadcastDownResponse = new Listener<JSONObject>() {
 
 			@Override
 			public void onResponse(JSONObject arg0) {
 	
-				BroadcastMsgResponse res = new BroadcastMsgResponse(arg0);
+				BroadcastDownResponse res = new BroadcastDownResponse(arg0);
 				Status status = res.getStatus();
 				String str;
 				if (res.getStatus() == Status.SUCCESS) {
@@ -85,7 +85,7 @@ public class MsgSendDialog extends Dialog  {
 								
 								
 								dialog.cancel();
-								MsgSendDialog.this.dismiss();
+								BroacCastMsgSendDialog.this.dismiss();
 							}
 
 						});
@@ -97,21 +97,27 @@ public class MsgSendDialog extends Dialog  {
 		
 		
 		
-		edtxt = (EditText)this.findViewById(R.id.msgsend_editText);
-
-		imgbtn_send= (ImageButton)this.findViewById(R.id.msgsend_send);
+		edtxt = (EditText)this.findViewById(R.id.bcmsgsend_editText);
+		depthTxtv = (TextView)this.findViewById(R.id.bcmsgsend_depth_txtv);
+		depthTxtv.setText(""+depthnum);
+		imgbtn_send= (ImageButton)this.findViewById(R.id.bcmsgsend_send);
 		
 		imgbtn_send.setOnClickListener(new View.OnClickListener() {
 			 
             public void onClick(View arg0) {
             	String msg = edtxt.getText().toString();
-            	int rid = receiver.groupMemberId;
-    
+            	int mid = MyManager.getInstance().getGroupMemberId();
+            	int sendDepth;
+            	if(depthnum == 0){
+            		sendDepth = 1000;
+            	}else{
+            		sendDepth = depthnum;
+            	}
           
    
-            	BroadcastMsgRequest bcdr = new BroadcastMsgRequest(rid,MyManager.getInstance().getGroupMemberId(),600,msg);
+            	BroadcastDownRequest bcdr = new BroadcastDownRequest(mid,sendDepth,msg);
             	
-            	NetworkManager.getInstance().request(bcdr, onBroadcastMsgResponse, null);
+            	NetworkManager.getInstance().request(bcdr, onBroadcastDownResponse, null);
             	
             }
         });
@@ -122,12 +128,33 @@ public class MsgSendDialog extends Dialog  {
 		imgbtn_cacel.setOnClickListener(new View.OnClickListener() {
 			 
             public void onClick(View arg0) {
-            	MsgSendDialog.this.dismiss();
+            	BroacCastMsgSendDialog.this.dismiss();
            
             }
         });
 		
-
+		upbtn = (ImageButton)this.findViewById(R.id.bcmsgsend_up_btn);
+		upbtn.setOnClickListener(new View.OnClickListener() {
+			 
+            public void onClick(View arg0) {
+            	depthnum++;
+            	depthTxtv.setText(""+depthnum);
+            }
+        });
+		downbtn = (ImageButton)this.findViewById(R.id.bcmsgsend_down_btn);
+		downbtn.setOnClickListener(new View.OnClickListener() {
+			 
+            public void onClick(View arg0) {
+            	if(depthnum>0){
+            		depthnum--;
+            		
+            	}
+ 	
+            	depthTxtv.setText(""+depthnum);
+            }
+        });
+		
+	
 		
 		
 	}

@@ -26,8 +26,7 @@ public class MyManager {
 	private MemberData myParentData;
 	
 	public void setMyData(MemberData myData,MemberData myParentData) {
-		Log.i("asd","asd"+ (myData==null) + (myParentData==null));
-		Log.i("", "asd dead 1");
+
 		if (myData != null) {
 			this.myData.userId = myData.userId;
 			this.myData.userName = myData.userName;
@@ -48,11 +47,8 @@ public class MyManager {
 			this.myData.longitude = myData.longitude;
 			this.myData.latitude = myData.latitude;
 		}
-		Log.i("", "asd dead 2");
 		// ----------
 		if (myParentData != null) {
-			Log.i("", "asd dead 3");
-			
 			this.myParentData.userId = myParentData.userId;
 			this.myParentData.userName = myParentData.userName;
 			this.myParentData.userPhoneNumber = myParentData.userPhoneNumber;
@@ -68,12 +64,7 @@ public class MyManager {
 			this.myParentData.managedLocationRadius = myParentData.managedLocationRadius;
 			this.myParentData.managingTotalNumber = myParentData.managingTotalNumber;
 			this.myParentData.managingNumber = myParentData.managingNumber;
-			
-			Log.i("", "asd dead 4");
-		} else {
-			Log.i("", "asd dead 5");
-			this.myParentData =  new MemberData();
-		}
+		} 
 
 	}
 	

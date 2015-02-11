@@ -12,11 +12,13 @@ public class BroadcastMsgRequest extends Request {
 	public int from;
 	public int to;
 	public int statusCode;
+	public String message;
 	
-	public BroadcastMsgRequest(int from, int to, int statusCode) {
+	public BroadcastMsgRequest(int from, int to, int statusCode,String message) {
 		this.from = from;
 		this.to = to;
 		this.statusCode = statusCode;
+		this.message = message;
 	}
 	
 	@Override
@@ -26,6 +28,7 @@ public class BroadcastMsgRequest extends Request {
 			json.put(FROM_KEY, from);
 			json.put(TO_KEY, to);
 			json.put(STATUS_CODE_KEY, statusCode);
+			json.put(MESSAGE_KEY, message);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -40,6 +43,7 @@ public class BroadcastMsgRequest extends Request {
 		result += "?" + FROM_KEY + "=" + Integer.toString(from);
 		result += "&" + TO_KEY + "=" + Integer.toString(to);
 		result += "&" + STATUS_CODE_KEY + "=" + Integer.toString(statusCode);
+		result += "&" + STATUS_CODE_KEY + "=" + message;
 		
 		return result;
 	}

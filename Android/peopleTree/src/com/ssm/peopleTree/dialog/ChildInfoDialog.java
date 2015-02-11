@@ -26,10 +26,13 @@ public class ChildInfoDialog extends Dialog  {
 	Button btn1;
 	Button btn2;
 
-	//private MemberData childData;
 	
-	public ChildInfoDialog(Context context) {
+	MsgSendDialog msgSendDialog;
+	private MemberData childData;
+	
+	public ChildInfoDialog(Context context,MemberData childData_) {
 		super(context);
+		childData = childData_;
 		mContext = context;
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		this.setContentView(R.layout.dialog_group_childinfo);
@@ -38,11 +41,8 @@ public class ChildInfoDialog extends Dialog  {
 		builder.setTitle("알림")
 				.setMessage("위치를 표시할 수 없습니다.")
 				.setCancelable(true)
-				// 뒤로 버튼 클릭시 취소 가능 설정
 				.setPositiveButton("확인", new DialogInterface.OnClickListener() {
-					// 확인 버튼 클릭시 설정
 					public void onClick(DialogInterface dialog, int whichButton) {
-						
 						
 
 						dialog.cancel();
@@ -68,6 +68,20 @@ public class ChildInfoDialog extends Dialog  {
 				}
 			}
 		});
+		
+		
+		btn2 =(Button)this.findViewById(R.id.childInfoDialog_btn2);
+		btn2.setText("메시지 보내기");
+		btn1.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				msgSendDialog = new MsgSendDialog(mContext,childData);
+			}
+		});
+		
+		
+		
 
 	}
 
