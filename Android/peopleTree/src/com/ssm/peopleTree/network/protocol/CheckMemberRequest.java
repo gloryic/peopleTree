@@ -10,7 +10,7 @@ public class CheckMemberRequest extends Request {
 	public int groupMemeberId;
 	public int parentGroupMemberId;
 	public int parentManageMode;
-	public int edgyType;
+	public int edgeType;
 	public int statusCode;
 	public int fpId;
 	public Double latitude;
@@ -24,7 +24,7 @@ public class CheckMemberRequest extends Request {
 		this.groupMemeberId = groupMemeberId;
 		this.parentGroupMemberId = parentGroupMemberId;
 		this.parentManageMode = parentManageMode;
-		this.edgyType = edgyType;
+		this.edgeType = edgyType;
 		this.statusCode = statusCode;
 		this.fpId = fpId;
 		this.latitude = latitude;
@@ -38,8 +38,8 @@ public class CheckMemberRequest extends Request {
 			json.put(GROUP_MEMBER_ID_KEY, groupMemeberId);
 			json.put(PARENT_GROUP_MEMBER_ID_KEY, parentGroupMemberId);
 			json.put(PARENT_MANAGE_MODE_KEY, parentManageMode);
-			json.put(EDGE_TYPE_KEY, edgyType);
-			json.put(STATUS_KEY, statusCode);
+			json.put(EDGE_TYPE_KEY, edgeType);
+			json.put(STATUS_CODE_KEY, statusCode);
 			json.put(FP_ID_KEY, fpId);
 			json.put(LONGITUDE_KEY, latitude);
 			json.put(LATITUDE_KEY, longitude);
@@ -56,10 +56,10 @@ public class CheckMemberRequest extends Request {
 		String result = REST_PROTOCOL;
 		result += "?" + GROUP_MEMBER_ID_KEY + "=" + Integer.toString(groupMemeberId);
 		result += "&" + PARENT_GROUP_MEMBER_ID_KEY + "=" + Integer.toString(parentGroupMemberId);
-		result += "&" + PARENT_MANAGE_MODE_KEY + "=" + Integer.toString(parentManageMode);
-		result += "&" + EDGE_TYPE_KEY + "=" + Integer.toString(edgyType);
-		result += "&" + STATUS_KEY + "=" + Integer.toString(edgyType);
-		result += "&" + FP_ID_KEY + "=" + Integer.toString(statusCode);
+		result += "&" + MANAGE_MODE_KEY + "=" + Integer.toString(parentManageMode);
+		result += "&" + EDGE_TYPE_KEY + "=" + Integer.toString(edgeType);
+		result += "&" + STATUS_CODE_KEY + "=" + Integer.toString(statusCode);
+		result += "&" + FP_ID_KEY + "=" + Integer.toString(fpId);
 		result += "&" + LATITUDE_KEY + "=";
 		if (latitude != null) {
 			result += Double.toString(latitude);

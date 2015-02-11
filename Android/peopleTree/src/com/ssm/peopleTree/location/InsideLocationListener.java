@@ -152,7 +152,6 @@ class InsideLocationListener implements LocationMeasurer{
 			}
 
 		};
-		mContext.registerReceiver(wifiReceiver, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
 	}
 	
 	private ReferencePoint findNearReferPoint(FingerPrintLocationInfo fpLocInfo){
@@ -188,6 +187,7 @@ class InsideLocationListener implements LocationMeasurer{
 			isLocationRequested = true;
 			this.isGetLocation = false;
 
+			mContext.registerReceiver(wifiReceiver, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
 			
 			
 			
