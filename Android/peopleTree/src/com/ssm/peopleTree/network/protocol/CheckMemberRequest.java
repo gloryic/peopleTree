@@ -38,13 +38,8 @@ public class CheckMemberRequest extends Request {
 			json.put(GROUP_MEMBER_ID_KEY, groupMemeberId);
 			json.put(PARENT_GROUP_MEMBER_ID_KEY, parentGroupMemberId);
 			json.put(PARENT_MANAGE_MODE_KEY, parentManageMode);
-<<<<<<< HEAD
 			json.put(EDGE_TYPE_KEY, edgeType);
 			json.put(STATUS_CODE_KEY, statusCode);
-=======
-			json.put(EDGE_TYPE_KEY, edgeType);
-			json.put(STATUS_KEY, statusCode);
->>>>>>> d9bed09a9c1eda6a8a8c34b2d7a7f2a86b8bce74
 			json.put(FP_ID_KEY, fpId);
 			json.put(LONGITUDE_KEY, latitude);
 			json.put(LATITUDE_KEY, longitude);
