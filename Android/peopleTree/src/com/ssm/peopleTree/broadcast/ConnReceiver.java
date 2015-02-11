@@ -28,13 +28,5 @@ public class ConnReceiver extends BroadcastReceiver {
             Toast.makeText(context,"Active Network Type : " + activeNetInfo.getTypeName() , Toast.LENGTH_SHORT).show();
             Toast.makeText(context,"Mobile Network Type : " + mobNetInfo.getTypeName() , Toast.LENGTH_SHORT).show();
         }
-        
-        
-        
-        
-        
-        
-        
-        
     }
 }
