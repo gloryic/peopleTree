@@ -138,7 +138,7 @@ public class TestActivity extends FragmentActivity implements Progressable, OnCl
 					chkGpsService();
 				}
 				
-				progDialog.completeProgress();
+				progDialog.complete();
 			}
 			
 			@Override
