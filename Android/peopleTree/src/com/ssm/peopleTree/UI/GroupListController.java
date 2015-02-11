@@ -14,11 +14,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
+import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.ViewGroup;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -39,6 +42,7 @@ import com.ssm.peopleTree.dialog.MyMenuDialog;
 import com.ssm.peopleTree.dialog.ParentInfoDialog;
 import com.ssm.peopleTree.dialog.SearchUserDialog;
 import com.ssm.peopleTree.group.GroupManager;
+import com.ssm.peopleTree.group.Navigator;
 import com.ssm.peopleTree.map.MapManager;
 
 public class GroupListController extends Fragment implements Observer {
@@ -72,9 +76,13 @@ public class GroupListController extends Fragment implements Observer {
 	private RelativeLayout mBottomBar, mTopBar;
 
 	
+	private TextView naviText;
+	
 	public GroupListController(Context context, Observable observable) {
 		this.mContext = context;
 		observable.addObserver(this);
+		
+		GroupManager.getInstance().getNavigator().addObserver(this);
 	}
 	
 	public void setListAdapter(GroupListviewCustomAdapter adap){
@@ -207,7 +215,18 @@ public class GroupListController extends Fragment implements Observer {
 					//GroupManager.getInstance().update(GroupManager.getInstance().getCur().groupMemberId);
 				}
 			});
-			
+		
+
+		final HorizontalScrollView hsv = (HorizontalScrollView)layout.findViewById(R.id.naviScroll);
+		naviText = (TextView)layout.findViewById(R.id.naviText);
+		ViewTreeObserver vto = layout.getViewTreeObserver();
+	    vto.addOnGlobalLayoutListener(new OnGlobalLayoutListener(){
+	        @Override
+	        public void onGlobalLayout() {
+	        	hsv.scrollTo(naviText.getWidth(), 0);
+            }
+        });
+		
 		
 		return layout;
 	}	
@@ -322,7 +341,7 @@ public class GroupListController extends Fragment implements Observer {
 						if(mydata.parentGroupMemberId!= fparentData.groupMemberId ||mydata.groupMemberId ==fparentData.groupMemberId   ){
 							Log.i("test", "asd test1");
 							GroupManager.getInstance().update(fparentData.groupMemberId);
-			
+							GroupManager.getInstance().navigateUp(fparentData);
 							
 
 						}else{
@@ -353,16 +372,20 @@ public class GroupListController extends Fragment implements Observer {
 
 	@Override
 	public void update(Observable observable, Object data) {
-		GroupManager groupManager = (GroupManager)observable;	
-		if (groupManager == null) {
-			return;
+			
+		if (observable instanceof GroupManager) {
+			GroupManager groupManager = (GroupManager)observable;
+			
+			setParent(groupManager.getParent());
+			setCur(groupManager.getCur());
+			if (glv != null) {
+				//glv.removeAllViewsInLayout();
+				glv.setAdapter(glvca);
+			}
 		}
-		
-		setParent(groupManager.getParent());
-		setCur(groupManager.getCur());
-		if (glv != null) {
-			//glv.removeAllViewsInLayout();
-			glv.setAdapter(glvca);
+		else if (observable instanceof Navigator) {
+			Navigator navi = (Navigator)observable;
+			naviText.setText(navi.toString());
 		}
 	}
 	
@@ -393,7 +416,5 @@ public class GroupListController extends Fragment implements Observer {
 			glv.onRefreshComplete();
 		}
 	}
-	
-	
-	
+
 }

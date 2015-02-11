@@ -1,6 +1,9 @@
 package com.ssm.peopleTree;
 
 
+import java.util.Observable;
+import java.util.Observer;
+
 import com.ssm.peopleTree.BackPressCloseHandler;
 import com.ssm.peopleTree.UI.BroadCastLayoutController;
 import com.ssm.peopleTree.UI.BroadCastListViewCustomAdapter;
@@ -18,11 +21,10 @@ import com.ssm.peopleTree.data.MemberData;
 import com.ssm.peopleTree.dialog.NetworkProgressDialog;
 import com.ssm.peopleTree.group.GroupManager;
 import com.ssm.peopleTree.group.GroupManager.GroupListener;
+import com.ssm.peopleTree.group.Navigator;
 import com.ssm.peopleTree.network.NetworkManager;
 
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -35,9 +37,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewTreeObserver;
+import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.Button;
-import android.widget.ProgressBar;
+import android.widget.HorizontalScrollView;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -128,6 +134,7 @@ public class TestActivity extends FragmentActivity implements Progressable, OnCl
 						groupManager.updateSelf();
 					}
 				}
+				GroupManager.getInstance().navigateHome();
 			}
 		});
 	
@@ -233,15 +240,18 @@ public class TestActivity extends FragmentActivity implements Progressable, OnCl
 		MyManager myManager = MyManager.getInstance();
 		MemberData myData = myManager.getMyData();
 		MemberData curData = groupManager.getCur();
+		MemberData parentData = myManager.getMyParentData();
 	
 		
 		if(myData.groupMemberId != curData.groupMemberId ){
 			
-			if(curData.parentGroupMemberId == curData.groupMemberId)
-				GroupManager.getInstance().update(myData.groupMemberId);
-			else
+			if(curData.parentGroupMemberId == curData.groupMemberId) {
+				GroupManager.getInstance().updateSelf();
+			}
+			else {
 				GroupManager.getInstance().update(curData.parentGroupMemberId);
-			
+				GroupManager.getInstance().navigateUp(parentData);
+			}
 		}else{
 			
 			backPressCloseHandler.onBackPressed();
@@ -288,7 +298,8 @@ public class TestActivity extends FragmentActivity implements Progressable, OnCl
             break;
  
         case 3:
-        	groupManager.update(myManager.getGroupMemberId());
+        	groupManager.updateSelf();
+        	GroupManager.getInstance().navigateHome();
             break;
  
         default:

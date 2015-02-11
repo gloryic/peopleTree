@@ -103,31 +103,31 @@ public class PushManager {
 						str1 = "관리자 "+mData.userName+"가 위치관리를 더이상 하지 않습니다.";
 						pmlvca.addItem("", timeStr1 + str1, "");
 						pmlvca.dataChange();
-						GroupManager.getInstance().update(MyManager.getInstance().getGroupMemberId());
+						GroupManager.getInstance().updateSelf();
 						break;
 					case 210:
 						str1 = "관리자 "+mData.userName+"의 모드가 트레킹모드로 변경되었습니다.";
 						pmlvca.addItem("", timeStr1 + str1, "");
 						pmlvca.dataChange();
-						GroupManager.getInstance().update(MyManager.getInstance().getGroupMemberId());
+						GroupManager.getInstance().updateSelf();
 						break;
 					case 220:
 						str1 = "관리자 "+mData.userName+"의 모드가 지역모드로 변경되었습니다.";
 						pmlvca.addItem("", timeStr1 + str1, "");
 						pmlvca.dataChange();
-						GroupManager.getInstance().update(MyManager.getInstance().getGroupMemberId());
+						GroupManager.getInstance().updateSelf();
 						break;
 					case 230:
 						str1 = "관리자 "+mData.userName+"의 모드가 지오펜스모드로 변경되었습니다.";
 						pmlvca.addItem("", timeStr1 + str1, "");
 						pmlvca.dataChange();
-						GroupManager.getInstance().update(MyManager.getInstance().getGroupMemberId());
+						GroupManager.getInstance().updateSelf();
 						break;
 					case 300:
 						str1 = ""+mData.userName+"가 이탈퇴었습니다!\n";
 						pmlvca.addItem("", timeStr1 + str1, "");
 						pmlvca.dataChange();
-						GroupManager.getInstance().update(MyManager.getInstance().getGroupMemberId());
+						GroupManager.getInstance().updateSelf();
 						break;
 					case 600:
 						bclvca.addItem("", null,  "["+mData.userName+"]\n", timeStr1+pushdata.msgstr, "");
@@ -155,7 +155,8 @@ public class PushManager {
 
 						pmlvca.addItem("", timeStr1 + str1, "");
 						pmlvca.dataChange();
-						GroupManager.getInstance().update(MyManager.getInstance().getGroupMemberId());
+						GroupManager.getInstance().updateSelf();
+						GroupManager.getInstance().navigateHome();
 						break;
 					case 425:
 						str1 = mData.userName + "와 연결되었습니다.\n" + "당신은 "
@@ -163,7 +164,8 @@ public class PushManager {
 
 						pmlvca.addItem("", timeStr1 + str1, "");
 						pmlvca.dataChange();
-						GroupManager.getInstance().update(MyManager.getInstance().getGroupMemberId());
+						GroupManager.getInstance().updateSelf();
+						GroupManager.getInstance().navigateHome();
 						break;
 					case 515:
 						str1 = mData.userName + "와 연결되었습니다.\n" + "당신의  관리자는 "
@@ -172,7 +174,8 @@ public class PushManager {
 
 						pmlvca.addItem("", timeStr1 + str1, "");
 						pmlvca.dataChange();
-						GroupManager.getInstance().update(MyManager.getInstance().getGroupMemberId());
+						GroupManager.getInstance().updateSelf();
+						GroupManager.getInstance().navigateHome();
 						break;
 					case 525:
 						str1 = mData.userName + "와 연결되었습니다.\n" + "당신의  관리자는 "
@@ -181,7 +184,8 @@ public class PushManager {
 
 						pmlvca.addItem("", timeStr1 + str1, "");
 						pmlvca.dataChange();
-						GroupManager.getInstance().update(MyManager.getInstance().getGroupMemberId());
+						GroupManager.getInstance().updateSelf();
+						GroupManager.getInstance().navigateHome();
 						break;
 					
 					case 417:
@@ -191,7 +195,8 @@ public class PushManager {
 
 						pmlvca.addItem("", timeStr1 + str1, "");
 						pmlvca.dataChange();					
-						GroupManager.getInstance().update(MyManager.getInstance().getGroupMemberId());
+						GroupManager.getInstance().updateSelf();
+						GroupManager.getInstance().navigateHome();
 						break;
 					case 427:
 						str1 = mData.userName + "와 연결되었습니다.\n" + "당신의  관리자는 "
@@ -200,7 +205,8 @@ public class PushManager {
 
 						pmlvca.addItem("", timeStr1 + str1, "");
 						pmlvca.dataChange();
-						GroupManager.getInstance().update(MyManager.getInstance().getGroupMemberId());
+						GroupManager.getInstance().updateSelf();
+						GroupManager.getInstance().navigateHome();
 						break;
 					case 517:
 						str1 = mData.userName + "와 연결되었습니다.\n" + "당신은 "
@@ -208,7 +214,8 @@ public class PushManager {
 
 						pmlvca.addItem("", timeStr1 + str1, "");
 						pmlvca.dataChange();
-						GroupManager.getInstance().update(MyManager.getInstance().getGroupMemberId());
+						GroupManager.getInstance().updateSelf();
+						GroupManager.getInstance().navigateHome();
 						break;
 					case 527:
 						str1 = mData.userName + "와 연결되었습니다.\n" + "당신은 "
@@ -216,7 +223,8 @@ public class PushManager {
 
 						pmlvca.addItem("", timeStr1 + str1, "");
 						pmlvca.dataChange();
-						GroupManager.getInstance().update(MyManager.getInstance().getGroupMemberId());
+						GroupManager.getInstance().updateSelf();
+						GroupManager.getInstance().navigateHome();
 						break;
 					
 									

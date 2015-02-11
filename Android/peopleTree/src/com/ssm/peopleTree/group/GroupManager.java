@@ -1,6 +1,7 @@
 package com.ssm.peopleTree.group;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Observable;
 import java.util.Stack;
 
@@ -24,6 +25,7 @@ public class GroupManager extends Observable {
 		children = new ArrayList<MemberData>();	
 		cur = new MemberData();
 		parent = new MemberData();
+		navigator = new Navigator();
 	}
 	
 	public static GroupManager getInstance() {
@@ -36,6 +38,7 @@ public class GroupManager extends Observable {
 		return instance;
 	}
 	
+	private Navigator navigator;
 	private ArrayList<MemberData> children;
 	private MemberData cur;
 	private MemberData parent;
@@ -73,6 +76,7 @@ public class GroupManager extends Observable {
 				GetInfoAllResponse res = new GetInfoAllResponse(arg0);
 				if (res.getStatus() == Status.SUCCESS) {
 					setGroup(res.parentData, res.curData, res.children);
+					
 					if (listener != null) {
 						listener.onUpdateSuccess(null);
 					}
@@ -92,6 +96,18 @@ public class GroupManager extends Observable {
 		groupListener.onUpdateStart(null);
 	}
 	
+	public void navigateUp(MemberData mData) {
+		navigator.navigateUp(mData);
+	}
+	
+	public void navigateDown(MemberData mData) {
+		navigator.navigateDown(mData);
+	}
+	
+	public void navigateHome() {
+		navigator.navigateHome();
+	}
+		
 	public void groupChanged() {
 		setChanged();
 		notifyObservers();
@@ -107,6 +123,10 @@ public class GroupManager extends Observable {
 	
 	public ArrayList<MemberData> getChildren() {
 		return children;
+	}
+	
+	public Navigator getNavigator() {
+		return navigator;
 	}
 	
 	public void setGroup(MemberData parent, MemberData cur, ArrayList<MemberData> children) {
