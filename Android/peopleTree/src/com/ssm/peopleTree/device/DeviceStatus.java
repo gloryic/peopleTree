@@ -1,6 +1,6 @@
-package com.ssm.peopleTree.location;
+package com.ssm.peopleTree.device;
 
-public enum Status {
+public enum DeviceStatus {
 
 	INVALID(2049),
 	GPS_OFF(2050),
@@ -13,7 +13,7 @@ public enum Status {
 	private static int status = NORMAL_STATUS;	
 	private int code;
 	
-	private Status(int code) {
+	private DeviceStatus(int code) {
 		this.code = code;
 	}
 	
@@ -21,12 +21,20 @@ public enum Status {
 		status = NORMAL_STATUS;
 	}
 	
-	public static void set(Status status) {
+	public static void set(DeviceStatus status) {
 		if (status == null) {
 			return;
 		}
 		
-		Status.status |= status.code;
+		DeviceStatus.status |= status.code;
+	}
+	
+	public static void clear(DeviceStatus status) {
+		if (status == null) {
+			return;
+		}
+		
+		DeviceStatus.status &= ~status.code;
 	}
 	
 	public int getCode() {

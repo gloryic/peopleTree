@@ -7,6 +7,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.Response.Listener;
 import com.ssm.peopleTree.C;
 import com.ssm.peopleTree.application.MyManager;
+import com.ssm.peopleTree.device.DeviceStatus;
 import com.ssm.peopleTree.network.NetworkManager;
 import com.ssm.peopleTree.network.protocol.CheckMemberRequest;
 import com.ssm.peopleTree.network.protocol.CheckMemberResponse;
@@ -68,11 +69,6 @@ class OutsideLocationUpdateNotifier implements UpdateNotifier, Response.Listener
 		
 		CheckMemberRequest cmr ; 
 		
-		Status.clear();
-		
-		if(!parent.isGPSEnabled){
-			Status.set(Status.GPS_OFF);	
-		}
 		if(parent.location == null){
 			latitude = 0;
 			longtitude = 0;
@@ -84,12 +80,12 @@ class OutsideLocationUpdateNotifier implements UpdateNotifier, Response.Listener
 		PeopleTreeLocationManager pltm = PeopleTreeLocationManager
 				.getInstance();
 		long curTime = System.currentTimeMillis();
+
 		if (!parent.isValidLocation()
 				&& (curTime - pltm.getLastChangeTime()) > PeopleTreeLocationManager.MINTIMEINTERVAL) {
-			Status.set(Status.INVALID);
+			DeviceStatus.set(DeviceStatus.INVALID);
 
-			statusCode = Status.getStatus();
-
+			statusCode = DeviceStatus.getStatus();
 			cmr = new CheckMemberRequest(groupMemeberId, parentGroupMemberId,
 					parentManageMode, edgyType, statusCode, fpId, latitude,
 					longtitude);
@@ -101,14 +97,13 @@ class OutsideLocationUpdateNotifier implements UpdateNotifier, Response.Listener
 		} else {
 			Log.i("log", "locTest gps" + "lat" + latitude + " ,lon"
 					+ longtitude);
-			statusCode = Status.getStatus();
-
+			DeviceStatus.clear(DeviceStatus.INVALID);
+			statusCode= DeviceStatus.getStatus();
 			cmr = new CheckMemberRequest(groupMemeberId, parentGroupMemberId,
 					parentManageMode, edgyType, statusCode, fpId, latitude,
 					longtitude);
 			NetworkManager.getInstance().request(cmr, onCheckMemberResponse,
 					null);
-
 		}
 		
 		

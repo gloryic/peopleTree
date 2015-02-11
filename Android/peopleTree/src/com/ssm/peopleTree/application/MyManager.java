@@ -1,7 +1,5 @@
 package com.ssm.peopleTree.application;
 
-import android.util.Log;
-
 import com.ssm.peopleTree.data.MemberData;
 
 public class MyManager {
