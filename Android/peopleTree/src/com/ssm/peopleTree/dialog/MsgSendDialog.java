@@ -109,7 +109,7 @@ public class MsgSendDialog extends Dialog  {
     
           
    
-            	BroadcastMsgRequest bcdr = new BroadcastMsgRequest(rid,MyManager.getInstance().getGroupMemberId(),600,msg);
+            	BroadcastMsgRequest bcdr = new BroadcastMsgRequest(MyManager.getInstance().getGroupMemberId(),rid,600,msg);
             	
             	NetworkManager.getInstance().request(bcdr, onBroadcastMsgResponse, null);
             	

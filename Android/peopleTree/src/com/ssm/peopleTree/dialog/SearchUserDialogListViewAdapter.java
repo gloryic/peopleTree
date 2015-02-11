@@ -8,6 +8,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -186,20 +187,20 @@ public class SearchUserDialogListViewAdapter extends BaseAdapter {
 	
 		switch (parentDialog.getMode()) {
 		case SearchUserDialog.CHILD_ADD_MODE:
-			str2 = "관리대상으로 요청";
-			modeSettingNum+=400;
-			
+			str2 = "관리대상으로 요청";			
 			if(MyManager.getInstance().getEdgeType()== 200 && modeSettingNum == 10){
 				validEdge = false;
 			}
+			modeSettingNum+=400;
 			
 			break;
 		case SearchUserDialog.PARENT_ADD_MODE:
 			str2 = "관리자로 요청";
-			modeSettingNum+=500;
+			
 			if(mData.edgeType== 200 && modeSettingNum == 10){
 				validEdge = false;
 			}
+			modeSettingNum+=500;
 			
 			
 			break;
@@ -208,16 +209,11 @@ public class SearchUserDialogListViewAdapter extends BaseAdapter {
 
 		}
 		
-	
-		
 		final int statusCode = modeSettingNum;
-		
-		
 		
 		AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
 		
-		
-		
+
 		if (validEdge) {
 			builder.setTitle(str1 + str2)
 					.setMessage(mData.userName + "을(를) 선택하시겠습니까?")
@@ -254,7 +250,7 @@ public class SearchUserDialogListViewAdapter extends BaseAdapter {
 			
 
 			builder.setTitle("알림")
-					.setMessage("유효하지 않은 관계요청입니다!\n요청대상의 위치정보 관리여부를 확인하세요")
+					.setMessage("유효하지 않은 관계요청입니다!\n위치관리관계 하위로 정보보고관계가 연결될수 없습니다.")
 					.setCancelable(true)
 					// 뒤로 버튼 클릭시 취소 가능 설정
 					.setPositiveButton("확인", new DialogInterface.OnClickListener() {

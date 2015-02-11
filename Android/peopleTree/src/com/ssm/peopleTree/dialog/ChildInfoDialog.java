@@ -72,7 +72,7 @@ public class ChildInfoDialog extends Dialog  {
 		
 		btn2 =(Button)this.findViewById(R.id.childInfoDialog_btn2);
 		btn2.setText("메시지 보내기");
-		btn1.setOnClickListener(new View.OnClickListener() {
+		btn2.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
