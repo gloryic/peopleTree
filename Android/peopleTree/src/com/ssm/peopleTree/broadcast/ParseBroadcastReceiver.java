@@ -1,5 +1,6 @@
 package com.ssm.peopleTree.broadcast;
 
+import java.util.Calendar;
 import java.util.Iterator;
 
 import org.json.JSONException;
@@ -18,6 +19,7 @@ import android.util.Log;
 import com.ssm.peopleTree.MainActivity;
 import com.ssm.peopleTree.R;
 import com.ssm.peopleTree.TestActivity;
+import com.ssm.peopleTree.map.ManageMode;
 
 
 public class ParseBroadcastReceiver extends BroadcastReceiver {
@@ -41,43 +43,12 @@ public class ParseBroadcastReceiver extends BroadcastReceiver {
 					String channel = intent.getExtras().getString("com.parse.Channel");
 					JSONObject json = new JSONObject(intent.getExtras().getString("com.parse.Data"));
 
-					Log.d(TAG, "got action " + action + " on channel " + channel + " with:");
-					Iterator itr = json.keys();
-					while (itr.hasNext()) {
-						String key = (String) itr.next();
-						
-						/*
-						if (key.equals("customdata"))
-						{
-							Intent pupInt = new Intent(context, ShowPopUp.class);
-							pupInt.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK );
-							context.getApplicationContext().startActivity(pupInt);
-						}*/
-						
-						/*
-						 * 
-						 *         
-        
-								Bundle extras = intent.getExtras();
-							    String jsonData = extras.getString("com.parse.Data");
-							    JSONObject jsonObject;
-							    try {
-							    	Log.i("TAG","DATA : xxxxx : " + jsonData);
-							        jsonObject = new JSONObject(jsonData);
-							        String heading = jsonObject.getString("heading");
-							        String dataString = jsonObject.getString("dataString");
-							    } catch (JSONException e) {
-							        e.printStackTrace();
-							    }
-						 * 
-						 * 
-						 * */
-						
-						
-						Log.d(TAG, key + " => " + json.getString(key));
-					}
 					
-					sendNotification(context, json);
+					pushMessageControl(context, json);
+					
+
+
+					
 				}
 			}
 
@@ -86,28 +57,118 @@ public class ParseBroadcastReceiver extends BroadcastReceiver {
 		}
 	}
 	
-    private void sendNotification(Context context, JSONObject msg) throws JSONException {
+
+
+    
+    
+    private boolean pushMessageControl(Context context,JSONObject msg) throws JSONException{
+    
+
+
+		String userName = msg.getString("userName");
+
+		int statusCode = msg.getInt("statusCode");
+
+		if (statusCode >= 2000 && statusCode < 3000) {
+			
+
+			JSONObject msgObj = msg.getJSONObject("message");
+			
+			PushManager.getInstance().pushMessageAcceptEx(msgObj);
+			sendNotificationEx(context, userName, statusCode ,msgObj);
+			return !msgObj.getBoolean("validation");
+		} else {
+
+	    	String msgstr = msg.getString("message");
+
+
+			int from = msg.getInt("from");
+
+			int to = msg.getInt("to");
+
+			//String userName int statusCode String msgstr int from int to 
+
+			PushManager.getInstance().pushMessageAccept(new PushData(statusCode, userName, msgstr, from, to));
+			 sendNotification(context,userName, statusCode, msgstr,from, to);
+			return true;
+		}
+	}
+    /*
+    
+     */
+    private void sendNotificationEx(Context context,String userName,int statusCode, JSONObject msgObj) throws JSONException {
+    	int manageMode;
+		int radius;
+		double distance;
+		int edgeStatus;
+		int accumulateWarning;
+		manageMode = msgObj.getInt("manageMode");
+		manageMode = msgObj.getInt("manageMode");
+		/*
+		INVALID(100, 0),
+		NOTHING(200, R.layout.activity_map),
+		TRAKING(210, R.layout.activity_map_tracking),
+		AREA(220, R.layout.activity_map_area),
+		GEOFENCE(230, R.layout.activity_map_geofence)
+		
+		*/
+		
+		Calendar calen = Calendar.getInstance();
+		String timeStr1 = "" + (calen.get(Calendar.MONTH)+1) + "월 " + calen.get(Calendar.DAY_OF_MONTH)+"일    "
+				+ calen.get(Calendar.HOUR_OF_DAY) + ":"
+				+ calen.get(Calendar.MINUTE) +"\n";
+		String message="";
+		
+		mNotificationManager = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
+		PendingIntent contentIntent = PendingIntent.getActivity(context, 0, new Intent(context, MainActivity.class), 0);
+	        
+		
+		switch(ManageMode.getMode(manageMode)){
+		case TRAKING:
+			radius = msgObj.getInt("radius");
+			distance = msgObj.getDouble("distance");
+			edgeStatus  = msgObj.getInt("edgeStatus");
+			accumulateWarning = msgObj.getInt("accumulateWarning");
+			
+			message = "관리자에게서 벗어났습니다.\n ";
+			
+		
+			break;
+		case AREA:
+			radius = msgObj.getInt("radius");
+			distance = msgObj.getInt("distance");
+			edgeStatus  = msgObj.getInt("edgeStatus");
+			accumulateWarning = msgObj.getInt("accumulateWarning");
+			
+			message = "관리지역 위치를 벗어났습니다.\n ";
+			
+			break;
+		case GEOFENCE:
+			edgeStatus  = msgObj.getInt("edgeStatus");
+			accumulateWarning = msgObj.getInt("accumulateWarning");
+			
+			message = "지오펜싱 관리 위치를 벗어났습니다.";
+			
+			break;
+		}
     	
-        mNotificationManager = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
+       
         
-        PendingIntent contentIntent = PendingIntent.getActivity(context, 0, new Intent(context, MainActivity.class), 0);
-        
-        
-        String message = msg.getString("message");
+    
         String subMessage = message.length() > 20 ? message.substring(0, 20)+"..." : message;
         
         
         NotificationCompat.InboxStyle style = new NotificationCompat.InboxStyle()
         .addLine(message)//메세지 전체
-        .setBigContentTitle(msg.getString("userName"))
-        .setSummaryText(getSummmaryText(msg.getInt("statusCode")));
+        .setBigContentTitle(userName)
+        .setSummaryText(getSummmaryText(statusCode));
         
         
         NotificationCompat.Builder mBuilder =  new NotificationCompat.Builder(context)
         .setSmallIcon(R.drawable.ic_launcher)
         .setContentInfo("1")
         .setTicker("피플트리")
-        .setContentTitle(msg.getString("userName"))
+        .setContentTitle(userName)
         .setContentText(subMessage)//메세지의 요악본
         .setStyle(style);    
         
@@ -123,28 +184,49 @@ public class ParseBroadcastReceiver extends BroadcastReceiver {
         
         mNotificationManager.notify(NOTIFICATION_ID, noti);
 
-        pushMessageControl(msg);
+      
     }  
     
-    private void pushMessageControl(JSONObject msg) throws JSONException{
     
-
-
-    	String msgstr = msg.getString("message");
-
-    	String userName = msg.getString("userName");
-
-    	int statusCode = msg.getInt("statusCode");
-
-    	int from = msg.getInt("from");
-
-    	int to = msg.getInt("to");
-
+    private void sendNotification(Context context, String userName, int statusCode,String message,int from, int to) {
     	
-    	PushManager.getInstance().pushMessageAccept(new PushData(statusCode, userName, msgstr, from, to));
-
-    }
+        mNotificationManager = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
+        
+        PendingIntent contentIntent = PendingIntent.getActivity(context, 0, new Intent(context, MainActivity.class), 0);
+        
+        
     
+        String subMessage = message.length() > 20 ? message.substring(0, 20)+"..." : message;
+        
+        
+        NotificationCompat.InboxStyle style = new NotificationCompat.InboxStyle()
+        .addLine(message)//메세지 전체
+        .setBigContentTitle(userName)
+        .setSummaryText(getSummmaryText(statusCode));
+        
+        
+        NotificationCompat.Builder mBuilder =  new NotificationCompat.Builder(context)
+        .setSmallIcon(R.drawable.ic_launcher)
+        .setContentInfo("1")
+        .setTicker("피플트리")
+        .setContentTitle(userName)
+        .setContentText(subMessage)//메세지의 요악본
+        .setStyle(style);    
+        
+        //.setStyle(new NotificationCompat.BigTextStyle()
+        //.bigText("3"));
+        
+        mBuilder.setVibrate(new long[] { 1000, 1000, 1000, 1000, 1000 }); 
+        mBuilder.setLights(Color.RED, 3000, 3000); 
+        mBuilder.setContentIntent(contentIntent);
+        
+        Notification noti = mBuilder.build();
+        noti.flags |= Notification.FLAG_AUTO_CANCEL;
+        
+        mNotificationManager.notify(NOTIFICATION_ID, noti);
+
+      
+    }  
     
     private String getSummmaryText(int statusCode){
     	

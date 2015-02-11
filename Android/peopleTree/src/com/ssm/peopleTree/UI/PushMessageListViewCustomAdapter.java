@@ -7,9 +7,15 @@ import java.util.Comparator;
 
 
 
+
+
+
+import org.json.JSONArray;
+
 import com.ssm.peopleTree.R;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,12 +33,76 @@ public class PushMessageListViewCustomAdapter extends BaseAdapter {
 	private Context mContext = null;
     private ArrayList<PushMessageListData> mListData = new ArrayList<PushMessageListData>();
 
+    
+    
+	private SharedPreferences prefs;
+
+    
+    
+	 private static final String PUSHMSG_DATA = "pushmsg_data"; 
+    private static final String PUSHMSG_ARR1_KEY = "pushmsg_arr1_key";
+    private static final String PUSHMSG_ARR2_KEY = "pushmsg_arr2_key";
+    private static final String PUSHMSG_ARR3_KEY = "pushmsg_arr3_key";
+    
+
+
     public PushMessageListViewCustomAdapter(Context mContext) {
         super();
         this.mContext = mContext;
+        this.reLoadFromLocal();
         
 
     }
+    
+    
+    public void reLoadFromLocal(){
+		prefs = mContext.getSharedPreferences(PUSHMSG_DATA,Context.MODE_PRIVATE);
+		if(prefs==null){
+			return;
+		}
+		mListData.clear();
+		
+		String str1 = prefs.getString(PUSHMSG_ARR1_KEY, "");
+		String str2 = prefs.getString(PUSHMSG_ARR2_KEY, "");
+		String str3 = prefs.getString(PUSHMSG_ARR3_KEY, "");
+		try {
+			JSONArray jsonArr1 = new JSONArray(str1);
+			JSONArray jsonArr2 = new JSONArray(str2);
+			JSONArray jsonArr3 = new JSONArray(str3);
+
+			for (int i = 0; !jsonArr1.isNull(i); i++) {
+				
+				PushMessageListData addInfo = new PushMessageListData(jsonArr1.getString(i),jsonArr2.getString(i),jsonArr3.getString(i));
+		        mListData.add(addInfo);
+			
+			}
+			
+		} catch (Exception e) {
+			mListData.clear();
+		}
+		this.dataChange();
+	}
+    public void reSaveToLocal(){
+    	SharedPreferences.Editor ed = prefs.edit();
+    	JSONArray jsonArr1 = new JSONArray();
+    	JSONArray jsonArr2 = new JSONArray();
+    	JSONArray jsonArr3 = new JSONArray();
+    	for(PushMessageListData iter : mListData){
+    		
+    		jsonArr1.put(iter.getPushMessageId());
+    		jsonArr2.put(iter.getText1());
+    		jsonArr3.put(iter.getText2());
+
+    		
+    	}
+    	ed.putString(PUSHMSG_ARR1_KEY, jsonArr1.toString());
+    	ed.putString(PUSHMSG_ARR2_KEY, jsonArr2.toString());
+    	ed.putString(PUSHMSG_ARR3_KEY, jsonArr3.toString());
+    	ed.commit();
+    }
+    
+    
+    
 
     @Override
     public int getCount() {
@@ -91,10 +161,14 @@ public class PushMessageListViewCustomAdapter extends BaseAdapter {
 	public void addItem(String pushMessageId,String text1,String text2){
     	PushMessageListData addInfo = new PushMessageListData(pushMessageId,text1,text2);
         mListData.add(addInfo);
+        this.reSaveToLocal();
     }
 
     public void remove(int position){
         mListData.remove(position);
+        this.reSaveToLocal();
+        this.reLoadFromLocal();
+        
         dataChange();
     }
     
@@ -107,7 +181,9 @@ public class PushMessageListViewCustomAdapter extends BaseAdapter {
         		i--;
     		}
     	}
-    	
+    	this.reSaveToLocal();
+        this.reLoadFromLocal();
+        
     	
         dataChange();
     }

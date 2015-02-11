@@ -1,23 +1,30 @@
 package com.ssm.peopleTree;
 
+
+import android.app.ActionBar;
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.Bundle;
+import android.util.Log;
+import android.widget.ImageView;
+import android.widget.Toast;
+
 import com.ssm.peopleTree.application.LoginManager;
-import com.ssm.peopleTree.application.MyManager;
 import com.ssm.peopleTree.application.LoginManager.LoginListener;
 import com.ssm.peopleTree.dialog.SimpleAlertDialog;
 import com.ssm.peopleTree.map.MapManager;
 import com.ssm.peopleTree.network.NetworkManager;
 import com.ssm.peopleTree.network.Status;
 
-import android.app.ActionBar;
-import android.app.Activity;
-import android.app.ProgressDialog;
-import android.content.Intent;
-import android.os.Bundle;
-import android.widget.ImageView;
-
 public class IntroActivity extends Activity implements LoginListener {
 	
-	private static final int LOGO_DURATION = 2000;
+	private static final int LOGO_DURATION = 1200;
 	
 	private ImageView logo;
 	
@@ -27,6 +34,9 @@ public class IntroActivity extends Activity implements LoginListener {
 	private boolean checkComplete;
 	private boolean loginSuccess;
 	private Intro intro;
+    private Toast toast;
+    
+    private Activity activity;
 	
 	private LoginManager loginManager;
 		
@@ -34,7 +44,8 @@ public class IntroActivity extends Activity implements LoginListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
-		getActionBar().hide();
+
+		activity = this;
 		
 		NetworkManager.getInstance().initialize(getApplicationContext());
 		MapManager.getInstance().initialize(getApplicationContext());
@@ -63,6 +74,19 @@ public class IntroActivity extends Activity implements LoginListener {
 				
 		intro = new Intro();
 		intro.start();
+		
+		//service
+		startService(new Intent("android.servcice.MAIN"));
+		
+		//TODO
+		if (isNetworkStat()) {
+			Log.i("IntroActivity", "NetworkSate enabled");
+			
+		}
+		else{
+			Log.i("IntroActivity", "NetworkSate unabled");
+		}
+		
 	}
 
 	private class Intro extends Thread {
@@ -78,6 +102,7 @@ public class IntroActivity extends Activity implements LoginListener {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
+
 			
 			if (loginSuccess) {
 				//TODO
@@ -111,5 +136,30 @@ public class IntroActivity extends Activity implements LoginListener {
 	public void onLoginFail(Status status) {
 		loginSuccess = false;
 		checkComplete = true;
+	}
+	
+	public boolean isNetworkStat() {
+		ConnectivityManager localConnectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo mobile = localConnectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+		NetworkInfo wifi = localConnectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+		boolean flag = false;
+		
+		if (mobile.isConnected() || wifi.isConnected()){
+		      Log.d("TestActivity", "Network connect success");
+		      flag = true;
+		}else{
+			
+			AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+			alertDialog.setTitle("네트워크 에러");
+			alertDialog.setMessage("네트워크 연결이 되지 않았습니다. 네트워크 연결을 확인해주세요");
+			alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int which) {
+					finish();
+					android.os.Process.killProcess(android.os.Process.myPid());
+				}
+			});
+			alertDialog.show();
+		}
+		return flag;
 	}
 }

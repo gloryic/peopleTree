@@ -95,6 +95,7 @@ public class MapManager {
 			} catch (Exception e) {
 				geoPoints.clear();
 			}
+			
 		}
 	}
 	
@@ -115,10 +116,12 @@ public class MapManager {
 				jsonArr.put(geoPoint.toJSONObject());
 			}
 			ed.putString(GEO_POINTS_KEY, jsonArr.toString());
+			
 		} catch (Exception e) {
 			ed.putString(GEO_POINTS_KEY, "");
 		}
 		ed.commit();
+		
 	}
 	
 	public void clear() {

@@ -1,5 +1,6 @@
 package com.ssm.peopleTree;
 
+
 import com.ssm.peopleTree.BackPressCloseHandler;
 import com.ssm.peopleTree.UI.BroadCastLayoutController;
 import com.ssm.peopleTree.UI.BroadCastListViewCustomAdapter;
@@ -29,6 +30,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 
@@ -58,7 +60,7 @@ public class TestActivity extends FragmentActivity implements Progressable, OnCl
 	private NetworkManager networkManager;
 	private MyManager myManager;
 	private GroupManager groupManager;
-
+	private RelativeLayout bottomBar;
 	
 	GroupListController groupListController;
 	RequestLayoutController requestLayoutController;
@@ -69,8 +71,9 @@ public class TestActivity extends FragmentActivity implements Progressable, OnCl
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.tframe);
 		
+		setContentView(R.layout.tframe);
+
 		backPressCloseHandler = new BackPressCloseHandler(this);
 		
 		networkManager = NetworkManager.getInstance();
@@ -94,18 +97,15 @@ public class TestActivity extends FragmentActivity implements Progressable, OnCl
 		page4Btn.setText("알림");
 		page5Btn.setText("설정");
 		
-	
+				
+		bclvca = new BroadCastListViewCustomAdapter(this);
 		upRqlvca = new RequestListViewCustomAdapter(this);
-
-		
 		downRqlvca = new RequestListViewCustomAdapter(this);
 		
 
 
-
 		
 		glvca = new GroupListviewCustomAdapter(this);
-		
 		pmlvca = new PushMessageListViewCustomAdapter(this);
 
 
@@ -169,7 +169,10 @@ public class TestActivity extends FragmentActivity implements Progressable, OnCl
 		});
 		
 		page1Btn.setSelected(true);
+
 	}
+	
+	
 	
 	@Override
 	public void onBackPressed() {
@@ -305,6 +308,6 @@ public class TestActivity extends FragmentActivity implements Progressable, OnCl
 	@Override
 	public void progress() {
 		nextActivity(MapActivity.class);
-	}	
+	}
 }
 

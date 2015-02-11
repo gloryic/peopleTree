@@ -25,7 +25,7 @@
         android:id="@+id/list_item_name"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
+        android:layout_centerVertical="true"
         android:layout_toLeftOf="@+id/list_item_btn"
         android:textSize="20sp" />
 

@@ -17,6 +17,9 @@ public class CheckMemberRequest extends Request {
 	public Double longitude;
 
 	
+	//http://210.118.74.107:3000/ptree/geoutil/checkMember?groupMemberId=20&statusCode=&latitude=7&longitude=2&parentGroupMemberId=41&parentManageMode=220&edgeType=200
+	private static final String REST_PROTOCOL = "/ptree/geoutil/checkMember";
+	
 	public CheckMemberRequest(int groupMemeberId, int parentGroupMemberId, int parentManageMode, int edgyType, int statusCode, int fpId, double latitude, double longtitude) {
 		this.groupMemeberId = groupMemeberId;
 		this.parentGroupMemberId = parentGroupMemberId;
@@ -50,13 +53,13 @@ public class CheckMemberRequest extends Request {
 
 	@Override
 	public String toURI() {
-		String result = "";
+		String result = REST_PROTOCOL;
 		result += "?" + GROUP_MEMBER_ID_KEY + "=" + Integer.toString(groupMemeberId);
 		result += "&" + PARENT_GROUP_MEMBER_ID_KEY + "=" + Integer.toString(parentGroupMemberId);
 		result += "&" + MANAGE_MODE_KEY + "=" + Integer.toString(parentManageMode);
 		result += "&" + EDGE_TYPE_KEY + "=" + Integer.toString(edgyType);
 		result += "&" + STATUS_KEY + "=" + Integer.toString(edgyType);
-		result += "&" + FP_ID_KEY + "=" + Double.toString(statusCode);
+		result += "&" + FP_ID_KEY + "=" + Integer.toString(statusCode);
 		result += "&" + LATITUDE_KEY + "=";
 		if (latitude != null) {
 			result += Double.toString(latitude);

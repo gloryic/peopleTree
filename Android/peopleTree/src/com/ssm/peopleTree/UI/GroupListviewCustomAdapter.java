@@ -32,7 +32,7 @@ public class GroupListviewCustomAdapter extends BaseAdapter implements OnClickLi
         this.mContext = mContext;
         
         mListData = GroupManager.getInstance().getChildren();
-        childInfoDialog = new ChildInfoDialog(mContext);
+       
     }
 
     @Override
@@ -132,7 +132,7 @@ public class GroupListviewCustomAdapter extends BaseAdapter implements OnClickLi
 		if (mData == null) {
 			return;
 		}
-		
+		childInfoDialog = new ChildInfoDialog(mContext,mData);
 		MapManager.getInstance().setChild(mData);
 		childInfoDialog.setchildInfoTitle(mData.userName);
 		childInfoDialog.show();

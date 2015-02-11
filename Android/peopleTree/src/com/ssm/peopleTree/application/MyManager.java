@@ -1,5 +1,7 @@
 package com.ssm.peopleTree.application;
 
+import android.util.Log;
+
 import com.ssm.peopleTree.data.MemberData;
 
 public class MyManager {
@@ -7,6 +9,7 @@ public class MyManager {
 
 	private MyManager() {
 		myData = new MemberData();
+		myParentData = new MemberData();
 	}
 	
 	public static MyManager getInstance() {
@@ -20,28 +23,55 @@ public class MyManager {
 	}
 
 	private MemberData myData;
+	private MemberData myParentData;
 	
-	public void setMyData(MemberData myData) {
+	public void setMyData(MemberData myData,MemberData myParentData) {
 
-		this.myData.userId = myData.userId;
-		this.myData.userName = myData.userName;
-		this.myData.userPhoneNumber = myData.userPhoneNumber;
-		
-		this.myData.groupMemberId = myData.groupMemberId;
-		this.myData.parentGroupMemberId = myData.parentGroupMemberId;
-		this.myData.groupId = myData.groupId;
-		
-		this.myData.edgeStatus = myData.edgeStatus;
-		this.myData.edgeType = myData.edgeType;
-		
-		this.myData.manageMode = myData.manageMode;
-		this.myData.managedLocationRadius = myData.managedLocationRadius;
-		this.myData.managingTotalNumber = myData.managingTotalNumber;
-		this.myData.managingNumber = myData.managingNumber;
-		
-		this.myData.longitude = myData.longitude;
-		this.myData.latitude = myData.latitude;
+		if (myData != null) {
+			this.myData.userId = myData.userId;
+			this.myData.userName = myData.userName;
+			this.myData.userPhoneNumber = myData.userPhoneNumber;
+
+			this.myData.groupMemberId = myData.groupMemberId;
+			this.myData.parentGroupMemberId = myData.parentGroupMemberId;
+			this.myData.groupId = myData.groupId;
+
+			this.myData.edgeStatus = myData.edgeStatus;
+			this.myData.edgeType = myData.edgeType;
+
+			this.myData.manageMode = myData.manageMode;
+			this.myData.managedLocationRadius = myData.managedLocationRadius;
+			this.myData.managingTotalNumber = myData.managingTotalNumber;
+			this.myData.managingNumber = myData.managingNumber;
+
+			this.myData.longitude = myData.longitude;
+			this.myData.latitude = myData.latitude;
+		}
+		// ----------
+		if (myParentData != null) {
+			this.myParentData.userId = myParentData.userId;
+			this.myParentData.userName = myParentData.userName;
+			this.myParentData.userPhoneNumber = myParentData.userPhoneNumber;
+
+			this.myParentData.groupMemberId = myParentData.groupMemberId;
+			this.myParentData.parentGroupMemberId = myParentData.parentGroupMemberId;
+			this.myParentData.groupId = myParentData.groupId;
+
+			this.myParentData.edgeStatus = myParentData.edgeStatus;
+			this.myParentData.edgeType = myParentData.edgeType;
+
+			this.myParentData.manageMode = myParentData.manageMode;
+			this.myParentData.managedLocationRadius = myParentData.managedLocationRadius;
+			this.myParentData.managingTotalNumber = myParentData.managingTotalNumber;
+			this.myParentData.managingNumber = myParentData.managingNumber;
+		} 
+
 	}
+	
+	public MemberData getMyParentData() {
+		return myParentData;
+	}
+
 	
 	public boolean hasParent() {
 		return (myData.parentGroupMemberId != myData.groupMemberId); 
