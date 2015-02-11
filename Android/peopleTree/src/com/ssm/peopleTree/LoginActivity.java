@@ -44,7 +44,7 @@ public class LoginActivity extends Activity implements OnClickListener, LoginLis
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
-
+		
 		loginSet = (LinearLayout)findViewById(R.id.layoutLoginSet);
 		loginSet.setAlpha(1f);
 		loginBtn = (Button)loginSet.findViewById(R.id.buttonLogin);

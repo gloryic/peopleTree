@@ -15,32 +15,28 @@ import com.ssm.peopleTree.application.LoginManager;
 import com.ssm.peopleTree.application.MyManager;
 import com.ssm.peopleTree.broadcast.PushManager;
 import com.ssm.peopleTree.data.MemberData;
+import com.ssm.peopleTree.dialog.NetworkProgressDialog;
 import com.ssm.peopleTree.group.GroupManager;
+import com.ssm.peopleTree.group.GroupManager.GroupListener;
 import com.ssm.peopleTree.network.NetworkManager;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnTouchListener;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
-import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -79,17 +75,61 @@ public class TestActivity extends FragmentActivity implements Progressable, OnCl
 	PushmsgLayoutController pushmsgLayoutController;
 	SettingLayoutController settingLayoutController;
 	
+	private NetworkProgressDialog progDialog;
+	private AlertDialog alertDialog;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
 		setContentView(R.layout.tframe);
+		
+		progDialog = new NetworkProgressDialog(this);
+		
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setTitle("알림")
+				.setMessage("그룹이 변경되었습니다.\n초기 그룹화면으로 돌아갑니다.")
+				.setCancelable(true)
+				.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+					
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						groupManager.updateSelf();
+						dialog.cancel();
+					}
+				});
+		
+		alertDialog = builder.create();
 
 		backPressCloseHandler = new BackPressCloseHandler(this);
 		
 		networkManager = NetworkManager.getInstance();
 		myManager = MyManager.getInstance();
 		groupManager = GroupManager.getInstance();
+		groupManager.setGroupListener(new GroupListener() {
+						
+			@Override
+			public void onUpdateStart(Object arg) {
+				progDialog.show();
+			}
+			
+			@Override
+			public void onUpdateSuccess(Object arg) {
+				progDialog.completeProgress();
+			}
+			
+			@Override
+			public void onUpdateFail(Object arg) {
+				if (arg instanceof Integer) {
+					Integer id = (Integer)arg;
+					
+					if (id != myManager.getGroupMemberId()) {
+						alertDialog.show();
+						groupManager.updateSelf();
+					}
+				}
+			}
+		});
 	
 		page1Btn = (Button) findViewById(R.id.Page1Btn);
 		page1Btn.setOnClickListener(this);
@@ -214,8 +254,9 @@ public class TestActivity extends FragmentActivity implements Progressable, OnCl
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// TODO
 		
-		menu.add(0, 1, Menu.NONE, "Logout");
-        menu.add(0, 2, Menu.NONE, "Refresh");
+		menu.add(0, 1, Menu.NONE, "Logout(실제)");
+        menu.add(0, 2, Menu.NONE, "Logout(가상)");
+        menu.add(0, 3, Menu.NONE, "Refresh");
 		/*
 		 * .setIcon(android.R.drawable.ic_menu_rotate);
         menu.add(0, 3, Menu.NONE, "").setIcon(android.R.drawable.ic_menu_agenda);
@@ -227,23 +268,27 @@ public class TestActivity extends FragmentActivity implements Progressable, OnCl
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+		Intent intent;
 		
 		switch (item.getItemId()) {
         case 1:
             Toast.makeText(TestActivity.this, "Logout", Toast.LENGTH_SHORT).show();
             LoginManager.getInstance().logout();
             
-            Intent intent;
     		intent = new Intent(TestActivity.this, LoginActivity.class);
     		startActivity(intent);
     		finish();
             break;
  
         case 2:
-        	groupManager.update(myManager.getGroupMemberId());
+        	LoginManager.getInstance().clear();
+    		intent = new Intent(TestActivity.this, LoginActivity.class);
+    		startActivity(intent);
+    		finish();
             break;
  
         case 3:
+        	groupManager.update(myManager.getGroupMemberId());
             break;
  
         default:
@@ -320,5 +365,6 @@ public class TestActivity extends FragmentActivity implements Progressable, OnCl
 	public void progress() {
 		nextActivity(MapActivity.class);
 	}
+
 }
 
