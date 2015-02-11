@@ -102,7 +102,7 @@ public class GroupListController extends Fragment implements Observer {
 		//TODO//
 		glv = (PullToRefreshListView)layout.findViewById(R.id.groupList);
 
-
+		
 		mBottomBar = (RelativeLayout) layout.findViewById(R.id.bottom_bar);
 		//mTopBar = (RelativeLayout) layout.findViewById(R.id.groupParent_layout_Total);
 		
@@ -126,8 +126,8 @@ public class GroupListController extends Fragment implements Observer {
 
 		
 		mBottomBar.bringToFront();
-		mBottomBar.setVisibility(View.GONE);
-		mBottomBar.invalidate();
+		//mBottomBar.setVisibility(View.GONE);
+		//mBottomBar.invalidate();
 		
 		//mTopBar.bringToFront();
 		//mTopBar.setVisibility(View.GONE);
@@ -139,8 +139,9 @@ public class GroupListController extends Fragment implements Observer {
 		slideup_top = AnimationUtils.loadAnimation(mContext, R.anim.slide_from_top);
 		slidedown_top = AnimationUtils.loadAnimation(mContext, R.anim.slide_to_top);
 		
+		glv.setMode(Mode.PULL_FROM_START);
 		
-
+		/*
 		glv.setOnTouchListener(new OnTouchListener() {
             
 		    @Override
@@ -174,7 +175,7 @@ public class GroupListController extends Fragment implements Observer {
 							else if (mTopBar.getVisibility() != View.GONE) {
 								mTopBar.startAnimation(slideup_top);
 								mTopBar.setVisibility(View.GONE);
-							}*/
+							}
 							else {}
 							
 		    			}
@@ -189,7 +190,7 @@ public class GroupListController extends Fragment implements Observer {
 								mTopBar.startAnimation(slidedown_top);
 								mTopBar.setVisibility(View.VISIBLE);
 							}
-							*/
+							
 							else{}
 						}
 		    		}
@@ -203,16 +204,23 @@ public class GroupListController extends Fragment implements Observer {
 		    	return false;
 
 		    }
-		});
+		});*/
+		
+		
+		
 		
 		glv.setOnRefreshListener(new OnRefreshListener<ListView>() {
-				
+			
+			
 				@Override
-				public void onRefresh(
-						PullToRefreshBase<ListView> refreshView) {
+				public void onRefresh(PullToRefreshBase<ListView> refreshView) {
+					
+					
+					GroupManager.getInstance().update(GroupManager.getInstance().getCur().groupMemberId);
+					
 					new ProcessTask().execute();
 					//glv.setAdapter(adapter);
-					//GroupManager.getInstance().update(GroupManager.getInstance().getCur().groupMemberId);
+					
 				}
 			});
 		
