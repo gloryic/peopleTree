@@ -94,30 +94,15 @@ public class GroupListviewCustomAdapter extends BaseAdapter implements OnClickLi
 			}
 		});
 		
-		
-		/*
-		int cnum = position %5;
-		switch(cnum){
-		case 0:
-			convertView.setBackgroundColor(Color.parseColor("#1FFEFE"));
-			break;
-		case 1:
-			convertView.setBackgroundColor(Color.parseColor("#93DAFF"));
-			break;
-		case 2:
+		Drawable da = mContext.getResources().getDrawable(R.drawable.gclist_selector);
 
-			convertView.setBackgroundColor(Color.parseColor("#9FAFFF"));
-			break;
-		case 3:
+		if(mData.accumulateWarning>0){
+			da = mContext.getResources().getDrawable(R.drawable.gclist_ex2_selector);
+		}else if(mData.managingNumber != mData.managingTotalNumber){
+			da = mContext.getResources().getDrawable(R.drawable.gclist_ex1_selector);
+		}
+		convertView.setBackground(da);
 
-			convertView.setBackgroundColor(Color.parseColor("#1EA4FF"));
-			break;		
-		case 4:
-
-			convertView.setBackgroundColor(Color.parseColor("#87CEFA"));
-			break;		
-		}*/
-		
 		return convertView;
 	}
 

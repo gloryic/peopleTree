@@ -43,7 +43,7 @@ public class BroadcastMsgRequest extends Request {
 		result += "?" + FROM_KEY + "=" + Integer.toString(from);
 		result += "&" + TO_KEY + "=" + Integer.toString(to);
 		result += "&" + STATUS_CODE_KEY + "=" + Integer.toString(statusCode);
-		result += "&" + STATUS_CODE_KEY + "=" + message;
+		result += "&" + MESSAGE_KEY + "=" + message;
 		
 		return result;
 	}

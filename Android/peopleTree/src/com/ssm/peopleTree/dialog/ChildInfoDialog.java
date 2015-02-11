@@ -77,6 +77,7 @@ public class ChildInfoDialog extends Dialog  {
 			@Override
 			public void onClick(View v) {
 				msgSendDialog = new MsgSendDialog(mContext,childData);
+				msgSendDialog.show();
 			}
 		});
 		

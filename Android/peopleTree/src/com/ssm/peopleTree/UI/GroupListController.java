@@ -33,11 +33,13 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 import com.ssm.peopleTree.R;
 import com.ssm.peopleTree.application.MyManager;
 import com.ssm.peopleTree.data.MemberData;
+import com.ssm.peopleTree.dialog.ChildInfoDialog;
 import com.ssm.peopleTree.dialog.GroupReqDialog;
 import com.ssm.peopleTree.dialog.MyMenuDialog;
 import com.ssm.peopleTree.dialog.ParentInfoDialog;
 import com.ssm.peopleTree.dialog.SearchUserDialog;
 import com.ssm.peopleTree.group.GroupManager;
+import com.ssm.peopleTree.map.MapManager;
 
 public class GroupListController extends Fragment implements Observer {
 	Context mContext;
@@ -60,7 +62,7 @@ public class GroupListController extends Fragment implements Observer {
 	SearchUserDialog searchUserDialog;
 	MyMenuDialog myMenuDialog;
 	ParentInfoDialog parentInfoDialog;
-	
+	ChildInfoDialog childInfoDialog;
 	private RelativeLayout layout;
 	boolean dragFlag = true;
 	boolean firstDragFlag = true;
@@ -89,7 +91,7 @@ public class GroupListController extends Fragment implements Observer {
 
 		//glv = (ListView) layout.findViewById(R.id.groupList);
 		
-		//TODO
+		//TODO//
 		glv = (PullToRefreshListView)layout.findViewById(R.id.groupList);
 
 		
@@ -113,22 +115,11 @@ public class GroupListController extends Fragment implements Observer {
 			}
 		});
 		
-		mmenu = (ImageView)layout.findViewById(R.id.grouplist_mymenu);
-		mmenu.setOnClickListener(new View.OnClickListener() {
 
-			public void onClick(View arg0) {
-				myMenuDialog = new MyMenuDialog(mContext);
-
-				myMenuDialog.setMytitle("메뉴");
-				myMenuDialog.show();
-				
-			}
-		});
-		
 		
 		mBottomBar.bringToFront();
-		mBottomBar.setVisibility(View.GONE);
-		mBottomBar.invalidate();
+		//mBottomBar.setVisibility(View.GONE);
+		//mBottomBar.invalidate();
 		
 		//mTopBar.bringToFront();
 		//mTopBar.setVisibility(View.GONE);
@@ -142,7 +133,7 @@ public class GroupListController extends Fragment implements Observer {
 		
 		glv.setMode(Mode.PULL_FROM_START);
 		
-
+		/*
 		glv.setOnTouchListener(new OnTouchListener() {
             
 		    @Override
@@ -176,7 +167,7 @@ public class GroupListController extends Fragment implements Observer {
 							else if (mTopBar.getVisibility() != View.GONE) {
 								mTopBar.startAnimation(slideup_top);
 								mTopBar.setVisibility(View.GONE);
-							}*/
+							}
 							else {}
 							
 		    			}
@@ -191,7 +182,7 @@ public class GroupListController extends Fragment implements Observer {
 								mTopBar.startAnimation(slidedown_top);
 								mTopBar.setVisibility(View.VISIBLE);
 							}
-							*/
+							
 							else{}
 						}
 		    		}
@@ -205,18 +196,25 @@ public class GroupListController extends Fragment implements Observer {
 		    	return false;
 
 		    }
-		});
+		});*/
+		
+		
 		
 		
 		glv.setOnRefreshListener(new OnRefreshListener<ListView>() {
 			
 			
-			@Override
-			public void onRefresh(PullToRefreshBase<ListView> refreshView) {
-				new ProcessTask().execute();
-			}
-				
-		});
+				@Override
+				public void onRefresh(PullToRefreshBase<ListView> refreshView) {
+					
+					
+					GroupManager.getInstance().update(GroupManager.getInstance().getCur().groupMemberId);
+					
+					new ProcessTask().execute();
+					//glv.setAdapter(adapter);
+					
+				}
+			});
 			
 		
 		return layout;
@@ -246,7 +244,26 @@ public class GroupListController extends Fragment implements Observer {
 			myName.setText(myNameStr);
 		}
 		
+		mmenu = (ImageView) layout.findViewById(R.id.grouplist_cur_btn);
+		mmenu.setOnClickListener(new View.OnClickListener() {
 
+				public void onClick(View arg0) {
+					int curId = GroupManager.getInstance().getCur().groupMemberId;
+					int myID = MyManager.getInstance().getGroupMemberId();
+					MemberData curData = GroupManager.getInstance().getCur();
+					if(curId == myID){
+						myMenuDialog = new MyMenuDialog(mContext);
+
+						myMenuDialog.setMytitle("메뉴");
+						myMenuDialog.show();
+					}else{
+						 childInfoDialog = new ChildInfoDialog(mContext, curData);
+						 MapManager.getInstance().setChild(curData);
+						 childInfoDialog.setchildInfoTitle(curData.userName);
+						 childInfoDialog.show();
+					}
+				}
+			});
 		
 
 		curLayout.setOnClickListener(new OnClickListener() {
@@ -311,9 +328,11 @@ public class GroupListController extends Fragment implements Observer {
 						MemberData mydata = MyManager.getInstance().getMyData();
 						
 						if(mydata.parentGroupMemberId!= fparentData.groupMemberId ||mydata.groupMemberId ==fparentData.groupMemberId   ){
-							
+							Log.i("test", "asd test1");
 							GroupManager.getInstance().update(fparentData.groupMemberId);
+			
 							
+
 						}else{
 							
 							AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
@@ -350,7 +369,8 @@ public class GroupListController extends Fragment implements Observer {
 		setParent(groupManager.getParent());
 		setCur(groupManager.getCur());
 		if (glv != null) {
-			glv.removeAllViewsInLayout();
+			//glv.removeAllViewsInLayout();
+			glv.setAdapter(glvca);
 		}
 	}
 	
@@ -360,6 +380,7 @@ public class GroupListController extends Fragment implements Observer {
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
+			
 		}
 
 		@Override

@@ -117,7 +117,7 @@ public class MsgSendDialog extends Dialog  {
         });
 		
 		
-		imgbtn_cacel = (ImageButton)this.findViewById(R.id.bcmsgsend_cancel);
+		imgbtn_cacel = (ImageButton)this.findViewById(R.id.msgsend_cancel);
 		
 		imgbtn_cacel.setOnClickListener(new View.OnClickListener() {
 			 

@@ -18,6 +18,7 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import com.ssm.peopleTree.R;
 import com.ssm.peopleTree.dialog.GroupReqDialog;
 import com.ssm.peopleTree.dialog.BroacCastMsgSendDialog;
+import com.ssm.peopleTree.dialog.SearchUserDialog;
 
 public class BroadCastLayoutController extends Fragment {
 
@@ -28,7 +29,7 @@ public class BroadCastLayoutController extends Fragment {
 	ImageButton imgBtn_bclist_delete;
 	ImageButton imgBtn_bclist_send;
 
-	BroacCastMsgSendDialog msgSendDialog;
+	SearchUserDialog msgSendSearchUserDialog;
 
 	BroadCastListViewCustomAdapter bclvca;
 
@@ -73,8 +74,10 @@ public class BroadCastLayoutController extends Fragment {
 
 			public void onClick(View arg0) {
 
-				msgSendDialog = new BroacCastMsgSendDialog(mContext);
-				msgSendDialog.show();
+				msgSendSearchUserDialog = new SearchUserDialog(mContext);
+				msgSendSearchUserDialog.setMode(SearchUserDialog.MSG_SEND_MODE);
+				msgSendSearchUserDialog.setTitle("메시지전송 - 사용자검색");
+				msgSendSearchUserDialog.show();
 
 			}
 		});

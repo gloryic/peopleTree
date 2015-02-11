@@ -46,11 +46,13 @@ public class SearchUserDialog extends Dialog  {
 	EditText editText;
 	Button searchBtn;
 	TextView searchNumTxtv;
+	TextView titleTxtv;
 	CheckBox chkbx;
 	
 	public static final int NOT_VALID_MODE =0;
 	public static final int PARENT_ADD_MODE =1;
 	public static final int CHILD_ADD_MODE =2;
+	public static final int MSG_SEND_MODE =3;
 	int mode = NOT_VALID_MODE;
 	
 	
@@ -63,6 +65,7 @@ public class SearchUserDialog extends Dialog  {
 		this.setContentView(R.layout.dialog_searchuser);
 		lv = (ListView) this.findViewById(R.id.searchuser_listview);
 		chkbx = (CheckBox)this.findViewById(R.id.searchuser_chkbx);
+		
 		sudlva = new SearchUserDialogListViewAdapter(mContext);
 		sudlva.setParent(this);
 		lv.setAdapter(sudlva);
@@ -89,9 +92,6 @@ public class SearchUserDialog extends Dialog  {
 		};
 		
 		
-		
-		
-		
 		searchBtn= (Button) this.findViewById(R.id.searchuser_searchbtn);
 		searchNumTxtv = (TextView) this.findViewById(R.id.searchuser_seachnum_txtv);
 		editText = (EditText)this.findViewById(R.id.searchuser_edittxt);
@@ -104,8 +104,6 @@ public class SearchUserDialog extends Dialog  {
             	NetworkManager.getInstance().request(new SearchMemberRequest(qstr), onSearchMemberResponse, null);
             	
             	
-            	
-            	
             }
         });
 
@@ -116,6 +114,15 @@ public class SearchUserDialog extends Dialog  {
 	}
 	public void setMode(int m){
 		this.mode = m;
+		if(mode == MSG_SEND_MODE){
+			chkbx.setVisibility(View.INVISIBLE);
+		}
+		
+	}
+	public void setTitle(String title){
+		
+		titleTxtv = (TextView)this.findViewById(R.id.searchuser_title_txtv);
+		titleTxtv.setText(title);
 	}
 	public int getMode(){
 		return this.mode;
