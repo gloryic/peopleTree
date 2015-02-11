@@ -15,51 +15,51 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-public class ManageSelectDialog extends Dialog implements View.OnClickListener{
-	
+public class ManageSelectDialog extends Dialog implements View.OnClickListener {
+
 	private MapManager mapManager;
 	private Context context;
-	
+
 	public ManageSelectDialog(Context context) {
 		super(context);
-		
+
 		this.context = context;
-		
+
 		setCancelable(true);
 		setTitle(R.string.manage_mode_setting);
 	}
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+
 		setContentView(R.layout.activity_map_select);
-		
+
 		mapManager = MapManager.getInstance();
-		
-		Button btn = (Button)findViewById(R.id.btn_cancel);
+
+		Button btn = (Button) findViewById(R.id.btn_cancel);
 		if (btn != null) {
 			btn.setOnClickListener(this);
 		}
-		
-		btn = (Button)findViewById(R.id.btn_nothing);
+
+		btn = (Button) findViewById(R.id.btn_nothing);
 		if (btn != null) {
 			btn.setOnClickListener(this);
 		}
-		btn = (Button)findViewById(R.id.btn_tracking);
+		btn = (Button) findViewById(R.id.btn_tracking);
 		if (btn != null) {
 			btn.setOnClickListener(this);
 		}
-		btn = (Button)findViewById(R.id.btn_area);
+		btn = (Button) findViewById(R.id.btn_area);
 		if (btn != null) {
 			btn.setOnClickListener(this);
 		}
-		btn = (Button)findViewById(R.id.btn_geofence);
+		btn = (Button) findViewById(R.id.btn_geofence);
 		if (btn != null) {
 			btn.setOnClickListener(this);
 		}
 	}
-	
+
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
@@ -70,8 +70,8 @@ public class ManageSelectDialog extends Dialog implements View.OnClickListener{
 			goMapActivity(ManageMode.NOTHING);
 			break;
 		case R.id.btn_tracking:
-			
-			if(((TestActivity)context).chkGpsService())
+
+			if (((TestActivity) context).chkGpsService())
 				goMapActivity(ManageMode.TRAKING);
 			break;
 		case R.id.btn_area:
@@ -84,15 +84,14 @@ public class ManageSelectDialog extends Dialog implements View.OnClickListener{
 			break;
 		}
 	}
-	
+
 	public void goMapActivity(ManageMode mode) {
 		mapManager.setTempManageMode(mode);
-		Progressable p = (Progressable)context;
+		Progressable p = (Progressable) context;
 		if (p != null) {
 			p.progress();
-		}
-		else {
-			
+		} else {
+
 		}
 	}
 }
