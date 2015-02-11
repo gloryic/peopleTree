@@ -64,11 +64,13 @@ public class RequestListViewCustomAdapter extends BaseAdapter {
 
 					str2 = "요청수락성공\n [from:"+res.from +"]\n [to:"+res.to +"]";
 					str2+="\n status:" +res.statusCode;
-					GroupManager.getInstance().update(MyManager.getInstance().getGroupMemberId());
+					GroupManager.getInstance().updateSelf();
+					GroupManager.getInstance().navigateHome();
 				} else {
-					str2 = "요청수락이 실패하였습니다";
+					str2 = "유효하지 않은 관리자 변경 요청입니다.";
 
 				}
+				
 				AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
 				builder.setTitle(str1)
 						.setMessage(str2)

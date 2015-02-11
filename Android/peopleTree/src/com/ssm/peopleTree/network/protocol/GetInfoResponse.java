@@ -24,7 +24,7 @@ public class GetInfoResponse extends Response {
 			JSONObject jsonObj = (JSONObject)responseData;
 			
 			mData.userId = jsonObj.getString(USER_ID_KEY);
-			mData.userName = jsonObj.getString(USER_NAME_KEY);//NetworkManager.getDecodedStr(jsonObj.getString(USER_NAME_KEY));
+			mData.userName = new String(jsonObj.getString(USER_NAME_KEY).getBytes("ISO-8859-1"), "UTF-8");
 			mData.userPhoneNumber = jsonObj.getString(USER_PHONE_KEY);
 			
 			mData.groupMemberId = jsonObj.getInt(GROUP_MEMBER_ID_KEY);

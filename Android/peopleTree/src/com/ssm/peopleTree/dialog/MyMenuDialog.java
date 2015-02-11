@@ -66,7 +66,8 @@ public class MyMenuDialog extends Dialog  {
 
 				}
 				MyMenuDialog.this.dismiss();
-				GroupManager.getInstance().update(MyManager.getInstance().getGroupMemberId());
+				GroupManager.getInstance().updateSelf();
+				GroupManager.getInstance().navigateHome();
 			}
 		};
 		

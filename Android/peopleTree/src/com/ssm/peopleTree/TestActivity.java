@@ -1,6 +1,9 @@
 package com.ssm.peopleTree;
 
 
+import java.util.Observable;
+import java.util.Observer;
+
 import com.ssm.peopleTree.BackPressCloseHandler;
 import com.ssm.peopleTree.UI.BroadCastLayoutController;
 import com.ssm.peopleTree.UI.BroadCastListViewCustomAdapter;
@@ -18,26 +21,34 @@ import com.ssm.peopleTree.data.MemberData;
 import com.ssm.peopleTree.dialog.NetworkProgressDialog;
 import com.ssm.peopleTree.group.GroupManager;
 import com.ssm.peopleTree.group.GroupManager.GroupListener;
+import com.ssm.peopleTree.group.Navigator;
+import com.ssm.peopleTree.map.ManageMode;
 import com.ssm.peopleTree.network.NetworkManager;
 
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewTreeObserver;
+import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.Button;
-import android.widget.ProgressBar;
+import android.widget.HorizontalScrollView;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -51,6 +62,7 @@ public class TestActivity extends FragmentActivity implements Progressable, OnCl
 	public final static int FRAGMENT_PAGE3 = 2;
 	public final static int FRAGMENT_PAGE4 = 3;
 	public final static int FRAGMENT_PAGE5 = 4;
+	public static boolean isGPSdialogPop = false;
 	private BackPressCloseHandler backPressCloseHandler;
 	
 	ViewPager mViewPager;			// View pager를 지칭할 변수 
@@ -83,7 +95,13 @@ public class TestActivity extends FragmentActivity implements Progressable, OnCl
 		super.onCreate(savedInstanceState);
 		
 		setContentView(R.layout.tframe);
+
+		
 		startService(new Intent("android.servcice.MAIN"));
+		
+		IntentFilter filter = new IntentFilter("android.location.PROVIDERS_CHANGED");
+        this.registerReceiver(mReceivedSMSReceiver, filter);
+        
 		progDialog = new NetworkProgressDialog(this);
 		
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -115,6 +133,11 @@ public class TestActivity extends FragmentActivity implements Progressable, OnCl
 			
 			@Override
 			public void onUpdateSuccess(Object arg) {
+				
+				if (ManageMode.getMode(myManager.getMyParentData().manageMode) != ManageMode.NOTHING) {
+					chkGpsService();
+				}
+				
 				progDialog.completeProgress();
 			}
 			
@@ -128,6 +151,7 @@ public class TestActivity extends FragmentActivity implements Progressable, OnCl
 						groupManager.updateSelf();
 					}
 				}
+				GroupManager.getInstance().navigateHome();
 			}
 		});
 	
@@ -220,6 +244,10 @@ public class TestActivity extends FragmentActivity implements Progressable, OnCl
 		});
 		
 		page1Btn.setSelected(true);
+		
+		
+		if (ManageMode.getMode(myManager.getMyParentData().manageMode) != ManageMode.NOTHING)
+			chkGpsService();
 
 	}
 	
@@ -233,15 +261,18 @@ public class TestActivity extends FragmentActivity implements Progressable, OnCl
 		MyManager myManager = MyManager.getInstance();
 		MemberData myData = myManager.getMyData();
 		MemberData curData = groupManager.getCur();
+		MemberData parentData = myManager.getMyParentData();
 	
 		
 		if(myData.groupMemberId != curData.groupMemberId ){
 			
-			if(curData.parentGroupMemberId == curData.groupMemberId)
-				GroupManager.getInstance().update(myData.groupMemberId);
-			else
+			if(curData.parentGroupMemberId == curData.groupMemberId) {
+				GroupManager.getInstance().updateSelf();
+			}
+			else {
 				GroupManager.getInstance().update(curData.parentGroupMemberId);
-			
+				GroupManager.getInstance().navigateUp(parentData);
+			}
 		}else{
 			
 			backPressCloseHandler.onBackPressed();
@@ -288,7 +319,8 @@ public class TestActivity extends FragmentActivity implements Progressable, OnCl
             break;
  
         case 3:
-        	groupManager.update(myManager.getGroupMemberId());
+        	groupManager.updateSelf();
+        	GroupManager.getInstance().navigateHome();
             break;
  
         default:
@@ -366,5 +398,101 @@ public class TestActivity extends FragmentActivity implements Progressable, OnCl
 		nextActivity(MapActivity.class);
 	}
 
+	
+	private void displayAlert()
+    {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Are you sure you want to exit?").setCancelable(
+            false).setPositiveButton("Yes",
+            new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    dialog.cancel();
+                }
+            }).setNegativeButton("No",
+            new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    dialog.cancel();
+                }
+            });
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+	
+	
+	private final BroadcastReceiver mReceivedSMSReceiver = new BroadcastReceiver() {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+
+            if (intent.getAction().matches("android.location.PROVIDERS_CHANGED")) 
+            {
+            	//GPS 키라고 호출
+                chkGpsService();
+            }
+        }
+    };
+
+	
+    public boolean chkGpsService() {
+    	String gs = android.provider.Settings.Secure.getString(getContentResolver(),
+    	android.provider.Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
+    	if (gs.indexOf("gps", 0) < 0 && !isGPSdialogPop) {
+    		// GPS OFF 일때 Dialog 띄워서 설정 화면으로 튀어봅니다..
+    		isGPSdialogPop = true;
+    		AlertDialog.Builder gsDialog = new AlertDialog.Builder(this);
+    		gsDialog.setTitle("상위관리자가 GPS를 켜기 원합니다.");
+    		gsDialog.setMessage("GPS를 설정하는 곳으로 이동합니다.");
+    		gsDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+    			public void onClick(DialogInterface dialog, int which) {
+    				// GPS설정 화면으로 튀어요
+    				Intent intent = new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+    				intent.addCategory(Intent.CATEGORY_DEFAULT);
+    				startActivity(intent);
+    				
+    				isGPSdialogPop = false;
+    				
+    			}
+    		}).create().show();
+    		
+    		
+    		return false;
+    	} else {
+    		return true;
+    	}
+    }
+    
+    @Override
+	protected void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		
+	}
+	@Override
+	protected void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
+	}
+	@Override
+	protected void onRestart() {
+		// TODO Auto-generated method stub
+		super.onRestart();
+	}
+	@Override
+	protected void onStart() {
+		// TODO Auto-generated method stub
+		super.onStart();
+	}
+	@Override
+	protected void onStop() {
+		// TODO Auto-generated method stub
+		super.onStop();
+	}
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+	}
+	
 }
 
