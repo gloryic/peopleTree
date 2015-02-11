@@ -59,8 +59,8 @@ public class GroupListController extends Fragment implements Observer {
 	boolean firstDragFlag = true;
 	float startYposition;
 	float endYPosition;
-	private Animation slideup, slidedown;
-	private RelativeLayout mBottomBar;
+	private Animation slideup, slidedown, slideup_top, slidedown_top;
+	private RelativeLayout mBottomBar, mTopBar;
 	
 	public GroupListController(Context context, Observable observable) {
 		this.mContext = context;
@@ -82,6 +82,7 @@ public class GroupListController extends Fragment implements Observer {
 		glv = (ListView) layout.findViewById(R.id.groupList);
 		
 		mBottomBar = (RelativeLayout) layout.findViewById(R.id.bottom_bar);
+		mTopBar = (RelativeLayout) layout.findViewById(R.id.groupParent_layout);
 		
 		glv.setAdapter(glvca);
 
@@ -118,16 +119,21 @@ public class GroupListController extends Fragment implements Observer {
 		mBottomBar.setVisibility(View.GONE);
 		mBottomBar.invalidate();
 		
+		mTopBar.bringToFront();
+		mTopBar.setVisibility(View.GONE);
+		mTopBar.invalidate();
+		
 		slideup = AnimationUtils.loadAnimation(mContext, R.anim.slide_from_bottom);
 		slidedown = AnimationUtils.loadAnimation(mContext, R.anim.slide_to_bottom);
 		
+		slideup_top = AnimationUtils.loadAnimation(mContext, R.anim.slide_from_top);
+		slidedown_top = AnimationUtils.loadAnimation(mContext, R.anim.slide_to_top);
 		
 		
 		glv.setOnTouchListener(new OnTouchListener() {
             
 		    @Override
 		    public boolean onTouch(View arg0, MotionEvent event) {
-		    	
 		    	
 		    	
 		    	switch (event.getAction()) {
@@ -145,23 +151,30 @@ public class GroupListController extends Fragment implements Observer {
 		    		endYPosition = event.getY();
 		    		firstDragFlag = true;
 		    		if(dragFlag){
-		    			if((startYposition > endYPosition) && (startYposition - endYPosition) > 10){
+		    			if((startYposition > endYPosition) && (startYposition - endYPosition) > 13){
 		    				
-		    				Log.i("TestActivity","胶农费 促款");
-							if (mBottomBar.getVisibility() != View.VISIBLE) {
+							if (mBottomBar.getVisibility() != View.VISIBLE && mTopBar.getVisibility() != View.VISIBLE) {
 								mBottomBar.startAnimation(slideup);
 								mBottomBar.setVisibility(View.VISIBLE);
+							}					
+							else if (mTopBar.getVisibility() != View.GONE) {
+								mTopBar.startAnimation(slideup_top);
+								mTopBar.setVisibility(View.GONE);
 							}
-							else{}
+							else {}
+							
 		    			}
-		    			else if((startYposition < endYPosition) && (endYPosition - startYposition) > 10){
+		    			else if((startYposition < endYPosition) && (endYPosition - startYposition) > 13){
 		    			
-							Log.i("TestActivity", "胶农费 促款");
 							if (mBottomBar.getVisibility() != View.GONE) {
 								mBottomBar.startAnimation(slidedown);
 								mBottomBar.setVisibility(View.GONE);
 							}
-							else {}
+							else if (mTopBar.getVisibility() != View.VISIBLE) {
+								mTopBar.startAnimation(slidedown_top);
+								mTopBar.setVisibility(View.VISIBLE);
+							}
+							else{}
 						}
 		    		}
 			        startYposition = 0.0f;

@@ -36,7 +36,7 @@
         >
 	
 	</RelativeLayout>
-	
+
     <RelativeLayout
             android:id="@+id/differLine2"
             android:layout_width="match_parent"
@@ -45,7 +45,7 @@
             android:background="@color/blue_pressed" >
 	
 	</RelativeLayout>
-    
+
     
     <RelativeLayout
         android:id="@+id/groupcur_layout"
@@ -55,21 +55,14 @@
 	  >
 	
 	</RelativeLayout>
-	
-    <RelativeLayout
-           android:id="@+id/differLine3"
-           android:layout_width="match_parent"
-           android:layout_height="5dp"
-           android:layout_below="@+id/groupcur_layout"
-           android:background="@color/blue_pressed" >
-	</RelativeLayout>
+
 
     <ListView
         android:id="@+id/groupList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_below="@+id/differLine3" 
+        android:layout_below="@+id/groupcur_layout" 
         android:layout_alignParentBottom="true"
         android:orientation="vertical"
          >
