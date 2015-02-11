@@ -3,6 +3,7 @@ package com.ssm.peopleTree.network.protocol;
 import org.json.JSONObject;
 
 import com.android.volley.Request.Method;
+import com.ssm.peopleTree.network.NetworkManager;
 
 public class SearchMemberRequest extends Request {
 
@@ -31,7 +32,7 @@ public class SearchMemberRequest extends Request {
 	@Override
 	public String toURI() {
 		String result = REST_PROTOCOL;
-		result += "?" + KEYWORD_KEY + "=" + keyword;
+		result += "?" + KEYWORD_KEY + "=" + NetworkManager.getEncodedStr(keyword);
 		return result;
 	}
 	
