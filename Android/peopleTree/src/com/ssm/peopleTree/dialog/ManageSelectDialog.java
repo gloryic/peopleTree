@@ -2,11 +2,15 @@ package com.ssm.peopleTree.dialog;
 
 import com.ssm.peopleTree.Progressable;
 import com.ssm.peopleTree.R;
+import com.ssm.peopleTree.TestActivity;
 import com.ssm.peopleTree.map.ManageMode;
 import com.ssm.peopleTree.map.MapManager;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -55,7 +59,7 @@ public class ManageSelectDialog extends Dialog implements View.OnClickListener{
 			btn.setOnClickListener(this);
 		}
 	}
-
+	
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
@@ -66,7 +70,9 @@ public class ManageSelectDialog extends Dialog implements View.OnClickListener{
 			goMapActivity(ManageMode.NOTHING);
 			break;
 		case R.id.btn_tracking:
-			goMapActivity(ManageMode.TRAKING);
+			
+			if(((TestActivity)context).chkGpsService())
+				goMapActivity(ManageMode.TRAKING);
 			break;
 		case R.id.btn_area:
 			goMapActivity(ManageMode.AREA);

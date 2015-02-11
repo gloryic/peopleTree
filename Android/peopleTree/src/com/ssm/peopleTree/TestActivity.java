@@ -434,7 +434,7 @@ public class TestActivity extends FragmentActivity implements Progressable, OnCl
     };
 
 	
-    private boolean chkGpsService() {
+    public boolean chkGpsService() {
     	String gs = android.provider.Settings.Secure.getString(getContentResolver(),
     	android.provider.Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
     	if (gs.indexOf("gps", 0) < 0 && !isGPSdialogPop) {
@@ -461,10 +461,6 @@ public class TestActivity extends FragmentActivity implements Progressable, OnCl
     		return true;
     	}
     }
-    
-    /*
-	
-	}*/
     
     @Override
 	protected void onPause() {

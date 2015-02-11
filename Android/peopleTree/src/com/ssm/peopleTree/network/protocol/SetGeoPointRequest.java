@@ -10,7 +10,7 @@ import com.ssm.peopleTree.map.GeoPoint;
 
 public class SetGeoPointRequest extends Request {
 	// 지역 설정 프로토콜 파라미터
-	private static final String REST_PROTOCOL = "/ptree/test/setGeoPoint";
+	private static final String REST_PROTOCOL = "/ptree/geoutil/setGeoPoint";
 
 	public int groupMemberId;
 	public int radius;
