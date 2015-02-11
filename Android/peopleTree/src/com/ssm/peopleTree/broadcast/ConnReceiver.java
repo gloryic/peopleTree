@@ -39,7 +39,6 @@ public class ConnReceiver extends BroadcastReceiver {
         {
             //Toast.makeText(context, "in android.location.PROVIDERS_CHANGED", Toast.LENGTH_SHORT).show();
         	
-
         } 
 
     }
