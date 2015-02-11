@@ -92,7 +92,7 @@ public class GroupListController extends Fragment implements Observer {
 		//TODO
 		glv = (PullToRefreshListView)layout.findViewById(R.id.groupList);
 
-
+		
 		mBottomBar = (RelativeLayout) layout.findViewById(R.id.bottom_bar);
 		//mTopBar = (RelativeLayout) layout.findViewById(R.id.groupParent_layout_Total);
 		
@@ -140,6 +140,7 @@ public class GroupListController extends Fragment implements Observer {
 		slideup_top = AnimationUtils.loadAnimation(mContext, R.anim.slide_from_top);
 		slidedown_top = AnimationUtils.loadAnimation(mContext, R.anim.slide_to_top);
 		
+		glv.setMode(Mode.PULL_FROM_START);
 		
 
 		glv.setOnTouchListener(new OnTouchListener() {
@@ -206,14 +207,16 @@ public class GroupListController extends Fragment implements Observer {
 		    }
 		});
 		
+		
 		glv.setOnRefreshListener(new OnRefreshListener<ListView>() {
+			
+			
+			@Override
+			public void onRefresh(PullToRefreshBase<ListView> refreshView) {
+				new ProcessTask().execute();
+			}
 				
-				@Override
-				public void onRefresh(
-						PullToRefreshBase<ListView> refreshView) {
-					new ProcessTask().execute();
-				}
-			});
+		});
 			
 		
 		return layout;
