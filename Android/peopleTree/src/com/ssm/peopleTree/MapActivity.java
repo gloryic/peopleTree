@@ -1,17 +1,19 @@
 package com.ssm.peopleTree;
 
+import net.daum.mf.map.api.MapView;
+
 import com.ssm.peopleTree.map.ManageMode;
 import com.ssm.peopleTree.map.MapManager;
 import com.ssm.peopleTree.map.view.AreaModeMapView;
 import com.ssm.peopleTree.map.view.GeofenceModeMapView;
 import com.ssm.peopleTree.map.view.GroupLocationMapView;
+import com.ssm.peopleTree.map.view.RadiusSettable;
 import com.ssm.peopleTree.map.view.TrackingModeMapView;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
@@ -27,41 +29,17 @@ public class MapActivity extends Activity implements OnClickListener {
 	private AlertDialog saveAlert;
 	private AlertDialog failAlert;
 	
+	private MapView mapView;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		setContentView(R.layout.activity_map_select);
-		
 		mapManager = MapManager.getInstance();
 		mapManager.initSetting();
+		ManageMode mode = mapManager.getTempManageMode();
+		setContentView(mode.getLayout());
 		
-		Button btn = (Button)findViewById(R.id.btn_cancel);
-		if (btn != null) {
-			btn.setOnClickListener(new OnClickListener() {
-				
-				@Override
-				public void onClick(View v) {
-					finish();
-				}
-			});
-		}
-		btn = (Button)findViewById(R.id.btn_nothing);
-		if (btn != null) {
-			btn.setOnClickListener(this);
-		}
-		btn = (Button)findViewById(R.id.btn_tracking);
-		if (btn != null) {
-			btn.setOnClickListener(this);
-		}
-		btn = (Button)findViewById(R.id.btn_area);
-		if (btn != null) {
-			btn.setOnClickListener(this);
-		}
-		btn = (Button)findViewById(R.id.btn_geofence);
-		if (btn != null) {
-			btn.setOnClickListener(this);
-		}
 				
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle("경고")
@@ -124,13 +102,12 @@ public class MapActivity extends Activity implements OnClickListener {
 					}
 				});
 		failAlert = builder.create();
+		
+		showMapView(mode);
 	}
 	
 	public void showMapView(ManageMode mode) {
 		//ManageMode mode = mapManager.getMode();
-		
-		setContentView(mode.getLayout());
-		
 		ViewGroup mapViewContainer = (ViewGroup)findViewById(R.id.map_view);
 				
 		Button btn = (Button)findViewById(R.id.btn_ok);
@@ -148,7 +125,8 @@ public class MapActivity extends Activity implements OnClickListener {
 			if (btn != null) {
 				btn.setOnClickListener(this);
 			}
-			mapViewContainer.addView(new TrackingModeMapView(this));
+			mapView = new TrackingModeMapView(this);
+			mapViewContainer.addView(mapView);
 		}
 		else if (mode == ManageMode.AREA) {
 			btn = (Button)findViewById(R.id.btn_setting);
@@ -161,7 +139,8 @@ public class MapActivity extends Activity implements OnClickListener {
 				btn.setOnClickListener(this);
 			}
 			mapManager.finishGeoPointSetting();
-			mapViewContainer.addView(new AreaModeMapView(this));
+			mapView = new AreaModeMapView(this);
+			mapViewContainer.addView(mapView);
 		}
 		else if (mode == ManageMode.GEOFENCE) {
 			btn = (Button)findViewById(R.id.btn_start);
@@ -173,10 +152,13 @@ public class MapActivity extends Activity implements OnClickListener {
 			if (btn != null) {
 				btn.setOnClickListener(this);
 			}
-			mapViewContainer.addView(new GeofenceModeMapView(this));
+			mapManager.finishGeoPointSetting();
+			mapView = new GeofenceModeMapView(this);
+			mapViewContainer.addView(mapView);
 		}
 		else {
-			mapViewContainer.addView(new GroupLocationMapView(this));
+			mapView = new GroupLocationMapView(this);
+			mapViewContainer.addView(mapView);
 		}
 	}
 	
@@ -194,7 +176,10 @@ public class MapActivity extends Activity implements OnClickListener {
 			break;
 		case R.id.btn_start:
 			Toast.makeText(this, "시작", Toast.LENGTH_SHORT);
-			mapManager.startGeoPointSetting();
+			if (mapView != null && mapView instanceof GeofenceModeMapView) {
+				((GeofenceModeMapView)mapView).clearSetting();
+				mapManager.startGeoPointSetting();
+			}
 			break;
 		case R.id.btn_finish:
 			Toast.makeText(this, "완료", Toast.LENGTH_SHORT);
@@ -206,18 +191,6 @@ public class MapActivity extends Activity implements OnClickListener {
 		case R.id.btn_ok:
 			saveAlert.show();
 			break;
-		case R.id.btn_nothing:
-			showMapView(ManageMode.NOTHING);
-			break;
-		case R.id.btn_tracking:
-			showMapView(ManageMode.TRAKING);
-			break;
-		case R.id.btn_area:
-			showMapView(ManageMode.AREA);
-			break;
-		case R.id.btn_geofence:
-			showMapView(ManageMode.GEOFENCE);
-			break;
 		default:
 			break;
 		}
@@ -225,28 +198,31 @@ public class MapActivity extends Activity implements OnClickListener {
 
 	public void setTempRadius() {
 		EditText et = (EditText)findViewById(R.id.text_radius);
-		if (et == null) {
+		if (et == null || et.getText().length() == 0) {
 			return;
 		}
 		
+		int radius = 0;
 		try {
-			int radius = Integer.parseInt(et.getText().toString());
+			radius = Integer.parseInt(et.getText().toString());
 			mapManager.setTempRadius(radius);
 		} catch(Exception e) {
 		}
 		
-		et.setText("" + mapManager.getTempRadius());
+		radius = mapManager.getTempRadius();
+		et.setText("" + radius);
+		
+		if (mapView == null) {
+			return;
+		}
+		
+		if (mapView instanceof RadiusSettable) {
+			((RadiusSettable)mapView).setRadius(radius);
+		}
 	}
 	
 	@Override
 	public void onBackPressed() {
-		if (mapManager.isGeoPointSettingStarted()) {
-			mapManager.finishGeoPointSetting();
-			// TODO
-		}
-		else {
-			super.onBackPressed();
-			
-		}
+		noSaveAlert.show();
 	}
 }

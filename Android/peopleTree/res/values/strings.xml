@@ -22,6 +22,7 @@
     <string name="center_setting">중심 설정</string>
     <string name="setting_start">설정 시작</string>
     <string name="setting_finish">설정 완료</string>
+    <string name="manage_mode_setting">관리방법 설정하기</string>
     
     <string name="success">성공</string>
     <string name="fail">실패</string>

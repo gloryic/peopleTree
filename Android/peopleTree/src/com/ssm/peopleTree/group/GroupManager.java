@@ -54,6 +54,11 @@ public class GroupManager extends Observable implements Listener<JSONObject> {
 		//TODO
 	}
 	
+	public void updateSelf() {
+		int myId = MyManager.getInstance().getGroupMemberId();
+		NetworkManager.getInstance().request(new GetInfoAllRequest(myId, myId), this, null);
+	}
+	
 	public void update(int groupMemberId) {
 		final int id = groupMemberId;
 		final int myId = MyManager.getInstance().getGroupMemberId();

@@ -17,8 +17,6 @@ import com.ssm.peopleTree.data.MemberData;
 import com.ssm.peopleTree.group.GroupManager;
 import com.ssm.peopleTree.network.NetworkManager;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -26,7 +24,6 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -61,7 +58,7 @@ public class TestActivity extends FragmentActivity implements Progressable, OnCl
 	private NetworkManager networkManager;
 	private MyManager myManager;
 	private GroupManager groupManager;
-	
+
 	
 	GroupListController groupListController;
 	RequestLayoutController requestLayoutController;

@@ -1,5 +1,7 @@
 package com.ssm.peopleTree.map.view;
 
+import java.util.ArrayList;
+
 import com.ssm.peopleTree.map.GeoPoint;
 import com.ssm.peopleTree.map.MapManager;
 
@@ -15,8 +17,13 @@ public class GeofenceModeMapView extends GroupLocationMapView {
 	private MapManager mapManager;
 	private MapPolyline polyline;
 	
+	private MapView mapView;
+	private ArrayList<MapPOIItem> items; 
+	
 	public GeofenceModeMapView(Activity activity) {
 		super(activity);
+		
+		items = new ArrayList<MapPOIItem>();
 	}
 	
 	@Override
@@ -25,8 +32,11 @@ public class GeofenceModeMapView extends GroupLocationMapView {
 		
 		mapManager = MapManager.getInstance();
 		
+		this.mapView = mapView; 
+		
+		items.clear();
+		
 		polyline = new MapPolyline();
-		polyline.setTag(1000);
 		polyline.setLineColor(Color.argb(128, 255, 51, 0));
 	}
 	
@@ -42,6 +52,7 @@ public class GeofenceModeMapView extends GroupLocationMapView {
 		areaMarker.setMarkerType(MapPOIItem.MarkerType.RedPin);
 		areaMarker.setMapPoint(mp);
 		mapView.addPOIItem(areaMarker);
+		items.add(areaMarker);
 				
 		addPolyline(mapView, mp);
 		mapManager.addTempGeoPoint(new GeoPoint(mp.getMapPointGeoCoord().latitude, mp.getMapPointGeoCoord().longitude));
@@ -52,9 +63,18 @@ public class GeofenceModeMapView extends GroupLocationMapView {
 		mapView.addPolyline(polyline);
 		
 		polyline = new MapPolyline();
-		polyline.setTag(1000);
+		//polyline.setTag(1000);
 		polyline.setLineColor(Color.argb(128, 255, 51, 0));
 		polyline.addPoint(mp);
 	}
 
+	public void clearSetting() { 
+		for (MapPOIItem item : items) {
+			mapView.removePOIItem(item);
+		}
+		mapView.removeAllPolylines();
+		mapManager.clearTempGeoPoints();
+		polyline = new MapPolyline();
+		polyline.setLineColor(Color.argb(128, 255, 51, 0));
+	}
 }

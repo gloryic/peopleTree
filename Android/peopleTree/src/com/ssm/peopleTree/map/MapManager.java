@@ -7,43 +7,19 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.android.volley.Response.Listener;
-import com.ssm.peopleTree.R;
 import com.ssm.peopleTree.application.MyManager;
 import com.ssm.peopleTree.data.MemberData;
-import com.ssm.peopleTree.map.view.AreaModeMapView;
-import com.ssm.peopleTree.map.view.GeofenceModeMapView;
-import com.ssm.peopleTree.map.view.GroupLocationMapView;
-import com.ssm.peopleTree.map.view.TrackingModeMapView;
 import com.ssm.peopleTree.network.NetworkManager;
 import com.ssm.peopleTree.network.protocol.SetGeoPointRequest;
 
-import net.daum.mf.map.api.CameraUpdateFactory;
-import net.daum.mf.map.api.MapPOIItem;
-import net.daum.mf.map.api.MapPOIItem.CalloutBalloonButtonType;
-import net.daum.mf.map.api.MapPoint;
-import net.daum.mf.map.api.MapPointBounds;
-import net.daum.mf.map.api.MapPolyline;
-import net.daum.mf.map.api.MapView;
-import net.daum.mf.map.api.MapView.MapViewEventListener;
-import net.daum.mf.map.api.MapView.POIItemEventListener;
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 
 public class MapManager {
 	
 	private volatile static MapManager instance = null;
 
 	private MapManager() {
-		memberMap = new HashMap<Integer, MemberData>();
-		geoPoints = new ArrayList<GeoPoint>();
-		tempGeoPoints = new ArrayList<GeoPoint>();
-		childData = null;
 	}
 	
 	public static MapManager getInstance() {
@@ -68,6 +44,7 @@ public class MapManager {
 	private SharedPreferences prefs;
 
 	private ManageMode manageMode;
+	private ManageMode tempManageMode;
 	private ArrayList<GeoPoint> geoPoints;
 	private ArrayList<GeoPoint> tempGeoPoints;
 	private int manageRadius;
@@ -78,15 +55,16 @@ public class MapManager {
 	private HashMap<Integer, MemberData> memberMap;
 	private MemberData childData;
 	
-	private ManageMode mode;
-	
 	private boolean geoPointsSettingStarted;
 	
 	private Listener<JSONObject> onSetGeoPointResponse;
 	
 	public void initialize(Context context) {
-				
-		mode = ManageMode.NOTHING;
+		
+		memberMap = new HashMap<Integer, MemberData>();
+		geoPoints = new ArrayList<GeoPoint>();
+		tempGeoPoints = new ArrayList<GeoPoint>();
+		childData = null;
 		
 		onSetGeoPointResponse = new Listener<JSONObject>() {
 
@@ -105,7 +83,7 @@ public class MapManager {
 		loaded = (prefs != null);
 		
 		if (loaded) {
-			manageMode = ManageMode.getMode(prefs.getInt(MANAGE_MODE_KEY, ManageMode.INVALID.getCode()));
+			manageMode = ManageMode.getMode(prefs.getInt(MANAGE_MODE_KEY, ManageMode.NOTHING.getCode()));
 			manageRadius = prefs.getInt(MANAGE_RADIUS_KEY, 0);
 			try {
 				geoPoints.clear();
@@ -170,7 +148,7 @@ public class MapManager {
 		tempGeoPoints.add(geoPoint);
 	}
 	
-	public void clearGeoPoints() {
+	public void clearTempGeoPoints() {
 		tempGeoPoints.clear();
 	}
 	
@@ -183,23 +161,16 @@ public class MapManager {
 		childData = null;
 	}
 	
-	public ManageMode getMode() {
-		return mode;
-	}
-	
-	public void setMode(ManageMode mode) {
-		if (mode == null) {
-			return;
-		}
-		this.mode = mode;
-	}
-	
 	public void setChild(MemberData childData) {
 		this.childData = childData;
 	}
 	
 	public void setTempRadius(int manageRadius) {
-		this.manageRadius = Math.min(RADIUS_MAX, Math.max(RADIUS_MIN, manageRadius));
+		this.tempRadius = Math.min(RADIUS_MAX, Math.max(RADIUS_MIN, manageRadius));
+	}
+	
+	public void setTempManageMode(ManageMode mode) {
+		this.tempManageMode = mode;
 	}
 	
 	public void startGeoPointSetting() {
@@ -211,9 +182,10 @@ public class MapManager {
 	}
 	
 	public void initSetting() {
-		tempRadius = manageRadius;
+		tempRadius = 0;
+		//tempRadius = manageRadius;
 		tempGeoPoints.clear();
-		tempGeoPoints.addAll(geoPoints);
+		//tempGeoPoints.addAll(geoPoints);
 	}
 
 	public boolean finishAllSetting() {
@@ -224,10 +196,8 @@ public class MapManager {
 			
 		int id = MyManager.getInstance().getGroupMemberId();
 		
-		
-		
 		SetGeoPointRequest req = null;
-		switch(mode) {
+		switch(tempManageMode) {
 		case TRAKING:
 			req = new SetGeoPointRequest(id, tempRadius);
 			break;
@@ -245,9 +215,14 @@ public class MapManager {
 				
 		NetworkManager.getInstance().request(req, onSetGeoPointResponse, null);
 		
+		manageMode = tempManageMode;
 		manageRadius = tempRadius;
 		geoPoints.clear();
 		geoPoints.addAll(tempGeoPoints);
+		
+		//TODO
+		initSetting();
+		
 		save();
 		return true;
 	}
@@ -276,5 +251,9 @@ public class MapManager {
 	
 	public int getTempRadius() {
 		return tempRadius;
+	}
+	
+	public ManageMode getTempManageMode() {
+		return tempManageMode;
 	}
 }

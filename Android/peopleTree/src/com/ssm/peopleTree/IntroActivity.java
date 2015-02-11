@@ -8,6 +8,7 @@ import com.ssm.peopleTree.map.MapManager;
 import com.ssm.peopleTree.network.NetworkManager;
 import com.ssm.peopleTree.network.Status;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -33,7 +34,8 @@ public class IntroActivity extends Activity implements LoginListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
-
+		getActionBar().hide();
+		
 		NetworkManager.getInstance().initialize(getApplicationContext());
 		MapManager.getInstance().initialize(getApplicationContext());
 		loginManager = LoginManager.getInstance();

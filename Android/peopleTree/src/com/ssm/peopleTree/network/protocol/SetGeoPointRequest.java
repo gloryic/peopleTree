@@ -27,7 +27,10 @@ public class SetGeoPointRequest extends Request {
 	public SetGeoPointRequest(int groupMemberId, int radius, ArrayList<GeoPoint> points) {
 		this.groupMemberId = groupMemberId;
 		this.radius = radius;
-		this.points = new ArrayList<GeoPoint>(points);
+		this.points = new ArrayList<GeoPoint>();
+		if (points != null) {
+			this.points.addAll(points);
+		}
 	}
 	
 	@Override
@@ -39,7 +42,7 @@ public class SetGeoPointRequest extends Request {
 			
 			JSONArray jsonArr = new JSONArray();
 			for (GeoPoint point : points) {
-				jsonArr.put(point);
+				jsonArr.put(point.toJSONObject());
 			}
 			jsonObj.put(POINTS_KEY, jsonArr);
 
@@ -57,8 +60,8 @@ public class SetGeoPointRequest extends Request {
 		result += "&" + RADIUS_KEY + "=" + Integer.toString(radius);
 		result += "&" + POINTS_KEY + "=[";
 		for (int i = 0; i < points.size(); i++) {
-			GeoPoint point = points.get(i);
-			result += point.toString();
+			JSONObject json = points.get(i).toJSONObject();
+			result += json.toString();
 			if (i < points.size() - 1) {
 				result += ",";
 			}

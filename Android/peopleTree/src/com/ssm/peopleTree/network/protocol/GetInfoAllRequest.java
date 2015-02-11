@@ -26,15 +26,15 @@ public class GetInfoAllRequest extends Request {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+				
 		return json;
 	}
 
 	@Override
 	public String toURI() {
 		String result = REST_PROTOCOL;
-		result += "?" + GROUP_MEMBER_ID_KEY + "=" + Integer.toString(groupMemberId);
-		result += "&" + MY_GROUP_MEMBER_ID_KEY + "=" + Integer.toString(myGroupMemberId);
+		result += "?" + MY_GROUP_MEMBER_ID_KEY + "=" + Integer.toString(myGroupMemberId);
+		result += "&" + GROUP_MEMBER_ID_KEY + "=" + Integer.toString(groupMemberId);
 		
 		return result;
 	}
