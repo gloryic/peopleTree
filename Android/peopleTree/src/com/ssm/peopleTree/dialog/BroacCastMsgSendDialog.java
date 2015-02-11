@@ -91,7 +91,8 @@ public class BroacCastMsgSendDialog extends Dialog  {
 						});
 				AlertDialog dialog = builder.create(); // 알림창 객체 생성
 				dialog.show();
-			
+				imgbtn_send.setEnabled(true);
+            	
 			}
 		};
 		
@@ -118,6 +119,7 @@ public class BroacCastMsgSendDialog extends Dialog  {
             	BroadcastDownRequest bcdr = new BroadcastDownRequest(mid,sendDepth,msg);
             	
             	NetworkManager.getInstance().request(bcdr, onBroadcastDownResponse, null);
+            	imgbtn_send.setEnabled(false);
             	
             }
         });

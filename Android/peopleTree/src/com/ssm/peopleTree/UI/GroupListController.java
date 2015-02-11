@@ -347,7 +347,7 @@ public class GroupListController extends Fragment implements Observer {
 						MemberData mydata = MyManager.getInstance().getMyData();
 						
 						if(mydata.parentGroupMemberId!= fparentData.groupMemberId ||mydata.groupMemberId ==fparentData.groupMemberId   ){
-							Log.i("test", "asd test1");
+
 							GroupManager.getInstance().update(fparentData.groupMemberId);
 							GroupManager.getInstance().navigateUp(fparentData);
 							

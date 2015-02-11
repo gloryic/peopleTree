@@ -37,7 +37,7 @@ public class CheckMemberRequest extends Request {
 		try {
 			json.put(GROUP_MEMBER_ID_KEY, groupMemeberId);
 			json.put(PARENT_GROUP_MEMBER_ID_KEY, parentGroupMemberId);
-			json.put(MANAGE_MODE_KEY, parentManageMode);
+			json.put(PARENT_MANAGE_MODE_KEY, parentManageMode);
 			json.put(EDGE_TYPE_KEY, edgeType);
 			json.put(STATUS_KEY, statusCode);
 			json.put(FP_ID_KEY, fpId);

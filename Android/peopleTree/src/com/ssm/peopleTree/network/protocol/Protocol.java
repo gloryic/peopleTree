@@ -48,6 +48,8 @@ abstract class Protocol {
 	protected static final String MANAGING_TOTAL_NUMBER_KEY = "managingTotalNumber";
 	protected static final String MANAGING_NUMBER_KEY = "managingNumber";
 	
+	protected static final String PARENT_MANAGE_MODE_KEY = "parentManageMode";
+	
 	protected static final String VALID_USER_NUM_KEY = "validUserNumber";
 	
 	protected static final String POINTS_KEY = "points";

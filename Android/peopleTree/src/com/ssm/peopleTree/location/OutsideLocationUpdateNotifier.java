@@ -77,23 +77,34 @@ class OutsideLocationUpdateNotifier implements UpdateNotifier, Response.Listener
 			longtitude = parent.location.getLongitude();
 		}
 		
-		PeopleTreeLocationManager pltm = PeopleTreeLocationManager.getInstance();		
+		PeopleTreeLocationManager pltm = PeopleTreeLocationManager
+				.getInstance();
 		long curTime = System.currentTimeMillis();
-		if(!parent.isValidLocation() && (curTime - pltm.getLastChangeTime() ) >  PeopleTreeLocationManager.MINTIMEINTERVAL){
+
+		if (!parent.isValidLocation()
+				&& (curTime - pltm.getLastChangeTime()) > PeopleTreeLocationManager.MINTIMEINTERVAL) {
 			DeviceStatus.set(DeviceStatus.INVALID);
-			
-			statusCode= DeviceStatus.getStatus();
-			cmr = new CheckMemberRequest(groupMemeberId, parentGroupMemberId, parentManageMode, edgyType, statusCode, fpId, latitude, longtitude);
-			
+
+			statusCode = DeviceStatus.getStatus();
+			cmr = new CheckMemberRequest(groupMemeberId, parentGroupMemberId,
+					parentManageMode, edgyType, statusCode, fpId, latitude,
+					longtitude);
+			NetworkManager.getInstance().request(cmr, onCheckMemberResponse,
+					null);
+
 			pltm.changeLocationMeasureMode();
-			
-		}else{
-			Log.i("log", "locTest gps" +"lat"+latitude +" ,lon"+ longtitude);
+
+		} else {
+			Log.i("log", "locTest gps" + "lat" + latitude + " ,lon"
+					+ longtitude);
 			DeviceStatus.clear(DeviceStatus.INVALID);
 			statusCode= DeviceStatus.getStatus();
-			cmr = new CheckMemberRequest(groupMemeberId, parentGroupMemberId, parentManageMode, edgyType, statusCode, fpId, latitude, longtitude);
+			cmr = new CheckMemberRequest(groupMemeberId, parentGroupMemberId,
+					parentManageMode, edgyType, statusCode, fpId, latitude,
+					longtitude);
+			NetworkManager.getInstance().request(cmr, onCheckMemberResponse,
+					null);
 		}
-		
 		
 		
 		

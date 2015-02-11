@@ -72,7 +72,6 @@ public class MsgSendDialog extends Dialog  {
 					str = "메시지전송 실패";
 
 				}
-
 				AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
 				builder.setTitle("알림")
 						.setMessage(str)
@@ -91,7 +90,8 @@ public class MsgSendDialog extends Dialog  {
 						});
 				AlertDialog dialog = builder.create(); // 알림창 객체 생성
 				dialog.show();
-			
+
+				imgbtn_send.setEnabled(true);
 			}
 		};
 		
@@ -112,7 +112,7 @@ public class MsgSendDialog extends Dialog  {
             	BroadcastMsgRequest bcdr = new BroadcastMsgRequest(MyManager.getInstance().getGroupMemberId(),rid,600,msg);
             	
             	NetworkManager.getInstance().request(bcdr, onBroadcastMsgResponse, null);
-            	
+            	imgbtn_send.setEnabled(false);
             }
         });
 		
@@ -123,7 +123,7 @@ public class MsgSendDialog extends Dialog  {
 			 
             public void onClick(View arg0) {
             	MsgSendDialog.this.dismiss();
-           
+            	
             }
         });
 		

@@ -226,8 +226,18 @@ public class PushManager {
 						GroupManager.getInstance().updateSelf();
 						GroupManager.getInstance().navigateHome();
 						break;
-					
-									
+					case 700:
+						str1 = mData.userName + "가 그룹을 나갔습니다.";
+						pmlvca.addItem("", timeStr1 + str1, "");
+						pmlvca.dataChange();
+						GroupManager.getInstance().update(MyManager.getInstance().getGroupMemberId());
+						break;
+					case 710:
+						str1 = mData.userName + "가 로그아웃 하였습니다.";
+						pmlvca.addItem("", timeStr1 + str1, "");
+						pmlvca.dataChange();
+						GroupManager.getInstance().update(MyManager.getInstance().getGroupMemberId());
+						break;		
 
 					}
 
@@ -279,6 +289,7 @@ public class PushManager {
 			
 			pmlvca.addItem("", timeStr1 + str1, "");
 			pmlvca.dataChange();
+			GroupManager.getInstance().update(MyManager.getInstance().getGroupMemberId());
 			break;
 		case AREA:
 			radius = msgObj.getInt("radius");
@@ -289,6 +300,7 @@ public class PushManager {
 			str1 = "관리지역 위치를 벗어났습니다.\n ";
 			pmlvca.addItem("", timeStr1 + str1, "");
 			pmlvca.dataChange();
+			GroupManager.getInstance().update(MyManager.getInstance().getGroupMemberId());
 			break;
 		case GEOFENCE:
 			edgeStatus  = msgObj.getInt("edgeStatus");
@@ -297,6 +309,7 @@ public class PushManager {
 			str1 = "지오펜싱 관리 위치를 벗어났습니다.";
 			pmlvca.addItem("", timeStr1 + str1, "");
 			pmlvca.dataChange();
+			GroupManager.getInstance().update(MyManager.getInstance().getGroupMemberId());
 			break;
 			
 				

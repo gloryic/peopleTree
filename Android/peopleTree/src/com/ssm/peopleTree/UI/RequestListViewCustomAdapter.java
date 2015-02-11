@@ -67,9 +67,10 @@ public class RequestListViewCustomAdapter extends BaseAdapter {
 					GroupManager.getInstance().updateSelf();
 					GroupManager.getInstance().navigateHome();
 				} else {
-					str2 = "요청수락이 실패하였습니다";
+					str2 = "유효하지 않은 관리자 변경 요청입니다.";
 
 				}
+				
 				AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
 				builder.setTitle(str1)
 						.setMessage(str2)
