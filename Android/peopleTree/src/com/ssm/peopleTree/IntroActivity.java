@@ -1,6 +1,7 @@
 package com.ssm.peopleTree;
 
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -43,7 +44,9 @@ public class IntroActivity extends Activity implements LoginListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
+
 		activity = this;
+		
 		NetworkManager.getInstance().initialize(getApplicationContext());
 		MapManager.getInstance().initialize(getApplicationContext());
 		loginManager = LoginManager.getInstance();

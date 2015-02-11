@@ -5,14 +5,16 @@ import android.graphics.Color;
 
 import com.ssm.peopleTree.application.MyManager;
 import com.ssm.peopleTree.map.ManageMode;
+import com.ssm.peopleTree.map.MapManager;
 
 import net.daum.mf.map.api.MapCircle;
 import net.daum.mf.map.api.MapPoint;
 import net.daum.mf.map.api.MapView;
 
-public class TrackingModeMapView extends GroupLocationMapView {
+public class TrackingModeMapView extends GroupLocationMapView implements RadiusSettable {
 
 	private MapView mapView;
+	private MapCircle circle;
 	
 	public TrackingModeMapView(Activity activity) {
 		super(activity);
@@ -24,23 +26,29 @@ public class TrackingModeMapView extends GroupLocationMapView {
 		
 		this.mapView = mapView;
 				
-		setCircleRadius(MyManager.getInstance().getManagedLocationRadius());
+		double lat = MyManager.getInstance().getLatitude();
+		double lon = MyManager.getInstance().getLongitude();
+		MapPoint mp = MapPoint.mapPointWithGeoCoord(lat, lon);
+		circle = new MapCircle(mp, 0, Color.argb(128, 255, 0, 0), Color.argb(128, 0, 255, 0));
+		mapView.addCircle(circle);
+		
+		//setRadius(MapManager.getInstance().getTempRadius());
 	}
-	
-	public void setCircleRadius(int radius) {
+
+	@Override
+	public void setRadius(int radius) {
 		try {
+			mapView.removeCircle(circle);
 			double lat = MyManager.getInstance().getLatitude();
 			double lon = MyManager.getInstance().getLongitude();
-			MapPoint mp = MapPoint.mapPointWithGeoCoord(lat, lon); 
-			MapCircle circle = new MapCircle(
-				mp, // center
-				500, // radius
-				Color.argb(128, 255, 0, 0), // strokeColor 
-				Color.argb(128, 0, 255, 0) // fillColor
-			);
+			MapPoint mp = MapPoint.mapPointWithGeoCoord(lat, lon);
+			circle.setCenter(mp);
+			circle.setRadius(radius);
 			circle.setTag(ManageMode.TRAKING.getCode());
 			mapView.addCircle(circle);
+			
 		} catch(Exception e){
+			e.printStackTrace();
 		}
 	}
 }

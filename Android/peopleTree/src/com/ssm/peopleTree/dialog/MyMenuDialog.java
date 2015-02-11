@@ -19,6 +19,7 @@ import com.ssm.peopleTree.network.protocol.GroupOutResponse;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -36,6 +37,8 @@ public class MyMenuDialog extends Dialog  {
 
 	private Listener<JSONObject> onGroupOutResponse;
 	Context mContext;
+	
+	private ManageSelectDialog selectDialog;
 
 	public MyMenuDialog(Context context) {
 		super(context);
@@ -43,6 +46,8 @@ public class MyMenuDialog extends Dialog  {
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		this.setContentView(R.layout.dialog_group_mymenu);
 		this.mContext = context;
+		
+		selectDialog = new ManageSelectDialog(context);
 		
 		onGroupOutResponse = new Listener<JSONObject>() {
 
@@ -71,6 +76,10 @@ public class MyMenuDialog extends Dialog  {
 			
 			@Override
 			public void onClick(View v) {
+				selectDialog.show();
+				return;
+				
+				/*
 				Progressable p = (Progressable)mContext;
 				if (p != null) {
 					ManageMode mode = ManageMode.getMode(MyManager.getInstance().getManageMode());
@@ -79,7 +88,7 @@ public class MyMenuDialog extends Dialog  {
 				}
 				else {
 					
-				}
+				}*/
 			}
 		});
 		btn2 =(Button)this.findViewById(R.id.mymenuDialog_btn2); 
@@ -91,6 +100,7 @@ public class MyMenuDialog extends Dialog  {
  
              	NetworkManager.getInstance().request(new GroupOutRequest(myid), onGroupOutResponse, null); 
              } 
+
          }); 
  		btn3 =(Button)this.findViewById(R.id.mymenuDialog_btn3); 
  		btn3.setText("공지메시지 전송"); 
@@ -108,6 +118,7 @@ public class MyMenuDialog extends Dialog  {
  
  		 
  	} 
+
  
  	public void setMytitle(String title) { 
 

@@ -60,7 +60,7 @@ public class ChildInfoDialog extends Dialog  {
 			public void onClick(View v) {
 				Progressable p = (Progressable)mContext;
 				if (p != null && MapManager.getInstance().hasValidLocation()) {
-					MapManager.getInstance().setMode(ManageMode.NOTHING);
+					MapManager.getInstance().setTempManageMode(ManageMode.NOTHING);
 					p.progress();
 				}
 				else {

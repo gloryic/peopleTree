@@ -53,8 +53,8 @@ public class GeoPoint {
 	public JSONObject toJSONObject() {
 		JSONObject json = new JSONObject();
 		try {
+			json.put(LNG_KEY, lng);
 			json.put(LAT_KEY, lat);
-			json.put(LNG_KEY, lng);			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -65,7 +65,9 @@ public class GeoPoint {
 	@Override
 	public String toString() {
 		String result = "{" + LAT_KEY + ":" + lat + ",";
-		result = LNG_KEY + ":" + lng + "}";
+		result += LNG_KEY + ":" + lng + "}";
 		return result;
 	}
+	
+	
 }
