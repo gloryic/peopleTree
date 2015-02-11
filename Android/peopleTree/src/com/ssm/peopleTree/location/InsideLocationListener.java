@@ -42,7 +42,7 @@ class InsideLocationListener implements LocationMeasurer{
 	
 	
 	
-	long timeInterval = 1000*4;
+	long timeInterval = 1000*7;
 	boolean isLocationRequested = false;
 
 	Timer jobScheduler = new Timer();
@@ -194,6 +194,7 @@ class InsideLocationListener implements LocationMeasurer{
 			jobScheduler.scheduleAtFixedRate(new TimerTask() {
 				@Override
 				public void run() {
+					Log.i("log", "locTest inside timer run");
 					isWifiEnabled = wifiManager.isWifiEnabled();
 					Log.i("log", "isWifiEnabled :"+isWifiEnabled);
 					if(isWifiEnabled){

@@ -103,21 +103,25 @@ class OutsideLocationListener extends Service implements LocationListener,
 			this.isLocationRequested = true;
 			this.isGetLocation = false;
 			this.locationRequest(distanceForUpdate, timeForUpdate);
+			
+			jobScheduler.scheduleAtFixedRate(new TimerTask() {
+				@Override
+				public void run() {
+
+					Log.i("log", "locTest outside timer run");
+					long curtime = System.currentTimeMillis();
+					long timediff = curtime- lastUpdateTime;
+					if(timediff>=savedTimeForUpdate*2){
+						if (updateNotifier != null) {
+							updateNotifier.notifyUpdate(OutsideLocationListener.this);
+						}
+					}
+				}	
+			}, 1000,1000*10);
 
 		}
 		
-		jobScheduler.scheduleAtFixedRate(new TimerTask() {
-			@Override
-			public void run() {
-				long curtime = System.currentTimeMillis();
-				long timediff = curtime- lastUpdateTime;
-				if(timediff>=savedTimeForUpdate*2){
-					if (updateNotifier != null) {
-						updateNotifier.notifyUpdate(this);
-					}
-				}
-			}	
-		}, 0,1000*5);
+		
 		return true;
 	}
 

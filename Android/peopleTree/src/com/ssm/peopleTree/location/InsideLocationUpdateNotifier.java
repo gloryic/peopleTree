@@ -86,30 +86,35 @@ class InsideLocationUpdateNotifier implements UpdateNotifier{
 		
 		long curTime = System.currentTimeMillis();
 		if( (!parent.isValidLocation() && (curTime - pltm.getLastChangeTime() ) >  PeopleTreeLocationManager.MINTIMEINTERVAL)
-				|| parent.nearReferPoint==null || !parent.isWifiEnabled){
+				|| parent.nearReferPoint == null || !parent.isWifiEnabled) {
 			Log.i("log", "locTest inside loc noty inval");
-			
-			
+
 			latitude = 0;
 			longtitude = 0;
 			Status.set(Status.INVALID);
-			statusCode= Status.getStatus();
-			cmr = new CheckMemberRequest(groupMemeberId, parentGroupMemberId, parentManageMode, edgyType, statusCode, fpId, latitude, longtitude);
-			NetworkManager.getInstance().request(cmr, onCheckMemberResponse, null);
-			
+			statusCode = Status.getStatus();
+
+			cmr = new CheckMemberRequest(groupMemeberId, parentGroupMemberId,
+					parentManageMode, edgyType, statusCode, fpId, latitude,
+					longtitude);
+			NetworkManager.getInstance().request(cmr, onCheckMemberResponse,
+					null);
+
 			pltm.changeLocationMeasureMode();
-		}else{
+		} else {
 			Log.i("log", "locTest inside loc noty valid");
-			
+
 			latitude = parent.nearReferPoint.getX();
 			longtitude = parent.nearReferPoint.getY();
-			statusCode= Status.getStatus();
-			cmr = new CheckMemberRequest(groupMemeberId, parentGroupMemberId, parentManageMode, edgyType, statusCode, fpId, latitude, longtitude);
-			NetworkManager.getInstance().request(cmr, onCheckMemberResponse, null);
+			statusCode = Status.getStatus();
+
+			cmr = new CheckMemberRequest(groupMemeberId, parentGroupMemberId,
+					parentManageMode, edgyType, statusCode, fpId, latitude,
+					longtitude);
+			NetworkManager.getInstance().request(cmr, onCheckMemberResponse,
+					null);
+
 		}
-		
-		
-		
 		
 	}
 

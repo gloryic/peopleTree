@@ -2,10 +2,14 @@ package com.ssm.peopleTree.broadcast;
 
 import java.util.Calendar;
 import java.util.Iterator;
+import java.util.List;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.ActivityManager;
+import android.app.ActivityManager.RunningAppProcessInfo;
+import android.app.ActivityManager.RunningTaskInfo;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -16,6 +20,7 @@ import android.graphics.Color;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
+import com.ssm.peopleTree.IntroActivity;
 import com.ssm.peopleTree.MainActivity;
 import com.ssm.peopleTree.R;
 import com.ssm.peopleTree.TestActivity;
@@ -43,11 +48,8 @@ public class ParseBroadcastReceiver extends BroadcastReceiver {
 					String channel = intent.getExtras().getString("com.parse.Channel");
 					JSONObject json = new JSONObject(intent.getExtras().getString("com.parse.Data"));
 
-					
 					pushMessageControl(context, json);
 					
-
-
 					
 				}
 			}
@@ -119,9 +121,10 @@ public class ParseBroadcastReceiver extends BroadcastReceiver {
 				+ calen.get(Calendar.MINUTE) +"\n";
 		String message="";
 		
+		
 		mNotificationManager = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
-		PendingIntent contentIntent = PendingIntent.getActivity(context, 0, new Intent(context, MainActivity.class), 0);
-	        
+		PendingIntent contentIntent = PendingIntent.getActivity(context, 0, new Intent(context, TestActivity.class), 0);
+		
 		
 		switch(ManageMode.getMode(manageMode)){
 		case TRAKING:
@@ -191,8 +194,19 @@ public class ParseBroadcastReceiver extends BroadcastReceiver {
     private void sendNotification(Context context, String userName, int statusCode,String message,int from, int to) {
     	
         mNotificationManager = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
+ 
         
-        PendingIntent contentIntent = PendingIntent.getActivity(context, 0, new Intent(context, MainActivity.class), 0);
+        
+        ActivityManager activity_manager = (ActivityManager)context.getSystemService(Context.ACTIVITY_SERVICE);
+
+        
+        
+        Intent intent;
+        intent = new Intent(context, TestActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+        
+        PendingIntent contentIntent = PendingIntent.getActivity(context, 0, intent, 0);
         
         
     
@@ -215,7 +229,6 @@ public class ParseBroadcastReceiver extends BroadcastReceiver {
         
         //.setStyle(new NotificationCompat.BigTextStyle()
         //.bigText("3"));
-        
         mBuilder.setVibrate(new long[] { 1000, 1000, 1000, 1000, 1000 }); 
         mBuilder.setLights(Color.RED, 3000, 3000); 
         mBuilder.setContentIntent(contentIntent);
@@ -225,7 +238,7 @@ public class ParseBroadcastReceiver extends BroadcastReceiver {
         
         mNotificationManager.notify(NOTIFICATION_ID, noti);
 
-      
+        
     }  
     
     private String getSummmaryText(int statusCode){

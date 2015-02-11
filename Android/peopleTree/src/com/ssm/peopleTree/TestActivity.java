@@ -83,7 +83,7 @@ public class TestActivity extends FragmentActivity implements Progressable, OnCl
 		super.onCreate(savedInstanceState);
 		
 		setContentView(R.layout.tframe);
-		
+		startService(new Intent("android.servcice.MAIN"));
 		progDialog = new NetworkProgressDialog(this);
 		
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);

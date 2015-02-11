@@ -21,6 +21,7 @@ import com.ssm.peopleTree.network.protocol.LogoutRequest;
 import com.ssm.peopleTree.network.protocol.LogoutResponse;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
 import android.widget.Toast;
@@ -57,9 +58,9 @@ public class LoginManager {
 	
 	private LoginListener loginListener;
 	private LogoutListener logoutListener;
-	
+	Context mContext;
 	public void initialize(Context context) {
-		
+		mContext =context;
 		loginListener = null;
 		logoutListener = null;
 		onLoginResponse = new Listener<JSONObject>() {
@@ -230,6 +231,8 @@ public class LoginManager {
 	
 	public void logout() {
 		NetworkManager.getInstance().request(new LogoutRequest(savedUserNumber), onLogoutResponse, null);
+		mContext.stopService(new Intent("android.servcice.MAIN"));
+		
 	}
 	
 	public void setLoginListener(LoginListener loginListener) {

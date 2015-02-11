@@ -37,7 +37,7 @@ public class CheckMemberRequest extends Request {
 		try {
 			json.put(GROUP_MEMBER_ID_KEY, groupMemeberId);
 			json.put(PARENT_GROUP_MEMBER_ID_KEY, parentGroupMemberId);
-			json.put(MANAGE_MODE_KEY, parentManageMode);
+			json.put(PARENT_MANAGE_MODE_KEY, parentManageMode);
 			json.put(EDGE_TYPE_KEY, edgyType);
 			json.put(STATUS_KEY, statusCode);
 			json.put(FP_ID_KEY, fpId);
@@ -56,7 +56,7 @@ public class CheckMemberRequest extends Request {
 		String result = REST_PROTOCOL;
 		result += "?" + GROUP_MEMBER_ID_KEY + "=" + Integer.toString(groupMemeberId);
 		result += "&" + PARENT_GROUP_MEMBER_ID_KEY + "=" + Integer.toString(parentGroupMemberId);
-		result += "&" + MANAGE_MODE_KEY + "=" + Integer.toString(parentManageMode);
+		result += "&" + PARENT_MANAGE_MODE_KEY + "=" + Integer.toString(parentManageMode);
 		result += "&" + EDGE_TYPE_KEY + "=" + Integer.toString(edgyType);
 		result += "&" + STATUS_KEY + "=" + Integer.toString(edgyType);
 		result += "&" + FP_ID_KEY + "=" + Integer.toString(statusCode);
