@@ -73,8 +73,7 @@ public class ParseBroadcastReceiver extends BroadcastReceiver {
 
 		if (statusCode >= 2000 && statusCode < 3000) {
 			
-
-			JSONObject msgObj = msg.getJSONObject("message");
+			JSONObject msgObj = new JSONObject(msg.getString("message"));
 			
 			PushManager.getInstance().pushMessageAcceptEx(msgObj);
 			sendNotificationEx(context, userName, statusCode ,msgObj);
