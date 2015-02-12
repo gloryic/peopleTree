@@ -66,4 +66,7 @@
 	<string name="menu_option_title">설정</string>
 	<string name="menu_option_logout">로그 아웃</string>
 	<string name="menu_option_refresh">리프레시</string>
+	
+	<string name="menu_parent_title">설정</string>
+	<string name="menu_parent_location">위치 보기</string>
 </resources>

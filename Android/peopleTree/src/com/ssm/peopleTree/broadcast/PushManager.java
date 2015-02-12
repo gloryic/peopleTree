@@ -266,13 +266,13 @@ public class PushManager {
 	}
 	
 	public void pushMessageAcceptEx(JSONObject msgObj) throws JSONException{
-		int manageMode;
+		int parentManageMode;
 		int radius;
 		double distance;
 		int edgeStatus;
 		int accumulateWarning;
 		
-		manageMode = msgObj.getInt("manageMode");
+		parentManageMode = msgObj.getInt("parentManageMode");
 		/*
 		INVALID(100, 0),
 		NOTHING(200, R.layout.activity_map),
@@ -288,7 +288,7 @@ public class PushManager {
 				+ calen.get(Calendar.MINUTE) +"\n";
 		String str1;
 
-		switch(ManageMode.getMode(manageMode)){
+		switch(ManageMode.getMode(parentManageMode)){
 		case TRAKING:
 			radius = msgObj.getInt("radius");
 			distance = msgObj.getDouble("distance");

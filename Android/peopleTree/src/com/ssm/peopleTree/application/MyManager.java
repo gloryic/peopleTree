@@ -44,6 +44,8 @@ public class MyManager {
 
 			this.myData.longitude = myData.longitude;
 			this.myData.latitude = myData.latitude;
+			
+			this.myData.accumulateWarning = myData.accumulateWarning;
 		}
 		// ----------
 		if (myParentData != null) {
@@ -62,6 +64,8 @@ public class MyManager {
 			this.myParentData.managedLocationRadius = myParentData.managedLocationRadius;
 			this.myParentData.managingTotalNumber = myParentData.managingTotalNumber;
 			this.myParentData.managingNumber = myParentData.managingNumber;
+			
+			this.myData.accumulateWarning = myData.accumulateWarning;
 		} 
 
 	}
@@ -69,10 +73,21 @@ public class MyManager {
 	public MemberData getMyParentData() {
 		return myParentData;
 	}
-
 	
 	public boolean hasParent() {
 		return (myData.parentGroupMemberId != myData.groupMemberId); 
+	}
+	
+	public boolean isAvailableMyLocation() {
+		return myData.latitude != null && myData.longitude != null;
+	}
+	
+	public boolean isAvailableParentLocation() {
+		return myParentData.latitude != null && myParentData.longitude != null;
+	}
+
+	public boolean isAbsent() {
+		return myData.accumulateWarning > 0;
 	}
 	
 	public MemberData getMyData() {
@@ -130,7 +145,7 @@ public class MyManager {
 	public int getParentGroupMemberId() {
 		return myData.parentGroupMemberId;
 	}
-	
+		
 	public String getUserId() {
 		return myData.userId;
 	}

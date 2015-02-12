@@ -16,13 +16,11 @@ import net.daum.mf.map.api.MapView.MapViewEventListener;
 import net.daum.mf.map.api.MapView.POIItemEventListener;
 
 public class GroupLocationMapView extends MapView implements MapViewEventListener, POIItemEventListener {
-	
-	private static final String MAP_API_KEY = "f81dfaaef9aee66fd9cf7eae9cfa3dff";
-	
+
 	public GroupLocationMapView(Activity activity) {
 		super(activity);
 		
-		setDaumMapApiKey(MAP_API_KEY);
+		setDaumMapApiKey(MapManager.getMapApiKey());
 		setMapViewEventListener(this);
 		setPOIItemEventListener(this);
 	}

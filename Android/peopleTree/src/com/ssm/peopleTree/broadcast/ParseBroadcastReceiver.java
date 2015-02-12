@@ -99,13 +99,13 @@ public class ParseBroadcastReceiver extends BroadcastReceiver {
     
      */
     private void sendNotificationEx(Context context,String userName,int statusCode, JSONObject msgObj) throws JSONException {
-    	int manageMode;
+    	int parentManageMode;
 		int radius;
 		double distance;
 		int edgeStatus;
 		int accumulateWarning;
-		manageMode = msgObj.getInt("manageMode");
-		manageMode = msgObj.getInt("manageMode");
+		parentManageMode = msgObj.getInt("parentManageMode");
+		parentManageMode = msgObj.getInt("parentManageMode");
 		/*
 		INVALID(100, 0),
 		NOTHING(200, R.layout.activity_map),
@@ -126,7 +126,7 @@ public class ParseBroadcastReceiver extends BroadcastReceiver {
 		PendingIntent contentIntent = PendingIntent.getActivity(context, 0, new Intent(context, TestActivity.class), 0);
 		
 		
-		switch(ManageMode.getMode(manageMode)){
+		switch(ManageMode.getMode(parentManageMode)){
 		case TRAKING:
 			radius = msgObj.getInt("radius");
 			distance = msgObj.getDouble("distance");

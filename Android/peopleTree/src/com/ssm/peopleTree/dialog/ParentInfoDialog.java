@@ -1,11 +1,11 @@
 package com.ssm.peopleTree.dialog;
 
 
-import com.ssm.peopleTree.Progressable;
+import com.ssm.peopleTree.ParentLocationActivity;
 import com.ssm.peopleTree.R;
+import com.ssm.peopleTree.TestActivity;
+import com.ssm.peopleTree.application.MyManager;
 import com.ssm.peopleTree.data.MemberData;
-import com.ssm.peopleTree.group.GroupManager;
-import com.ssm.peopleTree.map.MapManager;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -16,50 +16,96 @@ import android.net.Uri;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 
-public class ParentInfoDialog extends Dialog  {
-	Context mContext;
-	TextView titleTxtv;
-	
-	
-	Button btn1;
-	Button btn2;
+public class ParentInfoDialog extends Dialog implements View.OnClickListener {
 
-	private MemberData parentData;
+	private AlertDialog authorAlertDialog;
+	private AlertDialog locAlertDialog;
 	
+	private TextView titleTv;
+	private TextView phoneTv;
+	
+	private Context mContext;
+		
 	public ParentInfoDialog(Context context) {
 		super(context);
 		mContext = context;
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		this.setContentView(R.layout.dialog_group_parentinfo);
+		this.setContentView(R.layout.menu_parent_layout);
 		
-		btn1 = (Button)this.findViewById(R.id.parentInfoDialog_btn1);
-		titleTxtv = (TextView)this.findViewById(R.id.parentInfoDialog_title);
+		RelativeLayout layout = (RelativeLayout)this.findViewById(R.id.phone_layout);
+		layout.setOnClickListener(this);
 		
+		layout = (RelativeLayout)this.findViewById(R.id.location_layout);
+		layout.setOnClickListener(this);
 		
+		Button btn = (Button)this.findViewById(R.id.btn_close);
+		btn.setOnClickListener(this);
+			
+		titleTv = (TextView)this.findViewById(R.id.title);
+		phoneTv = (TextView)this.findViewById(R.id.phone_text);
 		
-		
-		
-		
+		AlertDialog.Builder builder = new AlertDialog.Builder(context);
+		builder.setTitle("경고")
+			.setMessage("권한이 없습니다.")
+			.setCancelable(true)
+			.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int whichButton) {
+					dialog.cancel();
+				}
+
+			});
+		authorAlertDialog = builder.create();
+			
+		builder = new AlertDialog.Builder(context);
+		builder.setTitle("경고")
+			.setMessage("현재 저장된 위치 정보는 확인할 수 없습니다.")
+			.setCancelable(true)
+			.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int whichButton) {
+					dialog.cancel();
+				}
+
+			});
+		locAlertDialog = builder.create();
 	}
 
 	public void setParentData(MemberData ptData){
-
-
-		titleTxtv.setText(ptData.userName);
-		btn1.setText(ptData.userPhoneNumber);
-		btn1.setOnClickListener(new View.OnClickListener() {
-			 
-            public void onClick(View arg0) {
-            	String str = "tel:"+btn1.getText().toString();
-            	Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse(str));
-            	mContext.startActivity(intent);
-            }
-        });
+		titleTv.setText(ptData.userName);
+		phoneTv.setText(ptData.userPhoneNumber);
+	}
+	
+	private void callToParent() {
+		String str = "tel:"+phoneTv.getText().toString();
+    	Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse(str));
+    	mContext.startActivity(intent);
 	}
 
-
-	
+	@Override
+	public void onClick(View v) {
+		switch(v.getId()) {
+		case R.id.phone_layout:
+			callToParent();
+			break;
+		case R.id.location_layout:
+			MyManager myManager = MyManager.getInstance();
+			if (!myManager.isAbsent()) {
+				authorAlertDialog.show();
+			}
+			else if (myManager.isAvailableParentLocation() && myManager.isAvailableMyLocation()) {
+				Intent intent = new Intent(mContext, ParentLocationActivity.class);
+				mContext.startActivity(intent);
+			}
+			else {
+				locAlertDialog.show();
+			}
+			break;
+		case R.id.btn_close:
+			dismiss();
+			break;
+		}
+	}
 }

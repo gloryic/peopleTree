@@ -32,6 +32,8 @@ public class MapManager {
 		return instance;
 	}
 	
+	private static final String MAP_API_KEY = "f81dfaaef9aee66fd9cf7eae9cfa3dff";
+	
 	private static final String MANAGE_DATA_NAME = "manageData";
 	
 	private static final String MANAGE_MODE_KEY = "manageMode";
@@ -261,5 +263,9 @@ public class MapManager {
 	
 	public ManageMode getTempManageMode() {
 		return tempManageMode;
+	}
+	
+	public static String getMapApiKey() {
+		return MAP_API_KEY;
 	}
 }

@@ -56,7 +56,7 @@ public class CheckMemberRequest extends Request {
 		String result = REST_PROTOCOL;
 		result += "?" + GROUP_MEMBER_ID_KEY + "=" + Integer.toString(groupMemeberId);
 		result += "&" + PARENT_GROUP_MEMBER_ID_KEY + "=" + Integer.toString(parentGroupMemberId);
-		result += "&" + MANAGE_MODE_KEY + "=" + Integer.toString(parentManageMode);
+		result += "&" + PARENT_MANAGE_MODE_KEY + "=" + Integer.toString(parentManageMode);
 		result += "&" + EDGE_TYPE_KEY + "=" + Integer.toString(edgeType);
 		result += "&" + STATUS_CODE_KEY + "=" + Integer.toString(statusCode);
 		result += "&" + FP_ID_KEY + "=" + Integer.toString(fpId);
