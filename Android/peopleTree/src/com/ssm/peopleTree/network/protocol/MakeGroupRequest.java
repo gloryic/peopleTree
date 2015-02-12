@@ -27,20 +27,46 @@ public class MakeGroupRequest extends Request {
 	private Pattern groupNamePattern;
 	
 	private boolean valid;
-	
+	public String valiStr = "";
 	public MakeGroupRequest(String userPhoneNumber, String userId, String password, String userName, String groupName) {
-		userPhonePattern = Pattern.compile("^[0-9]{10,11}$");
-		userIdPattern = Pattern.compile("^[a-zA-Z]\\w{5,19}$");
-		passwordPattern = Pattern.compile("^\\S{8,16}$");
-		userNamePattern = Pattern.compile("^([°¡-ÆR]{2,})|([a-zA-Z]\\w{5,19})$");
-		groupNamePattern = Pattern.compile("^(\\w|[°¡-ÆR]){4,20}$");
+		userPhonePattern = Pattern.compile("^[0-9]{8,13}$");
+		userIdPattern = Pattern.compile("^[a-zA-Z]\\w{5,21}$");
+		passwordPattern = Pattern.compile("^\\S{6,20}$");
+		userNamePattern = Pattern.compile("^([°¡-ÆR]{2,})|([a-zA-Z]\\w{4,19})$");
+		groupNamePattern = Pattern.compile("^(\\w|[°¡-ÆR]){3,21}$");
 		
 		valid = true;
 		setUserPhoneNumber(userPhoneNumber);
+		valiStr="";
+		if(!valid){
+			valiStr="ÀüÈ­¹øÈ£°ªÀÌ ¹«È¿ÇÕ´Ï´Ù.";
+			return;
+		}
 		setUserId(userId);
+		if(!valid){
+
+			valiStr="¾ÆÀÌµð°¡ ¹«È¿ÇÕ´Ï´Ù.";
+			return;
+		}
 		setPassword(password);
+		if(!valid){
+
+			valiStr="ºñ¹Ð¹øÈ£°¡ ¹«È¿ÇÕ´Ï´Ù.";
+			return;
+		}
 		setUserName(userName);
+		if(!valid){
+
+			valiStr="ÀÌ¸§ÀÌ ¹«È¿ÇÕ´Ï´Ù.";
+			return;
+		}
 		setGroupName(groupName);
+		if(!valid){
+
+			valiStr="±×·ìÀÌ¸§ÀÌ ¹«È¿ÇÕ´Ï´Ù.";
+			return;
+			
+		}
 	}
 	
 	@Override
