@@ -14,6 +14,8 @@ public class peopleTreeService extends Service{
      
 	static final String TAG = "peopleTreeService";
 	DeviceStatusReceiver mReceiver = new DeviceStatusReceiver();
+
+	boolean isRun= false;
 	
     @Override
     public IBinder onBind(Intent intent) {
@@ -27,17 +29,28 @@ public class peopleTreeService extends Service{
         //서비스 등록
         IntentFilter filter = new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED);
         this.registerReceiver(mReceiver, filter);
+        
+        
         Log.i("service start","service start");
         
+        if(!isRun){
+        	isRun = true;
+        	Log.i("service start","service start - pmlm start");
+            
+        	
+            PeopleTreeLocationManager.getInstance().initialize(this);
+            PeopleTreeLocationManager.getInstance().startLocationMeasure();
+            
+        }
+        
 
-        PeopleTreeLocationManager.getInstance().initialize(this);
-        PeopleTreeLocationManager.getInstance().startLocationMeasure();
 
         return 0;
     }
      
     @Override
     public void onDestroy() { 
+    	isRun = false;
     	Log.i("service dead","service dead");
     	PeopleTreeLocationManager.getInstance().stopLocationMeasure();
         

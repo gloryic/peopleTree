@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    
+    android:id="@+id/groupCur"
+
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+     >
+	
+	    <ImageView
+	        android:id="@+id/grouplist_cur_img"
+	        android:layout_width="48dp"
+	        android:layout_height="48dp"
+	        android:layout_alignParentLeft="true"
+	        android:layout_centerVertical="true"
+	        android:layout_marginLeft="32dp"
+	        android:src="@android:drawable/ic_menu_myplaces" />
+	
+	    <TextView
+	        android:id="@+id/grouplist_cur_num"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_toRightOf="@+id/grouplist_cur_img"
+	        android:layout_centerVertical="true"
+	        android:textSize="16sp" />
+	
+	    <TextView
+	        android:id="@+id/grouplist_cur_name"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_toLeftOf="@+id/grouplist_cur_btn"
+	        android:layout_centerVertical="true"
+	        android:textSize="20sp"/>
+
+	    <ImageButton
+	        android:id="@+id/grouplist_cur_btn"
+	        style="@style/AppBaseTheme"
+	        android:layout_width="60dp"
+	        android:layout_height="60dp"
+	        android:layout_alignParentRight="true"
+	        android:layout_alignParentTop="true"
+	      android:background="@drawable/info_btn_selector"
+        android:src="@android:drawable/ic_dialog_info"
+	      />
+
+	    
+	
+</RelativeLayout>

@@ -24,7 +24,7 @@
         android:gravity="center_vertical"
         android:text="test"
         android:textColor="@color/white"
-        android:textSize="32sp" />
+        android:textSize="@dimen/group_item_name_size" />
      
     <TextView
         android:id="@+id/grouplist_cur_num"
@@ -35,7 +35,7 @@
         android:layout_centerVertical="true"
         android:gravity="right|center_vertical"
         android:text="test\n/test"
-        android:textSize="16sp"
+        android:textSize="@dimen/group_item_number_size"
         android:textColor="@color/white"/>
 
     <ImageButton

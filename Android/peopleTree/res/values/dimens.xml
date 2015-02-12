@@ -8,4 +8,8 @@
     <dimen name="layer_padding">3dp</dimen>
     
     <dimen name="basic_text_size">20sp</dimen>
+    <dimen name="group_item_name_size">20sp</dimen>
+    <dimen name="group_item_number_size">16sp</dimen>
+    
+    <dimen name="btn_add_coner_radius">10dp</dimen>
 </resources>
