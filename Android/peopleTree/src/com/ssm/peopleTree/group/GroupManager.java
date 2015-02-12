@@ -132,7 +132,7 @@ public class GroupManager extends Observable {
 	public void setGroup(MemberData parent, MemberData cur, ArrayList<MemberData> children) {
 		
 		if(MyManager.getInstance().getGroupMemberId() == cur.groupMemberId ){
-			MyManager.getInstance().setMyData(cur,parent);
+			MyManager.getInstance().setMyData(cur, parent);
 		}
 		this.parent = parent;
 		this.cur = cur;

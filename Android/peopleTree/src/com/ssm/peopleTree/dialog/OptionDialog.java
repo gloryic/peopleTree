@@ -1,10 +1,8 @@
 package com.ssm.peopleTree.dialog;
 
-import com.ssm.peopleTree.Progressable;
 import com.ssm.peopleTree.R;
 import com.ssm.peopleTree.TestActivity;
-import com.ssm.peopleTree.map.ManageMode;
-import com.ssm.peopleTree.map.MapManager;
+import com.ssm.peopleTree.group.GroupManager;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -18,10 +16,9 @@ import android.widget.RelativeLayout;
 
 public class OptionDialog extends Dialog implements View.OnClickListener {
 
-	private MapManager mapManager;
 	private Context mContext;
 	
-	private AlertDialog alertDalog;
+	private AlertDialog alertDialog;
 	
 	public OptionDialog(Context context) {
 		super(context);
@@ -47,7 +44,7 @@ public class OptionDialog extends Dialog implements View.OnClickListener {
 				}
 
 			});
-		alertDalog = builder.create();
+		alertDialog = builder.create();
 	}
 
 	@Override
@@ -55,8 +52,6 @@ public class OptionDialog extends Dialog implements View.OnClickListener {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.menu_option_layout);
-
-		mapManager = MapManager.getInstance();
 
 		Button btn = (Button) findViewById(R.id.btn_close);
 		if (btn != null) {
@@ -76,24 +71,14 @@ public class OptionDialog extends Dialog implements View.OnClickListener {
 			dismiss();
 			break;
 		case R.id.logout_layout:
-			alertDalog.show();
+			alertDialog.show();
 			break;
 		case R.id.refresh_layout:
-			if (((TestActivity) mContext).chkGpsService())
-				goMapActivity(ManageMode.TRAKING);
+			GroupManager.getInstance().updateSelf();
+        	GroupManager.getInstance().navigateHome();
 			break;
 		default:
 			break;
-		}
-	}
-
-	public void goMapActivity(ManageMode mode) {
-		mapManager.setTempManageMode(mode);
-		Progressable p = (Progressable) mContext;
-		if (p != null) {
-			p.progress();
-		} else {
-
 		}
 	}
 }

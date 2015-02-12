@@ -1,15 +1,10 @@
 package com.ssm.peopleTree.dialog;
 
-import com.ssm.peopleTree.Progressable;
 import com.ssm.peopleTree.R;
 
 import org.json.JSONObject;
 
 import com.android.volley.Response.Listener;
-import com.ssm.peopleTree.map.MapManager;
-import com.ssm.peopleTree.map.ManageMode;
-
-
 import com.ssm.peopleTree.application.MyManager;
 import com.ssm.peopleTree.group.GroupManager;
 import com.ssm.peopleTree.network.NetworkManager;
@@ -19,7 +14,6 @@ import com.ssm.peopleTree.network.protocol.GroupOutResponse;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -28,11 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
-public class MyMenuDialog extends Dialog  {
-	
-	private RelativeLayout messageBtn;
-	private RelativeLayout locationBtn;
-	private RelativeLayout groupOutBtn;
+public class MyMenuDialog extends Dialog implements View.OnClickListener {
 	
 	private Listener<JSONObject> onGroupOutResponse;
 	Context mContext;
@@ -70,36 +60,15 @@ public class MyMenuDialog extends Dialog  {
 			}
 		};
 		
-		messageBtn = (RelativeLayout)findViewById(R.id.message_layout);
- 		messageBtn.setOnClickListener(new View.OnClickListener() { 
-			  
-            public void onClick(View arg0) { 
-           	 BroacCastMsgSendDialog msgSendDialog;
-           	 msgSendDialog = new BroacCastMsgSendDialog(mContext);
-				msgSendDialog.show();
-            } 
-        }); 
-		locationBtn = (RelativeLayout)findViewById(R.id.location_layout);
-		locationBtn.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				selectDialog.show();
-				return;
-			}
-		});
-		
-		groupOutBtn = (RelativeLayout)findViewById(R.id.group_out_layout);		
- 		groupOutBtn.setOnClickListener(new View.OnClickListener() { 
- 			  
-             public void onClick(View arg0) { 
-             	int myid = MyManager.getInstance().getGroupMemberId(); 
- 
-             	NetworkManager.getInstance().request(new GroupOutRequest(myid), onGroupOutResponse, null); 
-             } 
-
-         }); 
- 		 
+		RelativeLayout layout = (RelativeLayout)findViewById(R.id.message_layout);
+		layout.setOnClickListener(this);
+		layout = (RelativeLayout)findViewById(R.id.location_layout);
+		layout.setOnClickListener(this);
+		layout = (RelativeLayout)findViewById(R.id.group_out_layout);		
+		layout.setOnClickListener(this);
+ 		
+ 		Button btn = (Button)findViewById(R.id.btn_close);
+		btn.setOnClickListener(this);
  	} 
 
  
@@ -107,6 +76,28 @@ public class MyMenuDialog extends Dialog  {
  		
  		TextView tv= (TextView) this.findViewById(R.id.title); 
  		tv.setText(title); 
- 	} 
+ 	}
+
+
+	@Override
+	public void onClick(View v) {
+		switch(v.getId()) {
+		case R.id.message_layout:
+			BroacCastMsgSendDialog msgSendDialog;
+			msgSendDialog = new BroacCastMsgSendDialog(mContext);
+			msgSendDialog.show();
+			break;
+		case R.id.location_layout:
+			selectDialog.show();
+			break;
+		case R.id.group_out_layout:
+			int myid = MyManager.getInstance().getGroupMemberId(); 		 
+         	NetworkManager.getInstance().request(new GroupOutRequest(myid), onGroupOutResponse, null); 
+			break;
+		case R.id.btn_close:
+			dismiss();
+			break;
+		}
+	} 
 
 }

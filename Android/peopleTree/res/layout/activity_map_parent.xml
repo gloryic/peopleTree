@@ -10,24 +10,36 @@
         android:layout_alignParentTop="true"
         android:layout_above="@+id/btn_container">
     </RelativeLayout>
-    
-    <RelativeLayout
+
+    <LinearLayout
         android:id = "@+id/btn_container"
         android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:layout_alignParentBottom="true"
-		android:background="@color/gray"
-		android:padding="10dp">  
-		 
-       	<Button
-		    android:id="@+id/btn_close"
+        android:layout_height="wrap_content" 
+        android:layout_alignParentBottom="true"
+        android:padding="5dp"
+        android:orientation="horizontal">
+        
+        <Button
+		    android:id="@+id/btn_cancel"
 		    android:layout_width="match_parent"
 		    android:layout_height="60dp"
-		    android:text="@string/close" 
-		    android:textSize="@dimen/basic_text_size"
+		    android:layout_weight="1"
+		    android:layout_marginRight="3dp"
+		    android:text="@string/cancel" 
+		    android:textSize="20dp"
+		    style="@style/FlatButton"/>
+           
+       	<Button
+		    android:id="@+id/btn_ok"
+		    android:layout_width="match_parent"
+		    android:layout_height="60dp"
+		    android:layout_weight="1"
+		    android:layout_marginLeft="3dp"
+		    android:text="@string/ok" 
+		    android:textSize="20dp"
 		    style="@style/FlatButton"/>     
                
-    </RelativeLayout>
+    </LinearLayout>
 	
 
 </RelativeLayout>
