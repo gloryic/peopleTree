@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/groupParent"
+    android:layout_width="match_parent"
+    android:layout_height="80dp" 
+    android:background="@drawable/list_item_selector">
+
+    <ImageView
+        android:id="@+id/parent_img"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="12dp"
+        android:src="@drawable/ic_nature_people_white_48dp" />
+    
+     <TextView
+        android:id="@+id/parent_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/parent_img"
+        android:layout_marginLeft="44dp"
+        android:layout_centerVertical="true"
+        android:gravity="center_vertical"
+        android:text="test"
+        android:textColor="@color/white"
+        android:textSize="32sp" />
+     
+    <TextView
+        android:id="@+id/parent_num"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/parent_btn"
+        android:layout_marginRight="8dp"
+        android:layout_centerVertical="true"
+        android:gravity="right|center_vertical"
+        android:text="test\n/test"
+        android:textSize="16sp"
+        android:textColor="@color/white"/>
+
+    <ImageButton
+        android:id="@+id/parent_btn"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:background="@drawable/more_btn_selector" />
+	
+</RelativeLayout>

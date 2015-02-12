@@ -2,5 +2,19 @@
 <resources>
     <color name="blue_pressed">#ff0099cc</color>
     <color name="blue_normal">#ff33b5e5</color>
-    <color name="white">#ffffffff</color> 
+    <color name="white">#ffffffff</color>
+    
+    <color name="brown">#ff402c1c</color>
+    <color name="brown_pressed">#ff755c48</color> 
+    
+    <color name="green">#ff4CCC86</color>
+    <color name="green_line">#ffbeffca</color>
+    <color name="green_shadow">#ff007f67</color>
+    <color name="green_deep">#ff134f44</color>
+    <color name="green_light">#ffb7fed4</color>
+    <color name="green_light_shadow">#ff89be9e</color>
+    
+    <color name="group_cur">#ffdffddf</color>
+    <color name="group_parent">#ffdffddf</color>
+    <color name="group_child">#ffdffddf</color>
 </resources>

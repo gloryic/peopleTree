@@ -12,18 +12,14 @@
                 android:right="0dp"
                 android:bottom="3dp"
                 android:left="0dp" />
-            <solid android:color="#BBEEAA" />
-            <!--#BBEEAA-->
-            <!--#99BB88-->
-            <!--#EEFFEE-->
-            
+            <solid android:color="@color/white" />          
         </shape>
     </item>
 
     <!-- White Top color -->
 	<item>
         <shape android:shape="rectangle" >
-            <solid android:color="#BBEEAA" />
+            <solid android:color="@color/brown" />
         </shape>
     </item>
 
