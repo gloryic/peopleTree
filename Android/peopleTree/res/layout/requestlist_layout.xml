@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+    
+    <LinearLayout
+        android:id="@+id/menuIcon"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_alignParentTop="true"
+        android:orientation="horizontal">
+
+        <ImageButton 
+            android:id="@+id/reqlist_btn1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/tab_selector" 
+            android:src="@drawable/tab_down_selector"/>
+        
+        <ImageButton
+            android:id="@+id/reqlist_btn2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/tab_selector"
+            android:src="@drawable/tab_up_selector" />
+        
+    </LinearLayout>
+    
+     <LinearLayout
+         android:id="@+id/request_contents_layout"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:layout_below="@+id/menuIcon"
+         android:orientation="vertical" >
+
+         <ListView
+             android:id="@+id/rqList"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:background="@drawable/border"
+             android:dividerHeight="1dp" />
+     </LinearLayout>
+
+</RelativeLayout>

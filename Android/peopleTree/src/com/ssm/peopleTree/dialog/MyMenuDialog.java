@@ -23,18 +23,17 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
 public class MyMenuDialog extends Dialog  {
-
-
-	Button btn1;
-	Button btn2;
-	Button btn3;
 	
-
+	private RelativeLayout messageBtn;
+	private RelativeLayout locationBtn;
+	private RelativeLayout groupOutBtn;
+	
 	private Listener<JSONObject> onGroupOutResponse;
 	Context mContext;
 	
@@ -44,7 +43,7 @@ public class MyMenuDialog extends Dialog  {
 		super(context);
 		
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		this.setContentView(R.layout.dialog_group_mymenu);
+		this.setContentView(R.layout.menu_cur_layout);
 		this.mContext = context;
 		
 		selectDialog = new ManageSelectDialog(context);
@@ -71,30 +70,27 @@ public class MyMenuDialog extends Dialog  {
 			}
 		};
 		
-		btn1 =(Button)this.findViewById(R.id.mymenuDialog_btn1);
-		btn1.setText("지역설정");
-		btn1.setOnClickListener(new View.OnClickListener() {
+		messageBtn = (RelativeLayout)findViewById(R.id.message_layout);
+ 		messageBtn.setOnClickListener(new View.OnClickListener() { 
+			  
+            public void onClick(View arg0) { 
+           	 BroacCastMsgSendDialog msgSendDialog;
+           	 msgSendDialog = new BroacCastMsgSendDialog(mContext);
+				msgSendDialog.show();
+            } 
+        }); 
+		locationBtn = (RelativeLayout)findViewById(R.id.location_layout);
+		locationBtn.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
 				selectDialog.show();
 				return;
-				
-				/*
-				Progressable p = (Progressable)mContext;
-				if (p != null) {
-					ManageMode mode = ManageMode.getMode(MyManager.getInstance().getManageMode());
-					MapManager.getInstance().setMode(mode);
-					p.progress();
-				}
-				else {
-					
-				}*/
 			}
 		});
-		btn2 =(Button)this.findViewById(R.id.mymenuDialog_btn2); 
- 		btn2.setText("그룹 나가기"); 
- 		btn2.setOnClickListener(new View.OnClickListener() { 
+		
+		groupOutBtn = (RelativeLayout)findViewById(R.id.group_out_layout);		
+ 		groupOutBtn.setOnClickListener(new View.OnClickListener() { 
  			  
              public void onClick(View arg0) { 
              	int myid = MyManager.getInstance().getGroupMemberId(); 
@@ -103,30 +99,14 @@ public class MyMenuDialog extends Dialog  {
              } 
 
          }); 
- 		btn3 =(Button)this.findViewById(R.id.mymenuDialog_btn3); 
- 		btn3.setText("공지메시지 전송"); 
- 		btn3.setOnClickListener(new View.OnClickListener() { 
- 			  
-             public void onClick(View arg0) { 
-            	 BroacCastMsgSendDialog msgSendDialog;
-            	 msgSendDialog = new BroacCastMsgSendDialog(mContext);
- 				msgSendDialog.show();
-             } 
-         }); 
- 		 
- 		 
- 
- 
  		 
  	} 
 
  
  	public void setMytitle(String title) { 
-
- 		TextView tv= (TextView) this.findViewById(R.id.mymenuDialog_title); 
+ 		
+ 		TextView tv= (TextView) this.findViewById(R.id.title); 
  		tv.setText(title); 
- 		 
- 		 
  	} 
 
 }

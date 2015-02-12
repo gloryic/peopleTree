@@ -51,5 +51,19 @@
 	<string name="tab_request">요청</string>
 	<string name="tab_message">메세지</string>
 	<string name="tab_notification">알림</string>
+		
+	<string name="menu_cur_title">내 메뉴</string>
+	<string name="menu_cur_message">공지 보내기</string>
+	<string name="menu_cur_location">관리지역 설정</string>
+	<string name="menu_cur_out">그룹 나가기</string>
+	
+	<string name="menu_manage_title">관리방법 설정</string>
+	<string name="menu_manage_nothing">위치관리 해제</string>
+	<string name="menu_manage_tracking">추적 모드</string>
+	<string name="menu_manage_area">지역 모드</string>
+	<string name="menu_manage_geofence">지오펜스 모드</string>
 
+	<string name="menu_option_title">설정</string>
+	<string name="menu_option_logout">로그 아웃</string>
+	<string name="menu_option_refresh">리프레시</string>
 </resources>

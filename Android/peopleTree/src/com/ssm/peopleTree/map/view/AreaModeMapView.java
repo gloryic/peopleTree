@@ -31,21 +31,24 @@ public class AreaModeMapView extends GroupLocationMapView implements RadiusSetta
 		
 		mapManager = MapManager.getInstance();
 		
-		//setRadius(MyManager.getInstance().getManagedLocationRadius());
-		
-		double lat = MyManager.getInstance().getLatitude();
-		double lon = MyManager.getInstance().getLongitude();
-		MapPoint mp = MapPoint.mapPointWithGeoCoord(lat, lon);
 		
 		areaMarker = new MapPOIItem();
 		areaMarker.setItemName("Center");
 		areaMarker.setMarkerType(MapPOIItem.MarkerType.RedPin);
-		areaMarker.setMapPoint(mp);
 		
-		circle = new MapCircle(mp, 0, Color.argb(128, 255, 0, 0), Color.argb(128, 0, 255, 0));
-		mapView.addCircle(circle);
-		
-		setGeoPoint(mp.getMapPointGeoCoord().latitude, mp.getMapPointGeoCoord().longitude);
+		try {
+			double lat = MyManager.getInstance().getLatitude();
+			double lon = MyManager.getInstance().getLongitude();
+			MapPoint mp = MapPoint.mapPointWithGeoCoord(lat, lon);
+			areaMarker.setMapPoint(mp);
+			
+			circle = new MapCircle(mp, 0, Color.argb(128, 255, 0, 0), Color.argb(128, 0, 255, 0));
+			mapView.addCircle(circle);
+			
+			setGeoPoint(mp.getMapPointGeoCoord().latitude, mp.getMapPointGeoCoord().longitude);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	@Override

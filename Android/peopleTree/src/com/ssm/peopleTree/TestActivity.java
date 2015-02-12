@@ -15,6 +15,7 @@ import com.ssm.peopleTree.application.MyManager;
 import com.ssm.peopleTree.broadcast.PushManager;
 import com.ssm.peopleTree.data.MemberData;
 import com.ssm.peopleTree.dialog.NetworkProgressDialog;
+import com.ssm.peopleTree.dialog.OptionDialog;
 import com.ssm.peopleTree.group.GroupManager;
 import com.ssm.peopleTree.group.GroupManager.GroupListener;
 import com.ssm.peopleTree.map.ManageMode;
@@ -80,6 +81,8 @@ public class TestActivity extends FragmentActivity implements Progressable, OnCl
 	
 	private NetworkProgressDialog progDialog;
 	private AlertDialog alertDialog;
+	
+	private OptionDialog optionDialog;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -172,6 +175,9 @@ public class TestActivity extends FragmentActivity implements Progressable, OnCl
 		glvca = new GroupListviewCustomAdapter(this);
 		pmlvca = new PushMessageListViewCustomAdapter(this);
 
+		optionDialog = new OptionDialog(this);
+		ImageButton imageBtn = (ImageButton)findViewById(R.id.btn_setting);
+		imageBtn.setOnClickListener(this);
 
 		groupListController = new GroupListController(this, groupManager);
 		requestLayoutController =  new RequestLayoutController(this);
@@ -259,6 +265,14 @@ public class TestActivity extends FragmentActivity implements Progressable, OnCl
         menu.add(0, 5, Menu.NONE, "");
         */
 		return true;
+	}
+	
+	public void logout() {
+		LoginManager.getInstance().logout();
+        
+		Intent intent = new Intent(TestActivity.this, LoginActivity.class);
+		startActivity(intent);
+		finish();
 	}
 
 	@Override
@@ -349,6 +363,9 @@ public class TestActivity extends FragmentActivity implements Progressable, OnCl
 				break;
 			case R.id.Page4Btn:
 				mViewPager.setCurrentItem(FRAGMENT_PAGE4);
+				break;
+			case R.id.btn_setting:
+				optionDialog.show();
 				break;
 		}
 	}

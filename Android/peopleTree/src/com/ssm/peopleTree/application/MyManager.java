@@ -97,13 +97,17 @@ public class MyManager {
 	
 	public Double getLatitude() {
 		// TODO
+		if (myData.latitude == null) {
+			return 37.554509;
+		}
 		return myData.latitude;
-		//return 37.551094;
 	}
 	
 	public Double getLongitude() {
+		if (myData.latitude == null) {
+			return 126.946132;
+		}
 		return myData.longitude;
-		//return 127.019470;
 	}
 	
 	public int getManagedLocationRadius() {

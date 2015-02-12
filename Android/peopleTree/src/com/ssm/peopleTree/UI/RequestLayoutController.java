@@ -15,21 +15,22 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.RelativeLayout;
 
 import com.ssm.peopleTree.R;
 
 public class RequestLayoutController extends Fragment {
 	Context mContext;
 
-	LinearLayout layout;
+	RelativeLayout layout;
 	
 	RequestListViewCustomAdapter upRqlvca;
 	RequestListViewCustomAdapter downRqlvca;
 	
 	ListView reqlv;
 
-	Button btn1;
-	Button btn2;
+	ImageButton btn1;
+	ImageButton btn2;
 	
 	public RequestLayoutController(Context context){
 		this.mContext = context;
@@ -53,12 +54,9 @@ public class RequestLayoutController extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		
-		layout = (LinearLayout)inflater.inflate(R.layout.requestlist, container, false);
-		btn1 = (Button) layout.findViewById(R.id.reqlist_btn1);	
-		btn2 = (Button) layout.findViewById(R.id.reqlist_btn2);
-		
-		btn1.setText("위에서");
-		btn2.setText("아래에서");
+		layout = (RelativeLayout)inflater.inflate(R.layout.requestlist_layout, container, false);
+		btn1 = (ImageButton) layout.findViewById(R.id.reqlist_btn1);	
+		btn2 = (ImageButton) layout.findViewById(R.id.reqlist_btn2);
 		
 		btn1.setOnClickListener(new View.OnClickListener() {
  			 

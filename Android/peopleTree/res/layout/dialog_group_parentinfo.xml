@@ -9,11 +9,13 @@
 
     <TextView
         android:id="@+id/parentInfoDialog_title"
-        android:layout_width="fill_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/myborder3"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@drawable/tab_normal"
+        android:paddingLeft="15dp"
         android:gravity="center"
         android:text="text"
+        android:textColor="@color/white"
        />
 
     <LinearLayout
