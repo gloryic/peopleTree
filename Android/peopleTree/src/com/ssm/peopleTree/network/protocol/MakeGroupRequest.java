@@ -32,7 +32,7 @@ public class MakeGroupRequest extends Request {
 		userPhonePattern = Pattern.compile("^[0-9]{8,13}$");
 		userIdPattern = Pattern.compile("^[a-zA-Z]\\w{5,21}$");
 		passwordPattern = Pattern.compile("^\\S{6,20}$");
-		userNamePattern = Pattern.compile("^([°¡-ÆR]{2,})|([a-zA-Z]\\w{4,19})$");
+		userNamePattern = Pattern.compile("^([°¡-ÆR]{2,15})|([a-zA-Z]\\w{4,19})$");
 		groupNamePattern = Pattern.compile("^(\\w|[°¡-ÆR]){3,21}$");
 		
 		valid = true;
