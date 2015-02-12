@@ -3,6 +3,7 @@ package com.ssm.peopleTree.network.protocol;
 import org.json.JSONObject;
 
 import com.android.volley.Request.Method;
+import com.ssm.peopleTree.network.NetworkManager;
 
 public class BroadcastDownRequest extends Request {
 	// 브로드 캐스트 메세지 전송 프로토콜
@@ -39,7 +40,7 @@ public class BroadcastDownRequest extends Request {
 		String result = REST_PROTOCOL;
 		result += "?" + GROUP_MEMBER_ID_KEY + "=" + Integer.toString(groupMemberId);
 		result += "&" + DEPTH_KEY + "=" + Integer.toString(depth);
-		result += "&" + MESSAGE_KEY + "=" + (message);
+		result += "&" + MESSAGE_KEY + "=" + NetworkManager.getEncodedStr(message);
 		
 		return result;
 	}

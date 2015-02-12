@@ -12,6 +12,8 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -25,7 +27,9 @@ public class ChildInfoDialog extends Dialog  {
 	
 	Button btn1;
 	Button btn2;
+	Button btn3;
 
+	
 	
 	MsgSendDialog msgSendDialog;
 	private MemberData childData;
@@ -50,11 +54,24 @@ public class ChildInfoDialog extends Dialog  {
 
 				});
 		final AlertDialog dialog = builder.create(); // 알림창 객체 생성	
-
+		
 		btn1 =(Button)this.findViewById(R.id.childInfoDialog_btn1);
 		
-		btn1.setText("위치보기");
+		btn1.setText(childData.userPhoneNumber);
 		btn1.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				String str = "tel:"+btn1.getText().toString();
+            	Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse(str));
+            	mContext.startActivity(intent);
+			}
+		});
+		
+		btn2 =(Button)this.findViewById(R.id.childInfoDialog_btn2);
+		
+		btn2.setText("위치보기");
+		btn2.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
@@ -70,9 +87,9 @@ public class ChildInfoDialog extends Dialog  {
 		});
 		
 		
-		btn2 =(Button)this.findViewById(R.id.childInfoDialog_btn2);
-		btn2.setText("메시지 보내기");
-		btn2.setOnClickListener(new View.OnClickListener() {
+		btn3 =(Button)this.findViewById(R.id.childInfoDialog_btn3);
+		btn3.setText("메시지 보내기");
+		btn3.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
