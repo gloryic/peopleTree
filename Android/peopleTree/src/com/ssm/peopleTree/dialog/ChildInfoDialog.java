@@ -62,6 +62,8 @@ public class ChildInfoDialog extends Dialog implements View.OnClickListener {
 
 			});
 		locAlertDialog = builder.create();
+		
+		msgSendDialog = new MsgSendDialog(context, childData_);
 	}	
 
 	public void setChildData(MemberData cData){
