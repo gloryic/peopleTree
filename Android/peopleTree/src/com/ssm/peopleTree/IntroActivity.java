@@ -140,11 +140,11 @@ public class IntroActivity extends Activity implements LoginListener {
 	
 	public boolean isNetworkStat() {
 		ConnectivityManager localConnectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-		//NetworkInfo mobile = localConnectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+		NetworkInfo mobile = localConnectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
 		NetworkInfo wifi = localConnectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 		boolean flag = false;
 		
-		if (wifi.isConnected()){//(mobile.isConnected() || wifi.isConnected()){
+		if (mobile.isConnected() || wifi.isConnected()){
 		      Log.d("TestActivity", "Network connect success");
 		      flag = true;
 		}else{
