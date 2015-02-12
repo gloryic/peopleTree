@@ -121,17 +121,20 @@ public class TestActivity extends FragmentActivity implements Progressable, OnCl
 						
 			@Override
 			public void onUpdateStart(Object arg) {
-				progDialog.show();
+				if (!isFinishing()) {
+					progDialog.show();
+				}
 			}
 			
 			@Override
 			public void onUpdateSuccess(Object arg) {
-				
-				if (ManageMode.getMode(myManager.getMyParentData().manageMode) != ManageMode.NOTHING) {
-					chkGpsService();
+				if (!isFinishing()) {
+					if (ManageMode.getMode(myManager.getMyParentData().manageMode) != ManageMode.NOTHING) {
+						chkGpsService();
+					}
+					
+					progDialog.complete();
 				}
-				
-				progDialog.complete();
 			}
 			
 			@Override

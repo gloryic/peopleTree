@@ -281,7 +281,7 @@ public class GroupListController extends Fragment implements Observer {
 					}else{
 						 childInfoDialog = new ChildInfoDialog(mContext, curData);
 						 MapManager.getInstance().setChild(curData);
-						 childInfoDialog.setchildInfoTitle(curData.userName);
+						 childInfoDialog.setChildData(curData);
 						 childInfoDialog.show();
 					}
 				}
@@ -291,21 +291,17 @@ public class GroupListController extends Fragment implements Observer {
 		}else{
 			groupcur_layout_total_text.setText("°ü¸®ÀÚ");
 		}
-
-		if(myData.accumulateWarning>0){
-			Drawable da = mContext.getResources().getDrawable(R.drawable.gclist_ex2_selector);
-			curLayout.setBackground(da);
 		
-		}else if(myData.managingNumber != myData.managingTotalNumber){
-			Drawable da = mContext.getResources().getDrawable(R.drawable.gclist_ex1_selector);
-			curLayout.setBackground(da);
-			
-		}else{
-			curLayout.setBackgroundColor(Color.parseColor("#C3EFAD"));
-			
+		View back = curLayout.findViewById(R.id.groupCur);
+		if(myData.accumulateWarning > 0){
+			back.setBackgroundResource(R.drawable.list_item_red_normal);
 		}
-		
-		Log.i("log","color-------------");
+		else if(myData.managingNumber != myData.managingTotalNumber){
+			back.setBackgroundResource(R.drawable.list_item_orange_normal);
+		}
+		else {
+			back.setBackgroundResource(R.drawable.list_item_light_normal);
+		}
 		curLayout.setOnClickListener(new OnClickListener() {
 				
 				@Override

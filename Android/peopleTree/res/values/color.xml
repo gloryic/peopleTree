@@ -20,6 +20,11 @@
     <color name="group_parent">#ffdffddf</color>
     <color name="group_child">#ffdffddf</color>
     
+    <color name="red">#ffbe2f23</color>
+    <color name="red_shadow">#ff581610</color>
+    
+    <color name="orange">#fffe7e28</color>
+    <color name="orange_shadow">#ff7e3f14</color>
     
     <color name="dialog_back">#ffbbd0bb</color>
 </resources>

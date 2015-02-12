@@ -3,6 +3,7 @@
     android:id="@+id/groupParent"
     android:layout_width="match_parent"
     android:layout_height="80dp" 
+    android:minHeight="80dp"
     android:background="@drawable/list_item_selector">
 
     <ImageView

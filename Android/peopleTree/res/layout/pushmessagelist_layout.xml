@@ -8,7 +8,7 @@
     
 	<RelativeLayout
 	    android:layout_width="match_parent"
-	    android:layout_height="38dp"
+	    android:layout_height="48dp"
 	    android:background="@drawable/tab_normal" >
 
 	    <CheckBox
@@ -28,7 +28,8 @@
 	        android:layout_alignParentRight="true"
 	        android:layout_centerVertical="true"
 	        android:layout_marginRight="5dp"
-	        android:src="@android:drawable/ic_menu_delete" />
+	        android:background="@android:color/transparent"
+	        android:src="@drawable/btn_trash_selector" />
 
 	</RelativeLayout>
 

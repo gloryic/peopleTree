@@ -84,6 +84,11 @@
             android:launchMode="singleTop" 
             android:screenOrientation="portrait" >
         </activity>
+        
+        <activity
+            android:name=".ParentLocationActivity"
+            android:screenOrientation="portrait" >
+        </activity>
 
         
         <!-- push start -->

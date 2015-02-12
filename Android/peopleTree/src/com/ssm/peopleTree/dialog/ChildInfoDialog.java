@@ -1,12 +1,10 @@
 package com.ssm.peopleTree.dialog;
 
 
-import com.ssm.peopleTree.Progressable;
+import com.ssm.peopleTree.ParentLocationActivity;
 import com.ssm.peopleTree.R;
+import com.ssm.peopleTree.application.MyManager;
 import com.ssm.peopleTree.data.MemberData;
-import com.ssm.peopleTree.group.GroupManager;
-import com.ssm.peopleTree.map.MapManager;
-import com.ssm.peopleTree.map.ManageMode;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -17,99 +15,91 @@ import android.net.Uri;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 
-public class ChildInfoDialog extends Dialog  {
-	Context mContext;
-	TextView reqTitleTxtv;
-	String reqTitle;
-	
-	Button btn1;
-	Button btn2;
-	Button btn3;
+public class ChildInfoDialog extends Dialog implements View.OnClickListener {
 
+	private AlertDialog locAlertDialog;
 	
+	private TextView titleTv;
+	private TextView phoneTv;
 	
-	MsgSendDialog msgSendDialog;
-	private MemberData childData;
+	private Context mContext;
+	
+	private MsgSendDialog msgSendDialog;
 	
 	public ChildInfoDialog(Context context,MemberData childData_) {
 		super(context);
-		childData = childData_;
 		mContext = context;
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		this.setContentView(R.layout.dialog_group_childinfo);
+		this.setContentView(R.layout.menu_child_layout);
 		
-		AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-		builder.setTitle("알림")
-				.setMessage("위치를 표시할 수 없습니다.")
-				.setCancelable(true)
-				.setPositiveButton("확인", new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int whichButton) {
-						
-
-						dialog.cancel();
-					}
-
-				});
-		final AlertDialog dialog = builder.create(); // 알림창 객체 생성	
+		RelativeLayout layout = (RelativeLayout)this.findViewById(R.id.phone_layout);
+		layout.setOnClickListener(this);
 		
-		btn1 =(Button)this.findViewById(R.id.childInfoDialog_btn1);
+		layout = (RelativeLayout)this.findViewById(R.id.location_layout);
+		layout.setOnClickListener(this);
 		
-		btn1.setText(childData.userPhoneNumber);
-		btn1.setOnClickListener(new View.OnClickListener() {
+		Button btn = (Button)this.findViewById(R.id.btn_close);
+		btn.setOnClickListener(this);
 			
-			@Override
-			public void onClick(View v) {
-				String str = "tel:"+btn1.getText().toString();
-            	Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse(str));
-            	mContext.startActivity(intent);
-			}
-		});
-		
-		btn2 =(Button)this.findViewById(R.id.childInfoDialog_btn2);
-		
-		btn2.setText("위치보기");
-		btn2.setOnClickListener(new View.OnClickListener() {
+		titleTv = (TextView)this.findViewById(R.id.title);
+		phoneTv = (TextView)this.findViewById(R.id.phone_text);
 			
-			@Override
-			public void onClick(View v) {
-				Progressable p = (Progressable)mContext;
-				if (p != null && MapManager.getInstance().hasValidLocation()) {
-					MapManager.getInstance().setTempManageMode(ManageMode.NOTHING);
-					p.progress();
+		AlertDialog.Builder builder = new AlertDialog.Builder(context);
+		builder.setTitle("경고")
+			.setMessage("현재 저장된 위치 정보는 확인할 수 없습니다.")
+			.setCancelable(true)
+			.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int whichButton) {
+					dialog.cancel();
 				}
-				else {
-					dialog.show();
-				}
-			}
-		});
-		
-		
-		btn3 =(Button)this.findViewById(R.id.childInfoDialog_btn3);
-		btn3.setText("메시지 보내기");
-		btn3.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				msgSendDialog = new MsgSendDialog(mContext,childData);
-				msgSendDialog.show();
-			}
-		});
-		
-		
-		
 
-	}
+			});
+		locAlertDialog = builder.create();
+	}	
 
-	public void setchildInfoTitle(String reqtitle){
-		this.reqTitle = reqtitle;
-		reqTitleTxtv = (TextView)this.findViewById(R.id.childInfoDialog_title);
-	
-		reqTitleTxtv.setText(reqtitle);
+	public void setChildData(MemberData cData){
+		titleTv.setText(cData.userName);
+		phoneTv.setText(cData.userPhoneNumber);
 	}
 
 
+	public void setParentData(MemberData ptData){
+		titleTv.setText(ptData.userName);
+		phoneTv.setText(ptData.userPhoneNumber);
+	}
 	
+	private void callToParent() {
+		String str = "tel:"+phoneTv.getText().toString();
+    	Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse(str));
+    	mContext.startActivity(intent);
+	}
+
+	@Override
+	public void onClick(View v) {
+		switch(v.getId()) {
+		case R.id.phone_layout:
+			callToParent();
+			break;
+		case R.id.location_layout:
+			MyManager myManager = MyManager.getInstance();
+			if (myManager.isAvailableParentLocation() && myManager.isAvailableMyLocation()) {
+				Intent intent = new Intent(mContext, ParentLocationActivity.class);
+				mContext.startActivity(intent);
+			}
+			else {
+				locAlertDialog.show();
+			}
+			break;
+		case R.id.message_layout:
+			msgSendDialog.show();
+			break;
+		case R.id.btn_close:
+			dismiss();
+			break;
+		}
+	}
 }

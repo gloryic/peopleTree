@@ -2,6 +2,7 @@ package com.ssm.peopleTree.service;
 
 import com.ssm.peopleTree.device.DeviceStatusReceiver;
 import com.ssm.peopleTree.location.PeopleTreeLocationManager;
+import com.ssm.peopleTree.network.NetworkManager;
 
 import android.app.Service;
 import android.bluetooth.BluetoothAdapter;
@@ -37,7 +38,7 @@ public class peopleTreeService extends Service{
         	isRun = true;
         	Log.i("service start","service start - pmlm start");
             
-        	
+        	NetworkManager.getInstance().initialize(this);
             PeopleTreeLocationManager.getInstance().initialize(this);
             PeopleTreeLocationManager.getInstance().startLocationMeasure();
             

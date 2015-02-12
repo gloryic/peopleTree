@@ -95,12 +95,12 @@ public class GroupListviewCustomAdapter extends BaseAdapter implements OnClickLi
 			}
 		});
 		
-		Drawable da = mContext.getResources().getDrawable(R.drawable.gclist_selector);
+		Drawable da = mContext.getResources().getDrawable(R.drawable.list_item_selector);
 
 		if(mData.accumulateWarning>0){
-			da = mContext.getResources().getDrawable(R.drawable.gclist_ex2_selector);
+			da = mContext.getResources().getDrawable(R.drawable.list_item_red_selector);
 		}else if(mData.managingNumber != mData.managingTotalNumber){
-			da = mContext.getResources().getDrawable(R.drawable.gclist_ex1_selector);
+			da = mContext.getResources().getDrawable(R.drawable.list_item_orange_selector);
 		}
 		convertView.setBackground(da);
 
@@ -120,7 +120,7 @@ public class GroupListviewCustomAdapter extends BaseAdapter implements OnClickLi
 		}
 		childInfoDialog = new ChildInfoDialog(mContext,mData);
 		MapManager.getInstance().setChild(mData);
-		childInfoDialog.setchildInfoTitle(mData.userName);
+		childInfoDialog.setChildData(mData);
 		childInfoDialog.show();
 	}
 	
