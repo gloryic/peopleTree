@@ -39,6 +39,9 @@ public class ChildInfoDialog extends Dialog implements View.OnClickListener {
 		RelativeLayout layout = (RelativeLayout)this.findViewById(R.id.phone_layout);
 		layout.setOnClickListener(this);
 		
+		layout = (RelativeLayout)this.findViewById(R.id.message_layout);
+		layout.setOnClickListener(this);
+		
 		layout = (RelativeLayout)this.findViewById(R.id.location_layout);
 		layout.setOnClickListener(this);
 		
