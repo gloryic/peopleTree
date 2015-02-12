@@ -23,7 +23,7 @@
 	        android:textColor="@color/white"/>
 
 	    <ImageButton
-	        android:id="@+id/setting"
+	        android:id="@+id/btn_setting"
 	        android:layout_width="36dp"
 	        android:layout_height="36dp"
 	        android:layout_alignParentRight="true"

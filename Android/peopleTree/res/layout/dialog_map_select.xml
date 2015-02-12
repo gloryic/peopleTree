@@ -87,7 +87,7 @@
 		    android:id="@+id/btn_cancel"
 		    android:layout_width="match_parent"
 		    android:layout_height="60dp"
-		    android:text="@string/cancel" 
+		    android:text="@string/close" 
 		    android:textSize="@dimen/basic_text_size"
 		    style="@style/FlatButton"/>
                

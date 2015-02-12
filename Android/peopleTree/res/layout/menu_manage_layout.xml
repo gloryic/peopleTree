@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:background="@color/white" 
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:background="@drawable/tab_normal"
+        android:paddingLeft="15dp"
+        android:gravity="left|center_vertical"
+        android:text="@string/menu_manage_title"
+        android:textColor="@color/white" />
+
+    <LinearLayout
+        android:id="@+id/menu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" 
+        android:padding="1dp">
+        
+        <RelativeLayout
+		    android:id="@+id/nothing_layout"
+		    android:layout_width="match_parent"
+		    android:layout_height="60dp"
+		    android:background="@drawable/list_item_selector"
+		    android:layout_marginBottom="1dp" >
+			
+		    <ImageView
+		        android:id="@+id/nothing_img"
+		        android:layout_width="48dp"
+		        android:layout_height="48dp"
+		        android:layout_alignParentLeft="true"
+		        android:layout_centerVertical="true"
+		        android:layout_marginLeft="24dp"
+		        android:src="@drawable/ic_location_disabled_white_48dp" />
+		    
+		     <TextView
+		        android:id="@+id/nothing_text"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_toRightOf="@+id/nothing_img"
+		        android:layout_marginLeft="36dp"
+		        android:layout_marginRight="24dp"
+		        android:layout_centerVertical="true"
+		        android:gravity="center_vertical"
+		        android:text="@string/menu_manage_nothing"
+		        android:textColor="@color/white"
+		        android:textSize="@dimen/group_item_name_size" />
+			
+		</RelativeLayout>
+		
+        <RelativeLayout
+		    android:id="@+id/tracking_layout"
+		    android:layout_width="match_parent"
+		    android:layout_height="60dp"
+		    android:background="@drawable/list_item_selector"
+		    android:layout_marginBottom="1dp" >
+			
+		    <ImageView
+		        android:id="@+id/tracking_img"
+		        android:layout_width="48dp"
+		        android:layout_height="48dp"
+		        android:layout_alignParentLeft="true"
+		        android:layout_centerVertical="true"
+		        android:layout_marginLeft="24dp"
+		        android:src="@drawable/ic_location_searching_white_48dp" />
+		    
+		     <TextView
+		        android:id="@+id/tracking_text"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_toRightOf="@+id/tracking_img"
+		        android:layout_marginLeft="36dp"
+		        android:layout_marginRight="24dp"
+		        android:layout_centerVertical="true"
+		        android:gravity="center_vertical"
+		        android:text="@string/menu_manage_tracking"
+		        android:textColor="@color/white"
+		        android:textSize="@dimen/group_item_name_size" />
+			
+		</RelativeLayout>
+		
+        <RelativeLayout
+		    android:id="@+id/area_layout"
+		    android:layout_width="match_parent"
+		    android:layout_height="60dp"
+		    android:background="@drawable/list_item_selector" 
+		    android:layout_marginBottom="1dp">
+			
+		    <ImageView
+		        android:id="@+id/area_img"
+		        android:layout_width="48dp"
+		        android:layout_height="48dp"
+		        android:layout_alignParentLeft="true"
+		        android:layout_centerVertical="true"
+		        android:layout_marginLeft="24dp"
+		        android:src="@drawable/ic_pin_drop_white_48dp" />
+		    
+		     <TextView
+		        android:id="@+id/area_text"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_toRightOf="@+id/area_img"
+		        android:layout_marginLeft="36dp"
+		        android:layout_marginRight="24dp"
+		        android:layout_centerVertical="true"
+		        android:gravity="center_vertical"
+		        android:text="@string/menu_manage_area"
+		        android:textColor="@color/white"
+		        android:textSize="@dimen/group_item_name_size" />
+			
+		</RelativeLayout>
+		
+        <RelativeLayout
+		    android:id="@+id/geofence_layout"
+		    android:layout_width="match_parent"
+		    android:layout_height="60dp"
+		    android:background="@drawable/list_item_selector" 
+		    android:layout_marginBottom="1dp">
+			
+		    <ImageView
+		        android:id="@+id/geofence_img"
+		        android:layout_width="48dp"
+		        android:layout_height="48dp"
+		        android:layout_alignParentLeft="true"
+		        android:layout_centerVertical="true"
+		        android:layout_marginLeft="24dp"
+		        android:src="@drawable/ic_now_wallpaper_white_48dp" />
+		    
+		     <TextView
+		        android:id="@+id/geofence_text"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_toRightOf="@+id/geofence_img"
+		        android:layout_marginLeft="36dp"
+		        android:layout_marginRight="24dp"
+		        android:layout_centerVertical="true"
+		        android:gravity="center_vertical"
+		        android:text="@string/menu_manage_geofence"
+		        android:textColor="@color/white"
+		        android:textSize="@dimen/group_item_name_size" />
+			
+		</RelativeLayout>
+
+    </LinearLayout>
+
+    <RelativeLayout 
+        android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:background="@color/gray"
+		android:padding="10dp">
+		
+        <Button
+		    android:id="@+id/btn_close"
+		    android:layout_width="match_parent"
+		    android:layout_height="48dp"
+		    android:text="@string/close" 
+		    android:textSize="@dimen/basic_text_size"
+		    android:layout_centerInParent="true"
+		    style="@style/FlatButton"/>
+        
+    </RelativeLayout>
+     
+
+</LinearLayout>

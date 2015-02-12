@@ -56,7 +56,7 @@ public class JoinDialog implements DialogInterface.OnClickListener, Listener<JSO
 			NetworkManager.getInstance().request(req, this, null);
 		}
 		else {
-			onJoinFail();
+			onInvalFail(req.valiStr+"\n문자열 길이를 조절하세요");
 		}
 	}
 	
@@ -80,7 +80,11 @@ public class JoinDialog implements DialogInterface.OnClickListener, Listener<JSO
 		alertDialog.setMessage(failMsg);
 		alertDialog.show();
 	}
-	
+	private void onInvalFail(String invalstr) {
+		alertDialog.setTitle(R.string.fail);
+		alertDialog.setMessage(invalstr);
+		alertDialog.show();
+	}
 	@Override
 	public void onClick(DialogInterface dialog, int which) {
 		

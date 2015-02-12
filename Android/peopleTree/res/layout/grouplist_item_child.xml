@@ -12,7 +12,7 @@
         android:layout_height="48dp"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="52dp"
+        android:layout_marginLeft="76dp"
         android:src="@drawable/ic_nature_people_white_48dp" />
     
      <TextView
