@@ -83,7 +83,7 @@ class OutsideLocationUpdateNotifier implements UpdateNotifier, Response.Listener
 
 		if (!parent.isValidLocation()
 				&& (curTime - pltm.getLastChangeTime()) > PeopleTreeLocationManager.MINTIMEINTERVAL) {
-			DeviceStatus.set(DeviceStatus.INVALID);
+			//DeviceStatus.set(DeviceStatus.INVALID);
 
 			statusCode = DeviceStatus.getStatus();
 			cmr = new CheckMemberRequest(groupMemeberId, parentGroupMemberId,
