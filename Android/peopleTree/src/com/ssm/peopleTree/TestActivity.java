@@ -1,9 +1,5 @@
 package com.ssm.peopleTree;
 
-
-import java.util.Observable;
-import java.util.Observer;
-
 import com.ssm.peopleTree.BackPressCloseHandler;
 import com.ssm.peopleTree.UI.BroadCastLayoutController;
 import com.ssm.peopleTree.UI.BroadCastListViewCustomAdapter;
@@ -21,9 +17,7 @@ import com.ssm.peopleTree.data.MemberData;
 import com.ssm.peopleTree.dialog.NetworkProgressDialog;
 import com.ssm.peopleTree.group.GroupManager;
 import com.ssm.peopleTree.group.GroupManager.GroupListener;
-import com.ssm.peopleTree.group.Navigator;
 import com.ssm.peopleTree.map.ManageMode;
-import com.ssm.peopleTree.network.NetworkManager;
 
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
@@ -37,37 +31,35 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewTreeObserver;
-import android.view.ViewTreeObserver.OnGlobalLayoutListener;
-import android.widget.Button;
-import android.widget.HorizontalScrollView;
+import android.widget.ImageButton;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
 public class TestActivity extends FragmentActivity implements Progressable, OnClickListener {
 	
-	private int NUM_PAGES = 5;		// 최대 페이지의 수 
+	private final static int NUM_PAGES = 4;		// 최대 페이지의 수 
 	
 	/* Fragment numbering */
 	public final static int FRAGMENT_PAGE1 = 0;
 	public final static int FRAGMENT_PAGE2 = 1;
 	public final static int FRAGMENT_PAGE3 = 2;
 	public final static int FRAGMENT_PAGE4 = 3;
-	public final static int FRAGMENT_PAGE5 = 4;
+
 	public static boolean isGPSdialogPop = false;
 	private BackPressCloseHandler backPressCloseHandler;
 	
 	ViewPager mViewPager;			// View pager를 지칭할 변수 
 	
-	Button page1Btn, page2Btn, page3Btn,page4Btn,page5Btn;
+	
+	private TextView barTextView;
+	private ImageButton[] tabBtns;
+	private String[] tabNames; 
 	
 
 	PushMessageListViewCustomAdapter pmlvca;
@@ -76,7 +68,6 @@ public class TestActivity extends FragmentActivity implements Progressable, OnCl
 	RequestListViewCustomAdapter downRqlvca;
 	GroupListviewCustomAdapter glvca;
 	
-	private NetworkManager networkManager;
 	private MyManager myManager;
 	private GroupManager groupManager;
 	private RelativeLayout bottomBar;
@@ -95,13 +86,13 @@ public class TestActivity extends FragmentActivity implements Progressable, OnCl
 		super.onCreate(savedInstanceState);
 		
 		setContentView(R.layout.tframe);
-
-		
-		startService(new Intent("android.servcice.MAIN"));
-		
+	
+		//
+		startService(new Intent("android.servcice.MAIN"));		
 		IntentFilter filter = new IntentFilter("android.location.PROVIDERS_CHANGED");
         this.registerReceiver(mReceivedSMSReceiver, filter);
         
+        //
 		progDialog = new NetworkProgressDialog(this);
 		
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -121,7 +112,6 @@ public class TestActivity extends FragmentActivity implements Progressable, OnCl
 
 		backPressCloseHandler = new BackPressCloseHandler(this);
 		
-		networkManager = NetworkManager.getInstance();
 		myManager = MyManager.getInstance();
 		groupManager = GroupManager.getInstance();
 		groupManager.setGroupListener(new GroupListener() {
@@ -154,35 +144,33 @@ public class TestActivity extends FragmentActivity implements Progressable, OnCl
 				GroupManager.getInstance().navigateHome();
 			}
 		});
-	
-		page1Btn = (Button) findViewById(R.id.Page1Btn);
-		page1Btn.setOnClickListener(this);
-		page2Btn = (Button) findViewById(R.id.Page2Btn);
-		page2Btn.setOnClickListener(this);
-		page3Btn = (Button) findViewById(R.id.Page3Btn);
-		page3Btn.setOnClickListener(this);
-		page4Btn = (Button) findViewById(R.id.Page4Btn);
-		page4Btn.setOnClickListener(this);
-		page5Btn = (Button) findViewById(R.id.Page5Btn);
-		page5Btn.setOnClickListener(this);
 		
-		page1Btn.setText("그룹");
-		page2Btn.setText("요청");
-		page3Btn.setText("메시지");
-		page4Btn.setText("알림");
-		page5Btn.setText("설정");
+		barTextView = (TextView)findViewById(R.id.bar_text);
 		
-				
+		tabBtns = new ImageButton[NUM_PAGES];
+		tabBtns[0] = (ImageButton)findViewById(R.id.Page1Btn);
+		tabBtns[1] = (ImageButton)findViewById(R.id.Page2Btn);
+		tabBtns[2] = (ImageButton)findViewById(R.id.Page3Btn);
+		tabBtns[3] = (ImageButton)findViewById(R.id.Page4Btn);
+		for (int i = 0; i < NUM_PAGES; i++) {
+			tabBtns[i].setOnClickListener(this);
+		}
+		tabBtns[0].setSelected(true);
+		
+		tabNames = new String[NUM_PAGES];
+		tabNames[0] = getString(R.string.tab_group);
+		tabNames[1] = getString(R.string.tab_request);
+		tabNames[2] = getString(R.string.tab_message);
+		tabNames[3] = getString(R.string.tab_notification);
+		
+		
 		bclvca = new BroadCastListViewCustomAdapter(this);
 		upRqlvca = new RequestListViewCustomAdapter(this);
 		downRqlvca = new RequestListViewCustomAdapter(this);
-		
-
 
 		
 		glvca = new GroupListviewCustomAdapter(this);
 		pmlvca = new PushMessageListViewCustomAdapter(this);
-
 
 
 		groupListController = new GroupListController(this, groupManager);
@@ -191,6 +179,7 @@ public class TestActivity extends FragmentActivity implements Progressable, OnCl
 		pushmsgLayoutController = new PushmsgLayoutController(this);
 		settingLayoutController = new SettingLayoutController(this);
 
+		
 		groupListController.setListAdapter(glvca);
 		requestLayoutController.setListAdapter(upRqlvca, downRqlvca);
 		broadCastLayoutController.setListAdapter(bclvca);
@@ -201,69 +190,44 @@ public class TestActivity extends FragmentActivity implements Progressable, OnCl
 		mViewPager = (ViewPager) findViewById(R.id.pager);
 		mViewPager.setAdapter(new pagerAdapter(getSupportFragmentManager()));
 		mViewPager.setCurrentItem(FRAGMENT_PAGE1);
-
 		mViewPager.setOnPageChangeListener(new OnPageChangeListener() {
 
 			@Override
 			public void onPageSelected(int position) {
-
-				page1Btn.setSelected(false);
-				page2Btn.setSelected(false);
-				page3Btn.setSelected(false);
-				page4Btn.setSelected(false);
-				page5Btn.setSelected(false);
-
-				switch(position){
-					case 0:
-						page1Btn.setSelected(true);
-						break;
-					case 1:
-						page2Btn.setSelected(true);
-						break;
-					case 2:
-						page3Btn.setSelected(true);
-						break;
-					case 3:
-						page4Btn.setSelected(true);
-						break;
-					case 4:
-						page5Btn.setSelected(true);
-						break;
+				
+				for (int i = 0; i < NUM_PAGES; i++) {
+					tabBtns[i].setSelected(false);
 				}
+				tabBtns[position].setSelected(true);
+				
+				barTextView.setText(tabNames[position]);
 			}
 			
 			@Override
-			public void onPageScrolled(int arg0, float arg1, int arg2) {
-				
+			public void onPageScrolled(int arg0, float arg1, int arg2) {		
 			}
 			
 			@Override
 			public void onPageScrollStateChanged(int arg0) {
-				// TODO Auto-generated method stub
 			}
 		});
-		
-		page1Btn.setSelected(true);
-		
-		
-		if (ManageMode.getMode(myManager.getMyParentData().manageMode) != ManageMode.NOTHING)
-			chkGpsService();
 
+		
+		if (ManageMode.getMode(myManager.getMyParentData().manageMode) != ManageMode.NOTHING) {
+			chkGpsService();
+		}
 	}
 	
 	
 	
 	@Override
 	public void onBackPressed() {
-		
-		
 
-		MyManager myManager = MyManager.getInstance();
 		MemberData myData = myManager.getMyData();
 		MemberData curData = groupManager.getCur();
 		MemberData parentData = myManager.getMyParentData();
 	
-		
+
 		if(myData.groupMemberId != curData.groupMemberId ){
 			
 			if(curData.parentGroupMemberId == curData.groupMemberId) {
@@ -386,10 +350,6 @@ public class TestActivity extends FragmentActivity implements Progressable, OnCl
 			case R.id.Page4Btn:
 				mViewPager.setCurrentItem(FRAGMENT_PAGE4);
 				break;
-			case R.id.Page5Btn:
-				mViewPager.setCurrentItem(FRAGMENT_PAGE5);
-				break;
-
 		}
 	}
 
