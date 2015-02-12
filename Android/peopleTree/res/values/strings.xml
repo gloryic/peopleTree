@@ -45,5 +45,11 @@
     <string name="alert_dialog_title">Profile</string>
     <string name="alert_dialog_success">Saved!</string>
 	<string name="alert_dialog_failed">Failed with error.</string>
+	
+	
+	<string name="tab_group">그룹</string>
+	<string name="tab_request">요청</string>
+	<string name="tab_message">메세지</string>
+	<string name="tab_notification">알림</string>
 
 </resources>

@@ -61,8 +61,8 @@ public class GroupListController extends Fragment implements Observer {
 	
 	ImageView mmenu;
 	
-	ImageButton parentAddBtn;
-	ImageButton childAddBtn;
+	RelativeLayout parentAddBtn;
+	RelativeLayout childAddBtn;
 	
 	GroupReqDialog groupReqDialog;
 	SearchUserDialog searchUserDialog;
@@ -105,7 +105,7 @@ public class GroupListController extends Fragment implements Observer {
 		glv = (PullToRefreshListView)layout.findViewById(R.id.groupList);
 
 		
-		mBottomBar = (RelativeLayout) layout.findViewById(R.id.bottom_bar);
+		//mBottomBar = (RelativeLayout) layout.findViewById(R.id.bottom_bar);
 		//mTopBar = (RelativeLayout) layout.findViewById(R.id.groupParent_layout_Total);
 		
 		glv.setAdapter(glvca);
@@ -115,7 +115,8 @@ public class GroupListController extends Fragment implements Observer {
 		setParent(GroupManager.getInstance().getParent());
 		setCur(GroupManager.getInstance().getCur());
 
-		childAddBtn = (ImageButton) layout.findViewById(R.id.imgbtn_childadder);
+		childAddBtn = (RelativeLayout) layout.findViewById(R.id.child_adder);
+		RelativeLayout rr;
 		childAddBtn.setOnClickListener(new View.OnClickListener() {
 			 
             public void onClick(View arg0) {
@@ -127,7 +128,7 @@ public class GroupListController extends Fragment implements Observer {
 		
 
 		
-		mBottomBar.bringToFront();
+		//mBottomBar.bringToFront();
 		//mBottomBar.setVisibility(View.GONE);
 		//mBottomBar.invalidate();
 		
@@ -227,8 +228,8 @@ public class GroupListController extends Fragment implements Observer {
 			});
 		
 
-		final HorizontalScrollView hsv = (HorizontalScrollView)layout.findViewById(R.id.naviScroll);
-		naviText = (TextView)layout.findViewById(R.id.naviText);
+		final HorizontalScrollView hsv = (HorizontalScrollView)layout.findViewById(R.id.navi_scroll);
+		naviText = (TextView)layout.findViewById(R.id.navi_text_view);
 		ViewTreeObserver vto = layout.getViewTreeObserver();
 	    vto.addOnGlobalLayoutListener(new OnGlobalLayoutListener(){
 	        @Override
@@ -245,7 +246,7 @@ public class GroupListController extends Fragment implements Observer {
 		RelativeLayout curLayout = (RelativeLayout) layout.findViewById(R.id.groupcur_layout);
 		curLayout.removeAllViews();
 		
-		inflater.inflate(R.layout.grouplist_cur, curLayout, true);
+		inflater.inflate(R.layout.grouplist_item_cur, curLayout, true);
 		
 		TextView myNum = (TextView)curLayout.findViewById(R.id.grouplist_cur_num);
 		if (myNum != null) {
@@ -320,8 +321,8 @@ public class GroupListController extends Fragment implements Observer {
 		final MemberData fparentData = parentData;
 		parentLayout.removeAllViews();
 		if(parentData == null){
-			inflater.inflate(R.layout.grouplist_parent_adder,parentLayout,true);
-			parentAddBtn = (ImageButton)parentLayout.findViewById(R.id.parent_add_btn);
+			inflater.inflate(R.layout.grouplist_item_parent_adder,parentLayout,true);
+			parentAddBtn = (RelativeLayout)parentLayout.findViewById(R.id.parent_add_btn);
 			parentAddBtn.setOnClickListener(new View.OnClickListener() {
 				
 	            public void onClick(View arg0) {
@@ -333,7 +334,7 @@ public class GroupListController extends Fragment implements Observer {
 			
 		}
 		else {
-			inflater.inflate(R.layout.grouplist_parent,parentLayout,true);
+			inflater.inflate(R.layout.grouplist_item_parent,parentLayout,true);
 			
 			TextView parentName = (TextView)parentLayout.findViewById(R.id.parent_name);
 			if (parentName != null) {
