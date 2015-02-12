@@ -79,7 +79,7 @@ public class GroupListController extends Fragment implements Observer {
 
 	
 	private TextView naviText;
-	
+	private TextView groupcur_layout_total_text;
 	public GroupListController(Context context, Observable observable) {
 		this.mContext = context;
 		observable.addObserver(this);
@@ -100,7 +100,7 @@ public class GroupListController extends Fragment implements Observer {
 		layout = (RelativeLayout)inflater.inflate(R.layout.grouplist_layout, container, false);
 
 		//glv = (ListView) layout.findViewById(R.id.groupList);
-		
+		groupcur_layout_total_text = (TextView)layout.findViewById(R.id.groupcur_layout_total_text);
 		//TODO//
 		glv = (PullToRefreshListView)layout.findViewById(R.id.groupList);
 
@@ -285,12 +285,16 @@ public class GroupListController extends Fragment implements Observer {
 					}
 				}
 			});
-		
+		if(myData.groupMemberId == MyManager.getInstance().getGroupMemberId()){
+			groupcur_layout_total_text.setText("나(본인)");
+		}else{
+			groupcur_layout_total_text.setText("관리자");
+		}
 
 		if(myData.accumulateWarning>0){
 			Drawable da = mContext.getResources().getDrawable(R.drawable.gclist_ex2_selector);
 			curLayout.setBackground(da);
-			
+		
 		}else if(myData.managingNumber != myData.managingTotalNumber){
 			Drawable da = mContext.getResources().getDrawable(R.drawable.gclist_ex1_selector);
 			curLayout.setBackground(da);
@@ -346,11 +350,16 @@ public class GroupListController extends Fragment implements Observer {
 					
 					@Override
 					public void onClick(View v) {
-				
-						parentInfoDialog = new ParentInfoDialog(mContext);
-						parentInfoDialog.show();
-						parentInfoDialog.setParentData(fparentData);
-		
+						if(MyManager.getInstance().getGroupMemberId() == fparentData.groupMemberId){
+							myMenuDialog = new MyMenuDialog(mContext);
+							myMenuDialog.setMytitle("메뉴");
+							myMenuDialog.show();
+						} else {
+							parentInfoDialog = new ParentInfoDialog(mContext);
+							parentInfoDialog.setParentData(fparentData);
+							parentInfoDialog.show();
+							
+						}
 						
 					}
 				});
