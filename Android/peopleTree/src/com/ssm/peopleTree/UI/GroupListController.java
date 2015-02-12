@@ -300,7 +300,7 @@ public class GroupListController extends Fragment implements Observer {
 			back.setBackgroundResource(R.drawable.list_item_orange_normal);
 		}
 		else {
-			back.setBackgroundResource(R.drawable.list_item_light_normal);
+			back.setBackgroundResource(R.drawable.list_item_normal);
 		}
 		curLayout.setOnClickListener(new OnClickListener() {
 				
