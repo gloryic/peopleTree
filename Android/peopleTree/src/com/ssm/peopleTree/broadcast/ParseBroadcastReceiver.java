@@ -104,7 +104,7 @@ public class ParseBroadcastReceiver extends BroadcastReceiver {
 		int edgeStatus;
 		int accumulateWarning;
 		parentManageMode = msgObj.getInt("parentManageMode");
-		parentManageMode = msgObj.getInt("parentManageMode");
+		
 		/*
 		INVALID(100, 0),
 		NOTHING(200, R.layout.activity_map),
@@ -126,6 +126,7 @@ public class ParseBroadcastReceiver extends BroadcastReceiver {
 		
 		
 		switch(ManageMode.getMode(parentManageMode)){
+				
 		case TRAKING:
 			radius = msgObj.getInt("radius");
 			distance = msgObj.getDouble("distance");
