@@ -30,9 +30,9 @@ public class MakeGroupRequest extends Request {
 	public String valiStr = "";
 	public MakeGroupRequest(String userPhoneNumber, String userId, String password, String userName, String groupName) {
 		userPhonePattern = Pattern.compile("^[0-9]{8,13}$");
-		userIdPattern = Pattern.compile("^[a-zA-Z]\\w{5,21}$");
-		passwordPattern = Pattern.compile("^\\S{6,20}$");
-		userNamePattern = Pattern.compile("^([°¡-ÆR]{2,15})|([a-zA-Z]\\w{4,19})$");
+		userIdPattern = Pattern.compile("^[a-zA-Z]\\w{4,21}$");
+		passwordPattern = Pattern.compile("^\\S{5,20}$");
+		userNamePattern = Pattern.compile("^([°¡-ÆR]{2,15})|([a-zA-Z]\\w{3,19})$");
 		groupNamePattern = Pattern.compile("^(\\w|[°¡-ÆR]){3,21}$");
 		
 		valid = true;
