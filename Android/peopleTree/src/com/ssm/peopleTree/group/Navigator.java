@@ -25,10 +25,10 @@ public class Navigator extends Observable {
 	public void navigateUp(MemberData mData) {
 
 		while (!datas.isEmpty() && mData != null) {
-			MemberData popData = datas.pop();
-			if (popData.groupMemberId == mData.groupMemberId) {
+			if (datas.peek().groupMemberId  == mData.groupMemberId) {
 				break;
 			}
+			datas.pop();
 		}
 		
 		dataChanged();
