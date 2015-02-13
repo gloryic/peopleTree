@@ -79,7 +79,16 @@ public abstract class Response extends Protocol {
 			mData.managingNumber = jsonObj.getInt(MANAGING_NUMBER_KEY);			
 			
 			mData.accumulateWarning = jsonObj.getInt(ACCUMULATE_WARNING_KEY);
-
+			
+			try {
+				mData.longitude = jsonObj.getDouble(LONGITUDE_KEY);
+				mData.latitude = jsonObj.getDouble(LATITUDE_KEY);
+			}
+			catch (Exception e) {
+				mData.longitude = null;
+				mData.latitude = null;
+			}
+			
 			return mData;
 		} catch (Exception e) {
 			e.printStackTrace();

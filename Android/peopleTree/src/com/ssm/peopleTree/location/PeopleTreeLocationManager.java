@@ -43,19 +43,19 @@ public class PeopleTreeLocationManager  {
     	if (context == null) {
     		context = _context;
     		
-    		//insideLocationMeasurer = new InsideLocationListener(_context);
-    		outsideLocationMeasurer = new OutsideLocationListener(_context);
+    		insideLocationMeasurer = new InsideLocationListener(_context);
+    		//outsideLocationMeasurer = new OutsideLocationListener(_context);
     	
     		
     	}
     }
 
 	public void startLocationMeasure(){
-		this.outsideLocationMeasurer.startRequest(distanceForUpdate, timeForUpdate);
+		this.insideLocationMeasurer.startRequest(distanceForUpdate, timeForUpdate);
 	
 	}
 	public void stopLocationMeasure(){
-		this.outsideLocationMeasurer.stopRequest();
+		this.insideLocationMeasurer.stopRequest();
 	}
 	public void changeLocationMeasureMode(){
 	
