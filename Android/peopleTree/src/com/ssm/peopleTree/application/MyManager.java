@@ -126,8 +126,7 @@ public class MyManager {
 	}
 	
 	public int getManagedLocationRadius() {
-		//return myData.managedLocationRadius;
-		return 50;
+		return myData.managedLocationRadius;
 	}
 	
 	public int getManageMode() {

@@ -45,7 +45,7 @@ public class DeviceStatusReceiver extends BroadcastReceiver {
         }
         else if (action.equals(Intent.ACTION_BATTERY_CHANGED)) {
         	int bLevel = intent.getIntExtra("level", 0);
-        	if (bLevel < 100) {
+        	if (bLevel < 20) {
         		DeviceStatus.set(DeviceStatus.BATTERY_LACK);
         		Log.e("device", "battery lack");
         	}
