@@ -5,13 +5,13 @@
     <color name="white">#ffffffff</color>
     <color name="gray">#fff3f3f3</color>
     
-    
     <color name="brown">#ff402c1c</color>
     <color name="brown_pressed">#ff755c48</color> 
     
     <color name="green">#ff4CCC86</color>
     <color name="green_line">#ffbeffca</color>
-    <color name="green_shadow">#ff007f67</color>
+    <color name="green_shadow">#FF42b275</color>
+    
     <color name="green_deep">#ff134f44</color>
     <color name="green_light">#ffb7fed4</color>
     <color name="green_light_shadow">#ff89be9e</color>
@@ -20,11 +20,15 @@
     <color name="group_parent">#ffdffddf</color>
     <color name="group_child">#ffdffddf</color>
     
-    <color name="red">#ffbe2f23</color>
-    <color name="red_shadow">#ff581610</color>
+    <color name="red">#FFE64A45</color>
+    <color name="red_shadow">#FFc9403c</color>
     
-    <color name="orange">#fffe7e28</color>
-    <color name="orange_shadow">#ff7e3f14</color>
+    <color name="orange">#FFFF9900</color>
+    <color name="orange_shadow">#FFdf8500</color>
     
     <color name="dialog_back">#ffbbd0bb</color>
+    
+    <color name="buttonColor">#ff5696BC</color>
+    <color name="buttonColor_shadow">#ff2F5168</color>
+    
 </resources>

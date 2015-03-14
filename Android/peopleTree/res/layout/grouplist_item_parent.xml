@@ -5,24 +5,33 @@
     android:layout_height="60dp" 
     android:minHeight="60dp"
     android:background="@drawable/list_item_selector">
+    
+        
+   	<ImageView
+        android:layout_width="@dimen/parent_left_padding"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:background="@color/white"/>
 
     <ImageView
         android:id="@+id/parent_img"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_width="30dp"
+        android:layout_height="60dp"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="12dp"
-        android:src="@drawable/ic_nature_people_white_48dp" />
+        android:layout_marginLeft="@dimen/parent_left_padding"
+        android:background="@drawable/list_item_pressed" />
     
      <TextView
         android:id="@+id/parent_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/parent_img"
-        android:layout_marginLeft="68dp"
+        android:layout_marginLeft="10dp"
         android:layout_centerVertical="true"
         android:gravity="center_vertical"
+        android:text="test"
         android:textColor="@color/white"
         android:textSize="@dimen/group_item_name_size" />
      
@@ -39,8 +48,8 @@
 
     <ImageButton
         android:id="@+id/parent_btn"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:background="@drawable/more_btn_selector" />

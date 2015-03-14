@@ -14,7 +14,7 @@
 	    <TextView
 	        android:id="@+id/bar_text"
 	        android:layout_width="wrap_content"
-	        android:layout_height="48dp"
+	        android:layout_height="35dp"
 	        android:layout_alignParentLeft="true"
 	        android:gravity="center_vertical"
 	        android:paddingLeft="15dp"
@@ -37,7 +37,7 @@
     <LinearLayout
         android:id="@+id/menuIcon"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="35dp"
         android:layout_below="@+id/bar"
         android:orientation="horizontal">
 

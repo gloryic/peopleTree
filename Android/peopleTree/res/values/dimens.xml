@@ -5,11 +5,16 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     
     <dimen name="corner_radius">4dp</dimen>
-    <dimen name="layer_padding">3dp</dimen>
+    <dimen name="layer_padding">0dp</dimen>
     
     <dimen name="basic_text_size">20sp</dimen>
     <dimen name="group_item_name_size">20sp</dimen>
-    <dimen name="group_item_number_size">16sp</dimen>
+    <dimen name="group_item_number_size">20sp</dimen>
     
     <dimen name="btn_add_coner_radius">10dp</dimen>
+    
+    <dimen name="parent_left_padding">15dp</dimen>
+    <dimen name="cur_left_padding">45dp</dimen>
+    <dimen name="child_left_padding">75dp</dimen>
+    
 </resources>

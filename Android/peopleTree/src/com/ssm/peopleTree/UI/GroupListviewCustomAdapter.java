@@ -99,8 +99,13 @@ public class GroupListviewCustomAdapter extends BaseAdapter implements OnClickLi
 
 		if(mData.accumulateWarning>0){
 			da = mContext.getResources().getDrawable(R.drawable.list_item_red_selector);
+			holder.imgVeiw.setBackgroundResource(R.drawable.list_item_red_pressed);
 		}else if(mData.managingNumber != mData.managingTotalNumber){
 			da = mContext.getResources().getDrawable(R.drawable.list_item_orange_selector);
+			holder.imgVeiw.setBackgroundResource(R.drawable.list_item_orange_pressed);
+		}
+		else{
+			holder.imgVeiw.setBackgroundResource(R.drawable.list_item_pressed);
 		}
 		convertView.setBackground(da);
 

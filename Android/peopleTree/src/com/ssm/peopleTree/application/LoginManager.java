@@ -125,13 +125,9 @@ public class LoginManager {
 					//TODO
 					
 					int groupMemberId = ParseInstallation.getCurrentInstallation().getInt("groupMemberId");		
+					Log.i("getCurrentInstallation get groupMemberId",groupMemberId+"!!!");
 					
-					Log.i("groupMemberId",groupMemberId+"!!!");
-					
-					if(groupMemberId <= 0)
-						ParseInstallation.getCurrentInstallation().put("groupMemberId", res.curData.groupMemberId);
-					
-					
+					ParseInstallation.getCurrentInstallation().put("groupMemberId", res.curData.groupMemberId);
 					ParseInstallation.getCurrentInstallation().saveInBackground(new SaveCallback() {
 						@Override
 						public void done(ParseException e) {
@@ -147,10 +143,7 @@ public class LoginManager {
 						}
 					});
 					
-					
-					
 					//TODO
-					
 					
 					loginListener.onLoginSuccess();
 				}

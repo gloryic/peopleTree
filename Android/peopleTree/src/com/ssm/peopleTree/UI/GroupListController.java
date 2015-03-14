@@ -31,6 +31,7 @@ import android.widget.TextView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.handmark.pulltorefresh.library.ILoadingLayout;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
@@ -143,6 +144,10 @@ public class GroupListController extends Fragment implements Observer {
 		slidedown_top = AnimationUtils.loadAnimation(mContext, R.anim.slide_to_top);
 		
 		glv.setMode(Mode.PULL_FROM_START);
+		
+		ILoadingLayout loadingLayout = glv.getLoadingLayoutProxy();
+		Drawable drawable = getResources().getDrawable(R.drawable.translaste);
+		loadingLayout.setLoadingDrawable(drawable);
 		
 		/*
 		glv.setOnTouchListener(new OnTouchListener() {
@@ -293,14 +298,19 @@ public class GroupListController extends Fragment implements Observer {
 		}
 		
 		View back = curLayout.findViewById(R.id.groupCur);
+		View leftDecorBar = curLayout.findViewById(R.id.grouplist_cur_img);
+		
 		if(myData.accumulateWarning > 0){
 			back.setBackgroundResource(R.drawable.list_item_red_normal);
+			leftDecorBar.setBackgroundResource(R.drawable.list_item_red_pressed);
 		}
 		else if(myData.managingNumber != myData.managingTotalNumber){
 			back.setBackgroundResource(R.drawable.list_item_orange_normal);
+			leftDecorBar.setBackgroundResource(R.drawable.list_item_orange_pressed);
 		}
 		else {
 			back.setBackgroundResource(R.drawable.list_item_normal);
+			leftDecorBar.setBackgroundResource(R.drawable.list_item_pressed);
 		}
 		curLayout.setOnClickListener(new OnClickListener() {
 				
@@ -340,6 +350,23 @@ public class GroupListController extends Fragment implements Observer {
 				}
 				parentName.setText(parentNameStr);
 			}
+			
+			//MODIFY
+			View back = parentLayout.findViewById(R.id.groupParent);
+			View leftDecorBar = parentLayout.findViewById(R.id.parent_img);
+			if(fparentData.accumulateWarning > 0){
+				back.setBackgroundResource(R.drawable.list_item_red_normal);
+				leftDecorBar.setBackgroundResource(R.drawable.list_item_red_pressed);
+			}
+			else if(fparentData.managingNumber != fparentData.managingTotalNumber){
+				back.setBackgroundResource(R.drawable.list_item_orange_normal);
+				leftDecorBar.setBackgroundResource(R.drawable.list_item_orange_pressed);
+			}
+			else {
+				back.setBackgroundResource(R.drawable.list_item_normal);
+				leftDecorBar.setBackgroundResource(R.drawable.list_item_pressed);
+			}
+			//MODIFY
 			
 			ImageButton parentBtn = (ImageButton)parentLayout.findViewById(R.id.parent_btn);			
 			if (parentBtn != null) {
