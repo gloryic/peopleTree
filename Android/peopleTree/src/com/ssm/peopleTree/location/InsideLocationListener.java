@@ -45,8 +45,8 @@ class InsideLocationListener implements LocationMeasurer{
 	long timeInterval = 1000*7;
 	boolean isLocationRequested = false;
 
-	Timer jobScheduler = new Timer();
-	UpdateNotifier updateNotifier = null;
+	Timer jobScheduler;
+
 	private BroadcastReceiver wifiReceiver;
 	
 	int x = -1;
@@ -61,7 +61,7 @@ class InsideLocationListener implements LocationMeasurer{
 	
 	
 	private static final double VALIDDISTANCE = 180.0;
-	private static final long VALIDTIME = 1000*60*5;
+	private static final long VALIDTIME = 1000*30;
 	boolean isFpValid=false;
 	boolean isWifiEnabled = false;
 	boolean isGetLocation = false;
@@ -72,7 +72,7 @@ class InsideLocationListener implements LocationMeasurer{
 		wifiManager = (WifiManager) mContext
 				.getSystemService(Context.WIFI_SERVICE);
 		
-		updateNotifier = new InsideLocationUpdateNotifier();
+
 		wifiReceiver = new BroadcastReceiver() {
 			@Override
 			public void onReceive(Context context, Intent intent) {
@@ -80,8 +80,7 @@ class InsideLocationListener implements LocationMeasurer{
 				if (intent.getAction().equals(
 						WifiManager.SCAN_RESULTS_AVAILABLE_ACTION)
 						&& wifiManager.getScanResults() != null) {
-					apList = wifiManager.getScanResults();
-					
+					apList = wifiManager.getScanResults();					
 
 					backup2ApMeasureInfos = backup1ApMeasureInfos;
 					backup1ApMeasureInfos = curApMeasureInfos;
@@ -119,12 +118,6 @@ class InsideLocationListener implements LocationMeasurer{
 					} else {
 						isFpValid = false;
 					}
-					if (updateNotifier != null) {
-
-						updateNotifier
-								.notifyUpdate(InsideLocationListener.this);
-					}
-
 
 				}
 			}
@@ -190,7 +183,7 @@ class InsideLocationListener implements LocationMeasurer{
 			mContext.registerReceiver(wifiReceiver, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
 			
 			
-			
+			jobScheduler = new Timer();
 			jobScheduler.scheduleAtFixedRate(new TimerTask() {
 				@Override
 				public void run() {
@@ -201,7 +194,7 @@ class InsideLocationListener implements LocationMeasurer{
 
 						wifiManager.startScan();	
 					}else{
-						updateNotifier.notifyUpdate(InsideLocationListener.this);
+						
 					}
 				}
 				
@@ -227,17 +220,12 @@ class InsideLocationListener implements LocationMeasurer{
 		long curTime = System.currentTimeMillis();
 		long timediff =  curTime - this.lastLocGetTime ;
 	
-		if(timediff >= VALIDTIME || this.referPointDistance >=VALIDDISTANCE || !isFpValid){
+		if(timediff >= VALIDTIME || !isFpValid){
 			return false;
 		}
 		return true;
 	}
 
-	@Override
-	public void setUpdateNotifier(UpdateNotifier u) {
-		this.updateNotifier = u;
-		
-	}
 
 	@Override
 	public boolean isLocReqPossible() {

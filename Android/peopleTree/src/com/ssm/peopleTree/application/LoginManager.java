@@ -210,6 +210,7 @@ public class LoginManager {
 		
 		if (savedUserNumber != USER_NUMBER_DEFAULT) {
 			NetworkManager.getInstance().request(new GetInfoAllRequest(savedUserNumber, savedUserNumber), onGetInfoResponse, null);
+
 		}
 		else {
 			// TODO
@@ -227,11 +228,12 @@ public class LoginManager {
 		}
 		id = id.replaceAll("[ \t\n]", "");
 		NetworkManager.getInstance().request(new LoginRequest(id, pw), onLoginResponse, null);
+
 	}
 	
 	public void logout() {
 		NetworkManager.getInstance().request(new LogoutRequest(savedUserNumber), onLogoutResponse, null);
-		mContext.stopService(new Intent("android.servcice.MAIN"));
+
 		
 	}
 	
