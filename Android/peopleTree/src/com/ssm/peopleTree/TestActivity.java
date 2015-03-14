@@ -481,7 +481,7 @@ public class TestActivity extends FragmentActivity implements Progressable, OnCl
 
 		Log.i("log", "testacti stop");
 		// TODO Auto-generated method stub
-		unregisterReceiver(mReceivedSMSReceiver);
+		//unregisterReceiver(mReceivedSMSReceiver);
 		super.onStop();
 	}
 	@Override
