@@ -135,22 +135,26 @@ public class PeopleTreeLocationManager  {
 							DeviceStatus.set(DeviceStatus.INVALID);
 							statusCode = DeviceStatus.getStatus();
 							dbg_str1+="[not] ";
+
+							fpId = 1;
 						}else{
+
+							fpId = 0;
 							dbg_str1+="[out] ";
+							latitude = outsideLocationMeasurer.location.getLatitude();
+							longtitude = outsideLocationMeasurer.location.getLongitude();
+
+
+							Log.i("log", "locTest - outside -notifyUpdate ["+latitude+"]["+longtitude+"]");
+							dbg_str1+="("+ String.format("%.2f",outsideLocationMeasurer.location.getAccuracy()) +")";
+							
+							long td = System.currentTimeMillis() - outsideLocationMeasurer.location.getTime();
+							dbg_str1+="][td:"+td+"]";
+							
 						}
 
-						fpId = 0;
-
-						latitude = outsideLocationMeasurer.location.getLatitude();
-						longtitude = outsideLocationMeasurer.location.getLongitude();
-
-
-						Log.i("log", "locTest - outside -notifyUpdate ["+latitude+"]["+longtitude+"]");
-						dbg_str1+="("+ String.format("%.2f",outsideLocationMeasurer.location.getAccuracy()) +")";
 						
-						long td = System.currentTimeMillis() - outsideLocationMeasurer.location.getTime();
-						dbg_str1+="][td:"+td+"]";
-						
+
 						
 					}
 					
