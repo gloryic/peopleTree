@@ -17,7 +17,7 @@ public class peopleTreeService extends Service{
 	DeviceStatusReceiver mReceiver = new DeviceStatusReceiver();
 
 	boolean isRun= false;
-	
+
     @Override
     public IBinder onBind(Intent intent) {
         return null;
@@ -32,16 +32,14 @@ public class peopleTreeService extends Service{
         this.registerReceiver(mReceiver, filter);
         
         
-        Log.i("service start","service start");
+        Log.i("service start","service start"+" ["+isRun +"]");
         
         if(!isRun){
         	isRun = true;
         	Log.i("service start","service start - pmlm start");
-            
         	NetworkManager.getInstance().initialize(this);
-            PeopleTreeLocationManager.getInstance().initialize(this);
+    		PeopleTreeLocationManager.getInstance().initialize(this);
             PeopleTreeLocationManager.getInstance().startLocationMeasure();
-            
         }
         
 
@@ -51,10 +49,12 @@ public class peopleTreeService extends Service{
      
     @Override
     public void onDestroy() { 
-    	isRun = false;
+    	
     	Log.i("service dead","service dead");
     	PeopleTreeLocationManager.getInstance().stopLocationMeasure();
-        
+    	isRun = false;
+    	
+    	
         Log.d(TAG, "onDestroy()");
         this.unregisterReceiver(mReceiver);
         super.onDestroy();

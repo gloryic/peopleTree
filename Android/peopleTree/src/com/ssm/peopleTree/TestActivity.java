@@ -32,6 +32,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -91,7 +92,7 @@ public class TestActivity extends FragmentActivity implements Progressable, OnCl
 		setContentView(R.layout.tframe);
 	
 		//
-		startService(new Intent("android.servcice.MAIN"));		
+		//startService(new Intent("android.servcice.MAIN"));		
 		IntentFilter filter = new IntentFilter("android.location.PROVIDERS_CHANGED");
         this.registerReceiver(mReceivedSMSReceiver, filter);
         
@@ -272,9 +273,12 @@ public class TestActivity extends FragmentActivity implements Progressable, OnCl
 	
 	public void logout() {
 		LoginManager.getInstance().logout();
-        
+		
 		Intent intent = new Intent(TestActivity.this, LoginActivity.class);
 		startActivity(intent);
+		
+		
+		
 		finish();
 	}
 
@@ -444,32 +448,45 @@ public class TestActivity extends FragmentActivity implements Progressable, OnCl
     
     @Override
 	protected void onPause() {
-		// TODO Auto-generated method stub
+		Log.i("log", "testacti pause");
 		super.onPause();
 		
 	}
 	@Override
 	protected void onDestroy() {
+
+		Log.i("log", "testacti dest");
+
+
 		// TODO Auto-generated method stub
 		super.onDestroy();
 	}
 	@Override
 	protected void onRestart() {
+
+		Log.i("log", "testacti rest");
 		// TODO Auto-generated method stub
 		super.onRestart();
 	}
 	@Override
 	protected void onStart() {
+
+		Log.i("log", "testacti stt");
+		startService(new Intent("android.servcice.MAIN"));
 		// TODO Auto-generated method stub
 		super.onStart();
 	}
 	@Override
 	protected void onStop() {
+
+		Log.i("log", "testacti stop");
 		// TODO Auto-generated method stub
 		super.onStop();
 	}
 	@Override
 	protected void onResume() {
+
+		Log.i("log", "testacti resume");
 		// TODO Auto-generated method stub
 		super.onResume();
 	}

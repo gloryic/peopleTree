@@ -23,7 +23,6 @@ class OutsideLocationListener extends Service implements LocationListener,
 	boolean isLocationRequested = false;
 	boolean isGetLocation = false;
 	private Context mContext;
-	UpdateNotifier updateNotifier = null;
 
 	Location location = null;
 
@@ -33,16 +32,12 @@ class OutsideLocationListener extends Service implements LocationListener,
 	long validTime = 1000 * 60;
 	float validAccuracy = (float) 50.0;
 	long lastUpdateTime = 0;
-	Timer jobScheduler;
 	
 	long savedDistanceForUpdate=0;
 	long savedTimeForUpdate =0;
 	OutsideLocationListener(Context context) {
 		this.mContext = context;
-
-		this.updateNotifier = new OutsideLocationUpdateNotifier();
-		 jobScheduler = new Timer();
-		 lastUpdateTime = System.currentTimeMillis();
+		lastUpdateTime = System.currentTimeMillis();
 		
 	}
 
@@ -68,6 +63,9 @@ class OutsideLocationListener extends Service implements LocationListener,
 	}
 
 	public boolean isValidLocation() {
+		if(location == null){
+			return false;
+		}
 		long timeDiff = System.currentTimeMillis() - location.getTime();
 
 		if (timeDiff <= this.validTime
@@ -104,20 +102,7 @@ class OutsideLocationListener extends Service implements LocationListener,
 			this.isGetLocation = false;
 			this.locationRequest(distanceForUpdate, timeForUpdate);
 			
-			jobScheduler.scheduleAtFixedRate(new TimerTask() {
-				@Override
-				public void run() {
 
-					Log.i("log", "locTest outside timer run");
-					long curtime = System.currentTimeMillis();
-					long timediff = curtime- lastUpdateTime;
-					if(timediff>=savedTimeForUpdate*2){
-						if (updateNotifier != null) {
-							updateNotifier.notifyUpdate(OutsideLocationListener.this);
-						}
-					}
-				}	
-			}, 1000,1000*13);
 
 		}
 		
@@ -126,7 +111,6 @@ class OutsideLocationListener extends Service implements LocationListener,
 	}
 
 	public void stopRequest() {
-		jobScheduler.cancel();
 		if (locationManager != null) {
 			this.isGetLocation = false;
 			isLocationRequested = false;
@@ -135,9 +119,6 @@ class OutsideLocationListener extends Service implements LocationListener,
 		}
 	}
 
-	public void setUpdateNotifier(UpdateNotifier u) {
-		this.updateNotifier = u;
-	}
 
 	private void locationRequest(long distanceForUpdate, long timeForUpdate) {
 
@@ -197,10 +178,8 @@ class OutsideLocationListener extends Service implements LocationListener,
 			statecnt++;
 			this.location = location;
 			isGetLocation = true;
-			if (updateNotifier != null) {
-				lastUpdateTime = System.currentTimeMillis();
-				updateNotifier.notifyUpdate(this);
-			}
+			lastUpdateTime = System.currentTimeMillis();
+			
 		}
 
 	}
