@@ -273,7 +273,7 @@ public class TestActivity extends FragmentActivity implements Progressable, OnCl
 	
 	public void logout() {
 		LoginManager.getInstance().logout();
-        
+		
 		Intent intent = new Intent(TestActivity.this, LoginActivity.class);
 		startActivity(intent);
 		
@@ -456,6 +456,8 @@ public class TestActivity extends FragmentActivity implements Progressable, OnCl
 	protected void onDestroy() {
 
 		Log.i("log", "testacti dest");
+
+
 		// TODO Auto-generated method stub
 		super.onDestroy();
 	}
@@ -478,8 +480,6 @@ public class TestActivity extends FragmentActivity implements Progressable, OnCl
 	protected void onStop() {
 
 		Log.i("log", "testacti stop");
-		stopService(new Intent("android.servcice.MAIN"));
-		this.unregisterReceiver(mReceivedSMSReceiver);
 		// TODO Auto-generated method stub
 		super.onStop();
 	}

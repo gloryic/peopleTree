@@ -232,6 +232,7 @@ public class LoginManager {
 	}
 	
 	public void logout() {
+		mContext.stopService(new Intent("android.servcice.MAIN"));
 		NetworkManager.getInstance().request(new LogoutRequest(savedUserNumber), onLogoutResponse, null);
 
 		

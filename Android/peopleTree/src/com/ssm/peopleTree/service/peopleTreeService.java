@@ -36,13 +36,10 @@ public class peopleTreeService extends Service{
         
         if(!isRun){
         	isRun = true;
-        	Log.i("service start","service start - pmlm start1");
+        	Log.i("service start","service start - pmlm start");
         	NetworkManager.getInstance().initialize(this);
-        	Log.i("service start","service start - pmlm start2");
     		PeopleTreeLocationManager.getInstance().initialize(this);
-    		Log.i("service start","service start - pmlm start3");
             PeopleTreeLocationManager.getInstance().startLocationMeasure();
-            Log.i("service start","service start - pmlm start4");
         }
         
 
