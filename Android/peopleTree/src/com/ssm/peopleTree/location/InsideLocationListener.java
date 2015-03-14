@@ -27,7 +27,7 @@ import android.util.Log;
 
 class InsideLocationListener implements LocationMeasurer{
 	private Context mContext;
-	//미완성 더미 클래스
+
 	ArrayList<ApMeasureInfo> apMeasureInfos;	
 	
 	ArrayList<ApMeasureInfo> curApMeasureInfos;
@@ -42,7 +42,7 @@ class InsideLocationListener implements LocationMeasurer{
 	
 	
 	
-	long timeInterval = 1000*7;
+	long timeInterval = 1000*5;
 	boolean isLocationRequested = false;
 
 	Timer jobScheduler;
@@ -60,7 +60,7 @@ class InsideLocationListener implements LocationMeasurer{
 	double referPointDistance = 0;
 	
 	
-	private static final double VALIDDISTANCE = 180.0;
+	private static final double VALIDDISTANCE = 100.0;
 	private static final long VALIDTIME = 1000*30;
 	boolean isFpValid=false;
 	boolean isWifiEnabled = false;
@@ -86,6 +86,7 @@ class InsideLocationListener implements LocationMeasurer{
 					backup1ApMeasureInfos = curApMeasureInfos;
 					curApMeasureInfos = new ArrayList<ApMeasureInfo>();
 					bssidInfos.clear();
+					apMeasureInfos.clear();
 					for (ScanResult iter1 : apList) {
 						if (iter1.level >= ApMeasureInfo.MINLEVEL) {
 							curApMeasureInfos.add(new ApMeasureInfo(iter1.BSSID, iter1.SSID,
@@ -97,10 +98,10 @@ class InsideLocationListener implements LocationMeasurer{
 
 					}
 					if(backup1ApMeasureInfos !=null){
-						mergeApMeasureInfos(backup1ApMeasureInfos,2);
+						mergeApMeasureInfos(backup1ApMeasureInfos,3);
 					}
 					if(backup2ApMeasureInfos != null){
-						mergeApMeasureInfos(backup1ApMeasureInfos,3);
+						mergeApMeasureInfos(backup1ApMeasureInfos,5);
 					}
 
 					
@@ -135,9 +136,9 @@ class InsideLocationListener implements LocationMeasurer{
 						}
 						
 					}
-					if(!flag){
+					if(!flag && ( iter1.getlevel()-(4*weight) >= -90 ) ){
 						apMeasureInfos.add(new ApMeasureInfo(iter1.getBssid(), iter1.getSsid(),
-								iter1.getlevel()));
+								iter1.getlevel()-(4*weight)));
 						bssidInfos.add(iter1.getBssid());
 					}
 					
@@ -220,7 +221,8 @@ class InsideLocationListener implements LocationMeasurer{
 		long curTime = System.currentTimeMillis();
 		long timediff =  curTime - this.lastLocGetTime ;
 	
-		if(timediff >= VALIDTIME || !isFpValid){
+
+		if(timediff >= VALIDTIME ||  this.referPointDistance >=VALIDDISTANCE || !isFpValid){
 			return false;
 		}
 		return true;

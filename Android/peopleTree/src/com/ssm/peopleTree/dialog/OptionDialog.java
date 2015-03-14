@@ -1,30 +1,38 @@
 package com.ssm.peopleTree.dialog;
 
+import java.util.Timer;
+
 import com.ssm.peopleTree.R;
 import com.ssm.peopleTree.TestActivity;
 import com.ssm.peopleTree.group.GroupManager;
+import com.ssm.peopleTree.location.PeopleTreeLocationManager;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 public class OptionDialog extends Dialog implements View.OnClickListener {
 
 	private Context mContext;
 	
 	private AlertDialog alertDialog;
-	
+
 	public OptionDialog(Context context) {
 		super(context);
 
 		this.mContext = context;
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+	
+
+			
 		
 		AlertDialog.Builder builder = new AlertDialog.Builder(context);
 		builder.setTitle("°æ°í")
@@ -62,6 +70,11 @@ public class OptionDialog extends Dialog implements View.OnClickListener {
 		layout.setOnClickListener(this);
 		layout = (RelativeLayout)findViewById(R.id.refresh_layout);
 		layout.setOnClickListener(this);
+		
+		layout = (RelativeLayout)findViewById(R.id.dbg_layout1);
+		layout.setOnClickListener(this);
+		layout = (RelativeLayout)findViewById(R.id.dbg_layout2);
+		layout.setOnClickListener(this);
 	}
 
 	@Override
@@ -77,6 +90,19 @@ public class OptionDialog extends Dialog implements View.OnClickListener {
 			GroupManager.getInstance().updateSelf();
         	GroupManager.getInstance().navigateHome();
 			break;
+		case R.id.dbg_layout1:
+			((TextView)findViewById(R.id.dbgtxt1)).setText(PeopleTreeLocationManager.getInstance().dbg_str1);;
+			((TextView)findViewById(R.id.dbgtxt2)).setText(PeopleTreeLocationManager.getInstance().dbg_str2);;
+
+
+
+			break;
+		case R.id.dbg_layout2:
+			((TextView)findViewById(R.id.dbgtxt1)).setText(PeopleTreeLocationManager.getInstance().dbg_str1);;
+			((TextView)findViewById(R.id.dbgtxt2)).setText(PeopleTreeLocationManager.getInstance().dbg_str2);;
+
+			break;
+			
 		default:
 			break;
 		}

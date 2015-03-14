@@ -17,4 +17,6 @@
     <dimen name="cur_left_padding">45dp</dimen>
     <dimen name="child_left_padding">75dp</dimen>
     
+    
+     <dimen name="dbgtxt_size">14sp</dimen>
 </resources>

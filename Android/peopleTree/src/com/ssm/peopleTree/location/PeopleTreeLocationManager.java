@@ -50,10 +50,13 @@ public class PeopleTreeLocationManager  {
 	
 	
 	long distanceForUpdate = 0;
-	long timeForUpdate = 1000*10;
+	long timeForUpdate = 1000*5;
 	
 	boolean isRun = false;
 	Timer jobScheduler;
+	public String dbg_str1;
+	public String dbg_str2;
+	int dbg_cnt = 0;
 	private Listener<JSONObject> onCheckMemberResponse;
 	private PeopleTreeLocationManager(){
 
@@ -112,7 +115,10 @@ public class PeopleTreeLocationManager  {
 					double latitude = 0 ;
 					double longtitude = 0 ;
 					CheckMemberRequest cmr ; 
-					if(insideLocationMeasurer.isValidLocation()){
+					
+					dbg_str1 = "";
+					dbg_str2 = "";
+					if(insideLocationMeasurer.isValidLocation() ){
 			
 						
 						fpId = insideLocationMeasurer.curFpLocInfo.getLocationNumber();		
@@ -120,11 +126,18 @@ public class PeopleTreeLocationManager  {
 						longtitude = insideLocationMeasurer.nearReferPoint.getY();
 						
 						Log.i("log", "locTest - inside -notifyUpdate ["+latitude+"]["+longtitude+"]");
+						dbg_str1+="[in ] "+insideLocationMeasurer.referPointDistance +"]";
 						
 						
 						
-						
-					}else if( outsideLocationMeasurer.isValidLocation()){
+					}else{ 
+						if( !outsideLocationMeasurer.isValidLocation()){
+							DeviceStatus.set(DeviceStatus.INVALID);
+							statusCode = DeviceStatus.getStatus();
+							dbg_str1+="[not] ";
+						}else{
+							dbg_str1+="[out] ";
+						}
 
 						fpId = 0;
 
@@ -133,13 +146,14 @@ public class PeopleTreeLocationManager  {
 
 
 						Log.i("log", "locTest - outside -notifyUpdate ["+latitude+"]["+longtitude+"]");
+						dbg_str1+="("+ String.format("%.2f",outsideLocationMeasurer.location.getAccuracy()) +")";
+						
+						long td = System.currentTimeMillis() - outsideLocationMeasurer.location.getTime();
+						dbg_str1+="][td:"+td+"]";
 						
 						
-					}else{
-						Log.i("log", "locTest - nothing -notifyUpdate");
-						DeviceStatus.set(DeviceStatus.INVALID);
-						statusCode = DeviceStatus.getStatus();
 					}
+					
 					
 					cmr = new CheckMemberRequest(groupMemeberId, parentGroupMemberId,
 							parentManageMode, edgyType, statusCode, fpId, latitude,
@@ -147,8 +161,9 @@ public class PeopleTreeLocationManager  {
 					NetworkManager.getInstance().request(cmr, onCheckMemberResponse,
 							null);
 					Log.i("log", "locTest -checkid  " + groupMemeberId + " st" +  statusCode);
-					
-				}
+					dbg_str1+="[id:"+groupMemeberId+"][pid:"+parentGroupMemberId+"]\n[st:"+statusCode+"][fpid:"+fpId+"]\ncnt:"+dbg_cnt++;
+					dbg_str2 = "[lat:" +latitude +"]\n[lon:"+longtitude+"]";
+			}
 				
 			}, 0, timeForUpdate);
 

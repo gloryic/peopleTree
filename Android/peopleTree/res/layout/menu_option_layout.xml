@@ -87,16 +87,52 @@
 		</RelativeLayout>
 		
         <RelativeLayout
-		    android:id="@+id/tmp1"
+		    android:id="@+id/dbg_layout1"
 		    android:layout_width="match_parent"
 		    android:layout_height="60dp"
 		    android:background="@drawable/list_item_selector"
 		    android:layout_marginBottom="1dp" >
 			
+		    
+		               
+		     <TextView
+		        android:id="@+id/dbgtxt1"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
 
+		        android:layout_marginLeft="2dp"
+		        android:layout_marginRight="2dp"
+		        android:layout_centerVertical="true"
+		        android:gravity="center_vertical"
+		        android:text="t1"
+		        android:textColor="@color/white"
+		        android:textSize="@dimen/dbgtxt_size" />
+			
+		</RelativeLayout>
+        <RelativeLayout
+		    android:id="@+id/dbg_layout2"
+		    android:layout_width="match_parent"
+		    android:layout_height="60dp"
+		    android:background="@drawable/list_item_selector"
+		    android:layout_marginBottom="1dp" >
+			
+		    
+		               
+		     <TextView
+		        android:id="@+id/dbgtxt2"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+
+		        android:layout_marginLeft="2dp"
+		        android:layout_marginRight="2dp"
+		        android:layout_centerVertical="true"
+		        android:gravity="center_vertical"
+		        android:text="t2"
+		        android:textColor="@color/white"
+		        android:textSize="@dimen/dbgtxt_size" />
+			
 		</RelativeLayout>
 
-		
     </LinearLayout>
 
     <RelativeLayout 

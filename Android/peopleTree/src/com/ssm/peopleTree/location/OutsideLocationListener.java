@@ -29,8 +29,8 @@ class OutsideLocationListener extends Service implements LocationListener,
 	// 요청중일때 프로바이더가 값을 업데이트해줄때마다 카운트
 	public int changedCnt = 0;
 
-	long validTime = 1000 * 60;
-	float validAccuracy = (float) 50.0;
+	long validTime = 1000 * 40;
+	float validAccuracy = (float) 55.0;
 	long lastUpdateTime = 0;
 	
 	long savedDistanceForUpdate=0;
@@ -130,16 +130,15 @@ class OutsideLocationListener extends Service implements LocationListener,
 				changedCnt = 0;
 
 				locationManager.requestLocationUpdates(
-						LocationManager.GPS_PROVIDER, distanceForUpdate,
-						timeForUpdate, this);
+						LocationManager.GPS_PROVIDER,timeForUpdate, (float)distanceForUpdate,
+						 this);
 
 				locationManager.requestLocationUpdates(
-						LocationManager.NETWORK_PROVIDER, distanceForUpdate,
-						timeForUpdate, this);
+						LocationManager.NETWORK_PROVIDER,
+						timeForUpdate,(float)distanceForUpdate, this);
 
 				if (this.isNetworkEnabled) {
-					location = locationManager
-							.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+					location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 				}
 
 				if (this.isGPSEnabled) {
@@ -162,25 +161,14 @@ class OutsideLocationListener extends Service implements LocationListener,
 
 			return;
 		}
-		boolean isBetter= false;
-		if (this.location != null) {
-			long timeDiff = location.getTime() - this.location.getTime();
-			if (timeDiff >= validTime
-					|| location.getAccuracy() <= this.validAccuracy) {
-				isBetter= true;
-			}
-		}else{
-			isBetter=true;
-			
-		}
+	
 		Log.i("Log", "onLocationChanged");
-		if (isBetter) {
-			statecnt++;
-			this.location = location;
-			isGetLocation = true;
-			lastUpdateTime = System.currentTimeMillis();
+		statecnt++;
+		this.location = location;
+		isGetLocation = true;
+		lastUpdateTime = System.currentTimeMillis();
 			
-		}
+		
 
 	}
 

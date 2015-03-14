@@ -8,7 +8,7 @@ public class FingerPrintManager {
 	private ArrayList<FingerPrintLocationInfo> LocInfos;
 	
 	
-	public static final int MIN_AP_NUM = 3;
+	public static final int MIN_AP_NUM = 6;
 	
 	
 	
