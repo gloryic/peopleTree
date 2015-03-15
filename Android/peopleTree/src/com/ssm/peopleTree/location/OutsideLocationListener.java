@@ -29,8 +29,8 @@ class OutsideLocationListener extends Service implements LocationListener,
 	// 요청중일때 프로바이더가 값을 업데이트해줄때마다 카운트
 	public int changedCnt = 0;
 
-	long validTime = 1000 * 40;
-	float validAccuracy = (float) 55.0;
+	long validTime = 1000 * 25;
+	float validAccuracy = (float) 60.0;
 	long lastUpdateTime = 0;
 	
 	long savedDistanceForUpdate=0;
