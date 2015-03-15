@@ -47,7 +47,7 @@ public class ReferencePoint {
 				}
 			}	
 			if(!flag){
-				int diff = iter1.level +100; // 해당 ap가 감지안되었을때 
+				int diff = iter1.level +105; // 해당 ap가 감지안되었을때 
 				diff= diff*diff;
 				sum += diff;
 			}
