@@ -120,7 +120,7 @@ public class MapActivity extends Activity implements OnClickListener {
 			btn.setOnClickListener(this);
 		}
 		
-		if (mode == ManageMode.TRAKING) {
+		if (mode == ManageMode.TRACKING) {
 			btn = (Button)findViewById(R.id.btn_setting);
 			if (btn != null) {
 				btn.setOnClickListener(this);

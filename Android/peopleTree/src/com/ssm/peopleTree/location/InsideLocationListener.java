@@ -42,7 +42,7 @@ class InsideLocationListener implements LocationMeasurer{
 	
 	
 	
-	long timeInterval = 1000*5;
+	long timeInterval = 1000*4;
 	boolean isLocationRequested = false;
 
 	Timer jobScheduler;
@@ -81,7 +81,6 @@ class InsideLocationListener implements LocationMeasurer{
 						WifiManager.SCAN_RESULTS_AVAILABLE_ACTION)
 						&& wifiManager.getScanResults() != null) {
 					apList = wifiManager.getScanResults();					
-
 					backup2ApMeasureInfos = backup1ApMeasureInfos;
 					backup1ApMeasureInfos = curApMeasureInfos;
 					curApMeasureInfos = new ArrayList<ApMeasureInfo>();
@@ -98,10 +97,10 @@ class InsideLocationListener implements LocationMeasurer{
 
 					}
 					if(backup1ApMeasureInfos !=null){
-						mergeApMeasureInfos(backup1ApMeasureInfos,3);
+						mergeApMeasureInfos(backup1ApMeasureInfos,4);
 					}
 					if(backup2ApMeasureInfos != null){
-						mergeApMeasureInfos(backup1ApMeasureInfos,5);
+						mergeApMeasureInfos(backup1ApMeasureInfos,6);
 					}
 
 					
@@ -136,9 +135,9 @@ class InsideLocationListener implements LocationMeasurer{
 						}
 						
 					}
-					if(!flag && ( iter1.getlevel()-(4*weight) >= -90 ) ){
+					if(!flag && ( iter1.getlevel()-(2*weight) >= -97 ) ){
 						apMeasureInfos.add(new ApMeasureInfo(iter1.getBssid(), iter1.getSsid(),
-								iter1.getlevel()-(4*weight)));
+								iter1.getlevel()-(2*weight)));
 						bssidInfos.add(iter1.getBssid());
 					}
 					

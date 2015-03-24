@@ -88,7 +88,7 @@ public class ManageSelectDialog extends Dialog implements View.OnClickListener {
 		case R.id.tracking_layout:
 
 			if (((TestActivity) context).chkGpsService())
-				goMapActivity(ManageMode.TRAKING);
+				goMapActivity(ManageMode.TRACKING);
 			break;
 		case R.id.area_layout:
 			goMapActivity(ManageMode.AREA);

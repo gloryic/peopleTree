@@ -206,7 +206,7 @@ public class MapManager {
 		case NOTHING:
 			req = new SetGeoPointRequest(id, tempRadius, tempGeoPoints);
 			break;
-		case TRAKING:
+		case TRACKING:
 			req = new SetGeoPointRequest(id, tempRadius);
 			break;
 		case AREA:

@@ -8,7 +8,7 @@ public class FingerPrintManager {
 	private ArrayList<FingerPrintLocationInfo> LocInfos;
 	
 	
-	public static final int MIN_AP_NUM = 6;
+	public static final int MIN_AP_NUM = 5;
 	
 	
 	
@@ -289,7 +289,7 @@ public class FingerPrintManager {
 
 		bfinfo.addReferencePointInfo(rp);
 
-		rp = new ReferencePoint(610, 600);
+		rp = new ReferencePoint(550, 550);//610 600
 
 		bfinfo.addBssiInfo("54:a0:50:d8:1b:18");
 		rp.addApMeasureInfo("54:a0:50:d8:1b:18", "a1", -63);
@@ -320,7 +320,7 @@ public class FingerPrintManager {
 
 		bfinfo.addReferencePointInfo(rp);
 
-		rp = new ReferencePoint(630, 600);
+		rp = new ReferencePoint(560, 560);//630,600
 
 		bfinfo.addBssiInfo("54:a0:50:d8:1b:18");
 		rp.addApMeasureInfo("54:a0:50:d8:1b:18", "a1", -61);
