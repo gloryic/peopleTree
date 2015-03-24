@@ -6,7 +6,7 @@ public enum ManageMode {
 
 	INVALID(100, 0),
 	NOTHING(200, R.layout.activity_map),
-	TRAKING(210, R.layout.activity_map_tracking),
+	TRACKING(210, R.layout.activity_map_tracking),
 	AREA(220, R.layout.activity_map_area),
 	GEOFENCE(230, R.layout.activity_map_geofence)
 	;

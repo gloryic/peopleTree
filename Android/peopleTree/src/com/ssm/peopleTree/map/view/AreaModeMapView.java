@@ -80,7 +80,7 @@ public class AreaModeMapView extends GroupLocationMapView implements RadiusSetta
 			mapView.removeCircle(circle);
 			circle.setCenter(areaMarker.getMapPoint());
 			circle.setRadius(radius);
-			circle.setTag(ManageMode.TRAKING.getCode());
+			circle.setTag(ManageMode.TRACKING.getCode());
 			mapView.addCircle(circle);
 			
 		} catch(Exception e){

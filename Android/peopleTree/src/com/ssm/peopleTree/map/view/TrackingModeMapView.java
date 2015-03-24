@@ -44,7 +44,7 @@ public class TrackingModeMapView extends GroupLocationMapView implements RadiusS
 			MapPoint mp = MapPoint.mapPointWithGeoCoord(lat, lon);
 			circle.setCenter(mp);
 			circle.setRadius(radius);
-			circle.setTag(ManageMode.TRAKING.getCode());
+			circle.setTag(ManageMode.TRACKING.getCode());
 			mapView.addCircle(circle);
 			
 		} catch(Exception e){

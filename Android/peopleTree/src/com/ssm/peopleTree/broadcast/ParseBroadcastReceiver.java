@@ -70,22 +70,22 @@ public class ParseBroadcastReceiver extends BroadcastReceiver {
 		String userName = msg.getString("userName");
 
 		int statusCode = msg.getInt("statusCode");
+		int from = msg.getInt("from");
 
+		int to = msg.getInt("to");
+		
 		if (statusCode >= 2000 && statusCode < 3000) {
 			
 			JSONObject msgObj = new JSONObject(msg.getString("message"));
+			//msgObj.getBoolean("isToggle");
 			
-			PushManager.getInstance().pushMessageAcceptEx(msgObj);
-			sendNotificationEx(context, userName, statusCode ,msgObj);
+			PushManager.getInstance().pushMessageAcceptEx(from,to,msgObj);
+			sendNotificationEx(context,from,to, userName, statusCode ,msgObj);
 			return !msgObj.getBoolean("validation");
 		} else {
 
 	    	String msgstr = msg.getString("message");
 
-
-			int from = msg.getInt("from");
-
-			int to = msg.getInt("to");
 
 			//String userName int statusCode String msgstr int from int to 
 
@@ -97,22 +97,16 @@ public class ParseBroadcastReceiver extends BroadcastReceiver {
     /*
     
      */
-    private void sendNotificationEx(Context context,String userName,int statusCode, JSONObject msgObj) throws JSONException {
+    private void sendNotificationEx(Context context,int from,int to,String userName,int statusCode, JSONObject msgObj) throws JSONException {
     	int parentManageMode;
 		int radius;
 		double distance;
 		int edgeStatus;
 		int accumulateWarning;
+		boolean toggle;
 		parentManageMode = msgObj.getInt("parentManageMode");
-		
-		/*
-		INVALID(100, 0),
-		NOTHING(200, R.layout.activity_map),
-		TRAKING(210, R.layout.activity_map_tracking),
-		AREA(220, R.layout.activity_map_area),
-		GEOFENCE(230, R.layout.activity_map_geofence)
-		
-		*/
+		toggle = msgObj.getBoolean("isToggle");
+
 		
 		Calendar calen = Calendar.getInstance();
 		String timeStr1 = "" + (calen.get(Calendar.MONTH)+1) + "월 " + calen.get(Calendar.DAY_OF_MONTH)+"일    "
@@ -124,36 +118,62 @@ public class ParseBroadcastReceiver extends BroadcastReceiver {
 		mNotificationManager = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
 		PendingIntent contentIntent = PendingIntent.getActivity(context, 0, new Intent(context, TestActivity.class), 0);
 		
+		if(from == to){
+			
 		
-		switch(ManageMode.getMode(parentManageMode)){
+			switch(ManageMode.getMode(parentManageMode)){
+			case TRACKING:
+				radius = msgObj.getInt("radius");
+				distance = msgObj.getDouble("distance");
+				edgeStatus  = msgObj.getInt("edgeStatus");
+				accumulateWarning = msgObj.getInt("accumulateWarning");
+				if(toggle){
+					
+					message +="관리자 주변으로 복귀하였습니다.";
+				}else{
+
+					message +="관리자에게서 이탈하였습니다.";
+				}
+				break;
+			case AREA:
+				radius = msgObj.getInt("radius");
+				distance = msgObj.getInt("distance");
+				edgeStatus  = msgObj.getInt("edgeStatus");
+				accumulateWarning = msgObj.getInt("accumulateWarning");
+				if(toggle){
+					
+					message +="관리자가 지정한 지역으로 복귀하였습니다.";
+				}else{
+
+					message +="관리자가 지정한 지역을 이탈하였습니다.";
+				}
+				break;
+			case GEOFENCE:
+				edgeStatus  = msgObj.getInt("edgeStatus");
+				accumulateWarning = msgObj.getInt("accumulateWarning");
+				if(toggle){
+					
+					message +="관리자가 지정한 지역으로 복귀하였습니다.";
+				}else{
+
+					message +="관리자가 지정한 지역을 이탈하였습니다.";
+				}
+				break;
+			}
+		
+		}else{
+			if(toggle){
 				
-		case TRAKING:
-			radius = msgObj.getInt("radius");
-			distance = msgObj.getDouble("distance");
-			edgeStatus  = msgObj.getInt("edgeStatus");
-			accumulateWarning = msgObj.getInt("accumulateWarning");
+				message +="괸리대상이 복귀하였습니다.";
+			}else{
+
+				message +="괸리대상이 이탈하였습니다.";
+			}
 			
-			message = "관리자에게서 벗어났습니다.\n ";
-			
-		
-			break;
-		case AREA:
-			radius = msgObj.getInt("radius");
-			distance = msgObj.getInt("distance");
-			edgeStatus  = msgObj.getInt("edgeStatus");
-			accumulateWarning = msgObj.getInt("accumulateWarning");
-			
-			message = "관리지역 위치를 벗어났습니다.\n ";
-			
-			break;
-		case GEOFENCE:
-			edgeStatus  = msgObj.getInt("edgeStatus");
-			accumulateWarning = msgObj.getInt("accumulateWarning");
-			
-			message = "지오펜싱 관리 위치를 벗어났습니다.";
-			
-			break;
 		}
+		
+
+
     	
        
         
@@ -203,7 +223,7 @@ public class ParseBroadcastReceiver extends BroadcastReceiver {
         
         Intent intent;
         intent = new Intent(context, TestActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+      //  intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);//?
 
         
         PendingIntent contentIntent = PendingIntent.getActivity(context, 0, intent, 0);

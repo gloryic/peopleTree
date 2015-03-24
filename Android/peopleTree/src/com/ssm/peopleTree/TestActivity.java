@@ -448,46 +448,34 @@ public class TestActivity extends FragmentActivity implements Progressable, OnCl
     
     @Override
 	protected void onPause() {
-		Log.i("log", "testacti pause");
 		super.onPause();
 		
 	}
 	@Override
 	protected void onDestroy() {
 
-		Log.i("log", "testacti dest");
-
-
 		// TODO Auto-generated method stub
 		super.onDestroy();
 	}
 	@Override
 	protected void onRestart() {
-
-		Log.i("log", "testacti rest");
 		// TODO Auto-generated method stub
 		super.onRestart();
 	}
 	@Override
 	protected void onStart() {
-
-		Log.i("log", "testacti stt");
 		startService(new Intent("android.servcice.MAIN"));
 		// TODO Auto-generated method stub
 		super.onStart();
 	}
 	@Override
 	protected void onStop() {
-
-		Log.i("log", "testacti stop");
 		// TODO Auto-generated method stub
 		//unregisterReceiver(mReceivedSMSReceiver);
 		super.onStop();
 	}
 	@Override
 	protected void onResume() {
-
-		Log.i("log", "testacti resume");
 		// TODO Auto-generated method stub
 		super.onResume();
 	}
