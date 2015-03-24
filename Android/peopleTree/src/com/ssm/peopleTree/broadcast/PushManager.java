@@ -100,7 +100,7 @@ public class PushManager {
 						bclvca.dataChange();
 						break;
 					case 200:
-						str1 = "관리자 "+mData.userName+"가 위치관리를 더이상 하지 않습니다.";
+						str1 = "관리자 "+mData.userName+"이(가) 위치관리를 더이상 하지 않습니다.";
 						pmlvca.addItem("", timeStr1 + str1, "");
 						pmlvca.dataChange();
 						GroupManager.getInstance().updateSelf();
@@ -124,7 +124,7 @@ public class PushManager {
 						GroupManager.getInstance().updateSelf();
 						break;
 					case 300:
-						str1 = ""+mData.userName+"가 이탈퇴었습니다!\n";
+						str1 = ""+mData.userName+"이(가) 이탈퇴었습니다!\n";
 						pmlvca.addItem("", timeStr1 + str1, "");
 						pmlvca.dataChange();
 						GroupManager.getInstance().updateSelf();
@@ -227,13 +227,13 @@ public class PushManager {
 						GroupManager.getInstance().navigateHome();
 						break;
 					case 700:
-						str1 = mData.userName + "가 그룹을 나갔습니다.";
+						str1 = mData.userName + "이(가) 그룹을 나갔습니다.";
 						pmlvca.addItem("", timeStr1 + str1, "");
 						pmlvca.dataChange();
 						GroupManager.getInstance().update(MyManager.getInstance().getGroupMemberId());
 						break;
 					case 710:
-						str1 = mData.userName + "가 로그아웃 하였습니다.";
+						str1 = mData.userName + "이(가) 로그아웃 하였습니다.";
 						pmlvca.addItem("", timeStr1 + str1, "");
 						pmlvca.dataChange();
 						GroupManager.getInstance().update(MyManager.getInstance().getGroupMemberId());
@@ -254,7 +254,7 @@ public class PushManager {
 			String timeStr1 = "" + (calen.get(Calendar.MONTH)+1) + "월 " + calen.get(Calendar.DAY_OF_MONTH)+"일    "
 					+ calen.get(Calendar.HOUR_OF_DAY) + ":"
 					+ calen.get(Calendar.MINUTE) +"\n";
-			String str1 = "관리대상 "+ pushdata.userName +"가  로그아웃 하였습니다.";
+			String str1 = "관리대상 "+ pushdata.userName +"이(가)  로그아웃 하였습니다.";
 			pmlvca.addItem("", timeStr1 + str1, "");
 			pmlvca.dataChange();
 			GroupManager.getInstance().update(MyManager.getInstance().getGroupMemberId());
@@ -333,6 +333,8 @@ public class PushManager {
 				break;
 
 			}
+			GroupManager.getInstance().updateSelf();
+			GroupManager.getInstance().navigateHome();
 		}else{
 			
 			Listener<JSONObject>  onGetInfoResponse = new Listener<JSONObject>() {
@@ -361,6 +363,9 @@ public class PushManager {
 						}
 						pmlvca.addItem("", timeStr1 + str1, "");
 						pmlvca.dataChange();
+						
+						GroupManager.getInstance().updateSelf();
+						GroupManager.getInstance().navigateHome();
 					}
 				}
 			};
