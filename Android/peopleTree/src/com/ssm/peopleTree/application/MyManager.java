@@ -69,7 +69,10 @@ public class MyManager {
 		} 
 
 	}
-	
+	public void clear(){
+		myData = new MemberData();
+		myParentData = new MemberData();
+	}
 	public MemberData getMyParentData() {
 		return myParentData;
 	}
@@ -79,11 +82,29 @@ public class MyManager {
 	}
 	
 	public boolean isAvailableMyLocation() {
-		return myData.latitude != null && myData.longitude != null;
+		if (myData.latitude == null || myData.longitude == null) {
+			return false;
+		}
+		else if (myData.latitude < -90.0f || myData.latitude > 90.0f) {
+			return false;
+		}
+		else if (myData.longitude < -180.0f || myData.longitude > 180.0f) {
+			return false;
+		}	
+		return true;
 	}
 	
 	public boolean isAvailableParentLocation() {
-		return myParentData.latitude != null && myParentData.longitude != null;
+		if (myParentData.latitude == null || myParentData.longitude == null) {
+			return false;
+		}
+		else if (myParentData.latitude < -90.0f || myParentData.latitude > 90.0f) {
+			return false;
+		}
+		else if (myParentData.longitude < -180.0f || myParentData.longitude > 180.0f) {
+			return false;
+		}
+		return true;
 	}
 
 	public boolean isAbsent() {

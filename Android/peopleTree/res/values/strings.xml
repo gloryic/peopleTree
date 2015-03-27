@@ -24,6 +24,10 @@
     <string name="setting_finish">설정 완료</string>
     <string name="manage_mode_setting">관리방법 설정하기</string>
     
+    <string name="id_hint">아이디(영문, 숫자 4~20자)</string>
+    <string name="password_hint">비밀번호(영문, 숫자 4~20자)</string>
+    <string name="user_name_hint">이름(한글 2자, 영어 3자 이상)</string>
+    
     <string name="success">성공</string>
     <string name="fail">실패</string>
     <string name="login_fail">사용자 정보를 정확히 입력해주세요!</string>
@@ -54,10 +58,11 @@
 		
 	<string name="menu_cur_title">내 메뉴</string>
 	<string name="menu_cur_message">공지 보내기</string>
-	<string name="menu_cur_location">관리지역 설정</string>
+	<string name="menu_cur_location">관리방법 설정</string>
 	<string name="menu_cur_out">그룹 나가기</string>
 	
 	<string name="menu_manage_title">관리방법 설정</string>
+	<string name="menu_manage_not_set">미설정</string>
 	<string name="menu_manage_nothing">위치관리 해제</string>
 	<string name="menu_manage_tracking">추적 모드</string>
 	<string name="menu_manage_area">지역 모드</string>
@@ -72,4 +77,11 @@
 
 	<string name="menu_child_message">메세지 보내기</string>
 	<string name="menu_child_location">위치 보기</string>
+	
+	<string name="prev">이전</string>
+	<string name="next">다음</string>
+	
+	<string name="set_radius">반경 설정</string>
+	
+	<string name="empty"></string>
 </resources>

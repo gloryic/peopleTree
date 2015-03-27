@@ -1,5 +1,7 @@
 package com.ssm.peopleTree.dialog;
 
+import com.ssm.peopleTree.LoginActivity;
+import com.ssm.peopleTree.MapActivity;
 import com.ssm.peopleTree.R;
 
 import org.json.JSONObject;
@@ -14,6 +16,7 @@ import com.ssm.peopleTree.network.protocol.GroupOutResponse;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -78,7 +81,6 @@ public class MyMenuDialog extends Dialog implements View.OnClickListener {
  		tv.setText(title); 
  	}
 
-
 	@Override
 	public void onClick(View v) {
 		switch(v.getId()) {
@@ -88,7 +90,8 @@ public class MyMenuDialog extends Dialog implements View.OnClickListener {
 			msgSendDialog.show();
 			break;
 		case R.id.location_layout:
-			selectDialog.show();
+			Intent intent = new Intent(mContext, MapActivity.class);
+			mContext.startActivity(intent);
 			break;
 		case R.id.group_out_layout:
 			int myid = MyManager.getInstance().getGroupMemberId(); 		 

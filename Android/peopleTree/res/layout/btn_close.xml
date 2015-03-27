@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id = "@+id/btn_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"
+    android:background="@color/gray"
+    android:padding="10dp"
+	android:orientation="horizontal">  
+    
+    <Button
+        android:id="@+id/btn_close"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:text="@string/close" 
+        android:textSize="@dimen/basic_text_size"
+        style="@style/FlatButton"/>     
+             
+  </LinearLayout>

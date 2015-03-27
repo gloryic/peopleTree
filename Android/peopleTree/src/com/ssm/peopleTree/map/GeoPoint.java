@@ -34,6 +34,10 @@ public class GeoPoint {
 		}
 	}
 	
+	public double crossProduct(GeoPoint other) {
+		return lat * other.lng - lng * other.lat;
+	}
+	
 	public double getLat() {
 		return lat;
 	}

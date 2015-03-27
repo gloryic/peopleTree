@@ -74,7 +74,7 @@ public class ParseBroadcastReceiver extends BroadcastReceiver {
 
 		int to = msg.getInt("to");
 		
-		if (statusCode >= 2000 && statusCode < 3000) {
+		if (statusCode >= 2000 && statusCode <= 5000) {
 			
 			JSONObject msgObj = new JSONObject(msg.getString("message"));
 			//msgObj.getBoolean("isToggle");
@@ -117,9 +117,8 @@ public class ParseBroadcastReceiver extends BroadcastReceiver {
 		
 		mNotificationManager = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
 		PendingIntent contentIntent = PendingIntent.getActivity(context, 0, new Intent(context, TestActivity.class), 0);
-		
+
 		if(from == to){
-			
 		
 			switch(ManageMode.getMode(parentManageMode)){
 			case TRACKING:

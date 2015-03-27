@@ -15,12 +15,18 @@ public class CheckMemberResponse extends Response {
 	
 	@Override
 	protected void OnSuccess(Object responseData) {
-		try {
-			JSONObject jsonObj = (JSONObject)responseData;
-			validation = jsonObj.getBoolean(VALIDATION_KEY);
-			accumulateWarning = jsonObj.getInt(ACCUMULATE_WARNING_KEY);
-		} catch (Exception e) {
-			e.printStackTrace();
+		if (responseData instanceof String) {
+			validation = true;
+			accumulateWarning = 0;
+		}
+		else if (responseData instanceof JSONObject) {
+			try {
+				JSONObject jsonObj = (JSONObject)responseData;
+				validation = jsonObj.getBoolean(VALIDATION_KEY);
+				accumulateWarning = jsonObj.getInt(ACCUMULATE_WARNING_KEY);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 	}
 }
