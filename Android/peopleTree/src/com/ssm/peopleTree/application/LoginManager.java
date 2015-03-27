@@ -96,10 +96,13 @@ public class LoginManager {
 				Status status = res.getStatus();
 				
 				if (status == Status.SUCCESS) {
+					MyManager.getInstance().clear();
+					//mContext.stopService(new Intent("android.servcice.MAIN"));
 					savedUserNumber = USER_NUMBER_DEFAULT;
 					clear();
 					
 					logoutListener.onLogoutSuccess();
+					
 				}
 				else {
 					logoutListener.onLogoutFail(status);
@@ -224,9 +227,9 @@ public class LoginManager {
 	}
 	
 	public void logout() {
-		mContext.stopService(new Intent("android.servcice.MAIN"));
+		
 		NetworkManager.getInstance().request(new LogoutRequest(savedUserNumber), onLogoutResponse, null);
-
+		
 		
 	}
 	

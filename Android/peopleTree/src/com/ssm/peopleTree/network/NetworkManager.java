@@ -69,8 +69,8 @@ public class NetworkManager {
 			jsonRequest = param.toJSonObject();
 		}
 		
-		Log.e("test", url);
-		
+		Log.e("test", "tmptest :"+url);
+
 		JsonObjectRequest req = new JsonObjectRequest(method, url, jsonRequest, listener, errorListener);
 		requestQueue.add(req);
 	}

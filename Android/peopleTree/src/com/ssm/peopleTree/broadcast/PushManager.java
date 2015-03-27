@@ -100,7 +100,7 @@ public class PushManager {
 						bclvca.dataChange();
 						break;
 					case 200:
-						str1 = "관리자 "+mData.userName+"가 위치관리를 더이상 하지 않습니다.";
+						str1 = "관리자 "+mData.userName+"이(가) 위치관리를 더이상 하지 않습니다.";
 						pmlvca.addItem("", timeStr1 + str1, "");
 						pmlvca.dataChange();
 						GroupManager.getInstance().updateSelf();
@@ -124,7 +124,7 @@ public class PushManager {
 						GroupManager.getInstance().updateSelf();
 						break;
 					case 300:
-						str1 = ""+mData.userName+"가 이탈퇴었습니다!\n";
+						str1 = ""+mData.userName+"이(가) 이탈퇴었습니다!\n";
 						pmlvca.addItem("", timeStr1 + str1, "");
 						pmlvca.dataChange();
 						GroupManager.getInstance().updateSelf();
@@ -227,13 +227,13 @@ public class PushManager {
 						GroupManager.getInstance().navigateHome();
 						break;
 					case 700:
-						str1 = mData.userName + "가 그룹을 나갔습니다.";
+						str1 = mData.userName + "이(가) 그룹을 나갔습니다.";
 						pmlvca.addItem("", timeStr1 + str1, "");
 						pmlvca.dataChange();
 						GroupManager.getInstance().update(MyManager.getInstance().getGroupMemberId());
 						break;
 					case 710:
-						str1 = mData.userName + "가 로그아웃 하였습니다.";
+						str1 = mData.userName + "이(가) 로그아웃 하였습니다.";
 						pmlvca.addItem("", timeStr1 + str1, "");
 						pmlvca.dataChange();
 						GroupManager.getInstance().update(MyManager.getInstance().getGroupMemberId());
@@ -254,7 +254,7 @@ public class PushManager {
 			String timeStr1 = "" + (calen.get(Calendar.MONTH)+1) + "월 " + calen.get(Calendar.DAY_OF_MONTH)+"일    "
 					+ calen.get(Calendar.HOUR_OF_DAY) + ":"
 					+ calen.get(Calendar.MINUTE) +"\n";
-			String str1 = "관리대상 "+ pushdata.userName +"가  로그아웃 하였습니다.";
+			String str1 = "관리대상 "+ pushdata.userName +"이(가)  로그아웃 하였습니다.";
 			pmlvca.addItem("", timeStr1 + str1, "");
 			pmlvca.dataChange();
 			GroupManager.getInstance().update(MyManager.getInstance().getGroupMemberId());
@@ -265,67 +265,116 @@ public class PushManager {
 
 	}
 	
-	public void pushMessageAcceptEx(JSONObject msgObj) throws JSONException{
+	public void pushMessageAcceptEx(int from,int to,JSONObject msgObj) throws JSONException{
 		int parentManageMode;
 		int radius;
 		double distance;
 		int edgeStatus;
 		int accumulateWarning;
-		
 		parentManageMode = msgObj.getInt("parentManageMode");
-		/*
-		INVALID(100, 0),
-		NOTHING(200, R.layout.activity_map),
-		TRAKING(210, R.layout.activity_map_tracking),
-		AREA(220, R.layout.activity_map_area),
-		GEOFENCE(230, R.layout.activity_map_geofence)
-		
-		*/
+		final boolean toggle = msgObj.getBoolean("isToggle");
+
 		
 		Calendar calen = Calendar.getInstance();
 		String timeStr1 = "" + (calen.get(Calendar.MONTH)+1) + "월 " + calen.get(Calendar.DAY_OF_MONTH)+"일    "
 				+ calen.get(Calendar.HOUR_OF_DAY) + ":"
 				+ calen.get(Calendar.MINUTE) +"\n";
-		String str1;
+		String str1 = "";
 
-		switch(ManageMode.getMode(parentManageMode)){
-		case TRACKING:
-			radius = msgObj.getInt("radius");
-			distance = msgObj.getDouble("distance");
-			edgeStatus  = msgObj.getInt("edgeStatus");
-			accumulateWarning = msgObj.getInt("accumulateWarning");
+		
+		if(from == to){
 			
-			str1 = "관리자에게서 벗어났습니다.\n ";
+			switch(ManageMode.getMode(parentManageMode)){
+			case TRACKING:
+				radius = msgObj.getInt("radius");
+				distance = msgObj.getDouble("distance");
+				edgeStatus  = msgObj.getInt("edgeStatus");
+				accumulateWarning = msgObj.getInt("accumulateWarning");
+				if(toggle){
+					
+					str1 +="관리자 주변으로 복귀하였습니다.\n";
+				}else{
+
+					str1 +="관리자에게서 이탈하였습니다.\n";
+				}
+				pmlvca.addItem("", timeStr1 + str1, "");
+				pmlvca.dataChange();
+				GroupManager.getInstance().update(MyManager.getInstance().getGroupMemberId());
+				break;
+			case AREA:
+				radius = msgObj.getInt("radius");
+				distance = msgObj.getInt("distance");
+				edgeStatus  = msgObj.getInt("edgeStatus");
+				accumulateWarning = msgObj.getInt("accumulateWarning");
+				if(toggle){
+					
+					str1 +="관리자가 지정한 지역으로 복귀하였습니다.\n";
+				}else{
+
+					str1 +="관리자가 지정한 지역을 이탈하였습니다.\n";
+				}
+				pmlvca.addItem("", timeStr1 + str1, "");
+				pmlvca.dataChange();
+				GroupManager.getInstance().update(MyManager.getInstance().getGroupMemberId());
+				break;
+			case GEOFENCE:
+				edgeStatus  = msgObj.getInt("edgeStatus");
+				accumulateWarning = msgObj.getInt("accumulateWarning");
+				if(toggle){
+					
+					str1 +="관리자가 지정한 지역으로 복귀하였습니다.\n";
+				}else{
+
+					str1 +="관리자가 지정한 지역을 이탈하였습니다.\n";
+				}
+				pmlvca.addItem("", timeStr1 + str1, "");
+				pmlvca.dataChange();
+				GroupManager.getInstance().update(MyManager.getInstance().getGroupMemberId());
+				break;
+
+			}
+			GroupManager.getInstance().updateSelf();
+			GroupManager.getInstance().navigateHome();
+		}else{
 			
-			pmlvca.addItem("", timeStr1 + str1, "");
-			pmlvca.dataChange();
-			GroupManager.getInstance().update(MyManager.getInstance().getGroupMemberId());
-			break;
-		case AREA:
-			radius = msgObj.getInt("radius");
-			distance = msgObj.getInt("distance");
-			edgeStatus  = msgObj.getInt("edgeStatus");
-			accumulateWarning = msgObj.getInt("accumulateWarning");
+			Listener<JSONObject>  onGetInfoResponse = new Listener<JSONObject>() {
+
+				@Override
+				public void onResponse(JSONObject arg0) {
+					
+					GetInfoResponse res = new GetInfoResponse(arg0);
+					Status status = res.getStatus();
+					String str1 = "";
 			
-			str1 = "관리지역 위치를 벗어났습니다.\n ";
-			pmlvca.addItem("", timeStr1 + str1, "");
-			pmlvca.dataChange();
-			GroupManager.getInstance().update(MyManager.getInstance().getGroupMemberId());
-			break;
-		case GEOFENCE:
-			edgeStatus  = msgObj.getInt("edgeStatus");
-			accumulateWarning = msgObj.getInt("accumulateWarning");
+					Calendar calen = Calendar.getInstance();
+					String timeStr1 = "" + (calen.get(Calendar.MONTH)+1) + "월 " + calen.get(Calendar.DAY_OF_MONTH)+"일    "
+							+ calen.get(Calendar.HOUR_OF_DAY) + ":"
+							+ calen.get(Calendar.MINUTE) +"\n";
+
+					if (res.getStatus() == Status.SUCCESS) {
+						 MemberData mData = res.mData;
+						 
+						if(toggle){
+								
+								str1 +="괸리대상 "+ mData.userName+"이(가) 복귀하였습니다.";
+						}else{
+
+								str1 +="괸리대상 "+ mData.userName +"이(가) 이탈하였습니다.";
+						}
+						pmlvca.addItem("", timeStr1 + str1, "");
+						pmlvca.dataChange();
+						
+						GroupManager.getInstance().updateSelf();
+						GroupManager.getInstance().navigateHome();
+					}
+				}
+			};
 			
-			str1 = "지오펜싱 관리 위치를 벗어났습니다.";
-			pmlvca.addItem("", timeStr1 + str1, "");
-			pmlvca.dataChange();
-			GroupManager.getInstance().update(MyManager.getInstance().getGroupMemberId());
-			break;
-			
-				
-				//
+			NetworkManager.getInstance().request(new GetInfoRequest(from), onGetInfoResponse, null);
 			
 		}
+		
+
 		
 		
 		

@@ -460,8 +460,7 @@ public class MapManager implements MapViewEventListener, POIItemEventListener{
 
 	@Override
 	public void onMapViewCenterPointMoved(MapView arg0, MapPoint arg1) {
-		// TODO Auto-generated method stub
-		
+		// TODO Auto-generated method stub		
 	}
 
 	@Override
