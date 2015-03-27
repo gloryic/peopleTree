@@ -11,6 +11,7 @@ import org.json.JSONObject;
 import com.android.volley.Response.Listener;
 import com.ssm.peopleTree.application.MyManager;
 import com.ssm.peopleTree.data.MemberData;
+import com.ssm.peopleTree.location.PeopleTreeLocationManager;
 import com.ssm.peopleTree.network.NetworkManager;
 import com.ssm.peopleTree.network.Status;
 import com.ssm.peopleTree.network.protocol.GetGeoPointRequest;
@@ -31,6 +32,7 @@ import net.daum.mf.map.api.MapView.MapViewEventListener;
 import net.daum.mf.map.api.MapView.POIItemEventListener;
 import android.content.Context;
 import android.graphics.Color;
+import android.location.Location;
 
 public class MapManager implements MapViewEventListener, POIItemEventListener{
 	
@@ -69,6 +71,10 @@ public class MapManager implements MapViewEventListener, POIItemEventListener{
 	
 	private OnStartSettingListener startSettingListener;
 	private OnFinishSettingListener finishSettingLisetner;
+	private OnCancelSettingListener cancelSettingListener;
+	
+	private MapPoint myLocation;
+	private boolean myLocationAvailable;
 		
 	public void initialize(Context context) {
 		geoPoints = new ArrayList<GeoPoint>();
@@ -77,6 +83,9 @@ public class MapManager implements MapViewEventListener, POIItemEventListener{
 		
 		settingMode = SettingMode.NO_SETTING;
 		isSetting = false;
+		
+		myLocationAvailable = false;
+		myLocation = null;
 	}
 
 	
@@ -98,9 +107,11 @@ public class MapManager implements MapViewEventListener, POIItemEventListener{
 		item.setMapPoint(MapPoint.mapPointWithGeoCoord(childData.latitude, childData.longitude));
 		mapView.addPOIItem(item);
 		
-		MapCircle[] circles = mapView.getCircles();
-		MapPOIItem[] items = mapView.getPOIItems();
+		updateMyLocation();
+		addMyLoaction(mapView);
 		
+		MapCircle[] circles = mapView.getCircles();
+		MapPOIItem[] items = mapView.getPOIItems();	
 		MapPointBounds mapPointBounds;
 		if (circles.length > 0) {
 			MapPointBounds[] mapPointBoundsArray = new MapPointBounds[circles.length];
@@ -117,11 +128,12 @@ public class MapManager implements MapViewEventListener, POIItemEventListener{
 			mapPointBounds.add(i.getMapPoint());
 		}
 		
-		int padding = 100; // px
+		int padding = 120; // px
 		mapView.moveCamera(CameraUpdateFactory.newMapPointBounds(mapPointBounds, padding));
 	}
 	
-	public void loadSetting(MapView arg, OnLoadFinishListener finishListener) {
+	public void loadSetting(MapView arg, OnLoadFinishListener finishListener, boolean show) {
+		final boolean showMap = show;
 		final MapView mapView = arg;
 		final OnLoadFinishListener listener = finishListener;
 		final MyManager myManager = MyManager.getInstance();
@@ -141,7 +153,7 @@ public class MapManager implements MapViewEventListener, POIItemEventListener{
 					geoPoints.addAll(res.points);
 					radius = res.radius;
 					
-					if (manageMode != ManageMode.TRACKING || myManager.isAvailableMyLocation()) {
+					if (showMap) {
 						showCurrentSetting(mapView);
 					}
 				}
@@ -153,13 +165,17 @@ public class MapManager implements MapViewEventListener, POIItemEventListener{
 					geoPoints.clear();
 					radius = 0;
 					
-					mapView.removeAllCircles();
-					mapView.removeAllPOIItems();
-					mapView.removeAllPolylines();
+					if (showMap) {
+						mapView.removeAllCircles();
+						mapView.removeAllPOIItems();
+						mapView.removeAllPolylines();
+					}
 				}
 			}
 			
 		}, null);
+		
+		updateMyLocation();
 		
 		settingMode = SettingMode.NO_SETTING;
 		isSetting = false;
@@ -175,7 +191,7 @@ public class MapManager implements MapViewEventListener, POIItemEventListener{
 		
 		switch(manageMode) {
 		case NOTHING:
-			settingQueue.add(SettingMode.NO_SETTING);
+			settingQueue.add(SettingMode.FINISH_SETTING);
 			break;
 		case TRACKING:
 			settingQueue.add(SettingMode.RADIUS_SETTING);
@@ -190,6 +206,8 @@ public class MapManager implements MapViewEventListener, POIItemEventListener{
 			settingQueue.add(SettingMode.POINT_SETTING);
 			settingQueue.add(SettingMode.FINISH_SETTING);
 			break;
+		case INDOOR:
+			settingQueue.add(SettingMode.FINISH_SETTING);
 		default:
 			break;
 		}
@@ -205,17 +223,19 @@ public class MapManager implements MapViewEventListener, POIItemEventListener{
 		mapView.removeAllCircles();
 		mapView.removeAllPOIItems();
 		mapView.removeAllPolylines();
+		
+		addMyLoaction(mapView);
 	}
 	
-	public void finishSetting() {
-		
+	public void finishSetting(MapView mapView) {
+
 		manageMode = newManageMode;
 		radius = newRadius;
 		geoPoints.clear();
 		geoPoints.addAll(newGeoPoints);
 		
 		int id = MyManager.getInstance().getGroupMemberId();
-		SetGeoPointRequest req = new SetGeoPointRequest(id, radius, geoPoints) ;		
+		SetGeoPointRequest req = new SetGeoPointRequest(id, radius, geoPoints, manageMode);
 		NetworkManager.getInstance().request(req, new Listener<JSONObject>() {
 
 			@Override
@@ -250,38 +270,28 @@ public class MapManager implements MapViewEventListener, POIItemEventListener{
 		newRadius = 0;
 		
 		showCurrentSetting(mapView);
+		
+		if (cancelSettingListener != null) {
+			cancelSettingListener.onCancelSetting();
+		}
 	}
 	
 	public void showCurrentSetting(MapView mapView) {
+		if (mapView == null) {
+			return;
+		}
 		
 		mapView.removeAllCircles();
 		mapView.removeAllPOIItems();
 		mapView.removeAllPolylines();
 		
+		addMyLoaction(mapView);
+		
 		switch(manageMode) {
 		case TRACKING:
-			Double myLat = MyManager.getInstance().getLatitude();
-			Double myLng = MyManager.getInstance().getLongitude();
-			if (myLat == null || myLng == null) {
-				// fail
-			}
-			else {
-				MapPoint mp = MapPoint.mapPointWithGeoCoord(myLat, myLng);
-				MapPOIItem item = new MapPOIItem();
-				item.setItemName("Center");
-				item.setMarkerType(MarkerType.BluePin);
-				item.setMapPoint(mp);
-				mapView.addPOIItem(item);
-				
-				MapCircle circle = new MapCircle(mp, 0, Color.argb(128, 255, 0, 0), Color.argb(128, 0, 255, 0));
-				circle.setCenter(mp);
+			if (myLocationAvailable) {
+				MapCircle circle = new MapCircle(myLocation, radius, Color.argb(128, 255, 0, 0), Color.argb(128, 0, 255, 0));
 				mapView.addCircle(circle);
-				
-				// 지도뷰의 중심좌표와 줌레벨을 Circle이 모두 나오도록 조정.
-				MapPointBounds[] mapPointBoundsArray = { circle.getBound() };
-				MapPointBounds mapPointBounds = new MapPointBounds(mapPointBoundsArray);
-				int padding = 100; // px
-				mapView.moveCamera(CameraUpdateFactory.newMapPointBounds(mapPointBounds, padding));
 			}
 			break;
 			
@@ -298,12 +308,6 @@ public class MapManager implements MapViewEventListener, POIItemEventListener{
 				MapCircle circle = new MapCircle(mp, radius, Color.argb(128, 255, 0, 0), Color.argb(128, 0, 255, 0));
 				circle.setCenter(mp);
 				mapView.addCircle(circle);
-				
-				// 지도뷰의 중심좌표와 줌레벨을 Circle이 모두 나오도록 조정.
-				MapPointBounds[] mapPointBoundsArray = { circle.getBound() };
-				MapPointBounds mapPointBounds = new MapPointBounds(mapPointBoundsArray);
-				int padding = 100; // px
-				mapView.moveCamera(CameraUpdateFactory.newMapPointBounds(mapPointBounds, padding));
 			}
 			break;
 			
@@ -325,17 +329,60 @@ public class MapManager implements MapViewEventListener, POIItemEventListener{
 				MapPoint mapPoint = MapPoint.mapPointWithGeoCoord(geoPoint.getLat(), geoPoint.getLng());
 				polyline.addPoint(mapPoint);
 				mapView.addPolyline(polyline);
-				
-				// 지도뷰의 중심좌표와 줌레벨을 Polyline이 모두 나오도록 조정.
-				MapPointBounds mapPointBounds = new MapPointBounds(polyline.getMapPoints());
-				int padding = 120; // px
-				mapView.moveCamera(CameraUpdateFactory.newMapPointBounds(mapPointBounds, padding));
 			}		
 			break;
 			
 		default:
 			break;
 		}
+		
+		MapCircle[] circles = mapView.getCircles();
+		MapPOIItem[] items = mapView.getPOIItems();	
+		MapPointBounds mapPointBounds;
+		if (circles.length > 0) {
+			MapPointBounds[] mapPointBoundsArray = new MapPointBounds[circles.length];
+			for (int i = 0; i < circles.length; i++) {
+				mapPointBoundsArray[i] = circles[i].getBound();
+			}
+			mapPointBounds = new MapPointBounds(mapPointBoundsArray);
+		}
+		else {
+			mapPointBounds = new MapPointBounds();
+		}
+		
+		for (MapPOIItem i : items) {
+			mapPointBounds.add(i.getMapPoint());
+		}
+		
+		int padding = 120; // px
+		mapView.moveCamera(CameraUpdateFactory.newMapPointBounds(mapPointBounds, padding));
+	}
+	
+	public void addMyLoaction(MapView mapView) {
+		if (myLocationAvailable) {
+			MapPOIItem item = new MapPOIItem();
+			item.setItemName("나");
+			item.setMarkerType(MarkerType.RedPin);
+			item.setMapPoint(myLocation);
+			mapView.addPOIItem(item);
+		}
+	}
+	
+	public void updateMyLocation() {
+		boolean newLocAvailable = PeopleTreeLocationManager.getInstance().isAvailableMyLocation();
+		if (newLocAvailable) {
+			Location loc = PeopleTreeLocationManager.getInstance().lastGpsVal();
+			myLocation = MapPoint.mapPointWithGeoCoord(loc.getLatitude(), loc.getLongitude());
+		}
+		myLocationAvailable = myLocationAvailable || newLocAvailable;
+	}
+	
+	public boolean isAvailableMyLocation() {
+		return myLocationAvailable;
+	}
+	
+	public boolean isSettingValid() {
+		return manageMode != ManageMode.GEOFENCE || newGeoPoints.size() > 2;
 	}
 	
 	public boolean isCCW(GeoPoint basePoint, GeoPoint a, GeoPoint b) {
@@ -407,17 +454,25 @@ public class MapManager implements MapViewEventListener, POIItemEventListener{
 		this.finishSettingLisetner = finishSettingLisetner;
 	}
 	
+	public void setCancelSettingListener(OnCancelSettingListener cancelSettingListener) {
+		this.cancelSettingListener = cancelSettingListener;
+	}
+	
 	public void setRadius(int radius) {
 		if (!isSetting || settingMode != SettingMode.RADIUS_SETTING) {
 			return;
 		}
-		newRadius = radius;
+		newRadius = Math.max(0, radius);
 		
 		settingMode = settingQueue.pop();
 	}
 	
 	public void setChild(MemberData childData) {
 		
+	}
+	
+	public void setManageMode(ManageMode manageMode) {
+		this.manageMode = manageMode;
 	}
 	
 	public void onStartSetting(MapView mapView) {
@@ -428,6 +483,14 @@ public class MapManager implements MapViewEventListener, POIItemEventListener{
 	
 	public boolean isSettingMode() {
 		return isSetting;
+	}
+	
+	public ManageMode getManageMode() {
+		return manageMode;
+	}
+	
+	public ManageMode getNewManageMode() {
+		return newManageMode;
 	}
 	
 	

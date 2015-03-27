@@ -33,8 +33,8 @@ public class GetGeoPointResponse extends Response {
 
 			JSONArray jsonArr = jsonObj.getJSONArray(DATA_KEY);
 			radius = jsonArr.getInt(0);
-			int len = (jsonArr.length() - 1) / 2;
-			for (int i = 1; i <= len; i++) {
+			int len = ((jsonArr.length() - 1) / 2) * 2 + 1;
+			for (int i = 1; i < len; i += 2) {
 				points.add(new GeoPoint(jsonArr.getDouble(i), jsonArr.getDouble(i + 1)));
 			}
 		} catch (Exception e) {

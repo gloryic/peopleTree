@@ -67,6 +67,7 @@
 	<string name="menu_manage_tracking">추적 모드</string>
 	<string name="menu_manage_area">지역 모드</string>
 	<string name="menu_manage_geofence">지오펜스 모드</string>
+	<string name="menu_manage_indoor">실내 모드</string>
 
 	<string name="menu_option_title">설정</string>
 	<string name="menu_option_logout">로그 아웃</string>

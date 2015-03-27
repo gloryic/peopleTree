@@ -4,6 +4,7 @@
     <color name="blue_normal">#ff33b5e5</color>
     <color name="white">#ffffffff</color>
     <color name="gray">#fff3f3f3</color>
+    <color name="dark_gray">#ffA0A0A0</color>
     
     <color name="brown">#ff402c1c</color>
     <color name="brown_pressed">#ff755c48</color> 

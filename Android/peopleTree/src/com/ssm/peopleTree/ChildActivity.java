@@ -62,7 +62,7 @@ public class ChildActivity extends Activity implements OnClickListener {
 			public void onLoadFinish(ManageMode manageMode) {
 				setBarText(manageMode);
 			}
-		});
+		}, true);
 		mapManager.loadChild(mapView);
 	}
 	
