@@ -15,6 +15,7 @@ import com.ssm.peopleTree.network.protocol.CheckMemberResponse;
 import com.ssm.peopleTree.device.DeviceStatus;
 
 import android.content.Context;
+import android.location.Location;
 import android.net.wifi.WifiManager;
 import android.util.Log;
 import android.widget.TextView;
@@ -85,7 +86,24 @@ public class PeopleTreeLocationManager  {
 	}
 
 	
-
+	
+	public Location lastGpsVal(){
+		return outsideLocationMeasurer.location;
+	}
+	
+	public boolean isInsideValid(){
+		return insideLocationMeasurer.isValidLocation();
+	}
+	public boolean isOutsideValid(){
+		boolean ret = false;
+		
+		if(!insideLocationMeasurer.isValidLocation() 
+				&& outsideLocationMeasurer.isValidLocation()){
+			
+			ret =true;
+		}
+		return ret;
+	}
 
 	public synchronized void startLocationMeasure(){
 		if(!isRun){
