@@ -101,6 +101,10 @@ public class PeopleTreeLocationManager  {
 					int edgyType = MyManager.getInstance().getEdgeType();
 					int parentGroupMemberId =  MyManager.getInstance().getParentGroupMemberId();
 					int parentManageMode;
+					
+					if(groupMemeberId== 0){
+						return;
+					}
 					if(MyManager.getInstance().getMyParentData() == null){
 						parentManageMode = 0;
 					}else{
@@ -118,6 +122,10 @@ public class PeopleTreeLocationManager  {
 					
 					dbg_str1 = "";
 					dbg_str2 = "";
+					
+					
+					
+					
 					if(insideLocationMeasurer.isValidLocation() ){
 			
 						
