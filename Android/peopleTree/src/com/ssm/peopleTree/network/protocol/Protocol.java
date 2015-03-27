@@ -76,4 +76,6 @@ abstract class Protocol {
 	
 	protected static final String VALIDATION_KEY = "validation";
 	protected static final String MY_GROUP_MEMBER_ID_KEY = "myGroupMemberId";
+	
+	protected static final String DATA_KEY = "data";
 }

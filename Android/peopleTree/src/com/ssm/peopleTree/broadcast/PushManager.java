@@ -289,7 +289,7 @@ public class PushManager {
 		String str1;
 
 		switch(ManageMode.getMode(parentManageMode)){
-		case TRAKING:
+		case TRACKING:
 			radius = msgObj.getInt("radius");
 			distance = msgObj.getDouble("distance");
 			edgeStatus  = msgObj.getInt("edgeStatus");

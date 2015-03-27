@@ -5,5 +5,10 @@
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="gen"/>
+	<classpathentry exported="true" kind="lib" path="D:/peopleTree/Android/peopleTree/libs/android-support-v4.jar"/>
+	<classpathentry exported="true" kind="lib" path="D:/peopleTree/Android/peopleTree/libs/google-play-services.jar"/>
+	<classpathentry exported="true" kind="lib" path="D:/peopleTree/Android/peopleTree/libs/libDaumMapAndroid.jar"/>
+	<classpathentry exported="true" kind="lib" path="D:/peopleTree/Android/peopleTree/libs/Parse-1.4.3.jar"/>
+	<classpathentry exported="true" kind="lib" path="D:/peopleTree/Android/peopleTree/libs/volley.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

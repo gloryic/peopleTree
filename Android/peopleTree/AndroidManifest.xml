@@ -79,6 +79,11 @@
             android:name=".MapActivity"
             android:screenOrientation="portrait" >
         </activity>
+        
+        <activity
+            android:name=".ChildActivity"
+            android:screenOrientation="portrait" >
+        </activity>
                 
         <activity
             android:name=".TestActivity"

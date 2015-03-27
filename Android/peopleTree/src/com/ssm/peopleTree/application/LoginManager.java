@@ -98,7 +98,6 @@ public class LoginManager {
 				if (status == Status.SUCCESS) {
 					savedUserNumber = USER_NUMBER_DEFAULT;
 					clear();
-					MapManager.getInstance().clear();
 					
 					logoutListener.onLogoutSuccess();
 				}

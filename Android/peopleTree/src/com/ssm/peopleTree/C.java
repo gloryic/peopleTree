@@ -6,7 +6,7 @@ public class C {
 	
 	
 	static public boolean networkAllGet = true;
-	static public boolean networkLogging = true;
+	static public boolean networkLogging = false;
 	
 	
 

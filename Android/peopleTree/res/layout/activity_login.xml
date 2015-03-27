@@ -47,12 +47,16 @@
 	        
 	        <Button
 		        android:id="@+id/buttonJoin"
+		        style="@style/FlatButton"
+		        android:layout_marginRight="1dp"
 		        android:layout_width="120dp"
 		        android:layout_height="48dp"
 		        android:text="@string/join" />
 		
 		    <Button
 	            android:id="@+id/buttonLogin"
+	            style="@style/FlatButton"
+	            android:layout_marginLeft="1dp"
 	            android:layout_width="120dp"
 		        android:layout_height="48dp"
 	            android:text="@string/login" />
