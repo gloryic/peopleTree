@@ -147,6 +147,37 @@
 		        android:textSize="@dimen/group_item_name_size" />
 			
 		</RelativeLayout>
+		
+        <RelativeLayout
+		    android:id="@+id/indoor_layout"
+		    android:layout_width="match_parent"
+		    android:layout_height="60dp"
+		    android:background="@drawable/list_item_selector" 
+		    android:layout_marginBottom="1dp">
+			
+		    <ImageView
+		        android:id="@+id/indoor_img"
+		        android:layout_width="48dp"
+		        android:layout_height="48dp"
+		        android:layout_alignParentLeft="true"
+		        android:layout_centerVertical="true"
+		        android:layout_marginLeft="24dp"
+		        android:src="@drawable/ic_domain_white_48dp" />
+		    
+		     <TextView
+		        android:id="@+id/indoor_text"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_toRightOf="@+id/indoor_img"
+		        android:layout_marginLeft="36dp"
+		        android:layout_marginRight="24dp"
+		        android:layout_centerVertical="true"
+		        android:gravity="center_vertical"
+		        android:text="@string/menu_manage_indoor"
+		        android:textColor="@color/white"
+		        android:textSize="@dimen/group_item_name_size" />
+			
+		</RelativeLayout>
 
     </LinearLayout>
 

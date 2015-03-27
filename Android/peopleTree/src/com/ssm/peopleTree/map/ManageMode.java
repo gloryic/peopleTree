@@ -8,7 +8,7 @@ public enum ManageMode {
 	TRACKING(210, R.string.menu_manage_tracking),
 	AREA(220, R.string.menu_manage_area),
 	GEOFENCE(230, R.string.menu_manage_geofence),
-	INDOOR(300, R.string.empty)
+	INDOOR(240, R.string.menu_manage_indoor)
 	;
 	
 	public static final String KEY = "ManageMode";

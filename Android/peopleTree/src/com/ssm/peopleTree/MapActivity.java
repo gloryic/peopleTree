@@ -1,11 +1,11 @@
 package com.ssm.peopleTree;
 
-import com.ssm.peopleTree.application.MyManager;
 import com.ssm.peopleTree.dialog.ManageSelectDialog;
 import com.ssm.peopleTree.dialog.SetRadiusDialog;
 import com.ssm.peopleTree.dialog.SimpleAlertDialog;
 import com.ssm.peopleTree.map.ManageMode;
 import com.ssm.peopleTree.map.MapManager;
+import com.ssm.peopleTree.map.OnCancelSettingListener;
 import com.ssm.peopleTree.map.OnFinishSettingListener;
 import com.ssm.peopleTree.map.OnLoadFinishListener;
 import com.ssm.peopleTree.map.OnStartSettingListener;
@@ -14,6 +14,7 @@ import net.daum.mf.map.api.MapView;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +34,7 @@ public class MapActivity extends Activity implements OnClickListener {
 	private AlertDialog saveAlertDialog;
 	private AlertDialog loadAlertDialog;
 	private AlertDialog locAlertDialog;
+	private AlertDialog gpsAlertDialog;
 	
 	private SetRadiusDialog radiusDialog;
 	private SimpleAlertDialog pointDialog;
@@ -79,16 +81,30 @@ public class MapActivity extends Activity implements OnClickListener {
 			public void onLoadFinish(ManageMode manageMode) {
 				setBarText(manageMode);
 				
-				if (manageMode == ManageMode.TRACKING && !MyManager.getInstance().isAvailableMyLocation()) {
-					loadAlertDialog.show();
+				if (manageMode == ManageMode.TRACKING) {
+					if (!isOnGPS()) {
+						gpsAlertDialog.show();
+					}
+					else if (!mapManager.isAvailableMyLocation()) {
+						loadAlertDialog.show();
+					}
 				}
 			}
-		});
+		}, true);
 		mapManager.setStartSettingListener(new OnStartSettingListener() {
 			
 			@Override
 			public void onStartSetting(ManageMode manageMode) {
 				setBarText(manageMode);
+				
+				if (manageMode == ManageMode.NOTHING || manageMode == ManageMode.INDOOR) {
+					return;
+				}
+				else if (manageMode == ManageMode.TRACKING) {
+					radiusDialog.show();
+					return;
+				}
+				
 				btnLayout.removeAllViews();
 				LinearLayout.inflate(MapActivity.this, R.layout.btn_prev_next, btnLayout);
 				Button btnPrev = ((Button)btnLayout.findViewById(R.id.btn_prev));
@@ -102,27 +118,6 @@ public class MapActivity extends Activity implements OnClickListener {
 				});
 				
 				switch (manageMode) {
-				case NOTHING:
-					btnPrev.setOnClickListener(new OnClickListener() {
-						
-						@Override
-						public void onClick(View v) {
-							// cancel dialog
-							cancelDialog.show();
-						}
-					});
-					break;
-				case TRACKING:
-					radiusDialog.show();
-					btnPrev.setOnClickListener(new OnClickListener() {
-						
-						@Override
-						public void onClick(View v) {
-							// radius dialog
-							radiusDialog.show();
-						}
-					});
-					break;
 				case AREA:
 					radiusDialog.show();
 					btnPrev.setOnClickListener(new OnClickListener() {
@@ -156,7 +151,17 @@ public class MapActivity extends Activity implements OnClickListener {
 			public void onFinishSetting() {
 				btnLayout.removeAllViews();
 				RelativeLayout.inflate(MapActivity.this, R.layout.btn_close, btnLayout);
-				((Button)findViewById(R.id.btn_close)).setOnClickListener(MapActivity.this);
+				((Button)btnLayout.findViewById(R.id.btn_close)).setOnClickListener(MapActivity.this);
+			}
+		});
+		mapManager.setCancelSettingListener(new OnCancelSettingListener() {
+			
+			@Override
+			public void onCancelSetting() {
+				setBarText(mapManager.getManageMode());
+				btnLayout.removeAllViews();
+				RelativeLayout.inflate(MapActivity.this, R.layout.btn_close, btnLayout);
+				((Button)btnLayout.findViewById(R.id.btn_close)).setOnClickListener(MapActivity.this);
 			}
 		});
 	}
@@ -175,7 +180,7 @@ public class MapActivity extends Activity implements OnClickListener {
 			})
 			.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
-					mapManager.finishSetting();
+					mapManager.finishSetting(mapView);
 					dialog.cancel();
 				}
 
@@ -184,8 +189,22 @@ public class MapActivity extends Activity implements OnClickListener {
 		
 		builder = new AlertDialog.Builder(this);
 		builder.setTitle("경고")
-			.setMessage("현재 사용자의 위치 정보를 확인할 수 없어 기존 설정을 불러올 수 없습니다.")
-			.setCancelable(true)
+			.setMessage("GPS가 꺼져있어 사용자의 현재 위치를 표시할 수 없습니다. GPS를 켜주시기 바랍니다.")
+			.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int whichButton) {
+					Intent intent = new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+    				intent.addCategory(Intent.CATEGORY_DEFAULT);
+    				startActivity(intent);
+    				
+					dialog.cancel();
+				}
+
+			});
+		gpsAlertDialog = builder.create();
+		
+		builder = new AlertDialog.Builder(this);
+		builder.setTitle("경고")
+			.setMessage("사용자의 현재 위치 정보를 확인할 수 없어 기존 설정을 불러올 수 없습니다. 잠시 후 다시 시도해주십시오.")
 			.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
 					dialog.cancel();
@@ -196,8 +215,7 @@ public class MapActivity extends Activity implements OnClickListener {
 		
 		builder = new AlertDialog.Builder(this);
 		builder.setTitle("경고")
-			.setMessage("현재 사용자의 위치 정보를 확인할 수 없어 해당 모드는 사용할 수 없습니다.")
-			.setCancelable(true)
+			.setMessage("사용자의 현재 위치 정보를 확인할 수 없어 해당 모드는 사용할 수 없습니다. 잠시 후 다시 시도해주십시오.")
 			.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
 					dialog.cancel();
@@ -219,15 +237,16 @@ public class MapActivity extends Activity implements OnClickListener {
 					nothingDialog.show();
 					break;
 				case R.id.tracking_layout:
-					//if (((TestActivity) context).chkGpsService()) {
-					if (MyManager.getInstance().isAvailableMyLocation()) {
+					if (!isOnGPS()) {
+						gpsAlertDialog.show();
+					}
+					else if (!mapManager.isAvailableMyLocation()) {
+						locAlertDialog.show();
+					}
+					else {
 						mapManager.startSetting(ManageMode.TRACKING, mapView);
 						manageSelectDialog.dismiss();
 					}
-					else {
-						locAlertDialog.show();
-					}
-					//}
 					break;
 				case R.id.area_layout:
 					mapManager.startSetting(ManageMode.AREA, mapView);
@@ -235,6 +254,11 @@ public class MapActivity extends Activity implements OnClickListener {
 					break;
 				case R.id.geofence_layout:
 					mapManager.startSetting(ManageMode.GEOFENCE, mapView);
+					manageSelectDialog.dismiss();
+					break;
+				case R.id.indoor_layout:
+					mapManager.startSetting(ManageMode.INDOOR, mapView);
+					mapManager.finishSetting(mapView);
 					manageSelectDialog.dismiss();
 					break;
 				default:
@@ -250,6 +274,7 @@ public class MapActivity extends Activity implements OnClickListener {
 		builder = new AlertDialog.Builder(this);
 		builder.setTitle("취소")
 			.setMessage("설정을 취소하시겠습니까?")
+			.setCancelable(true)
 			.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
 				
 				@Override
@@ -284,13 +309,14 @@ public class MapActivity extends Activity implements OnClickListener {
 			.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
 					mapManager.startSetting(ManageMode.NOTHING, mapView);
-					mapManager.finishSetting();
+					mapManager.finishSetting(mapView);
 					dialog.cancel();
 				}
 			});
 		nothingDialog = builder.create();
 		
 		radiusDialog = new SetRadiusDialog(this);
+		radiusDialog.setCancelable(false);
 		radiusDialog.setOnClickLisener(new OnClickListener() {
 			
 			@Override
@@ -303,12 +329,29 @@ public class MapActivity extends Activity implements OnClickListener {
 				case R.id.btn_next:
 					mapManager.setRadius(radiusDialog.getRadiusSetting());
 					radiusDialog.dismiss();
-					pointDialog.show();
+					
+					switch(mapManager.getNewManageMode()) {
+					case TRACKING:
+						mapManager.finishSetting(mapView);
+						mapManager.showCurrentSetting(mapView);
+						break;
+					case AREA:
+						pointDialog.show();
+						break;
+					default:
+						break;
+					}
 					break;
 				}
 			}
 		});
 	}
+	
+	public boolean isOnGPS() {
+    	String gs = android.provider.Settings.Secure.getString(getContentResolver(),
+    	android.provider.Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
+    	return gs.indexOf("gps", 0) >= 0;
+    }
 	
 	private void setBarText(ManageMode manageMode) {
 		barText.setText(manageMode.getStringId());

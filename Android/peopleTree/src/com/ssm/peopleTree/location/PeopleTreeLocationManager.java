@@ -91,6 +91,13 @@ public class PeopleTreeLocationManager  {
 		return outsideLocationMeasurer.location;
 	}
 	
+	public boolean isAvailableMyLocation() {
+		if (outsideLocationMeasurer == null) {
+			return false;
+		}
+		return outsideLocationMeasurer.location != null;
+	}
+	
 	public boolean isInsideValid(){
 		return insideLocationMeasurer.isValidLocation();
 	}

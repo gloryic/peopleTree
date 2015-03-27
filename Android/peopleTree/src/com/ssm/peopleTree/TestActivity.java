@@ -19,6 +19,7 @@ import com.ssm.peopleTree.dialog.OptionDialog;
 import com.ssm.peopleTree.group.GroupManager;
 import com.ssm.peopleTree.group.GroupManager.GroupListener;
 import com.ssm.peopleTree.map.ManageMode;
+import com.ssm.peopleTree.map.MapManager;
 
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
@@ -82,6 +83,7 @@ public class TestActivity extends FragmentActivity implements Progressable, OnCl
 	
 	private NetworkProgressDialog progDialog;
 	private AlertDialog alertDialog;
+	private AlertDialog manageAlertDialog;
 	
 	private OptionDialog optionDialog;
 	
@@ -91,6 +93,8 @@ public class TestActivity extends FragmentActivity implements Progressable, OnCl
 		
 		setContentView(R.layout.tframe);
 	
+		MapManager.getInstance().loadSetting(null, null, false);
+		
 		//
 		//startService(new Intent("android.servcice.MAIN"));		
 		IntentFilter filter = new IntentFilter("android.location.PROVIDERS_CHANGED");
@@ -113,6 +117,22 @@ public class TestActivity extends FragmentActivity implements Progressable, OnCl
 				});
 		
 		alertDialog = builder.create();
+		
+		builder = new AlertDialog.Builder(this);
+		builder.setTitle("경고")
+				.setMessage("GPS가 꺼져있어 관리 대상들을 추적 관리할 수 없습니다. GPS를 켜주십시오.")
+				.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+					
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						Intent intent = new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+	    				intent.addCategory(Intent.CATEGORY_DEFAULT);
+	    				startActivity(intent);
+						dialog.cancel();
+					}
+				});
+		
+		manageAlertDialog = builder.create();
 
 		backPressCloseHandler = new BackPressCloseHandler(this);
 		
@@ -227,9 +247,7 @@ public class TestActivity extends FragmentActivity implements Progressable, OnCl
 			chkGpsService();
 		}
 	}
-	
-	
-	
+		
 	@Override
 	public void onBackPressed() {
 
@@ -417,11 +435,14 @@ public class TestActivity extends FragmentActivity implements Progressable, OnCl
         }
     };
 
-	
-    public boolean chkGpsService() {
+    public boolean isOnGPS() {
     	String gs = android.provider.Settings.Secure.getString(getContentResolver(),
     	android.provider.Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
-    	if (gs.indexOf("gps", 0) < 0 && !isGPSdialogPop) {
+    	return gs.indexOf("gps", 0) >= 0;
+    }
+	
+    public boolean chkGpsService() {
+    	if (!isOnGPS() && !isGPSdialogPop) {
     		// GPS OFF 일때 Dialog 띄워서 설정 화면으로 튀어봅니다..
     		isGPSdialogPop = true;
     		AlertDialog.Builder gsDialog = new AlertDialog.Builder(this);
@@ -476,6 +497,10 @@ public class TestActivity extends FragmentActivity implements Progressable, OnCl
 	}
 	@Override
 	protected void onResume() {
+		MapManager mapManager = MapManager.getInstance();
+		if (mapManager.getManageMode() == ManageMode.TRACKING && !isOnGPS()) {
+			manageAlertDialog.show();
+		}
 		// TODO Auto-generated method stub
 		super.onResume();
 	}

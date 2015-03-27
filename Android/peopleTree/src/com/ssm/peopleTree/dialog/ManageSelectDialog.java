@@ -1,6 +1,9 @@
 package com.ssm.peopleTree.dialog;
 
 import com.ssm.peopleTree.R;
+import com.ssm.peopleTree.application.MyManager;
+import com.ssm.peopleTree.location.PeopleTreeLocationManager;
+import com.ssm.peopleTree.map.ManageMode;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -16,6 +19,7 @@ public class ManageSelectDialog extends Dialog {
 	private RelativeLayout trackingLayout;
 	private RelativeLayout areaLayout;
 	private RelativeLayout geofenceLayout;
+	private RelativeLayout indoorLayout;
 	
 	public ManageSelectDialog(Context context) {
 		super(context);
@@ -28,6 +32,27 @@ public class ManageSelectDialog extends Dialog {
 		trackingLayout = (RelativeLayout)findViewById(R.id.tracking_layout);
 		areaLayout = (RelativeLayout)findViewById(R.id.area_layout);
 		geofenceLayout = (RelativeLayout)findViewById(R.id.geofence_layout);
+		indoorLayout = (RelativeLayout)findViewById(R.id.indoor_layout);
+
+		//
+		if (!MyManager.getInstance().hasParent() || MyManager.getInstance().getMyParentData().manageMode == ManageMode.NOTHING.getCode()){
+			nothingLayout.setEnabled(true);
+			nothingLayout.setBackgroundResource(R.drawable.list_item_selector);
+		}
+		else {
+			nothingLayout.setEnabled(false);
+			nothingLayout.setBackgroundResource(R.drawable.list_item_disable);
+		}
+		
+		//
+		if (PeopleTreeLocationManager.getInstance().isInsideValid()) {
+			indoorLayout.setEnabled(true);
+			indoorLayout.setBackgroundResource(R.drawable.list_item_selector);
+		}
+		else {
+			indoorLayout.setEnabled(false);
+			indoorLayout.setBackgroundResource(R.drawable.list_item_disable);
+		}
 		
 		/*
 		((Button)findViewById(R.id.btn_close)).setOnClickListener(onClickListener);
@@ -44,5 +69,6 @@ public class ManageSelectDialog extends Dialog {
 		trackingLayout.setOnClickListener(onClickListener);
 		areaLayout.setOnClickListener(onClickListener);
 		geofenceLayout.setOnClickListener(onClickListener);
+		indoorLayout.setOnClickListener(onClickListener);
 	}
 }
