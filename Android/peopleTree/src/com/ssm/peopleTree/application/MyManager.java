@@ -69,7 +69,10 @@ public class MyManager {
 		} 
 
 	}
-	
+	public void clear(){
+		myData = new MemberData();
+		myParentData = new MemberData();
+	}
 	public MemberData getMyParentData() {
 		return myParentData;
 	}
