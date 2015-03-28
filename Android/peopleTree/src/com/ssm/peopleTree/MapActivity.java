@@ -3,6 +3,7 @@ package com.ssm.peopleTree;
 import com.ssm.peopleTree.dialog.ManageSelectDialog;
 import com.ssm.peopleTree.dialog.SetRadiusDialog;
 import com.ssm.peopleTree.dialog.SimpleAlertDialog;
+import com.ssm.peopleTree.group.GroupManager;
 import com.ssm.peopleTree.map.ManageMode;
 import com.ssm.peopleTree.map.MapManager;
 import com.ssm.peopleTree.map.OnCancelSettingListener;
@@ -192,6 +193,7 @@ public class MapActivity extends Activity implements OnClickListener {
 			.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
 					mapManager.finishSetting(mapView);
+					GroupManager.getInstance().updateSelf();
 					dialog.cancel();
 				}
 

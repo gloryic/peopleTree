@@ -781,6 +781,8 @@ public class MapManager implements MapViewEventListener, POIItemEventListener{
 			break;
 			
 		case GEOFENCE: {
+				addMyLoaction(mapView);
+				
 				MapPolyline polyline = new MapPolyline();
 				polyline.setLineColor(Color.argb(128, 255, 51, 0));
 				newGeoPoints.add(new GeoPoint(mp.getMapPointGeoCoord().latitude, mp.getMapPointGeoCoord().longitude));
