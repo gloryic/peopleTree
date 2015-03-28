@@ -292,7 +292,29 @@ public class GroupListController extends Fragment implements Observer {
 				}
 			});
 		if(myData.groupMemberId == MyManager.getInstance().getGroupMemberId()){
+			int mmode =  MyManager.getInstance().getManageMode();
 			groupcur_layout_total_text.setText("나(본인)");
+			String mstr ="";
+			switch(mmode){
+			case 200:
+				mstr+="[-]";
+				break;
+			case 210:
+				mstr+="[추적모드]";
+				break;
+			case 220:
+				mstr+="[지역모드]";
+				break;
+			case 230:
+				mstr+="[GF모드]";
+				break;
+			case 240:
+				mstr+="[실내모드]";
+				break;
+			
+			}
+			myName.setText(myData.userName +"  " + mstr);
+			
 		}else{
 			groupcur_layout_total_text.setText("관리자");
 		}

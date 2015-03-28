@@ -19,6 +19,6 @@ public class MemberData {
 	public int managingNumber;
 	public int accumulateWarning;
 	
-	public Double longitude;
+	public Double longitude; //ÀÌ
 	public Double latitude;
 }
