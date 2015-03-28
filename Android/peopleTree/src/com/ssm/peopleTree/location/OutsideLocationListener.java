@@ -3,6 +3,8 @@ package com.ssm.peopleTree.location;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import com.ssm.peopleTree.map.MapManager;
+
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -168,8 +170,8 @@ class OutsideLocationListener extends Service implements LocationListener,
 		isGetLocation = true;
 		lastUpdateTime = System.currentTimeMillis();
 			
-		
-
+		MapManager.getInstance().updateMyLocation();
+		MapManager.getInstance().showMyLocation();
 	}
 
 	public boolean isLocationRequested() {

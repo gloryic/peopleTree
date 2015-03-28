@@ -1,10 +1,12 @@
 package com.ssm.peopleTree.dialog;
 
 
+import com.ssm.peopleTree.ChildLocationActivity;
 import com.ssm.peopleTree.ParentLocationActivity;
 import com.ssm.peopleTree.R;
 import com.ssm.peopleTree.application.MyManager;
 import com.ssm.peopleTree.data.MemberData;
+import com.ssm.peopleTree.map.MapManager;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -22,6 +24,7 @@ import android.widget.TextView;
 public class ChildInfoDialog extends Dialog implements View.OnClickListener {
 
 	private AlertDialog locAlertDialog;
+	private AlertDialog indoorAlertDialog;
 	
 	private TextView titleTv;
 	private TextView phoneTv;
@@ -29,6 +32,8 @@ public class ChildInfoDialog extends Dialog implements View.OnClickListener {
 	private Context mContext;
 	
 	private MsgSendDialog msgSendDialog;
+	
+	private MemberData childData;
 	
 	public ChildInfoDialog(Context context,MemberData childData_) {
 		super(context);
@@ -63,37 +68,67 @@ public class ChildInfoDialog extends Dialog implements View.OnClickListener {
 			});
 		locAlertDialog = builder.create();
 		
+		builder = new AlertDialog.Builder(context);
+		builder.setTitle("경고")
+			.setMessage("선택한 관리 대상은 실내에 있어 현재 위치를 확인할 수 없습니다.")
+			.setCancelable(true)
+			.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int whichButton) {
+					dialog.cancel();
+				}
+
+			});
+		indoorAlertDialog = builder.create();
+				
 		msgSendDialog = new MsgSendDialog(context, childData_);
 	}	
 
 	public void setChildData(MemberData cData){
 		titleTv.setText(cData.userName);
 		phoneTv.setText(cData.userPhoneNumber);
-	}
-
-
-	public void setParentData(MemberData ptData){
-		titleTv.setText(ptData.userName);
-		phoneTv.setText(ptData.userPhoneNumber);
+		
+		childData = cData;
 	}
 	
-	private void callToParent() {
+	private void callToChild() {
 		String str = "tel:"+phoneTv.getText().toString();
     	Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse(str));
     	mContext.startActivity(intent);
+	}
+	
+	public boolean isAvailableLoaction() {
+		if (childData == null) {
+			return false;
+		}
+		else if (childData.latitude == null || childData.longitude == null) {
+			return false;
+		}
+		else {
+			return true;
+		}
+	}
+
+	public boolean isIndoorLocation() {
+		return childData.latitude >= 500f && childData.longitude >= 500f;
 	}
 
 	@Override
 	public void onClick(View v) {
 		switch(v.getId()) {
 		case R.id.phone_layout:
-			callToParent();
+			callToChild();
 			break;
 		case R.id.location_layout:
-			MyManager myManager = MyManager.getInstance();
-			if (myManager.isAvailableParentLocation() && myManager.isAvailableMyLocation()) {
-				Intent intent = new Intent(mContext, ParentLocationActivity.class);
-				mContext.startActivity(intent);
+			MapManager mapManager = MapManager.getInstance();
+			mapManager.setChild(childData);
+			if (isAvailableLoaction()) {
+				if (isIndoorLocation()) {
+					indoorAlertDialog.show();
+				}
+				else {
+					Intent intent = new Intent(mContext, ChildLocationActivity.class);
+					mContext.startActivity(intent);
+				}
 			}
 			else {
 				locAlertDialog.show();

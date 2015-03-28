@@ -6,6 +6,8 @@ import com.ssm.peopleTree.R;
 import com.ssm.peopleTree.TestActivity;
 import com.ssm.peopleTree.application.MyManager;
 import com.ssm.peopleTree.data.MemberData;
+import com.ssm.peopleTree.map.ManageMode;
+import com.ssm.peopleTree.map.MapManager;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -24,6 +26,7 @@ public class ParentInfoDialog extends Dialog implements View.OnClickListener {
 
 	private AlertDialog authorAlertDialog;
 	private AlertDialog locAlertDialog;
+	private AlertDialog indoorAlertDialog;
 	
 	private TextView titleTv;
 	private TextView phoneTv;
@@ -49,8 +52,20 @@ public class ParentInfoDialog extends Dialog implements View.OnClickListener {
 		phoneTv = (TextView)this.findViewById(R.id.phone_text);
 		
 		AlertDialog.Builder builder = new AlertDialog.Builder(context);
+		builder.setTitle("알림")
+			.setMessage("현재 실내 모드로 관리되고 있습니다.")
+			.setCancelable(true)
+			.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int whichButton) {
+					dialog.cancel();
+				}
+
+			});
+		indoorAlertDialog = builder.create();
+			
+		builder = new AlertDialog.Builder(context);
 		builder.setTitle("경고")
-			.setMessage("권한이 없습니다.")
+			.setMessage("관리지역은 이탈 시에만 확인할 수 있습니다.")
 			.setCancelable(true)
 			.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
@@ -59,10 +74,10 @@ public class ParentInfoDialog extends Dialog implements View.OnClickListener {
 
 			});
 		authorAlertDialog = builder.create();
-			
+		
 		builder = new AlertDialog.Builder(context);
 		builder.setTitle("경고")
-			.setMessage("현재 저장된 위치 정보는 확인할 수 없습니다.")
+			.setMessage("현재 관리지역 설정을 확인할 수 없습니다. 잠시 후 다시 시도해 주십시오.")
 			.setCancelable(true)
 			.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
@@ -95,12 +110,26 @@ public class ParentInfoDialog extends Dialog implements View.OnClickListener {
 			if (!myManager.isAbsent()) {
 				authorAlertDialog.show();
 			}
-			else if (myManager.isAvailableParentLocation() && myManager.isAvailableMyLocation()) {
-				Intent intent = new Intent(mContext, ParentLocationActivity.class);
-				mContext.startActivity(intent);
-			}
 			else {
-				locAlertDialog.show();
+				ManageMode parentManageMode = ManageMode.getMode(myManager.getMyParentData().manageMode);
+				if (parentManageMode == ManageMode.INDOOR) {
+					indoorAlertDialog.show();
+				}
+				else if (parentManageMode == ManageMode.TRACKING) {
+					if (!myManager.isAvailableParentLocation()) {
+						locAlertDialog.show();
+					}
+					else {
+						MemberData pData = myManager.getMyParentData();
+						MapManager.getInstance().updateParentLoaction(pData.latitude, pData.longitude);
+						Intent intent = new Intent(mContext, ParentLocationActivity.class);
+						mContext.startActivity(intent);
+					}
+				}
+				else {
+					Intent intent = new Intent(mContext, ParentLocationActivity.class);
+					mContext.startActivity(intent);
+				}
 			}
 			break;
 		case R.id.btn_close:
