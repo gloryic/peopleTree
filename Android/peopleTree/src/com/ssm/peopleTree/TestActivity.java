@@ -150,7 +150,8 @@ public class TestActivity extends FragmentActivity implements Progressable, OnCl
 			@Override
 			public void onUpdateSuccess(Object arg) {
 				if (!isFinishing()) {
-					if (ManageMode.getMode(myManager.getMyParentData().manageMode) != ManageMode.NOTHING) {
+					ManageMode manageMode = ManageMode.getMode(myManager.getMyParentData().manageMode);
+					if (manageMode != ManageMode.NOTHING && manageMode != ManageMode.INDOOR) {
 						chkGpsService();
 					}
 					
@@ -242,8 +243,8 @@ public class TestActivity extends FragmentActivity implements Progressable, OnCl
 			}
 		});
 
-		
-		if (ManageMode.getMode(myManager.getMyParentData().manageMode) != ManageMode.NOTHING) {
+		ManageMode manageMode = ManageMode.getMode(myManager.getMyParentData().manageMode);
+		if (manageMode != ManageMode.NOTHING && manageMode != ManageMode.INDOOR) {
 			chkGpsService();
 		}
 	}
