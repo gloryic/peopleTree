@@ -28,12 +28,16 @@ public class SetRadiusDialog extends Dialog {
 	}
 	
 	public int getRadiusSetting() {
-		Integer radius = Integer.parseInt(editText.getEditableText().toString());
-		if (radius == null) {
+		try {
+			Integer radius = Integer.parseInt(editText.getEditableText().toString());
+			if (radius == null) {
+				return 0;
+			}
+			else {
+				return radius;
+			}
+		} catch (Exception e) {
 			return 0;
-		}
-		else {
-			return radius;
 		}
 	}
 	
