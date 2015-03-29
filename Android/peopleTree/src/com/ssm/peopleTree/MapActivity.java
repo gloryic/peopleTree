@@ -164,6 +164,7 @@ public class MapActivity extends Activity implements OnClickListener {
 				btnLayout.removeAllViews();
 				RelativeLayout.inflate(MapActivity.this, R.layout.btn_close, btnLayout);
 				((Button)btnLayout.findViewById(R.id.btn_close)).setOnClickListener(MapActivity.this);
+				GroupManager.getInstance().updateSelf();
 			}
 		});
 		mapManager.setCancelSettingListener(new OnCancelSettingListener() {
@@ -193,7 +194,6 @@ public class MapActivity extends Activity implements OnClickListener {
 			.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
 					mapManager.finishSetting(mapView);
-					GroupManager.getInstance().updateSelf();
 					dialog.cancel();
 				}
 
