@@ -1,29 +1,19 @@
 package com.ssm.peopleTree;
 
-import com.ssm.peopleTree.dialog.ManageSelectDialog;
-import com.ssm.peopleTree.dialog.SetRadiusDialog;
-import com.ssm.peopleTree.dialog.SimpleAlertDialog;
 import com.ssm.peopleTree.map.ManageMode;
 import com.ssm.peopleTree.map.MapManager;
-import com.ssm.peopleTree.map.OnFinishSettingListener;
 import com.ssm.peopleTree.map.OnLoadFinishListener;
-import com.ssm.peopleTree.map.OnStartSettingListener;
 
 import net.daum.mf.map.api.MapView;
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-public class ChildActivity extends Activity implements OnClickListener {
+public class ChildLocationActivity extends Activity implements OnClickListener {
 
 	private MapManager mapManager;
 	private TextView barText;
@@ -51,19 +41,20 @@ public class ChildActivity extends Activity implements OnClickListener {
 		mapViewContainer.addView(mapView);
 	
 		////
-		initializeMapManager(mapView);
+		initializeMapManager();
 	}
 	
-	private void initializeMapManager(MapView mapView) {
+	private void initializeMapManager() {
 		
 		mapManager.loadSetting(mapView, new OnLoadFinishListener() {
 			
 			@Override
 			public void onLoadFinish(ManageMode manageMode) {
 				setBarText(manageMode);
+				mapManager.showCurrentSetting(mapView);
+				mapManager.loadChild(mapView);
 			}
 		}, true);
-		mapManager.loadChild(mapView);
 	}
 	
 	private void setBarText(ManageMode manageMode) {

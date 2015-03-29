@@ -24,6 +24,7 @@
             android:layout_weight="0.80"
             android:background="@drawable/myborder3"
             android:gravity="center"
+            android:textSize="16sp"
             android:text="사용자검색" />
     </LinearLayout>
 
@@ -33,17 +34,9 @@
         android:layout_weight="0.51"
         android:gravity="center" />
 
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.51"
-        android:gravity="center"
-        android:text="대상찾기(이름,전화번호,아이디)" />
-
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="60dp"
+        android:layout_height="80dp"
         android:orientation="horizontal"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
@@ -52,6 +45,7 @@
         <EditText
             android:id="@+id/searchuser_edittxt"
             android:layout_width="200dp"
+            android:hint="대상찾기(이름,전화번호,아이디)"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
             android:layout_weight="0.51"
@@ -63,6 +57,7 @@
             android:id="@+id/searchuser_searchbtn"
             style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
+            android:background="@color/green"
             android:layout_height="34dp"
             android:text="검색" />
     </LinearLayout>
@@ -81,19 +76,20 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.83"
             android:text="위치정보 관리여부"
-            android:textSize="10sp" />
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="15sp"
             android:text="검색결과 :" />
 
         <TextView
             android:id="@+id/searchuser_seachnum_txtv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="________"
+            android:text=" 0명"
             android:textStyle="bold" />
     </LinearLayout>
 

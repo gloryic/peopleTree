@@ -60,10 +60,13 @@ public class MapManager implements MapViewEventListener, POIItemEventListener{
 	
 	private ManageMode manageMode;
 	private ManageMode newManageMode;
+	private ManageMode parentManageMode;
 	private ArrayList<GeoPoint> geoPoints;
 	private ArrayList<GeoPoint> newGeoPoints;
+	private ArrayList<GeoPoint> parentGeoPoints;
 	private int radius;	
 	private int newRadius;
+	private int parentRadius;
 
 	private LinkedList<SettingMode> settingQueue;
 	private SettingMode settingMode;
@@ -73,12 +76,28 @@ public class MapManager implements MapViewEventListener, POIItemEventListener{
 	private OnFinishSettingListener finishSettingLisetner;
 	private OnCancelSettingListener cancelSettingListener;
 	
+	private MapPOIItem myLocationItem;
 	private MapPoint myLocation;
 	private boolean myLocationAvailable;
+	
+	private MapPoint parentLocation;
+	private boolean parentLocationAvailable;
+	
+	private MapView curMapView;
 		
 	public void initialize(Context context) {
+		manageMode = ManageMode.NOTHING;
+		newManageMode = ManageMode.NOTHING;
+		parentManageMode = ManageMode.NOTHING;
+		
 		geoPoints = new ArrayList<GeoPoint>();
 		newGeoPoints = new ArrayList<GeoPoint>();
+		parentGeoPoints = new ArrayList<GeoPoint>();
+		
+		radius = 0;
+		newRadius = 0;
+		parentRadius = 0;
+		
 		settingQueue = new LinkedList<SettingMode>();
 		
 		settingMode = SettingMode.NO_SETTING;
@@ -86,6 +105,12 @@ public class MapManager implements MapViewEventListener, POIItemEventListener{
 		
 		myLocationAvailable = false;
 		myLocation = null;
+		myLocationItem = null;
+		
+		parentLocation = null;
+		parentLocationAvailable = false;
+		
+		curMapView = null;
 	}
 
 	
@@ -101,14 +126,13 @@ public class MapManager implements MapViewEventListener, POIItemEventListener{
 			return;
 		}
 		
+		curMapView = mapView;
+		
 		MapPOIItem item = new MapPOIItem();
 		item.setItemName(childData.userName);
 		item.setMarkerType(MarkerType.YellowPin);
 		item.setMapPoint(MapPoint.mapPointWithGeoCoord(childData.latitude, childData.longitude));
 		mapView.addPOIItem(item);
-		
-		updateMyLocation();
-		addMyLoaction(mapView);
 		
 		MapCircle[] circles = mapView.getCircles();
 		MapPOIItem[] items = mapView.getPOIItems();	
@@ -133,8 +157,10 @@ public class MapManager implements MapViewEventListener, POIItemEventListener{
 	}
 	
 	public void loadSetting(MapView arg, OnLoadFinishListener finishListener, boolean show) {
+		
+		curMapView = arg;
+		
 		final boolean showMap = show;
-		final MapView mapView = arg;
 		final OnLoadFinishListener listener = finishListener;
 		final MyManager myManager = MyManager.getInstance();
 		int id = myManager.getGroupMemberId();
@@ -154,7 +180,7 @@ public class MapManager implements MapViewEventListener, POIItemEventListener{
 					radius = res.radius;
 					
 					if (showMap) {
-						showCurrentSetting(mapView);
+						showCurrentSetting(curMapView);
 					}
 				}
 				else {
@@ -166,9 +192,9 @@ public class MapManager implements MapViewEventListener, POIItemEventListener{
 					radius = 0;
 					
 					if (showMap) {
-						mapView.removeAllCircles();
-						mapView.removeAllPOIItems();
-						mapView.removeAllPolylines();
+						curMapView.removeAllCircles();
+						curMapView.removeAllPOIItems();
+						curMapView.removeAllPolylines();
 					}
 				}
 			}
@@ -179,6 +205,37 @@ public class MapManager implements MapViewEventListener, POIItemEventListener{
 		
 		settingMode = SettingMode.NO_SETTING;
 		isSetting = false;
+	}
+	
+	public void loadParentSetting(MapView arg, OnLoadFinishListener finishListener) {
+		
+		final OnLoadFinishListener listener = finishListener;
+		final MyManager myManager = MyManager.getInstance();
+		int id = myManager.getParentGroupMemberId();
+		GetGeoPointRequest req = new GetGeoPointRequest(id);
+		NetworkManager.getInstance().request(req, new Listener<JSONObject>() {
+
+			@Override
+			public void onResponse(JSONObject arg0) {
+				GetGeoPointResponse res = new GetGeoPointResponse(arg0);
+				if (res.getStatus() == Status.SUCCESS) {
+					parentManageMode = ManageMode.getMode(res.manageMode);
+					parentGeoPoints.clear();
+					parentGeoPoints.addAll(res.points);
+					parentRadius = res.radius;
+				}
+				else {
+					parentManageMode = ManageMode.NOTHING;
+					parentGeoPoints.clear();
+					parentRadius = 0;
+				}
+				
+				if (listener != null) {
+					listener.onLoadFinish(parentManageMode);
+				}
+			}
+			
+		}, null);
 	}
 	
 	public void startSetting(ManageMode manageMode, MapView mapView) {
@@ -358,13 +415,101 @@ public class MapManager implements MapViewEventListener, POIItemEventListener{
 		mapView.moveCamera(CameraUpdateFactory.newMapPointBounds(mapPointBounds, padding));
 	}
 	
+	public void showParentSetting(MapView mapView) {
+		if (mapView == null) {
+			return;
+		}
+		
+		mapView.removeAllCircles();
+		mapView.removeAllPOIItems();
+		mapView.removeAllPolylines();
+		
+		addMyLoaction(mapView);
+		
+		switch(parentManageMode) {
+		case TRACKING:
+			if (parentLocationAvailable) {
+				MapCircle circle = new MapCircle(parentLocation, parentRadius, Color.argb(128, 255, 0, 0), Color.argb(128, 0, 255, 0));
+				mapView.addCircle(circle);
+			}
+			break;
+			
+		case AREA:
+			{
+				GeoPoint gp = parentGeoPoints.get(0);
+				MapPoint mp = MapPoint.mapPointWithGeoCoord(gp.getLat(), gp.getLng());
+				MapPOIItem item = new MapPOIItem();
+				item.setItemName("Center");
+				item.setMarkerType(MarkerType.BluePin);
+				item.setMapPoint(mp);
+				mapView.addPOIItem(item);
+				
+				MapCircle circle = new MapCircle(mp, parentRadius, Color.argb(128, 255, 0, 0), Color.argb(128, 0, 255, 0));
+				circle.setCenter(mp);
+				mapView.addCircle(circle);
+			}
+			break;
+			
+		case GEOFENCE:
+			MapPolyline polyline = new MapPolyline();
+			polyline.setLineColor(Color.argb(128, 255, 51, 0));
+			
+			for (GeoPoint geoPoint : parentGeoPoints) {
+				MapPoint mapPoint = MapPoint.mapPointWithGeoCoord(geoPoint.getLat(), geoPoint.getLng());
+				MapPOIItem item = new MapPOIItem();
+				item.setMapPoint(mapPoint);
+				item.setItemName("Point");
+				item.setMarkerType(MarkerType.BluePin);
+				mapView.addPOIItem(item);
+				polyline.addPoint(mapPoint);
+			}
+			if (parentGeoPoints.size() > 2) {
+				GeoPoint geoPoint = parentGeoPoints.get(0);
+				MapPoint mapPoint = MapPoint.mapPointWithGeoCoord(geoPoint.getLat(), geoPoint.getLng());
+				polyline.addPoint(mapPoint);
+				mapView.addPolyline(polyline);
+			}		
+			break;
+			
+		default:
+			break;
+		}
+		
+		MapCircle[] circles = mapView.getCircles();
+		MapPOIItem[] items = mapView.getPOIItems();	
+		MapPointBounds mapPointBounds;
+		if (circles.length > 0) {
+			MapPointBounds[] mapPointBoundsArray = new MapPointBounds[circles.length];
+			for (int i = 0; i < circles.length; i++) {
+				mapPointBoundsArray[i] = circles[i].getBound();
+			}
+			mapPointBounds = new MapPointBounds(mapPointBoundsArray);
+		}
+		else {
+			mapPointBounds = new MapPointBounds();
+		}
+		
+		for (MapPOIItem i : items) {
+			mapPointBounds.add(i.getMapPoint());
+		}
+		
+		int padding = 120; // px
+		mapView.moveCamera(CameraUpdateFactory.newMapPointBounds(mapPointBounds, padding));
+	}
+	
 	public void addMyLoaction(MapView mapView) {
 		if (myLocationAvailable) {
-			MapPOIItem item = new MapPOIItem();
-			item.setItemName("³ª");
-			item.setMarkerType(MarkerType.RedPin);
-			item.setMapPoint(myLocation);
-			mapView.addPOIItem(item);
+			if (myLocationItem != null) {
+				mapView.removePOIItem(myLocationItem);
+			}
+			myLocationItem = new MapPOIItem();
+			myLocationItem.setItemName("³ª");
+			myLocationItem.setMarkerType(MarkerType.RedPin);
+			myLocationItem.setMapPoint(myLocation);
+			mapView.addPOIItem(myLocationItem);
+		}
+		else {
+			myLocationItem = null;
 		}
 	}
 	
@@ -377,12 +522,49 @@ public class MapManager implements MapViewEventListener, POIItemEventListener{
 		myLocationAvailable = myLocationAvailable || newLocAvailable;
 	}
 	
+	public void updateParentLoaction(double lat, double lng) {
+		parentLocationAvailable = true;
+		parentLocation = MapPoint.mapPointWithGeoCoord(lat, lng);
+	}
+	
+	public void showMyLocation() {
+		if (!myLocationAvailable) {
+			return;
+		}
+		
+		if (curMapView == null) {
+			return;
+		}
+		
+		if (settingMode != SettingMode.NO_SETTING) {
+			return;
+		}
+		
+		showCurrentSetting(curMapView);
+	}
+	
 	public boolean isAvailableMyLocation() {
 		return myLocationAvailable;
 	}
 	
-	public boolean isSettingValid() {
-		return manageMode != ManageMode.GEOFENCE || newGeoPoints.size() > 2;
+	public boolean isAvailableParentLocation() {
+		return parentLocationAvailable;
+	}
+	
+	public boolean isSettingPointsValid() {
+		if (newManageMode == ManageMode.AREA) {
+			return newGeoPoints.size() == 1;
+		}
+		else if (newManageMode == ManageMode.GEOFENCE) {
+			return newGeoPoints.size() > 2;
+		}
+		else {
+			return true;
+		}
+	}
+	
+	public boolean isSettingRadiusValid() {
+		return newRadius > 0;
 	}
 	
 	public boolean isCCW(GeoPoint basePoint, GeoPoint a, GeoPoint b) {
@@ -462,7 +644,7 @@ public class MapManager implements MapViewEventListener, POIItemEventListener{
 		if (!isSetting || settingMode != SettingMode.RADIUS_SETTING) {
 			return;
 		}
-		newRadius = Math.max(0, radius);
+		newRadius = radius;
 		
 		settingMode = settingQueue.pop();
 	}
@@ -493,6 +675,9 @@ public class MapManager implements MapViewEventListener, POIItemEventListener{
 		return newManageMode;
 	}
 	
+	public ManageMode getParentManageMode() {
+		return parentManageMode;
+	}
 	
 	/******************************************************************************************/
 	@Override
@@ -596,6 +781,8 @@ public class MapManager implements MapViewEventListener, POIItemEventListener{
 			break;
 			
 		case GEOFENCE: {
+				addMyLoaction(mapView);
+				
 				MapPolyline polyline = new MapPolyline();
 				polyline.setLineColor(Color.argb(128, 255, 51, 0));
 				newGeoPoints.add(new GeoPoint(mp.getMapPointGeoCoord().latitude, mp.getMapPointGeoCoord().longitude));

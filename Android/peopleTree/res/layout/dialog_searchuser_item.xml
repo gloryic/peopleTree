@@ -40,7 +40,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="선택"
+            android:background="@color/green"
             android:textSize="13sp" />
+        
+     <TextView
+         android:layout_width="2dp"
+         android:layout_height="wrap_content" />
+     
     </LinearLayout>
 
 </LinearLayout>

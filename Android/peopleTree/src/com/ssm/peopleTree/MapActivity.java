@@ -3,6 +3,7 @@ package com.ssm.peopleTree;
 import com.ssm.peopleTree.dialog.ManageSelectDialog;
 import com.ssm.peopleTree.dialog.SetRadiusDialog;
 import com.ssm.peopleTree.dialog.SimpleAlertDialog;
+import com.ssm.peopleTree.group.GroupManager;
 import com.ssm.peopleTree.map.ManageMode;
 import com.ssm.peopleTree.map.MapManager;
 import com.ssm.peopleTree.map.OnCancelSettingListener;
@@ -40,6 +41,8 @@ public class MapActivity extends Activity implements OnClickListener {
 	private SimpleAlertDialog pointDialog;
 	private AlertDialog cancelDialog;
 	private AlertDialog nothingDialog;
+	private AlertDialog areaDialog;
+	private AlertDialog geofenceDialog;
 	
 	private LinearLayout btnLayout;
 	
@@ -109,11 +112,20 @@ public class MapActivity extends Activity implements OnClickListener {
 				LinearLayout.inflate(MapActivity.this, R.layout.btn_prev_next, btnLayout);
 				Button btnPrev = ((Button)btnLayout.findViewById(R.id.btn_prev));
 				Button btnNext = ((Button)btnLayout.findViewById(R.id.btn_next));
+				final ManageMode mode = manageMode;
 				btnNext.setOnClickListener(new OnClickListener() {
 					
 					@Override
 					public void onClick(View v) {
-						saveAlertDialog.show();
+						if (mapManager.isSettingPointsValid()) {
+							saveAlertDialog.show();
+						}
+						else if (mode == ManageMode.AREA){
+							areaDialog.show();
+						}
+						else if (mode == ManageMode.GEOFENCE) {
+							geofenceDialog.show();
+						}
 					}
 				});
 				
@@ -181,6 +193,7 @@ public class MapActivity extends Activity implements OnClickListener {
 			.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
 					mapManager.finishSetting(mapView);
+					GroupManager.getInstance().updateSelf();
 					dialog.cancel();
 				}
 
@@ -223,6 +236,30 @@ public class MapActivity extends Activity implements OnClickListener {
 
 			});
 		locAlertDialog = builder.create();
+		
+		builder = new AlertDialog.Builder(this);
+		builder.setTitle("경고")
+			.setMessage("설정이 완료되지 않았습니다. 중심 지점을 지정해주십시오.")
+			.setCancelable(true)
+			.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int whichButton) {
+					dialog.cancel();
+				}
+
+			});
+		areaDialog = builder.create();
+		
+		builder = new AlertDialog.Builder(this);
+		builder.setTitle("경고")
+			.setMessage("설정이 완료되지 않았습니다. 지오펜스 모드에는 최소 3개의 지점이 필요합니다.")
+			.setCancelable(true)
+			.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int whichButton) {
+					dialog.cancel();
+				}
+
+			});
+		geofenceDialog = builder.create();
 		
 		manageSelectDialog = new ManageSelectDialog(this);
 		manageSelectDialog.setOnClickListener(new View.OnClickListener() {
@@ -329,6 +366,11 @@ public class MapActivity extends Activity implements OnClickListener {
 				case R.id.btn_next:
 					mapManager.setRadius(radiusDialog.getRadiusSetting());
 					radiusDialog.dismiss();
+					
+					if (!mapManager.isSettingRadiusValid()) {
+						radiusDialog.show();
+						return;
+					}
 					
 					switch(mapManager.getNewManageMode()) {
 					case TRACKING:

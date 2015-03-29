@@ -297,7 +297,7 @@ public class GroupListController extends Fragment implements Observer {
 			String mstr ="";
 			switch(mmode){
 			case 200:
-				mstr+="[-]";
+				mstr+="";
 				break;
 			case 210:
 				mstr+="[추적모드]";
@@ -401,7 +401,7 @@ public class GroupListController extends Fragment implements Observer {
 							myMenuDialog.setMytitle("메뉴");
 							myMenuDialog.show();
 						} else {
-							parentInfoDialog = new ParentInfoDialog(mContext);
+							parentInfoDialog = new ParentInfoDialog(mContext, fparentData);
 							parentInfoDialog.setParentData(fparentData);
 							parentInfoDialog.show();
 							
