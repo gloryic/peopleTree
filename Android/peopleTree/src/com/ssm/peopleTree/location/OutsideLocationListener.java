@@ -32,7 +32,7 @@ class OutsideLocationListener extends Service implements LocationListener,
 	public int changedCnt = 0;
 
 	long validTime = 1000 * 25;
-	float validAccuracy = (float) 60.0;
+	float validAccuracy = (float) 300.0;
 	long lastUpdateTime = 0;
 	
 	long savedDistanceForUpdate=0;
