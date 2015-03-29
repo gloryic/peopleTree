@@ -187,7 +187,7 @@ public class TestActivity extends FragmentActivity implements Progressable, OnCl
 		tabNames[2] = getString(R.string.tab_message);
 		tabNames[3] = getString(R.string.tab_notification);
 		
-		
+
 		bclvca = new BroadCastListViewCustomAdapter(this);
 		upRqlvca = new RequestListViewCustomAdapter(this);
 		downRqlvca = new RequestListViewCustomAdapter(this);

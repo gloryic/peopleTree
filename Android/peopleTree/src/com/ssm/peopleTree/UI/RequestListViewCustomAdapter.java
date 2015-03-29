@@ -52,7 +52,7 @@ public class RequestListViewCustomAdapter extends BaseAdapter {
         super();
         this.mContext = mContext_;
         
-        this.reLoadFromLocal();
+       
         onMakeEdgeResponse  = new Listener<JSONObject>() {
 
 			@Override
@@ -121,29 +121,29 @@ public class RequestListViewCustomAdapter extends BaseAdapter {
     private static final String REQ_ARR16_KEY = "req_arr16_key";
     
     public void reLoadFromLocal(){
-		prefs = mContext.getSharedPreferences(REQ_DATA,Context.MODE_PRIVATE);
+		prefs = mContext.getSharedPreferences(REQ_DATA+mode,Context.MODE_PRIVATE);
 		if(prefs==null){
 			return;
 		}
 		mListData.clear();
 		edgeTypes.clear();
 		
-		String str1 = prefs.getString(REQ_ARR1_KEY, "");
-		String str2 = prefs.getString(REQ_ARR2_KEY, "");
-		String str3 = prefs.getString(REQ_ARR3_KEY, "");
-		String str4 = prefs.getString(REQ_ARR4_KEY, "");
-		String str5 = prefs.getString(REQ_ARR5_KEY, "");
-		String str6 = prefs.getString(REQ_ARR6_KEY, "");
-		String str7 = prefs.getString(REQ_ARR7_KEY, "");
-		String str8 = prefs.getString(REQ_ARR8_KEY, "");
-		String str9 = prefs.getString(REQ_ARR9_KEY, "");
-		String str10 = prefs.getString(REQ_ARR10_KEY, "");
-		String str11 = prefs.getString(REQ_ARR11_KEY, "");
-		String str12 = prefs.getString(REQ_ARR12_KEY, "");
-		String str13 = prefs.getString(REQ_ARR13_KEY, "");
-		String str14 = prefs.getString(REQ_ARR14_KEY, "");
-		String str15 = prefs.getString(REQ_ARR15_KEY, "");
-		String str16 = prefs.getString(REQ_ARR16_KEY, "");
+		String str1 = prefs.getString(REQ_ARR1_KEY+mode, "");
+		String str2 = prefs.getString(REQ_ARR2_KEY+mode, "");
+		String str3 = prefs.getString(REQ_ARR3_KEY+mode, "");
+		String str4 = prefs.getString(REQ_ARR4_KEY+mode, "");
+		String str5 = prefs.getString(REQ_ARR5_KEY+mode, "");
+		String str6 = prefs.getString(REQ_ARR6_KEY+mode, "");
+		String str7 = prefs.getString(REQ_ARR7_KEY+mode, "");
+		String str8 = prefs.getString(REQ_ARR8_KEY+mode, "");
+		String str9 = prefs.getString(REQ_ARR9_KEY+mode, "");
+		String str10 = prefs.getString(REQ_ARR10_KEY+mode, "");
+		String str11 = prefs.getString(REQ_ARR11_KEY+mode, "");
+		String str12 = prefs.getString(REQ_ARR12_KEY+mode, "");
+		String str13 = prefs.getString(REQ_ARR13_KEY+mode, "");
+		String str14 = prefs.getString(REQ_ARR14_KEY+mode, "");
+		String str15 = prefs.getString(REQ_ARR15_KEY+mode, "");
+		String str16 = prefs.getString(REQ_ARR16_KEY+mode, "");
 		try {
 			JSONArray jsonArr1 = new JSONArray(str1);
 			JSONArray jsonArr2 = new JSONArray(str2);
@@ -244,27 +244,27 @@ public class RequestListViewCustomAdapter extends BaseAdapter {
     		
     		jsonArr16.put(et.intValue());
     	}
-    	ed.putString(REQ_ARR1_KEY, jsonArr1.toString());
-    	ed.putString(REQ_ARR2_KEY, jsonArr2.toString());
-    	ed.putString(REQ_ARR3_KEY, jsonArr3.toString());
+    	ed.putString(REQ_ARR1_KEY+mode, jsonArr1.toString());
+    	ed.putString(REQ_ARR2_KEY+mode, jsonArr2.toString());
+    	ed.putString(REQ_ARR3_KEY+mode, jsonArr3.toString());
     	
-    	ed.putString(REQ_ARR4_KEY, jsonArr4.toString());
-    	ed.putString(REQ_ARR5_KEY, jsonArr5.toString());
-    	ed.putString(REQ_ARR6_KEY, jsonArr6.toString());
+    	ed.putString(REQ_ARR4_KEY+mode, jsonArr4.toString());
+    	ed.putString(REQ_ARR5_KEY+mode, jsonArr5.toString());
+    	ed.putString(REQ_ARR6_KEY+mode, jsonArr6.toString());
     	
-    	ed.putString(REQ_ARR7_KEY, jsonArr7.toString());
-    	ed.putString(REQ_ARR8_KEY, jsonArr8.toString());
+    	ed.putString(REQ_ARR7_KEY+mode, jsonArr7.toString());
+    	ed.putString(REQ_ARR8_KEY+mode, jsonArr8.toString());
     	
-    	ed.putString(REQ_ARR9_KEY, jsonArr9.toString());
-    	ed.putString(REQ_ARR10_KEY, jsonArr10.toString());
-    	ed.putString(REQ_ARR11_KEY, jsonArr11.toString());
-    	ed.putString(REQ_ARR12_KEY, jsonArr12.toString());
-    	ed.putString(REQ_ARR13_KEY, jsonArr13.toString());
+    	ed.putString(REQ_ARR9_KEY+mode, jsonArr9.toString());
+    	ed.putString(REQ_ARR10_KEY+mode, jsonArr10.toString());
+    	ed.putString(REQ_ARR11_KEY+mode, jsonArr11.toString());
+    	ed.putString(REQ_ARR12_KEY+mode, jsonArr12.toString());
+    	ed.putString(REQ_ARR13_KEY+mode, jsonArr13.toString());
     	
-    	ed.putString(REQ_ARR14_KEY, jsonArr14.toString());
-    	ed.putString(REQ_ARR15_KEY, jsonArr15.toString());
+    	ed.putString(REQ_ARR14_KEY+mode, jsonArr14.toString());
+    	ed.putString(REQ_ARR15_KEY+mode, jsonArr15.toString());
     	
-    	ed.putString(REQ_ARR16_KEY, jsonArr16.toString());
+    	ed.putString(REQ_ARR16_KEY+mode, jsonArr16.toString());
     	
     	
     	ed.commit();
@@ -275,6 +275,7 @@ public class RequestListViewCustomAdapter extends BaseAdapter {
     
     public void setmode(int mode){
     	this.mode = mode;
+    	this.reLoadFromLocal();
     }
     @Override
     public int getCount() {
