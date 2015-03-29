@@ -164,6 +164,7 @@ public class MapActivity extends Activity implements OnClickListener {
 				btnLayout.removeAllViews();
 				RelativeLayout.inflate(MapActivity.this, R.layout.btn_close, btnLayout);
 				((Button)btnLayout.findViewById(R.id.btn_close)).setOnClickListener(MapActivity.this);
+				GroupManager.getInstance().updateSelf();
 			}
 		});
 		mapManager.setCancelSettingListener(new OnCancelSettingListener() {
@@ -268,6 +269,8 @@ public class MapActivity extends Activity implements OnClickListener {
 			public void onClick(View v) {
 				switch (v.getId()) {
 				case R.id.btn_close:
+					
+					
 					manageSelectDialog.dismiss();
 					break;
 				case R.id.nothing_layout:
