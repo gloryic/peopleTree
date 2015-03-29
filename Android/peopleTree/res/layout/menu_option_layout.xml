@@ -89,7 +89,7 @@
         <RelativeLayout
 		    android:id="@+id/dbg_layout1"
 		    android:layout_width="match_parent"
-		    android:layout_height="60dp"
+		    android:layout_height="0dp"
 		    android:background="@drawable/list_item_selector"
 		    android:layout_marginBottom="1dp" >
 			
@@ -112,7 +112,7 @@
         <RelativeLayout
 		    android:id="@+id/dbg_layout2"
 		    android:layout_width="match_parent"
-		    android:layout_height="60dp"
+		    android:layout_height="0dp"
 		    android:background="@drawable/list_item_selector"
 		    android:layout_marginBottom="1dp" >
 			
