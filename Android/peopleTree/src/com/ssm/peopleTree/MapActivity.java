@@ -268,6 +268,8 @@ public class MapActivity extends Activity implements OnClickListener {
 			public void onClick(View v) {
 				switch (v.getId()) {
 				case R.id.btn_close:
+					
+					
 					manageSelectDialog.dismiss();
 					break;
 				case R.id.nothing_layout:

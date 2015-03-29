@@ -1,5 +1,6 @@
 package com.ssm.peopleTree.service;
 
+
 import com.ssm.peopleTree.device.DeviceStatusReceiver;
 import com.ssm.peopleTree.location.PeopleTreeLocationManager;
 import com.ssm.peopleTree.network.NetworkManager;
@@ -31,15 +32,15 @@ public class peopleTreeService extends Service{
         IntentFilter filter = new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED);
         this.registerReceiver(mReceiver, filter);
         
-        
-        Log.i("service start","service start"+" ["+isRun +"]");
-        
+    	NetworkManager.getInstance().initialize(this);
+    	PeopleTreeLocationManager.getInstance().initialize(this);
         if(!isRun){
         	isRun = true;
         	Log.i("service start","service start - pmlm start");
-        	NetworkManager.getInstance().initialize(this);
-    		PeopleTreeLocationManager.getInstance().initialize(this);
+     
+ 
             PeopleTreeLocationManager.getInstance().startLocationMeasure();
+           
         }
         
 

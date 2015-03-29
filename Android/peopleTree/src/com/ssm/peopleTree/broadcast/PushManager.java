@@ -48,8 +48,7 @@ public class PushManager {
 	BroadCastListViewCustomAdapter bclvca;
 	RequestListViewCustomAdapter upRqlvca;
 	RequestListViewCustomAdapter downRqlvca;
-	GroupListviewCustomAdapter glvca;
-	
+
 	
 	public void setAdapters(PushMessageListViewCustomAdapter pmlvca,
 			BroadCastListViewCustomAdapter bclvca,RequestListViewCustomAdapter upRqlvca,
@@ -59,10 +58,10 @@ public class PushManager {
 		this.bclvca = bclvca;
 		this.upRqlvca = upRqlvca;
 		this.downRqlvca = downRqlvca;
-		this.glvca = glvca;
 		
 	}
 
+	
 	
 	public void pushMessageAccept(PushData pd){
 

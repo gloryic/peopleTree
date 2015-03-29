@@ -150,11 +150,7 @@ public class TestActivity extends FragmentActivity implements Progressable, OnCl
 			@Override
 			public void onUpdateSuccess(Object arg) {
 				if (!isFinishing()) {
-					ManageMode manageMode = ManageMode.getMode(myManager.getMyParentData().manageMode);
-					if (manageMode != ManageMode.NOTHING && manageMode != ManageMode.INDOOR) {
-						chkGpsService();
-					}
-					
+					chkGpsService();
 					progDialog.complete();
 				}
 			}
@@ -191,7 +187,7 @@ public class TestActivity extends FragmentActivity implements Progressable, OnCl
 		tabNames[2] = getString(R.string.tab_message);
 		tabNames[3] = getString(R.string.tab_notification);
 		
-		
+
 		bclvca = new BroadCastListViewCustomAdapter(this);
 		upRqlvca = new RequestListViewCustomAdapter(this);
 		downRqlvca = new RequestListViewCustomAdapter(this);
@@ -243,10 +239,7 @@ public class TestActivity extends FragmentActivity implements Progressable, OnCl
 			}
 		});
 
-		ManageMode manageMode = ManageMode.getMode(myManager.getMyParentData().manageMode);
-		if (manageMode != ManageMode.NOTHING && manageMode != ManageMode.INDOOR) {
-			chkGpsService();
-		}
+		chkGpsService();
 	}
 		
 	@Override
@@ -423,16 +416,10 @@ public class TestActivity extends FragmentActivity implements Progressable, OnCl
 	
 	
 	private final BroadcastReceiver mReceivedSMSReceiver = new BroadcastReceiver() {
-
         @Override
         public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-
             if (intent.getAction().matches("android.location.PROVIDERS_CHANGED")) 
-            {
-            	//GPS 키라고 호출
-                chkGpsService();
-            }
+				chkGpsService();
         }
     };
 
@@ -442,12 +429,27 @@ public class TestActivity extends FragmentActivity implements Progressable, OnCl
     	return gs.indexOf("gps", 0) >= 0;
     }
 	
-    public boolean chkGpsService() {
+    public void chkGpsService() {
+    	
+    	//GPS 키라고 호출
+		ManageMode parentManageMode = ManageMode.getMode(myManager.getMyParentData().manageMode);
+		ManageMode myManageMode = ManageMode.getMode(myManager.getMyParentData().manageMode);
+		
+		if (myManageMode == ManageMode.TRACKING) {
+			chkGps("GPS를 사용하는 관리모드로 설정되어 입습니다.");
+		}
+		else if (parentManageMode != ManageMode.NOTHING && parentManageMode != ManageMode.INDOOR) {
+			chkGps("상위관리자가 GPS를 켜기 원합니다.");
+		}
+    }
+    
+    public boolean chkGps(String msg){
+    	
     	if (!isOnGPS() && !isGPSdialogPop) {
     		// GPS OFF 일때 Dialog 띄워서 설정 화면으로 튀어봅니다..
     		isGPSdialogPop = true;
     		AlertDialog.Builder gsDialog = new AlertDialog.Builder(this);
-    		gsDialog.setTitle("상위관리자가 GPS를 켜기 원합니다.");
+    		gsDialog.setTitle(msg);
     		gsDialog.setMessage("GPS를 설정하는 곳으로 이동합니다.");
     		gsDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
     			public void onClick(DialogInterface dialog, int which) {
@@ -461,8 +463,8 @@ public class TestActivity extends FragmentActivity implements Progressable, OnCl
     			}
     		}).create().show();
     		
-    		
     		return false;
+
     	} else {
     		return true;
     	}

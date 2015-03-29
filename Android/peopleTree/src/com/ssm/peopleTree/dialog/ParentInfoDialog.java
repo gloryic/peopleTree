@@ -32,8 +32,10 @@ public class ParentInfoDialog extends Dialog implements View.OnClickListener {
 	private TextView phoneTv;
 	
 	private Context mContext;
-		
-	public ParentInfoDialog(Context context) {
+	
+	private MsgSendDialog msgSendDialog;
+	
+	public ParentInfoDialog(Context context, MemberData parentData_) {
 		super(context);
 		mContext = context;
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -43,6 +45,9 @@ public class ParentInfoDialog extends Dialog implements View.OnClickListener {
 		layout.setOnClickListener(this);
 		
 		layout = (RelativeLayout)this.findViewById(R.id.location_layout);
+		layout.setOnClickListener(this);
+		
+		layout = (RelativeLayout)this.findViewById(R.id.message_layout);
 		layout.setOnClickListener(this);
 		
 		Button btn = (Button)this.findViewById(R.id.btn_close);
@@ -86,6 +91,8 @@ public class ParentInfoDialog extends Dialog implements View.OnClickListener {
 
 			});
 		locAlertDialog = builder.create();
+		
+		msgSendDialog = new MsgSendDialog(context, parentData_);
 	}
 
 	public void setParentData(MemberData ptData){
@@ -131,6 +138,9 @@ public class ParentInfoDialog extends Dialog implements View.OnClickListener {
 					mContext.startActivity(intent);
 				}
 			}
+			break;
+		case R.id.message_layout:
+			msgSendDialog.show();
 			break;
 		case R.id.btn_close:
 			dismiss();

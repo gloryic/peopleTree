@@ -51,7 +51,7 @@ public class PeopleTreeLocationManager  {
 	
 	
 	long distanceForUpdate = 0;
-	long timeForUpdate = 1000*5;
+	long timeForUpdate = 1000*7;
 	
 	boolean isRun = false;
 	Timer jobScheduler;
@@ -148,9 +148,12 @@ public class PeopleTreeLocationManager  {
 					dbg_str1 = "";
 					dbg_str2 = "";
 					
+					outsideLocationMeasurer.forcedChange();
 					
-					
-					
+					//
+					int dcnt = outsideLocationMeasurer.statecnt;
+					dbg_str1+="["+dcnt+"]";
+					//
 					if(insideLocationMeasurer.isValidLocation() ){
 			
 						
@@ -184,14 +187,8 @@ public class PeopleTreeLocationManager  {
 							long td = System.currentTimeMillis() - outsideLocationMeasurer.location.getTime();
 							dbg_str1+="][td:"+td+"]";
 							
-						}
-
-						
-
-						
+						}				
 					}
-					
-					
 					cmr = new CheckMemberRequest(groupMemeberId, parentGroupMemberId,
 							parentManageMode, edgyType, statusCode, fpId, latitude,
 							longtitude);

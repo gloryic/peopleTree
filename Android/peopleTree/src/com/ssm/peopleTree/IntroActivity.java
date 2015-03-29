@@ -76,7 +76,7 @@ public class IntroActivity extends Activity implements LoginListener {
 		intro.start();
 		
 		//service
-		///startService(new Intent("android.servcice.MAIN"));
+		startService(new Intent("android.servcice.MAIN"));
 		
 		//TODO
 		if (isNetworkStat()) {
