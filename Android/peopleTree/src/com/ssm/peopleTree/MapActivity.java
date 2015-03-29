@@ -76,14 +76,15 @@ public class MapActivity extends Activity implements OnClickListener {
 		initializeMapManager(mapView);
 	}
 	
-	private void initializeMapManager(MapView mapView) {
+	private void initializeMapManager(MapView mv) {
 		
-		mapManager.loadSetting(mapView, new OnLoadFinishListener() {
+		mapManager.loadSetting(mv, new OnLoadFinishListener() {
 			
 			@Override
 			public void onLoadFinish(ManageMode manageMode) {
 				setBarText(manageMode);
 				
+				mapManager.showCurrentSetting(mapView);
 				if (manageMode == ManageMode.TRACKING) {
 					if (!isOnGPS()) {
 						gpsAlertDialog.show();
@@ -93,7 +94,7 @@ public class MapActivity extends Activity implements OnClickListener {
 					}
 				}
 			}
-		}, true);
+		});
 		mapManager.setStartSettingListener(new OnStartSettingListener() {
 			
 			@Override
@@ -194,7 +195,6 @@ public class MapActivity extends Activity implements OnClickListener {
 			.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
 					mapManager.finishSetting(mapView);
-					GroupManager.getInstance().updateSelf();
 					dialog.cancel();
 				}
 

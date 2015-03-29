@@ -126,6 +126,7 @@ public class ChildInfoDialog extends Dialog implements View.OnClickListener {
 					indoorAlertDialog.show();
 				}
 				else {
+					mapManager.updateChildLocation(childData.latitude, childData.longitude, childData.userName);
 					Intent intent = new Intent(mContext, ChildLocationActivity.class);
 					mContext.startActivity(intent);
 				}

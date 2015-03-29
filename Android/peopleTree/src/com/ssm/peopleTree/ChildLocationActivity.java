@@ -34,8 +34,6 @@ public class ChildLocationActivity extends Activity implements OnClickListener {
 		////
 		mapView = new MapView(this);
 		mapView.setDaumMapApiKey(MapManager.getMapApiKey());
-		mapView.setMapViewEventListener(mapManager);
-		mapView.setPOIItemEventListener(mapManager);
 
 		ViewGroup mapViewContainer = (ViewGroup) findViewById(R.id.map_view);
 		mapViewContainer.addView(mapView);
@@ -52,9 +50,9 @@ public class ChildLocationActivity extends Activity implements OnClickListener {
 			public void onLoadFinish(ManageMode manageMode) {
 				setBarText(manageMode);
 				mapManager.showCurrentSetting(mapView);
-				mapManager.loadChild(mapView);
+				mapManager.showChild(mapView);
 			}
-		}, true);
+		});
 	}
 	
 	private void setBarText(ManageMode manageMode) {
