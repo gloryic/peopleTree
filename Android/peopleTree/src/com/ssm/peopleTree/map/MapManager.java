@@ -55,8 +55,6 @@ public class MapManager implements MapViewEventListener, POIItemEventListener{
 		
 	private static final int RADIUS_MIN = 5;
 	private static final int RADIUS_MAX = 5000;
-
-	private MemberData childData;
 	
 	private ManageMode manageMode;
 	private ManageMode newManageMode;
@@ -82,6 +80,10 @@ public class MapManager implements MapViewEventListener, POIItemEventListener{
 	
 	private MapPoint parentLocation;
 	private boolean parentLocationAvailable;
+	
+	private MapPoint childLocation;
+	private boolean childLocationAvailable;
+	private String childName;
 	
 	private MapView curMapView;
 		
@@ -117,50 +119,11 @@ public class MapManager implements MapViewEventListener, POIItemEventListener{
 	public static String getMapApiKey() {
 		return MAP_API_KEY;
 	}
-	
-	public void loadChild(MapView mapView) {
-		if (childData == null) {
-			return;
-		}
-		else if (childData.latitude == null || childData.longitude == null) {
-			return;
-		}
 		
-		curMapView = mapView;
-		
-		MapPOIItem item = new MapPOIItem();
-		item.setItemName(childData.userName);
-		item.setMarkerType(MarkerType.YellowPin);
-		item.setMapPoint(MapPoint.mapPointWithGeoCoord(childData.latitude, childData.longitude));
-		mapView.addPOIItem(item);
-		
-		MapCircle[] circles = mapView.getCircles();
-		MapPOIItem[] items = mapView.getPOIItems();	
-		MapPointBounds mapPointBounds;
-		if (circles.length > 0) {
-			MapPointBounds[] mapPointBoundsArray = new MapPointBounds[circles.length];
-			for (int i = 0; i < circles.length; i++) {
-				mapPointBoundsArray[i] = circles[i].getBound();
-			}
-			mapPointBounds = new MapPointBounds(mapPointBoundsArray);
-		}
-		else {
-			mapPointBounds = new MapPointBounds();
-		}
-		
-		for (MapPOIItem i : items) {
-			mapPointBounds.add(i.getMapPoint());
-		}
-		
-		int padding = 120; // px
-		mapView.moveCamera(CameraUpdateFactory.newMapPointBounds(mapPointBounds, padding));
-	}
-	
-	public void loadSetting(MapView arg, OnLoadFinishListener finishListener, boolean show) {
+	public void loadSetting(MapView arg, OnLoadFinishListener finishListener) {
 		
 		curMapView = arg;
-		
-		final boolean showMap = show;
+
 		final OnLoadFinishListener listener = finishListener;
 		final MyManager myManager = MyManager.getInstance();
 		int id = myManager.getGroupMemberId();
@@ -171,30 +134,22 @@ public class MapManager implements MapViewEventListener, POIItemEventListener{
 			public void onResponse(JSONObject arg0) {
 				GetGeoPointResponse res = new GetGeoPointResponse(arg0);
 				if (res.getStatus() == Status.SUCCESS) {
-					if (listener != null) {
-						listener.onLoadFinish(ManageMode.getMode(res.manageMode));
-					}
 					manageMode = ManageMode.getMode(res.manageMode);
 					geoPoints.clear();
 					geoPoints.addAll(res.points);
 					radius = res.radius;
 					
-					if (showMap) {
-						showCurrentSetting(curMapView);
+					if (listener != null) {
+						listener.onLoadFinish(ManageMode.getMode(res.manageMode));
 					}
 				}
 				else {
-					if (listener != null) {
-						listener.onLoadFinish(ManageMode.NOTHING);
-					}
 					manageMode = ManageMode.NOTHING;
 					geoPoints.clear();
 					radius = 0;
 					
-					if (showMap) {
-						curMapView.removeAllCircles();
-						curMapView.removeAllPOIItems();
-						curMapView.removeAllPolylines();
+					if (listener != null) {
+						listener.onLoadFinish(ManageMode.getMode(res.manageMode));
 					}
 				}
 			}
@@ -496,6 +451,40 @@ public class MapManager implements MapViewEventListener, POIItemEventListener{
 		int padding = 120; // px
 		mapView.moveCamera(CameraUpdateFactory.newMapPointBounds(mapPointBounds, padding));
 	}
+
+	public void showChild(MapView mapView) {
+		if (!isAvailableChildLocation()) {
+			return;
+		}
+		
+		MapPOIItem item = new MapPOIItem();
+		item.setItemName(childName);
+		item.setMarkerType(MarkerType.YellowPin);
+		item.setMapPoint(childLocation);
+		mapView.addPOIItem(item);
+		
+		//
+		MapCircle[] circles = mapView.getCircles();
+		MapPOIItem[] items = mapView.getPOIItems();	
+		MapPointBounds mapPointBounds;
+		if (circles.length > 0) {
+			MapPointBounds[] mapPointBoundsArray = new MapPointBounds[circles.length];
+			for (int i = 0; i < circles.length; i++) {
+				mapPointBoundsArray[i] = circles[i].getBound();
+			}
+			mapPointBounds = new MapPointBounds(mapPointBoundsArray);
+		}
+		else {
+			mapPointBounds = new MapPointBounds();
+		}
+		
+		for (MapPOIItem i : items) {
+			mapPointBounds.add(i.getMapPoint());
+		}
+		
+		int padding = 120; // px
+		mapView.moveCamera(CameraUpdateFactory.newMapPointBounds(mapPointBounds, padding));
+	}
 	
 	public void addMyLoaction(MapView mapView) {
 		if (myLocationAvailable) {
@@ -527,6 +516,12 @@ public class MapManager implements MapViewEventListener, POIItemEventListener{
 		parentLocation = MapPoint.mapPointWithGeoCoord(lat, lng);
 	}
 	
+	public void updateChildLocation(double lat, double lng, String name) {
+		childLocationAvailable = true;
+		childLocation = MapPoint.mapPointWithGeoCoord(lat, lng);
+		childName = name;
+	}
+	
 	public void showMyLocation() {
 		if (!myLocationAvailable) {
 			return;
@@ -549,6 +544,10 @@ public class MapManager implements MapViewEventListener, POIItemEventListener{
 	
 	public boolean isAvailableParentLocation() {
 		return parentLocationAvailable;
+	}
+	
+	public boolean isAvailableChildLocation() {
+		return childLocationAvailable;
 	}
 	
 	public boolean isSettingPointsValid() {
