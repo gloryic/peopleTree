@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.android.volley.Response.Listener;
@@ -21,6 +22,7 @@ import com.ssm.peopleTree.network.protocol.MakeEdgeResponse;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,13 +46,13 @@ public class RequestListViewCustomAdapter extends BaseAdapter {
     public static final int FROMDOWN =2;
     
     private int mode;
-    
+    private SharedPreferences prefs;
     private Listener<JSONObject> onMakeEdgeResponse;
     public RequestListViewCustomAdapter(Context mContext_) {
         super();
         this.mContext = mContext_;
         
-        
+        this.reLoadFromLocal();
         onMakeEdgeResponse  = new Listener<JSONObject>() {
 
 			@Override
@@ -62,8 +64,8 @@ public class RequestListViewCustomAdapter extends BaseAdapter {
 				String str2 = "";
 				if (res.getStatus() == Status.SUCCESS) {
 
-					str2 = "요청수락성공\n [from:"+res.from +"]\n [to:"+res.to +"]";
-					str2+="\n status:" +res.statusCode;
+					str2 = "요청수락성공\n ";//[from:"+res.from +"]\n [to:"+res.to +"]";
+					//str2+="\n status:" +res.statusCode;
 					GroupManager.getInstance().updateSelf();
 					GroupManager.getInstance().navigateHome();
 				} else {
@@ -95,6 +97,182 @@ public class RequestListViewCustomAdapter extends BaseAdapter {
 		};
         
     }
+    private static final String REQ_DATA = "reqmsg_data"; 
+    private static final String REQ_ARR1_KEY = "req_arr1_key";
+    private static final String REQ_ARR2_KEY = "req_arr2_key";
+    private static final String REQ_ARR3_KEY = "req_arr3_key";
+    
+    private static final String REQ_ARR4_KEY = "req_arr4_key";
+    private static final String REQ_ARR5_KEY = "req_arr5_key";
+    private static final String REQ_ARR6_KEY = "req_arr6_key";
+    
+    private static final String REQ_ARR7_KEY = "req_arr7_key";
+    private static final String REQ_ARR8_KEY = "req_arr8_key";
+    
+    private static final String REQ_ARR9_KEY = "req_arr9_key";
+    private static final String REQ_ARR10_KEY = "req_arr10_key";
+    private static final String REQ_ARR11_KEY = "req_arr11_key";
+    private static final String REQ_ARR12_KEY = "req_arr12_key";
+    private static final String REQ_ARR13_KEY = "req_arr13_key";
+    
+    private static final String REQ_ARR14_KEY = "req_arr14_key";
+    private static final String REQ_ARR15_KEY = "req_arr15_key";
+    
+    private static final String REQ_ARR16_KEY = "req_arr16_key";
+    
+    public void reLoadFromLocal(){
+		prefs = mContext.getSharedPreferences(REQ_DATA,Context.MODE_PRIVATE);
+		if(prefs==null){
+			return;
+		}
+		mListData.clear();
+		edgeTypes.clear();
+		
+		String str1 = prefs.getString(REQ_ARR1_KEY, "");
+		String str2 = prefs.getString(REQ_ARR2_KEY, "");
+		String str3 = prefs.getString(REQ_ARR3_KEY, "");
+		String str4 = prefs.getString(REQ_ARR4_KEY, "");
+		String str5 = prefs.getString(REQ_ARR5_KEY, "");
+		String str6 = prefs.getString(REQ_ARR6_KEY, "");
+		String str7 = prefs.getString(REQ_ARR7_KEY, "");
+		String str8 = prefs.getString(REQ_ARR8_KEY, "");
+		String str9 = prefs.getString(REQ_ARR9_KEY, "");
+		String str10 = prefs.getString(REQ_ARR10_KEY, "");
+		String str11 = prefs.getString(REQ_ARR11_KEY, "");
+		String str12 = prefs.getString(REQ_ARR12_KEY, "");
+		String str13 = prefs.getString(REQ_ARR13_KEY, "");
+		String str14 = prefs.getString(REQ_ARR14_KEY, "");
+		String str15 = prefs.getString(REQ_ARR15_KEY, "");
+		String str16 = prefs.getString(REQ_ARR16_KEY, "");
+		try {
+			JSONArray jsonArr1 = new JSONArray(str1);
+			JSONArray jsonArr2 = new JSONArray(str2);
+			JSONArray jsonArr3 = new JSONArray(str3);
+			JSONArray jsonArr4 = new JSONArray(str4);
+			JSONArray jsonArr5 = new JSONArray(str5);
+			JSONArray jsonArr6 = new JSONArray(str6);
+			JSONArray jsonArr7 = new JSONArray(str7);
+			JSONArray jsonArr8 = new JSONArray(str8);
+			JSONArray jsonArr9 = new JSONArray(str9);
+			JSONArray jsonArr10 = new JSONArray(str10);
+			JSONArray jsonArr11 = new JSONArray(str11);
+			JSONArray jsonArr12 = new JSONArray(str12);
+			JSONArray jsonArr13 = new JSONArray(str13);
+			JSONArray jsonArr14 = new JSONArray(str14);
+			JSONArray jsonArr15 = new JSONArray(str15);
+			JSONArray jsonArr16 = new JSONArray(str16);
+
+			
+			for (int i = 0; !jsonArr1.isNull(i); i++) {
+				
+				MemberData addInfo = new MemberData();
+				addInfo.userId = jsonArr1.getString(i);
+				addInfo.userName = jsonArr2.getString(i);
+				addInfo.userPhoneNumber = jsonArr3.getString(i);
+				
+				addInfo.groupMemberId = jsonArr4.getInt(i);
+				addInfo.parentGroupMemberId = jsonArr5.getInt(i);
+				addInfo.groupId = jsonArr6.getInt(i);
+				
+				addInfo.edgeStatus =jsonArr7.getInt(i);
+				addInfo.edgeType = jsonArr8.getInt(i);
+				
+				addInfo.manageMode = jsonArr9.getInt(i);
+				addInfo.managedLocationRadius = jsonArr10.getInt(i);
+				addInfo.managingTotalNumber = jsonArr11.getInt(i);
+				addInfo.managingNumber = jsonArr12.getInt(i);
+				addInfo.accumulateWarning = jsonArr13.getInt(i);
+				
+				addInfo.longitude = jsonArr14.getDouble(i);
+				addInfo.latitude = jsonArr4.getDouble(i);
+				
+				
+				Integer addint = new Integer(jsonArr16.getInt(i));
+		        mListData.add(addInfo);
+		        edgeTypes.add(addint);
+			
+			}
+			
+		} catch (Exception e) {
+			mListData.clear();
+			edgeTypes.clear();
+		}
+		this.dataChange();
+	}
+    
+    public void reSaveToLocal(){
+    	SharedPreferences.Editor ed = prefs.edit();
+		JSONArray jsonArr1 = new JSONArray();
+		JSONArray jsonArr2 = new JSONArray();
+		JSONArray jsonArr3 = new JSONArray();
+		JSONArray jsonArr4 = new JSONArray();
+		JSONArray jsonArr5 = new JSONArray();
+		JSONArray jsonArr6 = new JSONArray();
+		JSONArray jsonArr7 = new JSONArray();
+		JSONArray jsonArr8 = new JSONArray();
+		JSONArray jsonArr9 = new JSONArray();
+		JSONArray jsonArr10 = new JSONArray();
+		JSONArray jsonArr11 = new JSONArray();
+		JSONArray jsonArr12 = new JSONArray();
+		JSONArray jsonArr13 = new JSONArray();
+		JSONArray jsonArr14 = new JSONArray();
+		JSONArray jsonArr15 = new JSONArray();
+		JSONArray jsonArr16 = new JSONArray();
+    	for(int i = 0 ;i<mListData.size();i++ ){
+    		MemberData data = mListData.get(i);
+    		Integer et = edgeTypes.get(i);
+    		jsonArr1.put(data.userId);
+    		jsonArr2.put(data.userName);
+    		jsonArr3.put(data.userPhoneNumber);
+    		
+    		jsonArr4.put(data.groupMemberId);
+    		jsonArr5.put(data.parentGroupMemberId);
+    		jsonArr6.put(data.groupId);
+    		
+    		jsonArr7.put(data.edgeStatus);
+    		jsonArr8.put(data.edgeType);
+    		
+    		jsonArr9.put(data.manageMode);
+    		jsonArr10.put(data.managedLocationRadius);
+    		jsonArr11.put(data.managingTotalNumber);
+    		jsonArr12.put(data.managingNumber);
+    		jsonArr13.put(data.accumulateWarning);
+    		
+    		jsonArr14.put(data.longitude);
+    		jsonArr15.put(data.latitude);
+    		
+    		
+    		jsonArr16.put(et.intValue());
+    	}
+    	ed.putString(REQ_ARR1_KEY, jsonArr1.toString());
+    	ed.putString(REQ_ARR2_KEY, jsonArr2.toString());
+    	ed.putString(REQ_ARR3_KEY, jsonArr3.toString());
+    	
+    	ed.putString(REQ_ARR4_KEY, jsonArr4.toString());
+    	ed.putString(REQ_ARR5_KEY, jsonArr5.toString());
+    	ed.putString(REQ_ARR6_KEY, jsonArr6.toString());
+    	
+    	ed.putString(REQ_ARR7_KEY, jsonArr7.toString());
+    	ed.putString(REQ_ARR8_KEY, jsonArr8.toString());
+    	
+    	ed.putString(REQ_ARR9_KEY, jsonArr9.toString());
+    	ed.putString(REQ_ARR10_KEY, jsonArr10.toString());
+    	ed.putString(REQ_ARR11_KEY, jsonArr11.toString());
+    	ed.putString(REQ_ARR12_KEY, jsonArr12.toString());
+    	ed.putString(REQ_ARR13_KEY, jsonArr13.toString());
+    	
+    	ed.putString(REQ_ARR14_KEY, jsonArr14.toString());
+    	ed.putString(REQ_ARR15_KEY, jsonArr15.toString());
+    	
+    	ed.putString(REQ_ARR16_KEY, jsonArr16.toString());
+    	
+    	
+    	ed.commit();
+    }
+    
+    
+    
+    
     public void setmode(int mode){
     	this.mode = mode;
     }
@@ -260,11 +438,16 @@ public class RequestListViewCustomAdapter extends BaseAdapter {
 
         mListData.add(mdata);
         edgeTypes.add(edgeType);
+        
+        this.reSaveToLocal();
     }
 
     public void remove(int position){
         mListData.remove(position);
         edgeTypes.remove(position);
+       
+        this.reSaveToLocal();
+        this.reLoadFromLocal();
         dataChange();
     }
 
