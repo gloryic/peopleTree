@@ -93,7 +93,7 @@ public class TestActivity extends FragmentActivity implements Progressable, OnCl
 		
 		setContentView(R.layout.tframe);
 	
-		MapManager.getInstance().loadSetting(null, null, false);
+		MapManager.getInstance().loadSetting(null, null);
 		
 		//
 		//startService(new Intent("android.servcice.MAIN"));		
