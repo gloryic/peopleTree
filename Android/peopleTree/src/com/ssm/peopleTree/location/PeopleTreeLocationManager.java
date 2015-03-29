@@ -1,5 +1,6 @@
 package com.ssm.peopleTree.location;
 
+import java.util.Observer;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -211,5 +212,16 @@ public class PeopleTreeLocationManager  {
 		jobScheduler.cancel();
 		isRun = false;
 	}
-
+	
+	public void addObserver(Observer observer) {
+		outsideLocationMeasurer.addObserver(observer);
+	}
+	
+	public void deleteObserver(Observer observer) {
+		outsideLocationMeasurer.deleteObserver(observer);
+	}
+	
+	public void deleteObservers() {
+		outsideLocationMeasurer.deleteObservers();
+	}
 }

@@ -1,5 +1,7 @@
 package com.ssm.peopleTree.location;
 
+import java.util.Observable;
+import java.util.Observer;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -25,6 +27,8 @@ class OutsideLocationListener extends Service implements LocationListener,
 	boolean isLocationRequested = false;
 	boolean isGetLocation = false;
 	private Context mContext;
+	
+	private Observable subject;
 
 	Location location = null;
 
@@ -40,7 +44,7 @@ class OutsideLocationListener extends Service implements LocationListener,
 	OutsideLocationListener(Context context) {
 		this.mContext = context;
 		lastUpdateTime = System.currentTimeMillis();
-		
+		subject = new Observable();
 	}
 	
 	public boolean isGPSEnabled() {
@@ -179,9 +183,8 @@ class OutsideLocationListener extends Service implements LocationListener,
 		this.location = location;
 		isGetLocation = true;
 		lastUpdateTime = System.currentTimeMillis();
-			
-		MapManager.getInstance().updateMyLocation();
-		MapManager.getInstance().showMyLocation();
+		
+		subject.notifyObservers(location);
 	}
 
 	public boolean isLocationRequested() {
@@ -284,5 +287,16 @@ class OutsideLocationListener extends Service implements LocationListener,
 		// TODO Auto-generated method stub
 		return this.isGetLocation;
 	}
-
+	
+	public void addObserver(Observer observer) {
+		subject.addObserver(observer);
+	}
+	
+	public void deleteObserver(Observer observer) {
+		subject.deleteObserver(observer);
+	}
+	
+	public void deleteObservers() {
+		subject.deleteObservers();
+	}
 }

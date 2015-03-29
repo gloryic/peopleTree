@@ -1,9 +1,13 @@
 package com.ssm.peopleTree;
 
+import java.util.Observable;
+import java.util.Observer;
+
 import com.ssm.peopleTree.dialog.ManageSelectDialog;
 import com.ssm.peopleTree.dialog.SetRadiusDialog;
 import com.ssm.peopleTree.dialog.SimpleAlertDialog;
 import com.ssm.peopleTree.group.GroupManager;
+import com.ssm.peopleTree.location.PeopleTreeLocationManager;
 import com.ssm.peopleTree.map.ManageMode;
 import com.ssm.peopleTree.map.MapManager;
 import com.ssm.peopleTree.map.OnCancelSettingListener;
@@ -16,6 +20,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +31,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-public class MapActivity extends Activity implements OnClickListener {
+public class MapActivity extends Activity implements OnClickListener, Observer {
 
 	private MapManager mapManager;
 	private TextView barText;
@@ -74,6 +79,8 @@ public class MapActivity extends Activity implements OnClickListener {
 		////
 		initializeDialog();
 		initializeMapManager(mapView);
+		
+		PeopleTreeLocationManager.getInstance().addObserver(this);
 	}
 	
 	private void initializeMapManager(MapView mv) {
@@ -419,5 +426,17 @@ public class MapActivity extends Activity implements OnClickListener {
 		if (!mapManager.isSettingMode()) {
 			super.onBackPressed();
 		}
+	}
+
+	@Override
+	public void update(Observable observable, Object data) {
+		mapManager.updateMyLocation();
+		mapManager.showCurrentSetting(mapView);
+	}
+	
+	@Override
+	public void finish() {
+		PeopleTreeLocationManager.getInstance().deleteObserver(this);
+		super.finish();
 	}
 }

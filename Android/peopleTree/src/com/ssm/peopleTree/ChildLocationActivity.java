@@ -1,5 +1,9 @@
 package com.ssm.peopleTree;
 
+import java.util.Observable;
+import java.util.Observer;
+
+import com.ssm.peopleTree.location.PeopleTreeLocationManager;
 import com.ssm.peopleTree.map.ManageMode;
 import com.ssm.peopleTree.map.MapManager;
 import com.ssm.peopleTree.map.OnLoadFinishListener;
@@ -13,7 +17,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class ChildLocationActivity extends Activity implements OnClickListener {
+public class ChildLocationActivity extends Activity implements OnClickListener, Observer {
 
 	private MapManager mapManager;
 	private TextView barText;
@@ -40,6 +44,8 @@ public class ChildLocationActivity extends Activity implements OnClickListener {
 	
 		////
 		initializeMapManager();
+		
+		PeopleTreeLocationManager.getInstance().addObserver(this);
 	}
 	
 	private void initializeMapManager() {
@@ -66,5 +72,18 @@ public class ChildLocationActivity extends Activity implements OnClickListener {
 			finish();
 			break;
 		}
+	}
+		
+	@Override
+	public void finish() {
+		PeopleTreeLocationManager.getInstance().deleteObserver(this);
+		super.finish();
+	}
+
+	@Override
+	public void update(Observable observable, Object data) {
+		mapManager.updateMyLocation();
+		mapManager.showCurrentSetting(mapView);
+		mapManager.showChild(mapView);
 	}
 }
