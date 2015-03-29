@@ -60,7 +60,7 @@ class InsideLocationListener implements LocationMeasurer{
 	double referPointDistance = 0;
 	
 	
-	private static final double VALIDDISTANCE = 100.0;
+	private static final double VALIDDISTANCE = 90.0;
 	private static final long VALIDTIME = 1000*30;
 	boolean isFpValid=false;
 	boolean isWifiEnabled = false;
@@ -219,9 +219,9 @@ class InsideLocationListener implements LocationMeasurer{
 	public boolean isValidLocation() {
 		long curTime = System.currentTimeMillis();
 		long timediff =  curTime - this.lastLocGetTime ;
-	
-
-		if(timediff >= VALIDTIME ||  this.referPointDistance >=VALIDDISTANCE || !isFpValid){
+		isWifiEnabled = wifiManager.isWifiEnabled();
+		Log.i("log","isValidLocation "+isWifiEnabled);
+		if(timediff >= VALIDTIME ||  this.referPointDistance >=VALIDDISTANCE || !isFpValid || !isWifiEnabled){
 			return false;
 		}
 		return true;
