@@ -40,7 +40,7 @@ class OutsideLocationListener extends Service implements LocationListener,
 		lastUpdateTime = System.currentTimeMillis();
 		
 	}
-
+	
 	public boolean isGPSEnabled() {
 		return isGPSEnabled;
 	}
@@ -130,22 +130,23 @@ class OutsideLocationListener extends Service implements LocationListener,
 				changedCnt = 0;
 
 				locationManager.requestLocationUpdates(
-						LocationManager.GPS_PROVIDER,timeForUpdate, (float)distanceForUpdate,
-						 this);
-
-				locationManager.requestLocationUpdates(
 						LocationManager.NETWORK_PROVIDER,
-						timeForUpdate,(float)distanceForUpdate, this);
-
+						0,0,this);
+				locationManager.requestLocationUpdates(
+						LocationManager.GPS_PROVIDER,
+						0,0,this);
+				
 				if (this.isNetworkEnabled) {
 					location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 				}
 
 				if (this.isGPSEnabled) {
-					location = locationManager
-							.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+					location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 				}
-
+				Log.i("log", "locationRequest");
+				if(location != null){
+					Log.i("log","locs"+location.getLatitude()+","+location.getLongitude());
+				}
 			}
 
 		} catch (Exception e) {
@@ -155,6 +156,15 @@ class OutsideLocationListener extends Service implements LocationListener,
 
 	public int statecnt = 0;
 
+	
+	public void forcedChange(){
+		if (this.isNetworkEnabled) {
+			location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+		}
+		if (this.isGPSEnabled) {
+			location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+		}		
+	}
 	@Override
 	public void onLocationChanged(Location location) {
 		if (location == null) {
