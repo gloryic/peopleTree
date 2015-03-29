@@ -84,8 +84,6 @@ public class MapManager implements MapViewEventListener, POIItemEventListener{
 	private MapPoint childLocation;
 	private boolean childLocationAvailable;
 	private String childName;
-	
-	private MapView curMapView;
 		
 	public void initialize(Context context) {
 		manageMode = ManageMode.NOTHING;
@@ -111,8 +109,6 @@ public class MapManager implements MapViewEventListener, POIItemEventListener{
 		
 		parentLocation = null;
 		parentLocationAvailable = false;
-		
-		curMapView = null;
 	}
 
 	
@@ -121,8 +117,6 @@ public class MapManager implements MapViewEventListener, POIItemEventListener{
 	}
 		
 	public void loadSetting(MapView arg, OnLoadFinishListener finishListener) {
-		
-		curMapView = arg;
 
 		final OnLoadFinishListener listener = finishListener;
 		final MyManager myManager = MyManager.getInstance();
@@ -520,22 +514,6 @@ public class MapManager implements MapViewEventListener, POIItemEventListener{
 		childLocationAvailable = true;
 		childLocation = MapPoint.mapPointWithGeoCoord(lat, lng);
 		childName = name;
-	}
-	
-	public void showMyLocation() {
-		if (!myLocationAvailable) {
-			return;
-		}
-		
-		if (curMapView == null) {
-			return;
-		}
-		
-		if (settingMode != SettingMode.NO_SETTING) {
-			return;
-		}
-		
-		showCurrentSetting(curMapView);
 	}
 	
 	public boolean isAvailableMyLocation() {

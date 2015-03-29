@@ -1,7 +1,11 @@
 package com.ssm.peopleTree;
 
+import java.util.Observable;
+import java.util.Observer;
+
 import net.daum.mf.map.api.MapView;
 
+import com.ssm.peopleTree.location.PeopleTreeLocationManager;
 import com.ssm.peopleTree.map.ManageMode;
 import com.ssm.peopleTree.map.MapManager;
 import com.ssm.peopleTree.map.OnCancelSettingListener;
@@ -19,7 +23,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-public class ParentLocationActivity extends Activity implements OnClickListener {
+public class ParentLocationActivity extends Activity implements OnClickListener, Observer {
 
 	private MapManager mapManager;
 	private TextView barText;
@@ -50,6 +54,8 @@ public class ParentLocationActivity extends Activity implements OnClickListener 
 		
 		//
 		initializeMapManager();
+		
+		PeopleTreeLocationManager.getInstance().addObserver(this);
 	}
 	
 	private void initializeMapManager() {
@@ -79,5 +85,17 @@ public class ParentLocationActivity extends Activity implements OnClickListener 
 		default:
 			break;
 		}
+	}
+
+	@Override
+	public void finish() {
+		PeopleTreeLocationManager.getInstance().deleteObserver(this);
+		super.finish();
+	}
+	
+	@Override
+	public void update(Observable observable, Object data) {
+		mapManager.updateMyLocation();
+		mapManager.showParentSetting(mapView);
 	}
 }
