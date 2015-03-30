@@ -158,6 +158,18 @@ public class ParseBroadcastReceiver extends BroadcastReceiver {
 					message +="관리자가 지정한 지역을 이탈하였습니다.";
 				}
 				break;
+				
+			case INDOOR:
+				edgeStatus  = msgObj.getInt("edgeStatus");
+				accumulateWarning = msgObj.getInt("accumulateWarning");
+				if(toggle){
+					
+					message +="관리자가 지정한 지역으로 복귀하였습니다.";
+				}else{
+
+					message +="관리자가 지정한 지역을 이탈하였습니다.";
+				}
+				break;
 			}
 		
 		}else{

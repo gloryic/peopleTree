@@ -330,7 +330,20 @@ public class PushManager {
 				pmlvca.dataChange();
 				GroupManager.getInstance().update(MyManager.getInstance().getGroupMemberId());
 				break;
+			case INDOOR:
+				edgeStatus  = msgObj.getInt("edgeStatus");
+				accumulateWarning = msgObj.getInt("accumulateWarning");
+				if(toggle){
+					
+					str1 +="관리자가 지정한 지역으로 복귀하였습니다.\n";
+				}else{
 
+					str1 +="관리자가 지정한 지역을 이탈하였습니다.\n";
+				}
+				pmlvca.addItem("", timeStr1 + str1, "");
+				pmlvca.dataChange();
+				GroupManager.getInstance().update(MyManager.getInstance().getGroupMemberId());
+				break;
 			}
 			GroupManager.getInstance().updateSelf();
 			GroupManager.getInstance().navigateHome();
